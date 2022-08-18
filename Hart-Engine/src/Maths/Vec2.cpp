@@ -79,8 +79,8 @@ namespace Hart {
 		}
 
 		float Vec2::magnitude() {
-			float x = std::pow(this->x, 2);
-			float y = std::pow(this->y, 2);
+			float x = (float)std::pow(this->x, 2);
+			float y = (float)std::pow(this->y, 2);
 
 			return std::sqrt(x + y);
 		}

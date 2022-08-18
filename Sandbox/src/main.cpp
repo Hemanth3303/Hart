@@ -13,16 +13,17 @@ int main() {
 		Engine::Update();
 	}
 
-	Vec3 a(3.0f, 2.0f, 0);
-	Vec2 b(3.0f, 2.0f);
-	Vec3 c = a + b;
-	Vec3 d(b, 8);
+	Vec2 a(3.0f, 2.0f);
+	Vec3 b(3.0f, 2.0f, 5.0f);
+	Vec3 c(0, 0);
+	Vec3 d(a, 8);
+	Vec4 e(b);
 
-	a.normalize();
-
-	std::cout << a << "\n" << b << "\n" << c << "\n";
+	std::cout << a << "\n";
+	std::cout << b << "\n";
+	std::cout << c << "\n";
 	std::cout << d << "\n";
-	std::cout << (b+a+c-d) << "\n";
+	std::cout << e << "\n";
 
 	Engine::DeInit();
 	std::cin.get();

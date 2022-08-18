@@ -91,9 +91,9 @@ namespace Hart {
 		}
 
 		float Vec3::magnitude() {
-			float x = std::pow(this->x, 2);
-			float y = std::pow(this->y, 2);
-			float z = std::pow(this->z, 2);
+			float x = (float)std::pow(this->x, 2);
+			float y = (float)std::pow(this->y, 2);
+			float z = (float)std::pow(this->z, 2);
 
 			return std::sqrt(x + y + z);
 		}
