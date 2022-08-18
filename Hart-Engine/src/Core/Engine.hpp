@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdio>
+#include <iostream>
 
 namespace Hart {
 	class Engine {

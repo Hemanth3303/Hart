@@ -8,4 +8,7 @@ int main() {
 	}
 
 	Hart::Engine::DeInit();
+	std::cin.get();
+
+	return 0;
 }
