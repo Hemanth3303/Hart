@@ -87,9 +87,9 @@ namespace Hart {
 
 		Vec3 Vec3::crossProduct(const Vec3& other) {
 			Vec3 out;
-			out.x = (this->y * other.z) - (other.y * this->z);
-			out.y = (this->x * other.z) - (other.x * this->z);
-			out.z = (this->x * other.y) - (other.x * this->y);
+			out.x = ((this->y * other.z) - (other.y * this->z));
+			out.y = -((this->x * other.z) - (other.x * this->z));
+			out.z = ((this->x * other.y) - (other.x * this->y));
 
 			return out;
 		}
