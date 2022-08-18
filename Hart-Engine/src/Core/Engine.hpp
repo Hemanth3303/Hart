@@ -1,3 +1,8 @@
+/*
+* Not sure how i want to make this class work, honestly.
+* TODO: Change this probably to better working stuff
+*/
+
 #pragma once
 
 #include <iostream>

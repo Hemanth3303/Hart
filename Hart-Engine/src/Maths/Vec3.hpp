@@ -1,3 +1,10 @@
+/*
+* Three component Vectors and related functions & methods
+* dotProduct, crossProduct, magnitude and normalize functions operate on arguments,
+* while the same named method variants operate on the instance itself, with extra arguments if required
+* Only Vector class with a crossProduct method & function
+*/
+
 #pragma once
 
 #include "Vec2.hpp"

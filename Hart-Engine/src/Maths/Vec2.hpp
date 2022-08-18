@@ -1,3 +1,9 @@
+/*
+* Two component Vectors and related functions & methods
+* dotProduct, magnitude and normalize functions operate on arguments,
+* while the same named method variants operate on the instance itself, with extra arguments if required
+*/
+
 #pragma once
 
 #include <iostream>
