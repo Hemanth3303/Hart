@@ -1,0 +1,8 @@
+variables: camelCase
+constants: SCREAMING_SNAKE_CASE
+functions: camelCase(camelCaseArguments...)
+non-static methods : camelCase(camelCaseArguments...)
+static methods: PascalCase(camelCaseArguments...)
+non-static class members: m_PascalCase
+static class members: s_PascalCase
+struct members: camelCase

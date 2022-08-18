@@ -14,7 +14,7 @@
 
 namespace Hart {
 	namespace Maths {
-		class Vec3 {
+		struct Vec3 {
 		public:
 			float x, y, z;
 

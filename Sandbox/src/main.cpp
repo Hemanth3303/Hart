@@ -27,10 +27,10 @@ int main() {
 
 	std::cout << "MY PI: " << Hart::Maths::PI << "\n";
 	std::cout << "E: " << std::exp(1) << "\n";
-	std::cout << "pi radians=" << RadiansToDegree(PI) << "\n";
-	std::cout << "0 degrees=" << DegreeToRadian(0) << "\n";
+	std::cout << "pi radians=" << radiansToDegree(PI) << "\n";
+	std::cout << "0 degrees=" << degreeToRadian(0) << "\n";
 
-	std::cout << CosecR(90) << "\n";
+	std::cout << aTan2D(2, -3) << "\n";
 
 	Engine::DeInit();
 	std::cin.get();
