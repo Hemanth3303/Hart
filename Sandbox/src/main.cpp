@@ -13,17 +13,12 @@ int main() {
 		Engine::Update();
 	}
 
-	Vec2 a(3.0f, 2.0f);
-	Vec3 b(3.0f, 2.0f, 5.0f);
-	Vec3 c(0, 0);
-	Vec3 d(a, 8);
-	Vec4 e(b);
-
-	std::cout << a << "\n";
-	std::cout << b << "\n";
-	std::cout << c << "\n";
-	std::cout << d << "\n";
-	std::cout << e << "\n";
+	Vec3 a(3, -3, 1);
+	Vec3 b(4, 9, 2);
+	Vec3 c = crossProduct(a, b);
+	std::cout << "a: " << a << "\n";
+	std::cout << "b: " << b << "\n";
+	std::cout << "cross product: "<< c << "\n";
 
 	Engine::DeInit();
 	std::cin.get();

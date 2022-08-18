@@ -82,8 +82,16 @@ namespace Hart {
 		}
 
 		float Vec3::dotProduct(const Vec3& other) {
-			float result = ((this->x * other.x) + (this->y * other.y) + (this->z * other.z));
-			return result;
+			return((this->x * other.x) + (this->y * other.y) + (this->z * other.z));
+		}
+
+		Vec3 Vec3::crossProduct(const Vec3& other) {
+			Vec3 out;
+			out.x = (this->y * other.z) - (other.y * this->z);
+			out.y = (this->x * other.z) - (other.x * this->z);
+			out.z = (this->x * other.y) - (other.x * this->y);
+
+			return out;
 		}
 
 		void Vec3::normalize() {
@@ -124,6 +132,10 @@ namespace Hart {
 
 		float dotProduct(Vec3 left, const Vec3& right) {
 			return left.dotProduct(right);
+		}
+
+		Vec3 crossProduct(Vec3 left, const Vec3& right) {
+			return left.crossProduct(right);
 		}
 
 		Vec3 normalize(Vec3 left) {

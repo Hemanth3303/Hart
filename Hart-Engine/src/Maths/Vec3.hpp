@@ -31,6 +31,7 @@ namespace Hart {
 			Vec3& operator/=(const float& other);
 
 			float dotProduct(const Vec3& other);
+			Vec3 crossProduct(const Vec3& other);
 			void normalize();
 			float magnitude();
 
@@ -43,6 +44,7 @@ namespace Hart {
 			friend Vec3 operator/(Vec3 vec, const float& scalar);
 
 			friend float dotProduct(Vec3 left, const Vec3& right);
+			friend Vec3 crossProduct(Vec3 left, const Vec3& right);
 			friend Vec3 normalize(Vec3 left);
 			friend float magnitude(Vec3& vec);
 
