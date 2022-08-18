@@ -1,13 +1,29 @@
 #include "Core/Engine.hpp"
+#include "Maths/Maths.hpp"
+
+#include <iostream>
+
+using namespace Hart;
+using namespace Maths;
 
 int main() {
-	Hart::Engine::Init();
+	Engine::Init();
 
-	while (Hart::Engine::Running()) {
-		Hart::Engine::Update();
+	while (Engine::Running()) {
+		Engine::Update();
 	}
 
-	Hart::Engine::DeInit();
+	Vec2 a(3.0f, 2.0f);
+	Vec2 b(3.0f, 2.0f);
+	Vec2 c = a + b;
+
+	a.normalize();
+
+	std::cout << a << "\n" << b << "\n" << c << "\n";
+	std::cout << a << "\n";
+	std::cout << normalize(b) << "\n";
+
+	Engine::DeInit();
 	std::cin.get();
 
 	return 0;
