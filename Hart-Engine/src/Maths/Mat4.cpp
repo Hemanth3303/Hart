@@ -61,11 +61,20 @@ namespace Hart {
 		}
 
 		Vec3 Mat4::multiply(const Vec3& other) const {
-			return Vec3();
+			return Vec3(
+				columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x,
+				columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[3].y,
+				columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[3].z
+			);
 		}
 
 		Vec4 Mat4::multiply(const Vec4& other) const {
-			return Vec4();
+			return Vec4(
+				columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x * other.w,
+				columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[3].y * other.w,
+				columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[3].z * other.w,
+				columns[0].w * other.x + columns[1].w * other.y + columns[2].w * other.z + columns[3].w * other.w
+			);
 		}
 
 		Mat4& Mat4::operator+=(const Mat4& other) {
@@ -114,16 +123,51 @@ namespace Hart {
 			return Mat4();
 		}
 
-		Mat4 Mat4::translation(const Vec3& translation) {
-			return Mat4();
+		Mat4 Mat4::translate(const Vec3& translation) {
+			Mat4 result(1.0f);
+
+			result.elements[0 + 3 * COLUMNS] = translation.x;
+			result.elements[1 + 3 * COLUMNS] = translation.y;
+			result.elements[2 + 3 * COLUMNS] = translation.z;
+
+			return result;
 		}
 
-		Mat4 Mat4::rotation(float angle, const Vec3& axis) {
-			return Mat4();
+		Mat4 Mat4::rotate(float angleD, const Vec3& axis) {
+			Mat4 result(1.0f);
+
+			float angleR = degreeToRadian(angleD);
+			float cosTheta = cosR(angleR);
+			float sinTheta = sinR(angleR);
+			float oneMinusCosTheta = 1.0f - cosTheta;
+
+			float x = axis.x;
+			float y = axis.y;
+			float z = axis.z;
+
+			result.elements[0 + 0 * COLUMNS] = x * oneMinusCosTheta + cosTheta;
+			result.elements[1 + 0 * COLUMNS] = y * x * oneMinusCosTheta + z * sinTheta;
+			result.elements[2 + 0 * COLUMNS] = x * z * oneMinusCosTheta - y * sinTheta;
+
+			result.elements[0 + 1 * COLUMNS] = x * y * oneMinusCosTheta - z * sinTheta;
+			result.elements[1 + 1 * COLUMNS] = y * oneMinusCosTheta + cosTheta;
+			result.elements[2 + 1 * COLUMNS] = y * z * oneMinusCosTheta + x * sinTheta;
+
+			result.elements[0 + 2 * COLUMNS] = x * z * oneMinusCosTheta + y * sinTheta;
+			result.elements[1 + 2 * COLUMNS] = y * z * oneMinusCosTheta - x * sinTheta;
+			result.elements[2 + 2 * COLUMNS] = z * oneMinusCosTheta + x;
+
+			return result;
 		}
 
 		Mat4 Mat4::scale(const Vec3& scale) {
-			return Mat4();
+			Mat4 result(1.0f);
+
+			result.elements[0 + 0 * COLUMNS] = scale.x;
+			result.elements[1 + 1 * COLUMNS] = scale.y;
+			result.elements[2 + 2 * COLUMNS] = scale.z;
+
+			return result;
 		}
 
 		Mat4 add(Mat4 left, const Mat4& right) {
@@ -139,11 +183,11 @@ namespace Hart {
 		}
 
 		Vec3 operator*(const Mat4& left, const Vec3& right) {
-			return Vec3();
+			return left.multiply(right);
 		}
 
 		Vec4 operator*(const Mat4& left, const Vec4& right) {
-			return Vec4();
+			return left.multiply(right);
 		}
 
 		Mat4 operator+(Mat4 left, const Mat4 right) {
