@@ -115,12 +115,35 @@ namespace Hart {
 			return Mat4(1);
 		}
 
-		Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float, float) {
-			return Mat4();
+		Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float near, float far) {
+			Mat4 result(1.0f);
+
+			result.elements[0 + 0 * COLUMNS] = 2.0f / (right - left);
+			result.elements[1 + 1 * COLUMNS] = 2.0f / (top - bottom);
+			result.elements[2 + 2 * COLUMNS] = 2.0f / (near - far);
+
+			result.elements[0 + 3 * COLUMNS] = (left + right) / (left - right);
+			result.elements[1 + 3 * COLUMNS] = (bottom + top) / (bottom - top);
+			result.elements[2 + 3 * COLUMNS] = (far + near) / (far - near);
+
+			return result;
 		}
 
-		Mat4 Mat4::perspective(float fov, float aspectRatio, float, float) {
-			return Mat4();
+		Mat4 Mat4::perspective(float fov, float aspectRatio, float near, float far) {
+			Mat4 result(1.0f);
+
+			float q = 1.0f / tanD(0.5f * fov);
+			float a = q / aspectRatio;
+			float b = (near + far) / (near - far);
+			float c = (2.0f * near + far) / (near - far);
+
+			result.elements[0 + 0 * COLUMNS] = a;
+			result.elements[1 + 1 * COLUMNS] = q;
+			result.elements[2 + 2 * COLUMNS] = b;
+			result.elements[3 + 2 * COLUMNS] = -1.0f;
+			result.elements[2 + 3 * COLUMNS] = c;
+
+			return result;
 		}
 
 		Mat4 Mat4::translate(const Vec3& translation) {

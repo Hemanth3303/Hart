@@ -48,7 +48,7 @@ namespace Hart {
 			static Mat4 identity();
 
 			static Mat4 orthographic(float left, float right, float bottom, float top, float near, float far);
-			static Mat4 perspective(float fov, float aspectRatio, float near, float far);
+			static Mat4 perspective(float fovD, float aspectRatio, float near, float far);
 
 			static Mat4 translate(const Vec3& translation);
 			static Mat4 rotate(float angleD, const Vec3& axis);
