@@ -21,13 +21,16 @@ int main() {
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			std::cout << mat.elements[i + 4 * j] << ", ";
+			std::cout << mat.elements[i * 4 + j] << ", ";
 		}
 		std::cout << "\n";
 	}
 
 	std::cout << mat << "\n";
+	Mat4 mat2 = transpose(mat);
+	std::cout << mat << "\n";
 	std::cout << mat.transpose() << "\n";
+	std::cout << mat2 << "\n";
 
 	std::cin.get();
 
