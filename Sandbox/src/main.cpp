@@ -12,27 +12,23 @@ using namespace Hart;
 using namespace Maths;
 
 int main() {
-	Engine::Init();
+	Mat4 mat;
 
-	while (Engine::Running()) {
-		Engine::Update();
+	mat.columns[0].x = 1;
+	mat.columns[0].y = 2;
+	mat.columns[0].z = 3;
+	mat.columns[0].w = 4;
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << mat.elements[i + 4 * j] << ", ";
+		}
+		std::cout << "\n";
 	}
 
-	Vec3 a(3, -3, 1);
-	Vec3 b(4, 9, 2);
-	Vec3 c = crossProduct(a, b);
-	std::cout << "a: " << a << "\n";
-	std::cout << "b: " << b << "\n";
-	std::cout << "cross product: "<< c << "\n";
+	std::cout << mat << "\n";
+	std::cout << mat.transpose() << "\n";
 
-	std::cout << "MY PI: " << Hart::Maths::PI << "\n";
-	std::cout << "E: " << std::exp(1) << "\n";
-	std::cout << "pi radians=" << radiansToDegree(PI) << "\n";
-	std::cout << "0 degrees=" << degreeToRadian(0) << "\n";
-
-	std::cout << aTan2D(2, -3) << "\n";
-
-	Engine::DeInit();
 	std::cin.get();
 
 	return 0;
