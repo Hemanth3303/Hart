@@ -37,6 +37,17 @@ int main() {
 	std::cout << "Matrix C = Matrix A multiplied by Matrix B: \n";
 	std::cout << matC << "\n\n";
 
+	std::cout << "Exp: " << exponential(1) << "\n";
+	std::cout << "logBaseE: " << logBaseE(10) << "\n";
+	std::cout << "logBaseTen: " << logBaseTen(10) << "\n";
+	std::cout << "LogBase2: " << logBaseTwo(10) << "\n\n";
+
+	std::cout << "Lerp: " << lerp(2, 8, 0.5) << "\n";
+	std::cout << "Lerp: " << lerp(2, 8, 1.5) << "\n";
+	std::cout << "Clamp: " << clamp(5, 10, 20) << "\n";
+	std::cout << "Clamp: " << clamp(15, 10, 20) << "\n";
+	std::cout << "Clamp: " << clamp(35, 10, 20) << "\n";
+
 	std::cin.get();
 
 	return 0;
