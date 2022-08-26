@@ -10,6 +10,7 @@
 #include "MathsFunctions.hpp"
 
 #include <iostream>
+#include <cstring> //for std::memset in gcc, clang and msvc seem fine without it
 
 namespace Hart {
 	namespace Maths {
