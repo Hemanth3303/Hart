@@ -23,6 +23,8 @@ workspace "Hart"
 include "Hart-Engine"
 include "Sandbox"
 
+--when using the cmake generator module for premake
+require "cmake"
 
 newaction {
 	trigger = "clean",
@@ -30,6 +32,7 @@ newaction {
 	execute=function()
 		print("Removing binaries")
 		os.rmdir("./bin")
+		os.rmdir("./build")
 		print("Removing intermediates")
 		os.rmdir("./bin-int")
 		print("Removing build files")
@@ -39,6 +42,8 @@ newaction {
 		os.remove("**Makefile**")
 		os.remove("**.workspace")
 		os.remove("**.project")
+		os.remove("CMakeLists.txt")
+		os.remove("**.cmake")
 		print("Done")
 	end
 }
