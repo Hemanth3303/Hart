@@ -3,8 +3,7 @@
 */
 
 #pragma once
-
-#include <cmath>
+#include "Core/HartPch.hpp"
 
 namespace Hart {
 	namespace Maths {

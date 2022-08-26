@@ -10,6 +10,9 @@ project "Hart-Engine"
 	targetname "%{prj.name}"
 	kind "StaticLib"
 
+	pchheader "Core/HartPch.hpp"
+	pchsource "%{prj.location}/src/Core/HartPch.cpp"
+
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp" },

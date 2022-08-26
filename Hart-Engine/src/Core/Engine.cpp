@@ -1,3 +1,4 @@
+#include "Core/HartPch.hpp"
 #include "Engine.hpp"
 
 namespace Hart {

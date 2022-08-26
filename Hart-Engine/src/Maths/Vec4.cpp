@@ -1,3 +1,4 @@
+#include "Core/HartPch.hpp"
 #include "Vec4.hpp"
 
 namespace Hart {
