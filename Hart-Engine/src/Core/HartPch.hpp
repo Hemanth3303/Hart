@@ -2,6 +2,7 @@
 
 //c++ standard headers
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <sstream>
 #include <algorithm>

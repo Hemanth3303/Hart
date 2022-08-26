@@ -6,3 +6,4 @@ static methods: PascalCase(camelCaseArguments...)
 non-static class members: m_PascalCase
 static class members: s_PascalCase
 struct members: camelCase
+enum members: PascalCase
