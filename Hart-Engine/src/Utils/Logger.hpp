@@ -31,10 +31,6 @@ namespace Hart {
 	#define HART_ENGINE_INFO(x)			Hart::Utils::Logger::Log(x, Hart::Utils::LogSeverity::Info, true)
 	#define HART_ENGINE_WARN(x)			Hart::Utils::Logger::Log(x, Hart::Utils::LogSeverity::Warning, true)
 	#define HART_ENGINE_ERROR(x)		Hart::Utils::Logger::Log(x, Hart::Utils::LogSeverity::Error, true)
-#else
-	#define HART_ENGINE_INFO(x)	
-	#define HART_ENGINE_WARN(x)	
-	#define HART_ENGINE_ERROR(x) 
 #endif // HART_ENGINE
 
 	#define HART_CLIENT_INFO(x)			Hart::Utils::Logger::Log(x, Hart::Utils::LogSeverity::Info, false)
