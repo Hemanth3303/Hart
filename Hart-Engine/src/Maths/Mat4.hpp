@@ -41,6 +41,8 @@ namespace Hart {
 			//this method transposes the matrix itself
 			Mat4& transpose();
 
+			std::string toString();
+
 			//returns a new Mat4 where all elements are initialized to value
 			static Mat4 fillWith(float value);
 			//returns a new 4x4 identity matrix

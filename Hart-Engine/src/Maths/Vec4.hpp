@@ -43,6 +43,8 @@ namespace Hart {
 			bool operator==(const Vec4& other);
 			bool operator!=(const Vec4& other);
 
+			std::string toString();
+
 			friend Vec4 operator+(Vec4 left, const Vec4& right);
 			friend Vec4 operator-(Vec4 left, const Vec4& right);
 			friend Vec4 operator*(Vec4 vec, const float& scalar);

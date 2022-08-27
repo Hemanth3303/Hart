@@ -115,6 +115,18 @@ namespace Hart {
 			return this->notEquals(other);
 		}
 
+		std::string Vec3::toString() {
+			std::string outString;
+			outString.append("Vec2: (");
+			outString.append(std::to_string(x));
+			outString.append(", ");
+			outString.append(std::to_string(y));
+			outString.append(", ");
+			outString.append(std::to_string(z));
+			outString.append(")");
+			return outString;
+		}
+
 		Vec3 operator+(Vec3 left, const Vec3& right) {
 			return left.add(right);
 		}

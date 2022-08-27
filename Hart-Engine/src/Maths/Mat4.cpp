@@ -102,6 +102,42 @@ namespace Hart {
 			return *this;
 		}
 
+        std::string Mat4::toString() {
+			std::string outString;
+			outString.append("MAT4: \n[");
+			for (int32_t i = 0; i < COLUMNS; i++) {
+				if (i != 3) {
+					for (int32_t j = 0; j < ROWS; j++) {
+						if (i == 0 && j == 0) {
+							outString.append(std::to_string(elements[i + j * COLUMNS])); 
+							outString.append(", ");
+						}
+						else {
+							outString.append(" ");
+							outString.append(std::to_string(elements[i + j * COLUMNS]));
+							outString.append(", ");
+						}
+					}
+					outString.append("\n");
+				}
+				else {
+					for (int32_t j = 0; j < ROWS; j++) {
+						if (j != 3) {
+							outString.append(" ");
+							outString.append(std::to_string(elements[i + j * COLUMNS]));
+							outString.append(", ");
+						}
+						else {
+							outString.append(" ");
+							outString.append(std::to_string(elements[i + j * COLUMNS]));
+						}
+					}
+				}
+			}
+			outString.append("]");
+			return outString;
+        }
+
 		Mat4 Mat4::fillWith(float value) {
 			Mat4 result;
 			for (int32_t i = 0; i < COLUMNS; i++) {
