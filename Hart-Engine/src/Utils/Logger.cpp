@@ -44,27 +44,27 @@ namespace Hart {
 
 		//private
 		void Logger::EngineLogInfo(const std::string& logMessage) {
-			std::cerr << "[" __TIME__ << "] " << "HART::ENGINE::INFO: " << logMessage << "\n";
+			std::cerr << "HART::ENGINE::INFO: " << logMessage << "\n";
 		}
 
 		void Logger::EngineLogWarning(const std::string& logMessage) {
-			std::cerr << "[" __TIME__ << "] " << "HART::ENGINE::WARNING: " << logMessage << "\n";
+			std::cerr << "HART::ENGINE::WARNING: " << logMessage << "\n";
 		}
 
 		void Logger::EngineLogError(const std::string& logMessage) {
-			std::cerr << "[" __TIME__ << "] " << "HART::ENGINE::ERROR: " << logMessage << "\n";
+			std::cerr << "HART::ENGINE::ERROR: " << logMessage << "\n";
 		}
 
 		void Logger::ClientLogInfo(const std::string& logMessage) {
-			std::cerr << "[" __TIME__ << "] " << "HART::CLIENT::INFO: " << logMessage << "\n";
+			std::cerr << "HART::CLIENT::INFO: " << logMessage << "\n";
 		}
 
 		void Logger::ClientLogWarning(const std::string& logMessage) {
-			std::cerr << "[" __TIME__ << "] " << "HART::CLIENT::WARNING: " << logMessage << "\n";
+			std::cerr << "HART::CLIENT::WARNING: " << logMessage << "\n";
 		}
 
 		void Logger::ClientLogError(const std::string& logMessage) {
-			std::cerr << "[" __TIME__ << "] " << "HART::CLIENT::ERROR: " << logMessage << "\n";
+			std::cerr << "HART::CLIENT::ERROR: " << logMessage << "\n";
 		}
 		
 	}
