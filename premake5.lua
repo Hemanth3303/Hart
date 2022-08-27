@@ -6,15 +6,15 @@ workspace "Hart"
 	startproject "Sandbox"
 
 	filter "configurations:Debug"
-		defines { "DEBUG" }
+		defines { "DEBUG", "HART_DEBUG" }
 		symbols "On"
 
 	filter "configurations:Release"
-		defines { "NDEBUG" }
+		defines { "NDEBUG", "HART_RELEASE" }
 		optimize "On"
 
 	filter "configurations:Dist"
-		defines { "NDEBUG" }
+		defines { "NDEBUG", "HART_DIST" }
 		optimize "On"
 
 	filter "platforms:x64"

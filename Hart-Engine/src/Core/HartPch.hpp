@@ -17,3 +17,7 @@
 #include <cmath>
 #include <cstring>
 #include <ctime>
+
+//Includes stuff from Hart Engine itself
+#include "Utils/FileManager.hpp"
+#include "Utils/Logger.hpp"

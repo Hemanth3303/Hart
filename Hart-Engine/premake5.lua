@@ -10,6 +10,10 @@ project "Hart-Engine"
 	targetname "%{prj.name}"
 	kind "StaticLib"
 
+	defines {
+		"HART_ENGINE",
+	}
+
 	pchheader "Core/HartPch.hpp"
 	pchsource "%{prj.location}/src/Core/HartPch.cpp"
 
@@ -45,9 +49,11 @@ project "Hart-Engine"
 
 	filter "system:windows"
 		links { "opengl32", "gdi32", "kernel32", "winmm" }
+		defines "HART_WINDOWS"
 
 	filter "system: linux"
 		links {"pthread", "GL", "m", "dl", "rt", "X11"}
+		defines "HART_LINUX"
 
 	filter { "system:windows", "action:vs*" }
 		defines { "_CRT_SECURE_NO_WARNINGS" }
