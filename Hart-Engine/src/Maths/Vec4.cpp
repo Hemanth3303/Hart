@@ -124,7 +124,7 @@ namespace Hart {
 
 		std::string Vec4::toString() {
 			std::string outString;
-			outString.append("Vec2: (");
+			outString.append("Vec4: (");
 			outString.append(std::to_string(x));
 			outString.append(", ");
 			outString.append(std::to_string(y));

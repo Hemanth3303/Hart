@@ -104,7 +104,7 @@ namespace Hart {
 
         std::string Mat4::toString() {
 			std::string outString;
-			outString.append("MAT4: \n[");
+			outString.append("\nMAT4: \n[");
 			for (int32_t i = 0; i < COLUMNS; i++) {
 				if (i != 3) {
 					for (int32_t j = 0; j < ROWS; j++) {

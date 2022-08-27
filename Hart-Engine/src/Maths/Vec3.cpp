@@ -117,7 +117,7 @@ namespace Hart {
 
 		std::string Vec3::toString() {
 			std::string outString;
-			outString.append("Vec2: (");
+			outString.append("Vec3: (");
 			outString.append(std::to_string(x));
 			outString.append(", ");
 			outString.append(std::to_string(y));
