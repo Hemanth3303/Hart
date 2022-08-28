@@ -14,8 +14,11 @@ project "Hart-Engine"
 		"HART_ENGINE",
 	}
 
-	pchheader "Core/HartPch.hpp"
-	pchsource "%{prj.location}/src/Core/HartPch.cpp"
+	filter { "action:not cmake" }
+	pchheader "HartPch.hpp"
+	pchsource "%{prj.location}/src/HartPch.cpp"
+
+	filter {  }
 
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
@@ -31,6 +34,7 @@ project "Hart-Engine"
 
 	includedirs {
 		"%{prj.location}/src",
+		"."
 	}
 
 	--links { "" }

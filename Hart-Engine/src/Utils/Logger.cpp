@@ -1,4 +1,4 @@
-#include "Core/HartPch.hpp"
+#include "HartPch.hpp"
 #include "Logger.hpp"
 
 namespace Hart {

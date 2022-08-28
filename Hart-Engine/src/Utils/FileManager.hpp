@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/HartPch.hpp"
+#include "HartPch.hpp"
 
 namespace Hart {
 	namespace Utils {

@@ -1,4 +1,4 @@
-#include "Core/HartPch.hpp"
+#include "HartPch.hpp"
 #include "FileManager.hpp"
 
 namespace Hart {

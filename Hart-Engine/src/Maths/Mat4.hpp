@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "Core/HartPch.hpp"
+#include "HartPch.hpp"
 #include "Vec3.hpp"
 #include "Vec4.hpp"
 #include "MathsFunctions.hpp"
