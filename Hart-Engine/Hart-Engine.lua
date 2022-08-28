@@ -26,6 +26,7 @@ project "Hart-Engine"
 	}
 
 	files {
+		"%{prj.location}/src/Har-Engine.lua",
 		"%{prj.location}/src/**.c",
 		"%{prj.location}/src/**.cpp",
 		"%{prj.location}/src/**.h",
@@ -33,11 +34,12 @@ project "Hart-Engine"
 	}
 
 	includedirs {
+		".",
 		"%{prj.location}/src",
-		"."
+		"%{wks.location}/vendor/glfw/include",
 	}
 
-	--links { "glfw" }
+	links { "glfw" }
 
 	filter "configurations:Debug"
 		runtime "Debug"

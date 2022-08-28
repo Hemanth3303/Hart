@@ -23,7 +23,8 @@ project "Sandbox"
 
 	includedirs {
 		"%{prj.location}/src",
-		"%{wks.location}/Hart-Engine/src"
+		"%{wks.location}/Hart-Engine/src",
+		"%{wks.location}/vendor/glfw/include",
 	}
 
 	links { "Hart-Engine" }

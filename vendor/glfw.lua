@@ -17,30 +17,43 @@ project "glfw"
 	"%{prj.location}/include/GLFW/glfw3native.h",
 	"%{prj.location}/src/internal.h",
 	"%{prj.location}/src/platform.h",
-	"%{prj.location}/src/mappings.h",
+	"%{prj.location}/src/mapping.h",
 	"%{prj.location}/src/context.c",
 	"%{prj.location}/src/init.c",
 	"%{prj.location}/src/input.c",
 	"%{prj.location}/src/monitor.c",
+	"%{prj.location}/src/platform.c",
 	"%{prj.location}/src/vulkan.c",
 	"%{prj.location}/src/window.c",
 	"%{prj.location}/src/egl_context.c",
 	"%{prj.location}/src/osmesa_context.c",
+	"%{prj.location}/src/null_platform.h",
+	"%{prj.location}/src/null_joystick.h",
+	"%{prj.location}/src/null_init.c",
+	"%{prj.location}/src/null_monitor.c",
+	"%{prj.location}/src/null_window.c",
+	"%{prj.location}/src/null_joystick.c",
 	}
 	filter "system:linux"
 		pic "On"
 
 		files {
+			"%{prj.location}/src/posix_time.h",
+			"%{prj.location}/src/posix_thread.h",
+			"%{prj.location}/src/posix_module.c",
+			"%{prj.location}/src/posix_time.c",
+			"%{prj.location}/src/posix_thread.c",
+			"%{prj.location}/src/x11_platform.h",
+			"%{prj.location}/src/xkb_unicode.h",
 			"%{prj.location}/src/x11_init.c",
 			"%{prj.location}/src/x11_monitor.c",
 			"%{prj.location}/src/x11_window.c",
 			"%{prj.location}/src/xkb_unicode.c",
-			"%{prj.location}/src/posix_time.c",
-			"%{prj.location}/src/posix_thread.c",
 			"%{prj.location}/src/glx_context.c",
-			"%{prj.location}/src/egl_context.c",
-			"%{prj.location}/src/osmesa_context.c",
-			"%{prj.location}/src/linux_joystick.c"
+			"%{prj.location}/src/linux_joystick.h",
+			"%{prj.location}/src/linux_joystick.c",
+			"%{prj.location}/src/posix_poll.h",
+			"%{prj.location}/src/posix_poll.c",
 		}
 
 		defines {
@@ -50,17 +63,18 @@ project "glfw"
 	filter "system:windows"
 
 		files {
+			"%{prj.location}/src/win32_time.h",
+			"%{prj.location}/src/win32_thread.h",
+			"%{prj.location}/src/win32_module.c",
+			"%{prj.location}/src/win32_time.c",
+			"%{prj.location}/src/win32_thread.c",
+			"%{prj.location}/src/win32_platform.h",
+			"%{prj.location}/src/win32_joystick.h",
 			"%{prj.location}/src/win32_init.c",
 			"%{prj.location}/src/win32_joystick.c",
 			"%{prj.location}/src/win32_monitor.c",
-			"%{prj.location}/src/win32_time.h",
-			"%{prj.location}/src/win32_time.c",
-			"%{prj.location}/src/win32_thread.h",
-			"%{prj.location}/src/win32_thread.c",
 			"%{prj.location}/src/win32_window.c",
 			"%{prj.location}/src/wgl_context.c",
-			"%{prj.location}/src/egl_context.c",
-			"%{prj.location}/src/osmesa_context.c"
 		}
 
 		defines  { 

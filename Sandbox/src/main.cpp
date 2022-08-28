@@ -21,6 +21,7 @@ protected:
 };
 
 #include <iostream>
+#include "GLFW/glfw3.h"
 
 int main() {
 
@@ -29,6 +30,9 @@ int main() {
 	sandbox.start();
 	sandbox.run();
 	sandbox.shutdown();
+
+	glfwInit();
+	glfwTerminate();
 
 	std::cin.get();
 	return 0;
