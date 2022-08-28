@@ -37,7 +37,7 @@ project "Hart-Engine"
 		"."
 	}
 
-	--links { "" }
+	--links { "glfw" }
 
 	filter "configurations:Debug"
 		runtime "Debug"

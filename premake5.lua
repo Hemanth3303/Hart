@@ -20,8 +20,9 @@ workspace "Hart"
 	filter "platforms:x64"
 		architecture "x86_64"
 
-include "Hart-Engine"
-include "Sandbox"
+include "vendor/glfw.lua"
+include "Hart-Engine/Hart-Engine.lua"
+include "Sandbox/Sandbox.lua"
 
 --when using the cmake generator module for premake
 require "cmake"
@@ -50,7 +51,6 @@ newaction {
 		os.remove("**.project")
 		os.remove("CMakeLists.txt")
 		os.remove("CMakeCache.txt")
-		os.remove("**.cmake")
 		print("Done")
 	end
 }
