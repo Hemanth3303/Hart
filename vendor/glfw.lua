@@ -17,7 +17,7 @@ project "glfw"
 	"%{prj.location}/include/GLFW/glfw3native.h",
 	"%{prj.location}/src/internal.h",
 	"%{prj.location}/src/platform.h",
-	"%{prj.location}/src/mapping.h",
+	"%{prj.location}/src/mappings.h",
 	"%{prj.location}/src/context.c",
 	"%{prj.location}/src/init.c",
 	"%{prj.location}/src/input.c",
