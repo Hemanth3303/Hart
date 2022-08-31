@@ -3,34 +3,97 @@
 
 namespace Hart {
 
-	Window::Window(int32_t width, int32_t height, const std::string& title) 
-		:m_Width(width), m_Height(height), m_Title(title), m_Window(nullptr) {
+	Window* Window::INSTANCE;
 
+	Window::Window(int32_t width, int32_t height, const std::string& title, const bool& resizable)
+		:m_Width(width), m_Height(height), m_Title(title), m_IsRunning(true), m_Resizable(resizable), m_Window(nullptr) {
+		
 		init();
-	}
+		INSTANCE = this;
+		HART_ENGINE_INFO("Initialized Engine");
 
+	}
 
 	Window::~Window() {
 		deinit();
 	}
 
-
-	void Window::init() {
-
-	}
-
-
+	//public methods
 	void Window::handleEvents() {
+		glfwPollEvents();
+
+		if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			glfwSetWindowShouldClose(m_Window, true);
+		}
 
 	}
-
 
 	void Window::update() {
+		if (glfwWindowShouldClose(m_Window)) {
+			m_IsRunning = false;
+		}
+	}
 
+	void Window::render() {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//all draw calls
+		
+		//temporary, just for testing
+		glBegin(GL_TRIANGLES);
+		glVertex2f(0.0f, 0.5f);
+		glVertex2f(0.5f, -0.5f);
+		glVertex2f(-0.5f, -0.5f);
+		glEnd();
+
+		glfwSwapBuffers(m_Window);
+	}
+
+	//private methods
+	void Window::init() {
+		int32_t result;
+		result = glfwInit();
+		HART_ASSERT_EQUALS(result, GLFW_TRUE);
+		HART_ENGINE_INFO("GLFW Initialized");
+
+		//TODO: for when we add glad
+		//glfwWindowHint(GLFW_VERSION_MAJOR, 4);
+		//glfwWindowHint(GLFW_VERSION_MINOR, 6);
+		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	#ifdef __APPLE__
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	#endif // __APPLE__
+
+		glfwWindowHint(GLFW_RESIZABLE, m_Resizable);
+
+		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
+		HART_ASSERT_NOT_EQUALS(m_Window, nullptr);
+		HART_ENGINE_INFO("Created a GLFW window");
+
+		glfwMakeContextCurrent(m_Window);
+
+		glfwSetWindowUserPointer(m_Window, static_cast<void*>(this));
+		glfwSetFramebufferSizeCallback(m_Window, frameBufferSizeCallback);
+
+		glViewport(0, 0, m_Width, m_Height);
+		glEnable(GL_DEPTH_TEST);
+		//default clear color
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	void Window::deinit() {
+		glfwTerminate();
+		HART_ENGINE_INFO("Engine Shutdown");
+	}
 
+	//functions
+	void frameBufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height) {
+		Window* hartWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+		HART_ASSERT_NOT_EQUALS(hartWindow, nullptr);
+
+		hartWindow->m_Width = width;
+		hartWindow->m_Height = height;
+		glViewport(0, 0, hartWindow->m_Width, hartWindow->m_Height);
 	}
 
 }

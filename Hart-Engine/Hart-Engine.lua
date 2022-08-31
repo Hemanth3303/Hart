@@ -53,7 +53,7 @@ project "Hart-Engine"
 		optimize "On"
 
 	filter "system:windows"
-		links { "opengl32", "gdi32", "kernel32", "winmm" }
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
 		defines "HART_WINDOWS"
 
 	filter "system: linux"

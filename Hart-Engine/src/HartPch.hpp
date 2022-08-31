@@ -9,6 +9,7 @@
 #include <memory>
 #include <array>
 #include <vector>
+#include <cstdint>
 #include <deque>
 #include <stack>
 #include <chrono>
@@ -19,5 +20,6 @@
 #include <ctime>
 
 //Includes stuff from Hart Engine itself
+#include "Core/Assert.hpp"
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"
