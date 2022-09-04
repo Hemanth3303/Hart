@@ -25,7 +25,7 @@ include "Hart-Engine/Hart-Engine.lua"
 include "Sandbox/Sandbox.lua"
 
 --when using the cmake generator module for premake
-require "cmake"
+-- require "cmake"
 
 newaction {
 	trigger = "clean",

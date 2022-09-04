@@ -6,11 +6,11 @@ namespace Hart {
 	Window* Window::INSTANCE;
 
 	Window::Window(int32_t width, int32_t height, const std::string& title, const bool& resizable)
-		:m_Width(width), m_Height(height), m_Title(title), m_IsRunning(true), m_Resizable(resizable), m_Window(nullptr) {
+		:m_Width(width), m_Height(height), m_Title(title), m_Resizable(resizable), m_Window(nullptr) {
 		
 		init();
 		INSTANCE = this;
-		HART_ENGINE_INFO("Initialized Engine");
+		HART_ENGINE_INFO("Initialized Window");
 
 	}
 
@@ -29,23 +29,14 @@ namespace Hart {
 	}
 
 	void Window::update() {
-		if (glfwWindowShouldClose(m_Window)) {
-			m_IsRunning = false;
-		}
+
 	}
 
-	void Window::render() {
+	void Window::clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 
-		//all draw calls
-		
-		//temporary, just for testing
-		glBegin(GL_TRIANGLES);
-		glVertex2f(0.0f, 0.5f);
-		glVertex2f(0.5f, -0.5f);
-		glVertex2f(-0.5f, -0.5f);
-		glEnd();
-
+	void Window::swapBuffers() {
 		glfwSwapBuffers(m_Window);
 	}
 
@@ -83,7 +74,7 @@ namespace Hart {
 
 	void Window::deinit() {
 		glfwTerminate();
-		HART_ENGINE_INFO("Engine Shutdown");
+		HART_ENGINE_INFO("Closing Window");
 	}
 
 	//functions

@@ -7,15 +7,17 @@ namespace Hart {
 	//manages the glfw window and opengl context
 	class Window {
 	public:
-		Window(int32_t width, int32_t height, const std::string& title, const bool& resizable=false);
+		Window(int32_t width, int32_t height, const std::string& title, const bool& resizable);
 		Window(const Window&) = delete;
 		~Window();
 
 		void handleEvents();
 		void update();
-		void render();
+		void clear();
+		void swapBuffers();
 
-		inline const bool& isRunning() const { return m_IsRunning; }
+		inline GLFWwindow*& getGlfwWindow() { return m_Window; }
+
 	private:
 		void init();
 		void deinit();
@@ -24,7 +26,6 @@ namespace Hart {
 	private:
 		int32_t m_Width, m_Height;
 		std::string m_Title;
-		bool m_IsRunning;
 		bool m_Resizable;
 
 		GLFWwindow* m_Window;
