@@ -18,6 +18,8 @@ namespace Hart {
 		void swapBuffers();
 
 		inline GLFWwindow*& getGlfwWindow() { return m_Window; }
+		inline const int32_t getWidth() const { return m_Width; }
+		inline const int32_t getHeight() const { return m_Height; }
 
 	private:
 		void init();

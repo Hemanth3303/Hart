@@ -4,15 +4,15 @@
 
 #include "Core/Application.hpp"
 
-int main() {
+int main(int argc, char** argv) {
 
-	Hart::Application app(640, 480, "Sandbox", true);
+	Hart::Application app(960, 600, "Hart Engine: Sandbox", true);
 
 	while (app.isRunning()) {
 		app.handleEvents();
 		app.update();
 		app.render();
 	}
-
+	
 	return 0;
 }

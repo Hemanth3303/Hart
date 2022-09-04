@@ -18,6 +18,7 @@ namespace Hart {
 		void render();
 
 		inline const bool& isRunning() const { return m_IsRunning; }
+		inline const Window& getWindow() const { return m_Window; }
 	private:
 		void init();
 		void deinit();
