@@ -59,8 +59,8 @@ project "Hart-Engine"
 		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
 		defines "HART_WINDOWS"
 
-	filter "system: linux"
-		links {"pthread", "GL", "m", "dl", "rt", "X11"}
+	filter "system:linux"
+		links { "pthread", "GL", "m", "dl", "rt", "X11" }
 		defines "HART_LINUX"
 
 	filter { "system:windows", "action:vs*" }

@@ -49,3 +49,9 @@ project "Sandbox"
 
 	filter { "system:windows", "action:vs*" }
 		defines { "_CRT_SECURE_NO_WARNINGS" }
+
+	filter { "system:windows", "action:not vs" }
+		links { "glfw", "glad", "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
+
+	filter { "system:linux" }
+		links { "glfw", "glad", "pthread", "GL", "m", "dl", "rt", "X11" }
