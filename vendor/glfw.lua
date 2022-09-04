@@ -33,6 +33,7 @@ project "glfw"
 	"%{prj.location}/src/null_monitor.c",
 	"%{prj.location}/src/null_window.c",
 	"%{prj.location}/src/null_joystick.c",
+	"%{prj.location}/../glfw.lua",
 	}
 	filter "system:linux"
 		pic "On"

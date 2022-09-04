@@ -30,15 +30,18 @@ project "Hart-Engine"
 		"%{prj.location}/src/**.cpp",
 		"%{prj.location}/src/**.h",
 		"%{prj.location}/src/**.hpp",
+		"%{prj.location}/Hart-Engine.lua",
+		"%{wks.location}/premake5.lua",
 	}
 
 	includedirs {
 		".",
 		"%{prj.location}/src",
 		"%{wks.location}/vendor/glfw/include",
+		"%{wks.location}/vendor/glad/include",
 	}
 
-	links { "glfw" }
+	links { "glfw", "glad" }
 
 	filter "configurations:Debug"
 		runtime "Debug"

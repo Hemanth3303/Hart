@@ -1,6 +1,7 @@
 #pragma once
 #include "HartPch.hpp"
 
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
 namespace Hart {

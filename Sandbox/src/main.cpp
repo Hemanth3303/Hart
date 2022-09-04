@@ -6,8 +6,7 @@
 
 int main() {
 
-	using namespace Hart;
-	Application app(640, 480, "Sandbox");
+	Hart::Application app(640, 480, "Sandbox", true);
 
 	while (app.isRunning()) {
 		app.handleEvents();

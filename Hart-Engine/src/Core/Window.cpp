@@ -47,10 +47,9 @@ namespace Hart {
 		HART_ASSERT_EQUALS(result, GLFW_TRUE);
 		HART_ENGINE_INFO("GLFW Initialized");
 
-		//TODO: for when we add glad
-		//glfwWindowHint(GLFW_VERSION_MAJOR, 4);
-		//glfwWindowHint(GLFW_VERSION_MINOR, 6);
-		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	#ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	#endif // __APPLE__
@@ -65,6 +64,9 @@ namespace Hart {
 
 		glfwSetWindowUserPointer(m_Window, static_cast<void*>(this));
 		glfwSetFramebufferSizeCallback(m_Window, frameBufferSizeCallback);
+
+		result=gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HART_ASSERT_NOT_EQUALS(result, false);
 
 		glViewport(0, 0, m_Width, m_Height);
 		glEnable(GL_DEPTH_TEST);

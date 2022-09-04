@@ -19,12 +19,14 @@ project "Sandbox"
 		"%{prj.location}/src/**.cpp",
 		"%{prj.location}/src/**.h",
 		"%{prj.location}/src/**.hpp",
+		"%{prj.location}/Sandbox.lua",
 	}
 
 	includedirs {
 		"%{prj.location}/src",
 		"%{wks.location}/Hart-Engine/src",
 		"%{wks.location}/vendor/glfw/include",
+		"%{wks.location}/vendor/glad/include",
 	}
 
 	links { "Hart-Engine" }

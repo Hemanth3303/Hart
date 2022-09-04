@@ -20,9 +20,10 @@ workspace "Hart"
 	filter "platforms:x64"
 		architecture "x86_64"
 
-include "vendor/glfw.lua"
-include "Hart-Engine/Hart-Engine.lua"
 include "Sandbox/Sandbox.lua"
+include "Hart-Engine/Hart-Engine.lua"
+include "vendor/glfw.lua"
+include "vendor/glad.lua"
 
 --when using the cmake generator module for premake
 -- require "cmake"
