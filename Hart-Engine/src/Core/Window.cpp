@@ -22,7 +22,7 @@ namespace Hart {
 	void Window::handleEvents() {
 		glfwPollEvents();
 
-		if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		if (KeyBoard::isKeyPressed(KeyBoard::Key::Escape)) {
 			glfwSetWindowShouldClose(m_Window, true);
 		}
 
