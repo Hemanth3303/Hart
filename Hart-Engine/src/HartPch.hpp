@@ -13,6 +13,7 @@
 #include <deque>
 #include <stack>
 #include <chrono>
+#include <unordered_map>
 
 //c headers in c++ standard
 #include <cmath>

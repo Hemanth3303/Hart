@@ -7,9 +7,8 @@ namespace Hart {
 		std::string FileManager::ReadFromFile(const std::string& fileName) {
 			std::ifstream file(fileName, std::ios::in);
 			std::stringstream fileStream;
-			if (file.good()) {
-				fileStream << file.rdbuf();
-			}
+			HART_ASSERT_EQUALS(file.good(), true);
+			fileStream << file.rdbuf();
 			file.close();
 			std::string outString = fileStream.str();
 			return outString;

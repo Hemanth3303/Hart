@@ -19,6 +19,9 @@ project "Sandbox"
 		"%{prj.location}/src/**.cpp",
 		"%{prj.location}/src/**.h",
 		"%{prj.location}/src/**.hpp",
+		"%{prj.location}/**.glsl",
+		"%{prj.location}/**.vert",
+		"%{prj.location}/**.frag",
 		"%{prj.location}/Sandbox.lua",
 	}
 
