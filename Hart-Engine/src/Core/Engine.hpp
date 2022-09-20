@@ -2,11 +2,9 @@
 
 #include "HartPch.hpp"
 #include "Window.hpp"
+#include "Scene.hpp"
 
 namespace Hart {
-	//temp
-	//TODO: Remove this at implementation of scene class
-	using Scene = int;
 	class Engine {
 	public:
 		static void Init(int32_t windowWidth = 800, int windowHeight = 600, const std::string& windowTitle = "Hart Engine: Sandbox", bool resizable = false);
@@ -15,9 +13,9 @@ namespace Hart {
 		static void Render();
 		static void DeInit();
 
-		static void AddScene(/*Scene& scene*/);
-		static void RemeoveScene(/*Scene& scene*/);
-		static void SetAsActiveScene(/*Scene& scene*/);
+		static void AddScene(Scene& scene, const std::string& name);
+		static void RemeoveScene(const std::string& name);
+		static void SetAsActiveScene(const std::string& name);
 
 		static inline const bool IsRunning() { return !glfwWindowShouldClose(m_Window->getGlfwWindow()); }
 	private:
