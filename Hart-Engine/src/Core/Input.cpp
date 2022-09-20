@@ -28,9 +28,11 @@ namespace Hart {
 
 	//TODO: Implement these
 	namespace JoyStick {
+		//doesn't work
 		bool isButtonPressed(Button button) {
 			return false;
 		}
+		//doesn't work
 		bool isButtonReleased(Button button) {
 			return false;
 		}

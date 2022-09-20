@@ -30,6 +30,9 @@ project "Hart-Engine"
 		"%{prj.location}/src/**.cpp",
 		"%{prj.location}/src/**.h",
 		"%{prj.location}/src/**.hpp",
+		"%{prj.location}/**.glsl",
+		"%{prj.location}/**.vert",
+		"%{prj.location}/**.frag",
 		"%{prj.location}/Hart-Engine.lua",
 		"%{wks.location}/premake5.lua",
 	}
