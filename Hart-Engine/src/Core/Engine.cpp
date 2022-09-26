@@ -44,6 +44,7 @@ namespace Hart {
 
 	void Engine::AddScene(Scene& scene, const std::string& name) {
 		m_Scenes[name] = scene;
+		m_Scenes[name].m_Name = name;
 		if (m_ActiveScene == nullptr) {
 			m_ActiveScene = &(m_Scenes[name]);
 		}

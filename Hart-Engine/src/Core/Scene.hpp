@@ -12,6 +12,7 @@ namespace Hart {
 		void update();
 
 	private:
-
+		std::string m_Name;
+		friend class Engine;
 	};
 }
