@@ -1,7 +1,7 @@
 /*
 * Commonly used maths functions
 * Note: Trignometric functions ending in R takes in angle as radians, while those ending with D take in angle as degrees
-* Note: Inverse Trignometric functions ending in R give angle as radians, while those ending with D give angle as degrees
+* Note: Inverse Trignometric functions ending in R return angle as radians, while those ending with D return angle as degrees
 */
 
 #pragma once
@@ -60,6 +60,16 @@ namespace Hart {
 		inline auto lerp(const auto& a, const auto& b, const auto& t) { return std::lerp(a, b, t); }
 		// If value compares less than low, returns low; otherwise if high compares less than value, returns high. Otherwise returns value. Uses operator < to compare the values.
 		inline auto clamp(const auto& value, const auto& low, const auto& high) { return std::clamp(value, low, high); }
+
+		/*
+		* Convenience functions
+		*/
+
+		inline auto min(const auto& a, const auto& b) { return std::min(a, b); }
+		inline auto max(const auto& a, const auto& b) { return std::max(a, b); }
+		inline auto round(const auto& a) { return std::round(a); }
+		inline auto floor(const auto& a) { return std::floor(a); }
+		inline auto ceil(const auto& a) { return std::ceil(a); }
 
 	}
 }
