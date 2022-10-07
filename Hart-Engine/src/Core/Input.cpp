@@ -19,9 +19,11 @@ namespace Hart {
 
 	namespace Mouse {
 		bool isButtonPressed(Button button) {
+			HART_ASSERT_NOT_EQUALS(Window::INSTANCE, nullptr);
 			return (glfwGetMouseButton(Window::INSTANCE->getGlfwWindow(), static_cast<int>(button)) == GLFW_PRESS);
 		}
 		bool isButtonReleased(Button button) {
+			HART_ASSERT_NOT_EQUALS(Window::INSTANCE, nullptr);
 			return !isButtonPressed(button);
 		}
 	}
@@ -30,10 +32,12 @@ namespace Hart {
 	namespace JoyStick {
 		//doesn't work
 		bool isButtonPressed(Button button) {
+			HART_ASSERT_NOT_EQUALS(Window::INSTANCE, nullptr);
 			return false;
 		}
 		//doesn't work
 		bool isButtonReleased(Button button) {
+			HART_ASSERT_NOT_EQUALS(Window::INSTANCE, nullptr);
 			return false;
 		}
 	}

@@ -10,7 +10,7 @@ namespace Hart {
 		
 		init();
 		INSTANCE = this;
-		HART_ENGINE_INFO("Initialized Window");
+		HART_ENGINE_INFO("Initialized Hart Window");
 
 	}
 
@@ -76,7 +76,7 @@ namespace Hart {
 
 	void Window::deinit() {
 		glfwTerminate();
-		HART_ENGINE_INFO("Closing Window");
+		HART_ENGINE_INFO("Closing Hart Window");
 	}
 
 	//functions
