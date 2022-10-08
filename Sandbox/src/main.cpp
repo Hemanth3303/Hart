@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	using namespace Hart::Maths;
 
 	Window window(640, 480, "HART ENGINE: SANDBOX", false);
-	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
+	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicVert.glsl");
 
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
@@ -26,8 +26,6 @@ int main(int argc, char** argv) {
 		 0.0f,  0.5f, 0.0f
 	};
 
-	//VertexArray vao;
-	//vao.addBuffer(new Buffer(vertices, 3, 0), 0);
 
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
 		window.handleEvents();
@@ -37,9 +35,6 @@ int main(int argc, char** argv) {
 		//draw calls
 
 		shader.bind();
-
-		//vao.bind();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		window.swapBuffers();
 	}
