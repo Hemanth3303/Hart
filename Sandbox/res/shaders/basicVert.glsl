@@ -1,9 +1,7 @@
 #version 460 core
-out vec4 FragColor;
-  
-in vec4 vertexColor; // the input variable from the vertex shader (same name and same type)  
+layout (location = 0) in vec3 aPos; 
 
 void main()
 {
-    FragColor = vertexColor;
-} 
+    gl_Position = vec4(aPos, 1.0);
+}
