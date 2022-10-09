@@ -27,14 +27,14 @@ namespace Hart {
 		void deinit();
 
 		friend void frameBufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);
+	public:
+		static Window* INSTANCE;
 	private:
 		int32_t m_Width, m_Height;
 		std::string m_Title;
 		bool m_Resizable;
 
 		GLFWwindow* m_Window;
-	public:
-		static Window* INSTANCE;
 	};
 	
 	void frameBufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);

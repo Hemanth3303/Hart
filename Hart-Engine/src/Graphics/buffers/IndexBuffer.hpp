@@ -11,9 +11,6 @@
 namespace Hart {
 	namespace Graphics {
 		class IndexBuffer {
-		private:
-			GLuint m_ID;
-			GLuint m_Count;
 		public:
 			IndexBuffer(GLuint* data, GLsizei count);
 			~IndexBuffer();
@@ -22,6 +19,9 @@ namespace Hart {
 			void unbind() const;
 
 			inline GLuint getCount() const { return m_Count; }
+		private:
+			GLuint m_ID;
+			GLuint m_Count;
 		};
 	}
 }

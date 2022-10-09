@@ -11,9 +11,6 @@
 namespace Hart {
 	namespace Graphics {
 		class Buffer {
-		private:
-			GLuint m_ID = 0;
-			GLuint m_ComponentCount;
 		public:
 			Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
 			~Buffer();
@@ -22,6 +19,9 @@ namespace Hart {
 			void unbind() const;
 
 			inline GLuint getComponentCount() const { return m_ComponentCount; }
+		private:
+			GLuint m_ID = 0;
+			GLuint m_ComponentCount;
 		};
 	}
 }

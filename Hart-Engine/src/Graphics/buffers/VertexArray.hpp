@@ -12,9 +12,6 @@
 namespace Hart {
 	namespace Graphics {
 		class VertexArray {
-		private:
-			GLuint m_ID = 0;
-			std::vector<Buffer*> m_Buffers;
 		public:
 			VertexArray();
 			~VertexArray();
@@ -22,6 +19,9 @@ namespace Hart {
 			void addBuffer(Buffer* buffer, GLuint index);
 			void bind();
 			void unbind();
+		private:
+			GLuint m_ID = 0;
+			std::vector<Buffer*> m_Buffers;
 		};
 	}
 }

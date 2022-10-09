@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	using namespace Hart::Maths;
 
 	Window window(640, 480, "HART ENGINE: SANDBOX", false);
-	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicVert.glsl");
+	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,

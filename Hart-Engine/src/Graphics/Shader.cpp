@@ -21,7 +21,7 @@ namespace Hart {
 			checkCompileErrors(vertexId, ShaderType::VertexShader);
 
 			fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragmentId, 1, &vertexCode, nullptr);
+			glShaderSource(fragmentId, 1, &fragmentCode, nullptr);
 			glCompileShader(fragmentId);
 			checkCompileErrors(fragmentId, ShaderType::FragmentShader);
 
@@ -102,7 +102,7 @@ namespace Hart {
 			else {
 				glGetProgramiv(shader, GL_LINK_STATUS, &success);
 				if (!success) {
-					glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+					glGetProgramInfoLog(shader, 2048, nullptr, infoLog);
 					HART_ENGINE_ERROR("Program Linking Error");
 				}
 				else {
