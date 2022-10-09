@@ -21,13 +21,23 @@ int main(int argc, char** argv) {
 	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
+	     0.5f,  0.5f, 0.0f,  // top right
+	     0.5f, -0.5f, 0.0f,  // bottom right
+	    -0.5f, -0.5f, 0.0f,  // bottom left
+	    -0.5f,  0.5f, 0.0f   // top left 
+	};
+
+	unsigned int indices[] = {
+		0, 1, 3,  // first Triangle
+		1, 2, 3   // second Triangle
 	};
 
 	VertexArray vao;
-	vao.addBuffer(new Buffer(vertices, 9, 3), 0);
+	vao.addBuffer(new Buffer(vertices, 12, 3), 0);
+	vao.bind();
+	IndexBuffer ibo(indices, 6);
+	ibo.bind();
+	vao.unbind();
 
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
 		window.handleEvents();
@@ -38,7 +48,7 @@ int main(int argc, char** argv) {
 
 		shader.bind();
 		vao.bind();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, 0);
 
 		window.swapBuffers();
 	}
