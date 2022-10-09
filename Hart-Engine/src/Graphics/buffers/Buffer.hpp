@@ -12,6 +12,9 @@ namespace Hart {
 	namespace Graphics {
 		class Buffer {
 		public:
+			// data is a float array of vertices
+			// count is the number of elements in the array
+			// componentCount is the number of vertices in the array
 			Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
 			~Buffer();
 

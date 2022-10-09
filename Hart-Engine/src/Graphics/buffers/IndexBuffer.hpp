@@ -12,6 +12,8 @@ namespace Hart {
 	namespace Graphics {
 		class IndexBuffer {
 		public:
+			// data the unsigned int array of indices
+			// count is the number of elements in the array
 			IndexBuffer(GLuint* data, GLsizei count);
 			~IndexBuffer();
 

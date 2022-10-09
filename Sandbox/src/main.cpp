@@ -26,6 +26,8 @@ int main(int argc, char** argv) {
 		 0.0f,  0.5f, 0.0f
 	};
 
+	VertexArray vao;
+	vao.addBuffer(new Buffer(vertices, 9, 3), 0);
 
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
 		window.handleEvents();
@@ -35,6 +37,8 @@ int main(int argc, char** argv) {
 		//draw calls
 
 		shader.bind();
+		vao.bind();
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		window.swapBuffers();
 	}

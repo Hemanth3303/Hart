@@ -16,6 +16,8 @@ namespace Hart {
 			VertexArray();
 			~VertexArray();
 
+			// buffer is the Hart::Graphics::Buffer object to be passed in
+			// index is the layout location value used in the shader
 			void addBuffer(Buffer* buffer, GLuint index);
 			void bind();
 			void unbind();
