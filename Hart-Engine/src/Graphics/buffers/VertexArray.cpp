@@ -4,19 +4,15 @@
 namespace Hart {
 	namespace Graphics {
 		VertexArray::VertexArray() {
-			glGenVertexArrays(1, &m_ID);
+			glGenVertexArrays(1, &m_ArrayId);
 		}
 
-        VertexArray::~VertexArray() {
+		VertexArray::~VertexArray() {
+			glDeleteVertexArrays(1, &m_ArrayId);
 
-			for (size_t i = 0, n = m_Buffers.size(); i < n; i++) {
-				delete m_Buffers[i];
-			}
-			glDeleteVertexArrays(1, &m_ID);
+		}
 
-        }
-
-		void VertexArray::addBuffer(Buffer* buffer, GLuint index) {
+		void VertexArray::addBuffer(const std::unique_ptr<Buffer>& buffer, GLuint index) {
 			bind();
 			buffer->bind();
 
@@ -27,8 +23,8 @@ namespace Hart {
 			unbind();
 		}
 
-        void VertexArray::bind() {
-			glBindVertexArray(m_ID);
+		void VertexArray::bind() {
+			glBindVertexArray(m_ArrayId);
 
         }
 

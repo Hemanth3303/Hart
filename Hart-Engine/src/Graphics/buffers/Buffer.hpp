@@ -14,7 +14,7 @@ namespace Hart {
 		public:
 			// data is a float array of vertices
 			// count is the number of elements in the array
-			// componentCount is the number of vertices in the array
+			// componentCount is the number of components per vertex in the array
 			Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
 			~Buffer();
 
@@ -23,7 +23,7 @@ namespace Hart {
 
 			inline GLuint getComponentCount() const { return m_ComponentCount; }
 		private:
-			GLuint m_ID = 0;
+			GLuint m_BufferId = 0;
 			GLuint m_ComponentCount;
 		};
 	}

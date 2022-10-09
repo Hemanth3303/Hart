@@ -22,7 +22,7 @@ namespace Hart {
 
 			inline GLuint getCount() const { return m_Count; }
 		private:
-			GLuint m_ID;
+			GLuint m_BufferId;
 			GLuint m_Count;
 		};
 	}

@@ -18,12 +18,11 @@ namespace Hart {
 
 			// buffer is the Hart::Graphics::Buffer object to be passed in
 			// index is the layout location value used in the shader
-			void addBuffer(Buffer* buffer, GLuint index);
+			void addBuffer(const std::unique_ptr<Buffer>& buffer, GLuint index);
 			void bind();
 			void unbind();
 		private:
-			GLuint m_ID = 0;
-			std::vector<Buffer*> m_Buffers;
+			GLuint m_ArrayId = 0;
 		};
 	}
 }

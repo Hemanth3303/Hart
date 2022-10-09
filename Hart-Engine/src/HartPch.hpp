@@ -7,6 +7,7 @@
 #include <sstream>
 #include <array>
 #include <vector>
+#include <memory>
 #include <cstdint>
 #include <deque>
 #include <chrono>

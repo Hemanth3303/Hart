@@ -21,23 +21,23 @@ int main(int argc, char** argv) {
 	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 
 	float vertices[] = {
-	     0.5f,  0.5f, 0.0f,  // top right
-	     0.5f, -0.5f, 0.0f,  // bottom right
-	    -0.5f, -0.5f, 0.0f,  // bottom left
-	    -0.5f,  0.5f, 0.0f   // top left 
+		 0.5f, -0.5f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f, // bottom left
+		 0.0f,  0.5f, 0.0f, // top
 	};
 
-	unsigned int indices[] = {
-		0, 1, 3,  // first Triangle
-		1, 2, 3   // second Triangle
+	float color[] = {
+		 1.0f, 0.0f, 0.0f, 1.0f, // bottom right
+		 0.0f, 1.0f, 0.0f, 1.0f, // bottom left
+		 0.0f, 0.0f, 1.0f, 1.0f, // top
 	};
+
+	std::unique_ptr<Buffer> positions = std::make_unique<Buffer>(vertices, 9, 3);
+	std::unique_ptr<Buffer> colors = std::make_unique<Buffer>(color, 12, 4);
 
 	VertexArray vao;
-	vao.addBuffer(new Buffer(vertices, 12, 3), 0);
-	vao.bind();
-	IndexBuffer ibo(indices, 6);
-	ibo.bind();
-	vao.unbind();
+	vao.addBuffer(positions, 0);
+	vao.addBuffer(colors, 1);
 
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
 		window.handleEvents();
@@ -48,7 +48,9 @@ int main(int argc, char** argv) {
 
 		shader.bind();
 		vao.bind();
-		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		vao.unbind();
+		shader.unbind();
 
 		window.swapBuffers();
 	}
