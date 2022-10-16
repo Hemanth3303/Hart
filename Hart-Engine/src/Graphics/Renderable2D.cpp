@@ -1,5 +1,3 @@
-#pragma once
-
 #include "HartPch.hpp"
 #include "Renderable2D.hpp"
 
