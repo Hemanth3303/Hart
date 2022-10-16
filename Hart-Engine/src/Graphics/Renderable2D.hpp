@@ -14,7 +14,6 @@ namespace Hart {
 		class Renderable2D {
 		public:
 			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color, Shader& shader);
-			Renderable2D(const Renderable2D&) = delete;
 			virtual ~Renderable2D();
 
 			inline const Maths::Vec3& getPosition() const { return m_Position; }
