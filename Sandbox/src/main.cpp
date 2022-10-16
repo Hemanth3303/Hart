@@ -38,6 +38,7 @@ int main(int argc, char** argv) {
 	Timer timer;
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
 		timer.update();
+		//std::cout << "FPS: " << timer.getFPS() << "\n";
 
 		window.handleEvents();
 		window.clear();
