@@ -26,6 +26,10 @@ namespace Hart {
 			HART_ASSERT_NOT_EQUALS(Window::INSTANCE, nullptr);
 			return !isButtonPressed(button);
 		}
+		const Maths::Vec2& getMousePosition() {
+			HART_ASSERT_NOT_EQUALS(Window::INSTANCE, nullptr);
+			return Window::INSTANCE->getMousePosition();
+		}
 	}
 
 	//TODO: Implement these

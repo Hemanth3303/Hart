@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HartPch.hpp"
+#include "Maths/Maths.hpp"
 
 namespace Hart {
 	//Based on the GLFW_KEY definitions
@@ -155,6 +156,7 @@ namespace Hart {
 		};
 		bool isButtonPressed(Button button);
 		bool isButtonReleased(Button button);
+		const Maths::Vec2& getMousePosition();
 	}
 
 	namespace JoyStick {
