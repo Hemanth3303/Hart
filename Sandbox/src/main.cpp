@@ -40,6 +40,10 @@ int main(int argc, char** argv) {
 		timer.update();
 		//std::cout << "FPS: " << timer.getFPS() << "\n";
 
+		if (KeyBoard::isKeyPressed(KeyBoard::Key::Escape)) {
+			glfwSetWindowShouldClose(window.getGlfwWindow(), true);
+		}
+
 		window.handleEvents();
 		window.clear();
 

@@ -21,11 +21,6 @@ namespace Hart {
 	//public methods
 	void Window::handleEvents() {
 		glfwPollEvents();
-
-		if (KeyBoard::isKeyPressed(KeyBoard::Key::Escape)) {
-			glfwSetWindowShouldClose(m_Window, true);
-		}
-
 	}
 
 	void Window::update() {
