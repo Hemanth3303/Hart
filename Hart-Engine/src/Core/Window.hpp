@@ -18,6 +18,8 @@ namespace Hart {
 		void update();
 		void clear();
 		void swapBuffers();
+		void enableVsync();
+		void disableVsync();
 
 		inline GLFWwindow*& getGlfwWindow() { return m_Window; }
 		inline const int32_t getWidth() const { return m_Width; }

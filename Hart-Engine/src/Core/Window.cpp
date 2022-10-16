@@ -40,6 +40,14 @@ namespace Hart {
 		glfwSwapBuffers(m_Window);
 	}
 
+    void Window::enableVsync() {
+		glfwSwapInterval(1);
+    }
+
+    void Window::disableVsync() {
+		glfwSwapInterval(1);
+    }
+
 	//private methods
 	void Window::init() {
 		int32_t result;
