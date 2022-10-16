@@ -1,0 +1,24 @@
+#pragma once
+
+//c++ standard headers
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <array>
+#include <vector>
+#include <memory>
+#include <cstdint>
+#include <deque>
+#include <chrono>
+#include <unordered_map>
+
+//c headers in c++ standard
+#include <cmath>
+#include <cstring>
+#include <ctime>
+
+//Includes stuff from Hart Engine itself
+#include "Core/Assert.hpp"
+#include "Utils/FileManager.hpp"
+#include "Utils/Logger.hpp"
