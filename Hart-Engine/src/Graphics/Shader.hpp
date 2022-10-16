@@ -17,6 +17,7 @@ namespace Hart {
 		public:
 			//uses specified shaders
 			Shader(const std::string& vertexFilePath, const std::string& fragmentFilePath);
+			Shader(const Shader&) = delete;
 			~Shader();
 
 			void bind();

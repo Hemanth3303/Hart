@@ -9,6 +9,7 @@ namespace Hart {
 		class Buffer {
 		public:
 			Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
+			Buffer(const Buffer&) = delete;
 			~Buffer();
 
 			void bind() const;

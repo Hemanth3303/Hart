@@ -9,6 +9,7 @@ namespace Hart {
 		class IndexBuffer {
 		public:
 			IndexBuffer(GLuint* data, GLsizei count);
+			IndexBuffer(const IndexBuffer&) = delete;
 			~IndexBuffer();
 
 			void bind() const;

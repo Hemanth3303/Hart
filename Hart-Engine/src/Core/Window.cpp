@@ -94,8 +94,8 @@ namespace Hart {
 		Window* hartWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 		HART_ASSERT_NOT_EQUALS(hartWindow, nullptr);
 
-		hartWindow->m_MousePosition.x = xpos;
-		hartWindow->m_MousePosition.y = ypos;
+		hartWindow->m_MousePosition.x = static_cast<float>(xpos);
+		hartWindow->m_MousePosition.y = static_cast<float>(ypos);
 	}
 
 }

@@ -8,6 +8,7 @@
 #include "Graphics/Shader.hpp"
 #include "Graphics/buffers/Buffer.hpp"
 #include "Graphics/buffers/IndexBuffer.hpp"
+#include "Graphics/buffers/VertexArray.hpp"
 
 #include "Maths/Maths.hpp"
 
@@ -30,25 +31,25 @@ int main(int argc, char** argv) {
 	   -100.0f,  100.0f, 0.0f   // top left 
 	};
 
+	float colors[] = {
+		1.0f, 0.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, 0.0f, 0.5f, 1.0f,
+	};
+
 	uint32_t indices[] = {
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
 	};
 
-	uint32_t VAO;
-	glGenVertexArrays(1, &VAO);
+	VertexArray vao;
 
-	glBindVertexArray(VAO);
-
-	Buffer vbo(vertices, 12, 3);
+	vao.addBuffer(new Buffer(vertices, 12, 3), 0);
+	vao.addBuffer(new Buffer(colors, 16, 4), 1);
+	vao.bind();
 	IndexBuffer ibo(indices, 6);
-	vbo.bind();
 	ibo.bind();
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindVertexArray(0);
 
 	shader.bind();
 	shader.setUniform("pr_matrix", ortho);
@@ -60,12 +61,13 @@ int main(int argc, char** argv) {
 		window.clear();
 
 		shader.bind();
-		glBindVertexArray(VAO);
+		vao.bind();
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		vao.unbind();
+
 		window.swapBuffers();
-		std::cout << "Mouse x: " << Mouse::getMousePosition().x << "\tMouse y: " << Mouse::getMousePosition().y << "\n";
 	}
 
 	return 0;
