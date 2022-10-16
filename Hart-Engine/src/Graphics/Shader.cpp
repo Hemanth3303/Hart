@@ -40,11 +40,11 @@ namespace Hart {
 			glDeleteProgram(m_ProgramId);
 		}
 
-		void Shader::bind() {
+		void Shader::bind() const {
 			glUseProgram(m_ProgramId);
 		}
 
-		void Shader::unbind() {
+		void Shader::unbind() const {
 			glUseProgram(0);
 		}
 

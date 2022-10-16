@@ -15,7 +15,7 @@ namespace Hart {
 			void bind() const;
 			void unbind() const;
 
-			inline const GLuint& getComponentCount() const { return m_Count; }
+			inline const GLuint& getCount() const { return m_Count; }
 
 		private:
 			GLuint m_IndexBufferId;

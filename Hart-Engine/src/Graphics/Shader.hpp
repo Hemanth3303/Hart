@@ -20,8 +20,8 @@ namespace Hart {
 			Shader(const Shader&) = delete;
 			~Shader();
 
-			void bind();
-			void unbind();
+			void bind() const;
+			void unbind() const;
 
 			void setUniform(const std::string& uniformName, const bool& value) const;
 			void setUniform(const std::string& uniformName, const int32_t& value) const;
