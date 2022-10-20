@@ -1,7 +1,13 @@
+/*
+* Class used to draw StaticSprites one at a time
+* Extremely inefficient, should only be used for testing purposes
+*/
+
 #pragma once
 
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
+#include "StaticSprite.hpp"
 
 namespace Hart {
 	namespace Graphics {
@@ -14,7 +20,7 @@ namespace Hart {
 			void submit(const Renderable2D* renderable2d) override;
 			void flush() override;
 		private:
-			std::deque<const Renderable2D*> m_RenderQueue;
+			std::deque<const StaticSprite*> m_RenderQueue;
 		};
 	}
 }

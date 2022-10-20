@@ -1,3 +1,7 @@
+/*
+* Class to provide timing related functions like fps counter, delta time calculations, etc;
+*/
+
 #pragma once
 
 #include "HartPch.hpp"
@@ -13,6 +17,7 @@ namespace Hart {
 			~Timer();
 			void update();
 
+			//returns the current delta time in seconds
 			inline const double& getDeltaTime() const { return m_DeltaTime; }
 			inline const double& getFPS() const { return m_FrameRate; }
 		private:

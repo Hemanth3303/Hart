@@ -6,8 +6,8 @@
 #include "Core/Input.hpp"
 
 #include "Graphics/Shader.hpp"
-#include "Graphics/Renderable2D.hpp"
 #include "Graphics/SimpleRenderer2D.hpp"
+#include "Graphics/StaticSprite.hpp"
 
 #include "Maths/Maths.hpp"
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 
 	window.enableVsync();
 
-	Renderable2D renderable(Vec3(-100.0f, -100.0f, 0.0f), Vec2(200.0f, 200.0f), Vec4(1.0f, 0.0f, 0.0f, 1.0f), shader);
+	StaticSprite sprite(Vec3(-100.0f, -100.0f, 0.0f), Vec2(200.0f, 200.0f), Vec4(1.0f, 0.0f, 0.0f, 1.0f), shader);
 	SimpleRenderer2D renderer;
 
 	Timer timer;
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 		window.clear();
 
 		shader.bind();
-		renderer.submit(&renderable);
+		renderer.submit(&sprite);
 		renderer.flush();
 
 		window.swapBuffers();

@@ -4,23 +4,23 @@
 namespace Hart {
 	namespace Graphics {
 		void SimpleRenderer2D::submit(const Renderable2D* renderable2d) {
-			m_RenderQueue.push_back(renderable2d);
+			m_RenderQueue.push_back(dynamic_cast<const StaticSprite*>(renderable2d));
 		}
 
 		void SimpleRenderer2D::flush() {
 			while (!m_RenderQueue.empty()) {
-				const Renderable2D* renderable2d = m_RenderQueue.front();
+				const StaticSprite* staticSprite = m_RenderQueue.front();
 
-				renderable2d->getShader().bind();
-				renderable2d->getVAO()->bind();
-				renderable2d->getIBO()->bind();
+				staticSprite->getShader().bind();
+				staticSprite->getVAO()->bind();
+				staticSprite->getIBO()->bind();
 
-				renderable2d->getShader().setUniform("ml_matrix", Maths::Mat4::translate(renderable2d->getPosition()));
-				glDrawElements(GL_TRIANGLES, renderable2d->getIBO()->getCount(), GL_UNSIGNED_INT, nullptr);
+				staticSprite->getShader().setUniform("ml_matrix", Maths::Mat4::translate(staticSprite->getPosition()));
+				glDrawElements(GL_TRIANGLES, staticSprite->getIBO()->getCount(), GL_UNSIGNED_INT, nullptr);
 
-				renderable2d->getVAO()->unbind();
-				renderable2d->getIBO()->unbind();
-				renderable2d->getShader().unbind();
+				staticSprite->getVAO()->unbind();
+				staticSprite->getIBO()->unbind();
+				staticSprite->getShader().unbind();
 
 				m_RenderQueue.pop_front();
 			}
