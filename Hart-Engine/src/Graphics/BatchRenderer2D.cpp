@@ -5,12 +5,14 @@ namespace Hart {
 	namespace Graphics {
 		BatchRenderer2D::BatchRenderer2D() {
 			init();
+			HART_ENGINE_INFO("BatchRenderer2D initialized");
 		}
 
 		BatchRenderer2D::~BatchRenderer2D() {
 			glDeleteBuffers(1, &m_VBO);
 			glDeleteVertexArrays(1, &m_VAO);
 			delete[] m_Indices;
+			HART_ENGINE_INFO("BatchRenderer2D deinitialized");
 		}
 
 		void BatchRenderer2D::begin() {
