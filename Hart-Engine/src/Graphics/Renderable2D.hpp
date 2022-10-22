@@ -19,7 +19,7 @@ namespace Hart {
 		struct VertexData {
 		public:
 			Maths::Vec3 vertex;
-			Maths::Vec2 color;
+			Maths::Vec4 color;
 		};
 
 		class Renderable2D {

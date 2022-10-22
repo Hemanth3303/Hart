@@ -15,6 +15,8 @@ namespace Hart {
 		};
 		class Shader {
 		public:
+			//uses default shaders
+			Shader();
 			//uses specified shaders
 			Shader(const std::string& vertexFilePath, const std::string& fragmentFilePath);
 			Shader(const Shader&) = delete;
@@ -36,6 +38,8 @@ namespace Hart {
 		private:
 			void checkCompileErrors(uint32_t shader, const ShaderType& type);
 			GLint getUniformLocation(const std::string& uniformName) const;
+
+			void init(const char* vertexCode, const char* fragmentCode);
 		private:
 			GLuint m_ProgramId;
 			mutable std::unordered_map<std::string, GLint> m_ShaderLocationCache;

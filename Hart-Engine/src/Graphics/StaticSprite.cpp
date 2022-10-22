@@ -3,8 +3,8 @@
 
 namespace Hart {
 	namespace Graphics {
-		StaticSprite::StaticSprite(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color, Shader& shader) 
-			: Renderable2D(position, size, color), m_Shader(shader) {
+		StaticSprite::StaticSprite(float x, float y, float width, float height, const Maths::Vec4& color, Shader& shader)
+			: Renderable2D(Maths::Vec3(x, y, 0), Maths::Vec2(width, height), color), m_Shader(shader) {
 
 			m_VertexArray = std::make_unique<VertexArray>();
 
