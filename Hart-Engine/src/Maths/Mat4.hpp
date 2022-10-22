@@ -52,6 +52,7 @@ namespace Hart {
 			static Mat4 perspective(float fovD, float aspectRatio, float near, float far);
 
 			static Mat4 translate(const Vec3& translation);
+			//rotate along the z axis for normal 2d rotation, ie, Vec3(0, 0, 1)
 			static Mat4 rotate(float angleD, const Vec3& axis);
 			static Mat4 scale(const Vec3& scale);
 

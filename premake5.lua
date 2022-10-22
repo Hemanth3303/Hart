@@ -31,7 +31,7 @@ include "vendor/glad.lua"
 newaction {
 	trigger = "clean",
 	description = "Remove all binaries, intermediates and build files",
-	execute=function()
+	execute = function()
 		print("Removing binaries")
 		os.rmdir("./bin")
 		os.rmdir("./build")

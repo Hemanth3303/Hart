@@ -21,11 +21,6 @@ namespace Hart {
 	//public methods
 	void Window::handleEvents() {
 		glfwPollEvents();
-
-		if (KeyBoard::isKeyPressed(KeyBoard::Key::Escape)) {
-			glfwSetWindowShouldClose(m_Window, true);
-		}
-
 	}
 
 	void Window::update() {
@@ -39,6 +34,14 @@ namespace Hart {
 	void Window::swapBuffers() {
 		glfwSwapBuffers(m_Window);
 	}
+
+    void Window::enableVsync() {
+		glfwSwapInterval(1);
+    }
+
+    void Window::disableVsync() {
+		glfwSwapInterval(1);
+    }
 
 	//private methods
 	void Window::init() {
@@ -64,6 +67,7 @@ namespace Hart {
 
 		glfwSetWindowUserPointer(m_Window, static_cast<void*>(this));
 		glfwSetFramebufferSizeCallback(m_Window, frameBufferSizeCallback);
+		glfwSetCursorPosCallback(m_Window, cursonPositionCallback);
 
 		result=gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HART_ASSERT_NOT_EQUALS(result, false);
@@ -87,6 +91,14 @@ namespace Hart {
 		hartWindow->m_Width = width;
 		hartWindow->m_Height = height;
 		glViewport(0, 0, hartWindow->m_Width, hartWindow->m_Height);
+	}
+
+	void cursonPositionCallback(GLFWwindow* window, double xpos, double ypos) {
+		Window* hartWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+		HART_ASSERT_NOT_EQUALS(hartWindow, nullptr);
+
+		hartWindow->m_MousePosition.x = static_cast<float>(xpos);
+		hartWindow->m_MousePosition.y = static_cast<float>(ypos);
 	}
 
 }

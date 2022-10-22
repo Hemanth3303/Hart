@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HartPch.hpp"
+#include "Loggable.hpp"
 
 namespace Hart {
 	namespace Utils {
@@ -13,15 +14,15 @@ namespace Hart {
 
 		class Logger {
 		public:
-			static void Log(const std::string& logMessage, const LogSeverity& severity, bool fromEngine);
+			static void Log(const Loggable& logMessage, const LogSeverity& severity, bool fromEngine);
 		private:
-			static void EngineLogInfo(const std::string& logMessage);
-			static void EngineLogWarning(const std::string& logMessage);
-			static void EngineLogError(const std::string& logMessage);
+			static void EngineLogInfo(const Loggable& logMessage);
+			static void EngineLogWarning(const Loggable& logMessage);
+			static void EngineLogError(const Loggable& logMessage);
 
-			static void ClientLogInfo(const std::string& logMessage);
-			static void ClientLogWarning(const std::string& logMessage);
-			static void ClientLogError(const std::string& logMessage);
+			static void ClientLogInfo(const Loggable& logMessage);
+			static void ClientLogWarning(const Loggable& logMessage);
+			static void ClientLogError(const Loggable& logMessage);
 		};
 	}
 }

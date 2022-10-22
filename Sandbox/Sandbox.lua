@@ -50,8 +50,8 @@ project "Sandbox"
 		kind "WindowedApp"
 		entrypoint "mainCRTStartup"
 
-	filter { "system:windows", "action:vs*" }
-		defines { "_CRT_SECURE_NO_WARNINGS" }
+	filter { "system:windows" }
+		defines { "_CRT_SECURE_NO_WARNINGS", "NOMINMAX" }
 
 	filter { "system:windows", "action:not vs" }
 		links { "glfw", "glad", "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
