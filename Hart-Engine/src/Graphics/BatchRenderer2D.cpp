@@ -23,29 +23,29 @@ namespace Hart {
 		void BatchRenderer2D::submit(const Renderable2D* renderable2d) {
 			const Maths::Vec3& position = renderable2d->getPosition();
 			const Maths::Vec2& size = renderable2d->getSize();
-			const Maths::Vec4& color = renderable2d->getColor();
+			const Color& color = renderable2d->getColor();
 
-			int32_t r = color.x * 255.0f;
-			int32_t g = color.y * 255.0f;
-			int32_t b = color.z * 255.0f;
-			int32_t a = color.w * 255.0f;
+			int32_t r = static_cast<int32_t>(color.x * 255.0f);
+			int32_t g = static_cast<int32_t>(color.y * 255.0f);
+			int32_t b = static_cast<int32_t>(color.z * 255.0f);
+			int32_t a = static_cast<int32_t>(color.w * 255.0f);
 
 			uint32_t c = a << 24 | b << 16 | g << 8 | r;
 
 			//centered around origin
-			m_Buffer->vertex = Maths::Vec3((position.x - size.x) / 2, (position.y - size.y) / 2, position.z);
+			m_Buffer->vertex = *m_TransformationBack * Maths::Vec3((position.x - size.x) / 2, (position.y - size.y) / 2, position.z);
 			m_Buffer->color = c;
 			m_Buffer++;
 
-			m_Buffer->vertex = Maths::Vec3((position.x - size.x) / 2, (position.y + size.y) / 2, position.z);
+			m_Buffer->vertex = *m_TransformationBack * Maths::Vec3((position.x - size.x) / 2, (position.y + size.y) / 2, position.z);
 			m_Buffer->color = c;
 			m_Buffer++;
 
-			m_Buffer->vertex = Maths::Vec3((position.x + size.x) / 2, (position.y + size.y) / 2, position.z);
+			m_Buffer->vertex = *m_TransformationBack * Maths::Vec3((position.x + size.x) / 2, (position.y + size.y) / 2, position.z);
 			m_Buffer->color = c;
 			m_Buffer++;
 
-			m_Buffer->vertex = Maths::Vec3((position.x + size.x) / 2, (position.y - size.y) / 2, position.z);
+			m_Buffer->vertex = *m_TransformationBack * Maths::Vec3((position.x + size.x) / 2, (position.y - size.y) / 2, position.z);
 			m_Buffer->color = c;
 			m_Buffer++;
 

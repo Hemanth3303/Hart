@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer2D.hpp"
+#include "Renderable2D.hpp"
 #include "buffers/IndexBuffer.hpp"
 
 namespace Hart {

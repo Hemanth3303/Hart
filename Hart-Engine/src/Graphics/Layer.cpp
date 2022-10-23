@@ -5,7 +5,9 @@ namespace Hart {
 	namespace Graphics {
 		Layer::Layer(std::shared_ptr<Renderer2D> renderer, std::shared_ptr<Shader> shader, const Maths::Mat4& projectionMatrix)
 			: m_Renderer(renderer), m_Shader(shader), m_ProjectionMatrix(projectionMatrix) {
-
+			m_Shader->bind();
+			m_Shader->setUniform("pr_matrix", m_ProjectionMatrix);
+			m_Shader->unbind();
 		}
 
 		Layer::~Layer() {
@@ -21,7 +23,7 @@ namespace Hart {
 
 			m_Renderer->begin();
 			for (const auto& renderable2d : m_Renderables) {
-				m_Renderer->submit(renderable2d.get());
+				renderable2d->submit(m_Renderer.get());
 			}
 			m_Renderer->end();
 			m_Renderer->flush();
