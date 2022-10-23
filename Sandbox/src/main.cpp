@@ -34,10 +34,6 @@ int main(int argc, char** argv) {
 
 	SandboxLayer layer1(shader1, ortho);
 
-	Sprite sp(0.f, 0.f, 100.f, 100.f, Color(1.f, 1.f, 1.f, 1.f));
-	Sprite sp2(0.f, 0.f, 200.f, 200.f, Color(1.f, 0.f, 1.f, 1.f));
-	Sprite sp3(0.5f, 0.5f, 300.0f, 300.0f, Color(0.2f, 0.3f, 0.8f, 1.0f));
-
 	std::shared_ptr<Group> group = std::make_shared<Group>(Mat4::translate(Vec3(0, 0, 0)));
 	group->add(std::make_shared<Sprite>(0.f, 0.f, 100.f, 100.f, Color(1.f, 1.f, 1.f, 1.f)));
 
