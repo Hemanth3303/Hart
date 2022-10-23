@@ -25,21 +25,28 @@ namespace Hart {
 			const Maths::Vec2& size = renderable2d->getSize();
 			const Maths::Vec4& color = renderable2d->getColor();
 
+			int32_t r = color.x * 255.0f;
+			int32_t g = color.y * 255.0f;
+			int32_t b = color.z * 255.0f;
+			int32_t a = color.w * 255.0f;
+
+			uint32_t c = a << 24 | b << 16 | g << 8 | r;
+
 			//centered around origin
 			m_Buffer->vertex = Maths::Vec3((position.x - size.x) / 2, (position.y - size.y) / 2, position.z);
-			m_Buffer->color = color;
+			m_Buffer->color = c;
 			m_Buffer++;
 
 			m_Buffer->vertex = Maths::Vec3((position.x - size.x) / 2, (position.y + size.y) / 2, position.z);
-			m_Buffer->color = color;
+			m_Buffer->color = c;
 			m_Buffer++;
 
 			m_Buffer->vertex = Maths::Vec3((position.x + size.x) / 2, (position.y + size.y) / 2, position.z);
-			m_Buffer->color = color;
+			m_Buffer->color = c;
 			m_Buffer++;
 
 			m_Buffer->vertex = Maths::Vec3((position.x + size.x) / 2, (position.y - size.y) / 2, position.z);
-			m_Buffer->color = color;
+			m_Buffer->color = c;
 			m_Buffer++;
 
 			m_IndexCount += 6;
@@ -73,7 +80,7 @@ namespace Hart {
 			glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
 			glEnableVertexAttribArray(SHADER_COLOR_INDEX);
 			glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::vertex)));
-			glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::color)));
+			glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::color)));
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			m_Indices=new GLuint[RENDERER_INDICES_SIZE];
