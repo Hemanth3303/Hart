@@ -3,16 +3,17 @@
 
 namespace Hart {
 	namespace Graphics {
-		StaticSprite::StaticSprite(float x, float y, float width, float height, const Maths::Vec4& color, Shader& shader)
+		StaticSprite::StaticSprite(float x, float y, float width, float height, const Color& color, Shader& shader)
 			: Renderable2D(Maths::Vec3(x, y, 0), Maths::Vec2(width, height), color), m_Shader(shader) {
 
 			m_VertexArray = std::make_unique<VertexArray>();
 
+			//vertices are aranged in this way to make their orgigin at the center rather than at a corner
 			GLfloat vertices[] = {
-				0, 0, 0,                    //from (0, 0, 0)
-				0, m_Size.y, 0,             //to (0, y, 0)
-				m_Size.x, m_Size.y, 0,      //to (x, y, 0)
-				m_Size.x, 0, 0              //to (x, 0, 0)
+				-m_Size.x / 2, -m_Size.y / 2, 0,  //from (-width, -height)
+				-m_Size.x / 2,  m_Size.y / 2, 0,  //to (-width, height)
+				 m_Size.x / 2,  m_Size.y / 2, 0,  //to (width, height)
+				 m_Size.x / 2, -m_Size.y / 2, 0,  //to (width, -height)
 			};
 
 			GLfloat colors[] = {

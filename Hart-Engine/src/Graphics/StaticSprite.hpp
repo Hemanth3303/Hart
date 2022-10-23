@@ -11,7 +11,7 @@ namespace Hart {
 	namespace Graphics {
 		class StaticSprite : public Renderable2D {
 		public:
-			StaticSprite(float x, float y, float width, float height, const Maths::Vec4& color, Shader& shader);
+			StaticSprite(float x, float y, float width, float height, const Color& color, Shader& shader);
 			StaticSprite(const StaticSprite&) = delete;
 			~StaticSprite();
 

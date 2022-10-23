@@ -55,6 +55,7 @@ namespace Hart {
 			//rotate along the z axis for normal 2d rotation, ie, Vec3(0, 0, 1)
 			static Mat4 rotate(float angleD, const Vec3& axis);
 			static Mat4 scale(const Vec3& scale);
+			static Mat4 lootAt(const Vec3& position, const Vec3& target, Vec3 worldUp);
 
 			friend Mat4 add(Mat4 left, const Mat4& right);
 			friend Mat4 substract(Mat4 left, const Mat4& right);

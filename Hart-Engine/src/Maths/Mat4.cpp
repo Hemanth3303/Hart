@@ -230,6 +230,43 @@ namespace Hart {
 			return result;
 		}
 
+		Mat4 Mat4::lootAt(const Vec3& position, const Vec3& target, Vec3 worldUp) {
+			//calculate camera direction
+			Vec3 zAxis = position - target;
+			zAxis.normalize();
+
+			//right axis vector
+			worldUp.normalize();
+			Vec3 xAxis = worldUp.crossProduct(zAxis);
+
+			//camera up vector
+			Vec3 yAxis = zAxis.crossProduct(xAxis);
+
+			//translation matrix
+			Mat4 translationMat(1.0f);//identity matrix
+			translationMat.elements[0 + 3 * COLUMNS] = -position.x;
+			translationMat.elements[1 + 3 * COLUMNS] = -position.y;
+			translationMat.elements[2 + 3 * COLUMNS] = -position.z;
+
+			//rototion matrix
+			Mat4 rotationMat(1.0f);//indentity matrix
+			rotationMat.elements[0 + 0 * COLUMNS] = xAxis.x;
+			rotationMat.elements[1 + 0 * COLUMNS] = xAxis.y;
+			rotationMat.elements[2 + 0 * COLUMNS] = xAxis.z;
+
+			rotationMat.elements[0 + 1 * COLUMNS] = yAxis.x;
+			rotationMat.elements[1 + 1 * COLUMNS] = yAxis.y;
+			rotationMat.elements[2 + 1 * COLUMNS] = yAxis.z;
+
+			rotationMat.elements[0 + 2 * COLUMNS] = zAxis.x;
+			rotationMat.elements[1 + 2 * COLUMNS] = zAxis.y;
+			rotationMat.elements[2 + 2 * COLUMNS] = zAxis.z;
+
+			return rotationMat * translationMat;
+
+		}
+
+
 		Mat4 add(Mat4 left, const Mat4& right) {
 			return left.add(right);
 		}

@@ -6,12 +6,12 @@ namespace Hart {
 		Timer::Timer() {
 
 			m_Current = glfwGetTime();
-
+			HART_ENGINE_INFO("Timer initialized");
 			update();
 		}
 
 		Timer::~Timer() {
-
+			HART_ENGINE_INFO("Timer shutdown");
 		}
 
 		void Timer::update() {

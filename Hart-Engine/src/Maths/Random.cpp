@@ -4,12 +4,13 @@
 namespace Hart {
 	namespace Maths {
 		Random::Random() {
+			HART_ENGINE_INFO("Random number generator initialized");
 			const uint32_t seed = m_RandomDevice();
 			m_Mt = std::make_unique<std::mt19937>(seed);
 		}
 
 		Random::~Random() {
-
+			HART_ENGINE_INFO("Random number generator shutdown");
 		}
 
 		int Random::getInt32(int a, int b) {
