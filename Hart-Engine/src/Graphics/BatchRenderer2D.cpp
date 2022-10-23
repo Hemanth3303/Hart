@@ -25,19 +25,20 @@ namespace Hart {
 			const Maths::Vec2& size = renderable2d->getSize();
 			const Maths::Vec4& color = renderable2d->getColor();
 
-			m_Buffer->vertex = position;
+			//centered around origin
+			m_Buffer->vertex = Maths::Vec3((position.x - size.x) / 2, (position.y - size.y) / 2, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 
-			m_Buffer->vertex = Maths::Vec3(position.x, position.y + size.y, position.z);
+			m_Buffer->vertex = Maths::Vec3((position.x - size.x) / 2, (position.y + size.y) / 2, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 
-			m_Buffer->vertex = Maths::Vec3(position.x + size.x, position.y + size.y, position.z);
+			m_Buffer->vertex = Maths::Vec3((position.x + size.x) / 2, (position.y + size.y) / 2, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 
-			m_Buffer->vertex = Maths::Vec3(position.x + size.x, position.y, position.z);
+			m_Buffer->vertex = Maths::Vec3((position.x + size.x) / 2, (position.y - size.y) / 2, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 

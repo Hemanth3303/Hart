@@ -8,6 +8,8 @@
 #include "Graphics/Shader.hpp"
 #include "Graphics/Sprite.hpp"
 #include "Graphics/BatchRenderer2D.hpp"
+#include "Graphics/StaticSprite.hpp"
+#include "Graphics/SimpleRenderer2D.hpp"
 
 #include "Maths/Maths.hpp"
 
@@ -33,9 +35,7 @@ int main(int argc, char** argv) {
 	window.enableVsync();
 
 	BatchRenderer2D renderer;
-	Sprite sprite(0, 0, 100, 100, Vec4(0.0f, 0.0f, 1.0f, 1.0f));
-
-	Mat4 ml = Mat4::translate(sprite.getPosition());
+	Sprite sprite(0.f, 0.f, 200.f, 200.f, Vec4(0.0f, 0.0f, 1.0f, 1.0f));
 
 	Timer timer;
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
@@ -45,24 +45,10 @@ int main(int argc, char** argv) {
 			glfwSetWindowShouldClose(window.getGlfwWindow(), true);
 		}
 
-		if (KeyBoard::isKeyPressed(KeyBoard::Key::A)) {
-			ml *= Mat4::translate(Vec3(-800 * timer.getDeltaTime(), 0, 0));
-		}
-		if (KeyBoard::isKeyPressed(KeyBoard::Key::D)) {
-			ml *= Mat4::translate(Vec3(800 * timer.getDeltaTime(), 0, 0));
-		}
-		if (KeyBoard::isKeyPressed(KeyBoard::Key::W)) {
-			ml *= Mat4::translate(Vec3(0, 800 * timer.getDeltaTime(), 0));
-		}
-		if (KeyBoard::isKeyPressed(KeyBoard::Key::S)) {
-			ml *= Mat4::translate(Vec3(0, -800 * timer.getDeltaTime(), 0));
-		}
-
 		window.handleEvents();
 		window.clear();
 
 		shader.bind();
-		shader.setUniform("ml_matrix", ml);
 
 		renderer.begin();
 		renderer.submit(&sprite);
