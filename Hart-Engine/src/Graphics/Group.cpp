@@ -17,6 +17,7 @@ namespace Hart {
 			for (const std::shared_ptr<Renderable2D> renderable2d : m_Renderables) {
 				renderable2d->submit(renderer2d);
 			}
+			renderer2d->pop();
 		}
 
 	}
