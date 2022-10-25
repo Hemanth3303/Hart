@@ -40,8 +40,16 @@ namespace Hart {
     }
 
     void Window::disableVsync() {
-		glfwSwapInterval(1);
+		glfwSwapInterval(0);
     }
+
+	void Window::setBackGroundColor(const Maths::Vec3& color) {
+		glClearColor(color.x, color.y, color.z, 1.0f);
+	}
+
+	void Window::setBackGroundColor(const Maths::Vec4& color) {
+		glClearColor(color.x, color.y, color.z, color.w);
+	}
 
 	//private methods
 	void Window::init() {

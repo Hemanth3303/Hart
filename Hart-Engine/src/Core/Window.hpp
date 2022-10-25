@@ -20,6 +20,8 @@ namespace Hart {
 		void swapBuffers();
 		void enableVsync();
 		void disableVsync();
+		void setBackGroundColor(const Maths::Vec3& color);
+		void setBackGroundColor(const Maths::Vec4& color);
 
 		inline GLFWwindow*& getGlfwWindow() { return m_Window; }
 		inline const int32_t getWidth() const { return m_Width; }

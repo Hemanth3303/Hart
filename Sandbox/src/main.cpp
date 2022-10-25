@@ -21,16 +21,6 @@ int main(int argc, char** argv) {
 
 	Window window(960, 540, "Hart Engine: Sandbox", true);
 
-	window.enableVsync();
-
-	std::cout << "test\n";
-	HART_CLIENT_ERROR("Error");
-	std::cout << "test\n";
-	HART_CLIENT_WARN("Warn");
-	std::cout << "test\n";
-	HART_CLIENT_INFO("Info");
-	std::cout << "test\n";
-
 	Random rd;
 	Timer timer;
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
