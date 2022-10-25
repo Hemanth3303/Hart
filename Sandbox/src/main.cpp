@@ -23,6 +23,14 @@ int main(int argc, char** argv) {
 
 	window.enableVsync();
 
+	std::cout << "test\n";
+	HART_CLIENT_ERROR("Error");
+	std::cout << "test\n";
+	HART_CLIENT_WARN("Warn");
+	std::cout << "test\n";
+	HART_CLIENT_INFO("Info");
+	std::cout << "test\n";
+
 	Random rd;
 	Timer timer;
 	while (!glfwWindowShouldClose(window.getGlfwWindow())) {
