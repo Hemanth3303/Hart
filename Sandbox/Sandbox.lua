@@ -51,7 +51,7 @@ project "Sandbox"
 		entrypoint "mainCRTStartup"
 
 	filter { "system:windows" }
-		defines { "_CRT_SECURE_NO_WARNINGS", "NOMINMAX" }
+		defines { "_CRT_SECURE_NO_WARNINGS", "NOMINMAX", "WIN32_LEAN_AND_MEAN" }
 
 	filter { "system:windows", "action:not vs" }
 		links { "glfw", "glad", "opengl32", "gdi32", "kernel32", "winmm", "shell32" }

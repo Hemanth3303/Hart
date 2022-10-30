@@ -60,7 +60,7 @@ project "Hart-Engine"
 
 	filter "system:windows"
 		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
-		defines { "HART_WINDOWS", "NOMINMAX" }
+		defines { "HART_WINDOWS", "NOMINMAX", "WIN32_LEAN_AND_MEAN" }
 
 	filter "system:linux"
 		links { "pthread", "GL", "m", "dl", "rt", "X11" }
