@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 		
 		shader.enable();
 		vao.bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, 0);
 
 		//end draw calls
 		window.swapBuffers();

@@ -17,7 +17,7 @@ namespace Hart {
 			void unbind() const;
 
 			inline const uint32_t& getBufferID() const { return m_BufferID; }
-			inline const uint32_t& getCount() const { return m_Count; }
+			inline const int32_t& getCount() const { return m_Count; }
 
 		private:
 			uint32_t m_BufferID = 0;
