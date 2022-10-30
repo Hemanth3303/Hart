@@ -6,6 +6,9 @@
 #include "Core/Input.hpp"
 
 #include "Graphics/Shader.hpp"
+#include "Graphics/buffers/Buffer.hpp"
+#include "Graphics/buffers/IndexBuffer.hpp"
+#include "Graphics/buffers/VertexArray.hpp"
 
 #include "Maths/Maths.hpp"
 
@@ -20,8 +23,41 @@ int main(int argc, char** argv) {
 	using namespace Hart::Utils;
 
 	Window window(960, 540, "Hart Engine: Sandbox", true);
+	Shader shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 
-	window.enableVsync();
+	Mat4 ortho = Mat4::orthographic((float)-window.getWidth(), (float)window.getWidth(), (float)-window.getHeight(), (float)window.getHeight(), -1.f, 1.f);
+
+	shader.enable();
+	shader.setUniform("pr_matrix", ortho);
+	shader.disable();
+
+	float vertices[] = {
+		-200.0f, -200.0f, 0.0f,
+		-200.0f,  200.0f, 0.0f,
+		 200.0f,  200.0f, 0.0f,
+		 200.0f, -200.0f, 0.0f
+	};
+
+	float colors[] = {
+		1.0f, 0.0f, 0.0f, 1.0f, 
+		0.0f, 1.0f, 0.0f, 1.0f, 
+		0.0f, 0.0f, 1.0f, 1.0f, 
+		1.0f, 0.0f, 1.0f, 1.0f, 
+	};
+
+	unsigned int indices[] = {
+		0, 1, 2,   // first triangle
+		2, 3, 0    // second triangle
+	};
+	VertexArray vao;
+	IndexBuffer ibo(indices, 6);
+	vao.bind();
+	ibo.bind();
+
+	vao.addBuffer(Buffer(vertices, 12, 3), 0);
+	vao.addBuffer(Buffer(colors, 16, 4), 1);
+
+	vao.unbind();
 
 	Random rd;
 	Timer timer;
@@ -34,7 +70,13 @@ int main(int argc, char** argv) {
 
 		window.handleEvents();
 		window.clear();
-		//draw calls
+		//begin draw calls
+		
+		shader.enable();
+		vao.bind();
+		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, 0);
+
+		//end draw calls
 		window.swapBuffers();
 	}
 

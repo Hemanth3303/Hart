@@ -46,14 +46,14 @@ namespace Hart {
 		}
 
 		Shader::~Shader() {
-			glDeleteProgram(m_ProgramId);
+			glDeleteProgram(m_ProgramID);
 		}
 
-		void Shader::bind() const {
-			glUseProgram(m_ProgramId);
+		void Shader::enable() const {
+			glUseProgram(m_ProgramID);
 		}
 
-		void Shader::unbind() const {
+		void Shader::disable() const {
 			glUseProgram(0);
 		}
 
@@ -122,7 +122,7 @@ namespace Hart {
 
 		GLint Shader::getUniformLocation(const std::string& uniformName) const {
 			if (m_ShaderLocationCache.find(uniformName) == m_ShaderLocationCache.end()) {
-				GLint location = glGetUniformLocation(m_ProgramId, uniformName.c_str());
+				GLint location = glGetUniformLocation(m_ProgramID, uniformName.c_str());
 				m_ShaderLocationCache[uniformName] = location;
 				return location;
 			}
@@ -144,11 +144,11 @@ namespace Hart {
 			glCompileShader(fragmentId);
 			checkCompileErrors(fragmentId, ShaderType::FragmentShader);
 
-			m_ProgramId = glCreateProgram();
-			glAttachShader(m_ProgramId, vertexId);
-			glAttachShader(m_ProgramId, fragmentId);
-			glLinkProgram(m_ProgramId);
-			checkCompileErrors(m_ProgramId, ShaderType::Program);
+			m_ProgramID = glCreateProgram();
+			glAttachShader(m_ProgramID, vertexId);
+			glAttachShader(m_ProgramID, fragmentId);
+			glLinkProgram(m_ProgramID);
+			checkCompileErrors(m_ProgramID, ShaderType::Program);
 
 			glDeleteShader(vertexId);
 			glDeleteShader(fragmentId);
