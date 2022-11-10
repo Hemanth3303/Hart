@@ -34,17 +34,17 @@ project "Sandbox"
 
 	links { "Hart-Engine" }
 
-	filter "configurations:Debug"
+	filter "configurations:Debug*"
 		runtime "Debug"
 		symbols "On"
 		kind "ConsoleApp"
 
-	filter "configurations:Release"
+	filter "configurations:Release*"
 		runtime "Release"
 		optimize "On"
 		kind "ConsoleApp"
 
-	filter "configurations:Dist"
+	filter "configurations:Dist*"
 		runtime "Release"
 		optimize "On"
 		kind "WindowedApp"
