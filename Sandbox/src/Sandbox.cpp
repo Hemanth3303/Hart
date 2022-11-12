@@ -4,10 +4,14 @@
 
 #include "Hart.hpp"
 
+using namespace Hart;
+using namespace Hart::Utils;
+
 class Sandbox : public Hart::Application {
 public:
 	Sandbox() {
-
+		std::cout << FileManager::ReadFromFile("./src/Sandbox.cpp");
+		FileManager::WriteToFile("TESTING", "TEST_LOG.txt", "./logs");
 	}
 
 	~Sandbox() {
@@ -15,7 +19,7 @@ public:
 	}
 
 	void update() override {
-
+		
 	}
 
 	void render() override {
