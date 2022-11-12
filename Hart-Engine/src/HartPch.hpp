@@ -11,6 +11,7 @@
 #include <chrono>
 #include <ctime>
 
+
 //windows specific
 #if defined(HART_WINDOWS)
 #include <Windows.h>
@@ -19,5 +20,5 @@
 #endif // Platform check
 
 
-
 //from engine
+#include "Core/Assert.hpp"

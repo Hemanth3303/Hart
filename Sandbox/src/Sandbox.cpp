@@ -1,3 +1,7 @@
+/*
+* A Game/App made using Hart-Engine, currently used for testing purposes
+*/
+
 #include "Hart.hpp"
 
 class Sandbox : public Hart::Application {
