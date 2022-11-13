@@ -7,9 +7,6 @@
 class Sandbox : public Hart::Application {
 public:
 	Sandbox() {
-		using namespace Hart;
-		using namespace Hart::Utils;
-
 		HART_ENGINE_TRACE("HTrace");
 		HART_ENGINE_INFO("HInfo");
 		HART_ENGINE_WARNING("HWarning");
