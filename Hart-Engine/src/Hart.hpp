@@ -4,6 +4,8 @@
 
 #include "Core/HartApplication.hpp"
 
+#include "Maths/MathConstants.hpp"
+
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Random.hpp"
