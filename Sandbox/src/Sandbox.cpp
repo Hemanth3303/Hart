@@ -12,7 +12,7 @@ public:
 		using namespace Hart::Maths;
 
 		HART_CLIENT_INFO(E);
-		HART_CLIENT_INFO(PI);
+		HART_CLIENT_INFO(E);
 
 	}
 
