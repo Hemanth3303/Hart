@@ -9,8 +9,10 @@ public:
 	Sandbox() {
 		using namespace Hart;
 		using namespace Hart::Utils;
+		using namespace Hart::Maths;
 
-
+		HART_CLIENT_INFO(E);
+		HART_CLIENT_INFO(PI);
 
 	}
 

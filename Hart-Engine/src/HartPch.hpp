@@ -15,6 +15,7 @@
 #include <ctime>
 #include <random>
 #include <numbers>
+#include <cmath>
 
 //from engine
 #include "Core/Assert.hpp"
