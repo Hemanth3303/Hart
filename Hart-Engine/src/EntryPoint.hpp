@@ -1,3 +1,7 @@
+/*
+* Entry point of any Hart Application
+*/
+
 #pragma once
 
 #include "Core/HartApplication.hpp"

@@ -1,3 +1,7 @@
+/*
+* Utility class used by the Logger to help log all primitive data types and std::string
+*/
+
 #pragma once
 
 #include "HartPch.hpp"

@@ -1,3 +1,8 @@
+/*
+* Logging functions with differnt severity levels and colored output
+* Prefer to use the macros over the class functions
+*/
+
 #pragma once
 
 #include "HartPch.hpp"
