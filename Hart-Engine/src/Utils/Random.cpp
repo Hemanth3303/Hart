@@ -28,7 +28,7 @@ namespace Hart {
 			return static_cast<float>(distribution(*(m_MT19937.get())));
 		}
 
-		float Random::getRandomDouble(double begin, double end) {
+		double Random::getRandomDouble(double begin, double end) {
 			std::uniform_real_distribution<double> distribution(begin, end);
 			return distribution(*(m_MT19937.get()));
 		}
