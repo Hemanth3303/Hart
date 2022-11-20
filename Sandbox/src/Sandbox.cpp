@@ -8,11 +8,10 @@ class Sandbox : public Hart::Application {
 public:
 	Sandbox() {
 		using namespace Hart;
-		using namespace Hart::Utils;
 		using namespace Hart::Maths;
+		using namespace Hart::Utils;
 
-		HART_CLIENT_INFO(E);
-		HART_CLIENT_INFO(E);
+		std::cout << power(2, .5) << "\n";
 
 	}
 
@@ -21,7 +20,7 @@ public:
 	}
 
 	void update() override {
-		
+
 	}
 
 	void render() override {
