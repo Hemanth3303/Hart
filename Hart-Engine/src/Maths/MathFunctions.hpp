@@ -12,7 +12,7 @@ namespace Hart {
 		// angle unit conversions
 
 		inline double degreeToRadians(double degree) { return (degree * Hart::Maths::PI / 180.0); }
-		inline double radianToDegress(double radian) { return (radian * 180.0 / Hart::Maths::PI); }
+		inline double radianToDegrees(double radian) { return (radian * 180.0 / Hart::Maths::PI); }
 
 		// trignometric functions taking angles as radians
 
@@ -42,12 +42,12 @@ namespace Hart {
 
 		// inverse trignometric returning angles as degrees
 
-		inline double arcSinD(double value) { return radianToDegress(std::asin(value)); }
-		inline double arcCosD(double value) { return radianToDegress(std::acos(value)); }
-		inline double arcTanD(double value) { return radianToDegress(std::atan(value)); }
-		inline double arcTan2D(double valueY, double valueX) { return radianToDegress(std::atan2(valueY, valueX)); }
-		inline double arcSecD(double value) { return radianToDegress(std::acos(1 / value)); }
-		inline double arcCosecD(double value) { return radianToDegress(std::asin(1 / value)); }
+		inline double arcSinD(double value) { return radianToDegrees(std::asin(value)); }
+		inline double arcCosD(double value) { return radianToDegrees(std::acos(value)); }
+		inline double arcTanD(double value) { return radianToDegrees(std::atan(value)); }
+		inline double arcTan2D(double valueY, double valueX) { return radianToDegrees(std::atan2(valueY, valueX)); }
+		inline double arcSecD(double value) { return radianToDegrees(std::acos(1 / value)); }
+		inline double arcCosecD(double value) { return radianToDegrees(std::asin(1 / value)); }
 
 		//other utility functions
 
