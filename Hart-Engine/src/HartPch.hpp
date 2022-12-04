@@ -14,6 +14,7 @@
 #include <chrono>
 #include <ctime>
 #include <random>
+#include <climits>
 #include <numbers>
 #include <cmath>
 
