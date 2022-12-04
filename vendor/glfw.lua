@@ -58,7 +58,8 @@ project "glfw"
 		}
 
 		defines {
-			"_GLFW_X11"
+			"_GLFW_X11",
+			"_POSIX_C_SOURCE=199309L"
 		}
 
 	filter "system:windows"

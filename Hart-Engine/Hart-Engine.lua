@@ -6,9 +6,9 @@ project "Hart-Engine"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
 	staticruntime "Off"
+	kind "StaticLib"
 	systemversion "latest"
 	targetname "%{prj.name}"
-	kind "StaticLib"
 
 	defines {
 		"HART_ENGINE",
