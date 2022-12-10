@@ -11,13 +11,39 @@ namespace Hart {
 	namespace Maths {
 		struct Vec2 {
 		public:
-			double x, y;
+			float x, y;
 		public:
 			// initializes x and y components to 0
 			Vec2();
 			// initializes x and y components to value
-			Vec2(double value);
-			Vec2(double p_x, double p_y);
+			Vec2(float value);
+			Vec2(float p_x, float p_y);
+
+			// converts the vector to its normalized form
+			Vec2 normalize();
+			float getMagnitude();
+			void scalarMultiply(float value);
+
+			static Vec2 add(const Vec2& left, const Vec2& right);
+			static Vec2 subtract(const Vec2& left, const Vec2& right);
+			static Vec2 scalarMultiply(const Vec2& vec, float k);
+
+			static float dotProduct(const Vec2& left, const Vec2& right);
+			// returns the normal of given vector without affecting the original vector
+			static Vec2 getNormal(const Vec2& vec);
+			// returns the angle between two vectors in radians
+			static float getAngleRBetween(const Vec2& left, const Vec2& right);
+			// returns the angle between two vectors in degrees
+			static float getAngleDBetween(const Vec2& left, const Vec2& right);
+			static float getMagnitude(const Vec2& vec);
+
+			friend std::ostream& operator<<(std::ostream&, Vec2 vec);
+
+			const std::string toString() const;
+
+		private:
+			void initialize(float p_x, float p_y);
 		};
+		std::ostream& operator<<(std::ostream& stream, Vec2 vec);
 	}
 }

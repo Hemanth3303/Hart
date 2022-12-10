@@ -6,6 +6,7 @@
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
+#include "Maths/Vec2.hpp"
 
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

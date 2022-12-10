@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Loggable.hpp"
+#include "Maths/Vec2.hpp"
 
 namespace Hart {
 	namespace Utils {
@@ -49,6 +50,10 @@ namespace Hart {
 
 		Loggable::Loggable(const std::string& value) {
 			m_Data = value;
+		}
+
+		Loggable::Loggable(const Maths::Vec2& vec) {
+			m_Data = vec.toString();
 		}
 
 		Loggable::~Loggable() {

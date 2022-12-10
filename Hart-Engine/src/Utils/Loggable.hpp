@@ -7,6 +7,11 @@
 #include "HartPch.hpp"
 
 namespace Hart {
+
+	namespace Maths {
+		struct Vec2;
+	}
+
 	namespace Utils {
 		class Loggable {
 		public:
@@ -25,6 +30,8 @@ namespace Hart {
 
 			Loggable(const char* value);
 			Loggable(const std::string& value);
+
+			Loggable(const Maths::Vec2& vec);
 
 			~Loggable();
 

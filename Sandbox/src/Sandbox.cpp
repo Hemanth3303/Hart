@@ -10,8 +10,12 @@ public:
 		using namespace Hart;
 		using namespace Hart::Maths;
 		using namespace Hart::Utils;
+		
+		Vec2 a(9, 0);
+		Vec2 b(0, 9);
 
-		std::cout << power(2, .5) << "\n";
+		HART_CLIENT_INFO(a);
+		HART_CLIENT_INFO(Vec2::getAngleDBetween(a.normalize(), b.normalize()));
 
 	}
 
