@@ -48,6 +48,14 @@ namespace Hart {
 			return ((left.x * right.x) + (left.y * right.y) + (left.z * right.z));
 		}
 
+		Vec3 Vec3::crossProduct(const Vec3& left, const Vec3& right) {
+			return Vec3(
+				(left.y * right.z) - (right.y * left.z),
+				(left.x * right.z) - (right.x * left.z),
+				(left.x * right.y) - (right.x * left.y)
+			);
+		}
+
 		Vec3 Vec3::getNormal(const Vec3& vec) {
 			float magnitude = getMagnitude(vec);
 			return Vec3(vec.x/magnitude, vec.y/magnitude, vec.z / magnitude);

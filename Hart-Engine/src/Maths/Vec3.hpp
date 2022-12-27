@@ -33,6 +33,7 @@ namespace Hart {
 			static Vec3 scalarMultiply(const Vec3& vec, float k);
 
 			static float dotProduct(const Vec3& left, const Vec3& right);
+			static Vec3 crossProduct(const Vec3& left, const Vec3& right);
 			// returns the normal of given vector without affecting the original vector
 			static Vec3 getNormal(const Vec3& vec);
 			// returns the angle between two vectors in radians
