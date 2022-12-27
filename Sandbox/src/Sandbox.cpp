@@ -11,11 +11,12 @@ public:
 		using namespace Hart::Maths;
 		using namespace Hart::Utils;
 		
-		Vec2 a(9, 0);
-		Vec2 b(0, 9);
+		Vec4 a(9, 0, 9, 0);
+		Vec4 b(0, 9, 3, 6);
 
 		HART_CLIENT_INFO(a);
-		HART_CLIENT_INFO(Vec2::getAngleDBetween(a.normalize(), b.normalize()));
+		HART_CLIENT_INFO(b);
+		HART_CLIENT_INFO(Vec4::getAngleDBetween(a.normalize(), b.normalize()));
 
 	}
 

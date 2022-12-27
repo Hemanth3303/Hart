@@ -64,7 +64,7 @@ namespace Hart {
 		}
 		
 		const std::string Vec2::toString() const {
-			return std::string("Vec2(" + std::to_string(x) + ", " + std::to_string(x) + ")");
+			return std::string("Vec2(" + std::to_string(x) + ", " + std::to_string(y) + ")");
 		}
 
 		// private
