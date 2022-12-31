@@ -2,6 +2,7 @@
 
 //from the standard library
 #include <iostream>
+#include <cstring>
 #include <string>
 #include <memory>
 #include <array>
