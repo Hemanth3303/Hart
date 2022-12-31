@@ -3,6 +3,7 @@
 #include "Maths/Vec2.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
+#include "Maths/Mat4.hpp"
 
 namespace Hart {
 	namespace Utils {
@@ -64,6 +65,10 @@ namespace Hart {
 
 		Loggable::Loggable(const Maths::Vec4& vec) {
 			m_Data = vec.toString();
+		}
+
+		Loggable::Loggable(const Maths::Mat4& matrix) {
+			m_Data = matrix.toString();
 		}
 
 		Loggable::~Loggable() {

@@ -12,6 +12,7 @@ namespace Hart {
 		struct Vec2;
 		struct Vec3;
 		struct Vec4;
+		struct Mat4;
 	}
 
 	namespace Utils {
@@ -36,6 +37,8 @@ namespace Hart {
 			Loggable(const Maths::Vec2& vec);
 			Loggable(const Maths::Vec3& vec);
 			Loggable(const Maths::Vec4& vec);
+
+			Loggable(const Maths::Mat4& matrix);
 
 			~Loggable();
 

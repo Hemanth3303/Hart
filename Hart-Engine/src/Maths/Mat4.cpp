@@ -36,6 +36,19 @@ namespace Hart {
 			return Mat4(1.0f);
 		}
 
+		std::string Mat4::toString() const {
+			std::string out = "Mat4(\n";
+			for (int32_t i = 0; i < 4; i++) {
+				out += "[ ";
+				for (int32_t j = 0; j < 4; j++) {
+					out += std::to_string(elements[i + j * 4]) + ", ";
+				}
+				out += "]\n";
+			}
+			out += ")\n";
+			return out;
+		}
+
 		Mat4& Mat4::multiply(const Mat4& other) {
 			float data[4 * 4];
 			for (int32_t y = 0; y < 4; y++) {
@@ -85,24 +98,86 @@ namespace Hart {
 			return left.multiply(right);
 		}
 
-		Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float, float) {
-			return Mat4();
+		Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float near, float far) {
+			Mat4 result(1.0f);
+
+			result.elements[0 + 0 * 4] = 2.0f / (right - left);
+			result.elements[1 + 1 * 4] = 2.0f / (top - bottom);
+			result.elements[2 + 2 * 4] = 2.0f / (near - far);
+
+			result.elements[0 + 3 * 4] = (left + right) / (left - right);
+			result.elements[1 + 3 * 4] = (bottom + top) / (bottom - top);
+			result.elements[2 + 3 * 4] = (far + near) / (far - near);
+
+			return result;
 		}
 
-		Mat4 Mat4::perspective(float fov, float aspectRatio, float, float) {
-			return Mat4();
+		Mat4 Mat4::perspective(float fovD, float aspectRatio, float near, float far) {
+			Mat4 result(1.0f);
+
+			float q = 1.0f / tanD(0.5f * fovD);
+			float a = q / aspectRatio;
+			float b = (near + far) / (near - far);
+			float c = (2.0f * near * far) / (near - far);
+
+			result.elements[0 + 0 * 4] = a;
+			result.elements[1 + 1 * 4] = q;
+			result.elements[2 + 2 * 4] = b;
+			result.elements[3 + 2 * 4] = -1.0f;
+			result.elements[2 + 3 * 4] = c;
+
+			return result;
 		}
 
 		Mat4 Mat4::translate(const Vec3& translationVector) {
-			return Mat4();
+			Mat4 result(1.0f);
+
+			result.elements[0 + 3 * 4] = translationVector.x;
+			result.elements[1 + 3 * 4] = translationVector.y;
+			result.elements[2 + 3 * 4] = translationVector.z;
+
+			return result;
 		}
 
 		Mat4 Mat4::rotate(float angleD, const Vec3& axisVector) {
-			return Mat4();
+			Mat4 result(1.0f);
+
+			float cosX = cosD(angleD);
+			float sinX = sinD(angleD);
+			float oneMinusCosX = 1.0f - cosX;
+
+			float x = axisVector.x;
+			float y = axisVector.y;
+			float z = axisVector.z;
+
+			result.elements[0 + 0 * 4] = x * oneMinusCosX + cosX;
+			result.elements[1 + 0 * 4] = y * x * oneMinusCosX + z * sinX;
+			result.elements[2 + 0 * 4] = x * z * oneMinusCosX - y * sinX;
+
+			result.elements[0 + 1 * 4] = x * y * oneMinusCosX - z * sinX;
+			result.elements[1 + 1 * 4] = y * oneMinusCosX + cosX;
+			result.elements[2 + 1 * 4] = y * z * oneMinusCosX + x * sinX;
+
+			result.elements[0 + 2 * 4] = x * z * oneMinusCosX + y * sinX;
+			result.elements[1 + 2 * 4] = y * z * oneMinusCosX - x * sinX;
+			result.elements[2 + 2 * 4] = z * oneMinusCosX + cosX;
+
+			return result;
 		}
 
 		Mat4 Mat4::scale(const Vec3& scaleVector) {
-			return Mat4();
+			Mat4 result(1.0f);
+
+			result.elements[0 + 0 * 4] = scaleVector.x;
+			result.elements[1 + 1 * 4] = scaleVector.y;
+			result.elements[2 + 2 * 4] = scaleVector.z;
+
+			return result;
+		}
+
+		std::ostream& operator<<(std::ostream& stream, const Mat4& matrix) {
+			stream << matrix.toString();
+			return stream;
 		}
 	}
 }
