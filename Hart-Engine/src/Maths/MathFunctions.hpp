@@ -55,6 +55,6 @@ namespace Hart {
 		inline double logBaseTen(double value) { return std::log10(value); }
 		inline double logBaseTwo(double value) { return std::log2(value); }
 		inline double power(double value, double exponent) { return std::pow(value, exponent); }
-
+		inline double square_root(double value) { return std::sqrt(value); }
 	}
 }

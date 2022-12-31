@@ -11,7 +11,11 @@ public:
 		using namespace Hart::Maths;
 		using namespace Hart::Utils;
 
-		std::cout << power(2, .5) << "\n";
+		Mat4 ortho = Mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, 0.1f, 10.0f);
+		Mat4 persp = Mat4::perspective(45, 16.0f / 9.0f, 0.1f, 10.0f);
+
+		std::cout << "\nOrthographic projection matrix: \n" << ortho;
+		std::cout << "\nPerspective projection matrix: \n" << persp;
 
 	}
 
