@@ -12,4 +12,6 @@ int main(int argc, char** argv) {
 	Hart::Application* app = Hart::CreateApplication();
 	app->run();
 	delete app;
+
+	return 0;
 }

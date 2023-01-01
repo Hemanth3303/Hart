@@ -1,6 +1,6 @@
 #pragma once
 
-//from the standard library
+// from the standard library
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -19,7 +19,7 @@
 #include <numbers>
 #include <cmath>
 
-//from engine
+// from engine
 #include "Core/Assert.hpp"
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

@@ -3,6 +3,8 @@
 #include "EntryPoint.hpp"
 
 #include "Core/HartApplication.hpp"
+#include "Core/Assert.hpp"
+#include "Core/Window.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
