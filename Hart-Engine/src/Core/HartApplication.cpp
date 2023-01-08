@@ -34,12 +34,12 @@ namespace Hart {
 
 	void Application::init() {
 		m_Window = std::make_unique<Window>(m_Configs.winWidth, m_Configs.winHeight, m_Configs.title, m_Configs.resiable);
-		m_Window->init();
 		m_IsRunning = true;
 	}
 
 	void Application::deinit() {
-		//m_Window.reset();
+		// i just want to see the "shutting down hart engine" message at last o_o
+		m_Window.reset();
 	}
 
 	void Application::handleEvents() {

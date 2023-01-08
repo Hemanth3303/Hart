@@ -1,3 +1,8 @@
+/*
+* Base class representing an application/game made using Hart.
+* The user must extend from this class and override some methods to make an app/game
+*/
+
 #pragma once
 
 #include "HartPch.hpp"
@@ -18,7 +23,9 @@ namespace Hart {
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
 	protected:
+		//must be overriden by user
 		virtual void update() = 0;
+		//must be overriden by user
 		virtual void render() = 0;
 	private:
 		void init();

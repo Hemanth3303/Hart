@@ -23,6 +23,8 @@ namespace Hart {
 		inline GLFWwindow*& getGLFWwindow() { return m_Window; }
 
 		friend void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);
+	public:
+		static Window* INSTANCE;
 	private:
 		int32_t m_Width, m_Height;
 		std::string m_Title;

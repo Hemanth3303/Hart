@@ -2,9 +2,15 @@
 #include "Window.hpp"
 
 namespace Hart {
+
+	Window* Window::INSTANCE;
+
 	Window::Window(int32_t width, int32_t height, const std::string& title, bool resizable)
 		:m_Width(width), m_Height(height), m_Title(title), m_Resizable(resizable) {
+		init();
 
+		HART_ASSERT_NOT_EQUAL(m_Window, nullptr);
+		INSTANCE = this;
 	}
 
 	Window::~Window() {
