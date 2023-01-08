@@ -60,11 +60,19 @@ project "Hart-Engine"
 
 	filter "system:windows"
 		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
-		defines { "HART_WINDOWS", "NOMINMAX", "WIN32_LEAN_AND_MEAN" }
+		defines { 
+			"HART_WINDOWS", 
+			"NOMINMAX", 
+			"WIN32_LEAN_AND_MEAN",
+		}
 
 	filter "system:linux"
 		links { "pthread", "GL", "m", "dl", "rt", "X11" }
 		defines "HART_LINUX"
 
 	filter { "system:windows", "action:vs*" }
-		defines { "_CRT_SECURE_NO_WARNINGS" }
+		defines { 
+			"STRICT",
+			"_CRT_SECURE_NO_WARNINGS",
+			"WIN32_LEAN_AND_MEAN",
+		}
