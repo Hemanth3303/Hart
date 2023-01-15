@@ -46,6 +46,9 @@ namespace Hart {
 		if (glfwWindowShouldClose(m_Window->getGLFWwindow())) {
 			m_IsRunning = false;
 		}
+		if (Keyboard::isKeyDown(m_ExitKey)) {
+			m_IsRunning = false;
+		}
 		glfwPollEvents();
 	}
 }

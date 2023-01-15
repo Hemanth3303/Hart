@@ -5,6 +5,7 @@
 #include "Core/HartApplication.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
+#include "Core/InputManager.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

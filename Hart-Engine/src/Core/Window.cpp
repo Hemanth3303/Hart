@@ -36,6 +36,7 @@ namespace Hart {
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, static_cast<void*>(this));
 		glfwSetFramebufferSizeCallback(m_Window, framebufferSizeCallback);
+		glfwSetCursorPosCallback(m_Window, cursorPositionCallback);
 
 		success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HART_ASSERT_NOT_EQUAL(success, -1);
@@ -45,10 +46,20 @@ namespace Hart {
 		glViewport(0, 0, m_Width, m_Height);
 	}
 
+	void Window::setMousePosition(const Maths::Vec2& position) const {
+		glfwSetCursorPos(m_Window, static_cast<double>(position.x), static_cast<double>(position.y));
+	}
+
 	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 		engineWindow->m_Width = width;
 		engineWindow->m_Height = height;
 		glViewport(0, 0, engineWindow->m_Width, engineWindow->m_Height);
+	}
+
+	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos) {
+		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+		engineWindow->m_MousePos.x = static_cast<float>(xpos);
+		engineWindow->m_MousePos.y = static_cast<float>(ypos);
 	}
 }

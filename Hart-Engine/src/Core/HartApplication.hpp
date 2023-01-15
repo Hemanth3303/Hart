@@ -8,6 +8,8 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
 #include "WindowConfigs.hpp"
+#include "InputManager.hpp"
+#include "Maths/Vec2.hpp"
 
 namespace Hart {
 	class Application {
@@ -22,6 +24,10 @@ namespace Hart {
 
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
+		inline const Maths::Vec2& getMousePositon() const { return m_Window->getMousePosition(); }
+		inline void setMousePosition(const Maths::Vec2& position) const { m_Window->setMousePosition(position); }
+		// Application closes if this key is pressed
+		inline void setExitKey(Keyboard::Key key) { m_ExitKey = key; }
 	protected:
 		//must be overriden by user
 		virtual void update() = 0;
@@ -35,6 +41,7 @@ namespace Hart {
 		std::unique_ptr<Window> m_Window;
 		WindowConfigs m_Configs;
 		bool m_IsRunning = false;
+		Keyboard::Key m_ExitKey = Keyboard::Key::Unknown;
 	};
 
 	Application* CreateApplication();
