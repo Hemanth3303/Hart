@@ -26,6 +26,12 @@ namespace Hart {
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline const Maths::Vec2& getMousePositon() const { return m_Window->getMousePosition(); }
 		inline void setMousePosition(const Maths::Vec2& position) const { m_Window->setMousePosition(position); }
+		// sets the preffered frames per second
+		inline void setTargetFPS(uint32_t targetFPS) { m_TargetFPS = targetFPS; }
+		// sets the preffered updates per second
+		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
+		inline uint32_t getCurrentFPS() { return m_CurrentFPS; }
+		inline uint32_t getCurrentUPS() { return m_CurrentUPS; }
 		// Application closes if this key is pressed
 		inline void setExitKey(Keyboard::Key key) { m_ExitKey = key; }
 	protected:
@@ -41,6 +47,8 @@ namespace Hart {
 		std::unique_ptr<Window> m_Window;
 		WindowConfigs m_Configs;
 		bool m_IsRunning = false;
+		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
+		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
 		Keyboard::Key m_ExitKey = Keyboard::Key::Unknown;
 	};
 

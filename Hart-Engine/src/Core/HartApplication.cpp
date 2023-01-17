@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "HartApplication.hpp"
+#include "Utils/Timer.hpp"
 
 namespace Hart {
 	Application::Application() {
@@ -13,14 +14,51 @@ namespace Hart {
 	void Application::run() {
 		init();
 		HART_ENGINE_INFO("Entering main engine loop");
+
+		double timePerFrame = 1000000000 / m_TargetFPS;
+		double timePerUpdate = 1000000000 / m_TargetUPS;
+
+		double previousTime = Utils::Timer::getTimeInNanoSeconds();
+
+		int32_t updates = 0;
+		int32_t frames = 0;
+		double lastCheck = Utils::Timer::getTimeInMilliSeconds();
+
+		double deltaUPS = 0;
+		double deltaFPS = 0;
+
 		while (m_IsRunning) {
-			handleEvents();
 
-			update();
+			double currentTime = Utils::Timer::getTimeInNanoSeconds();
+			deltaUPS += (currentTime - previousTime) / timePerUpdate;
+			deltaFPS += (currentTime - previousTime) / timePerFrame;
+			previousTime = currentTime;
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			render();
-			glfwSwapBuffers(m_Window->getGLFWwindow());
+			// update loop
+			if (deltaUPS >= 1) {
+				handleEvents();
+				update();
+				updates++;
+				deltaUPS--;
+			}
+
+			// render loop
+			if (deltaFPS >= 1) {
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				render();
+				glfwSwapBuffers(m_Window->getGLFWwindow());
+				frames++;
+				deltaFPS--;
+			}
+
+			if (Utils::Timer::getTimeInMilliSeconds() - lastCheck >= 1000) {
+				lastCheck = Utils::Timer::getTimeInMilliSeconds();
+				m_CurrentFPS = frames;
+				m_CurrentUPS = updates;
+				frames = 0;
+				updates = 0;
+			}
+			
 		}
 		deinit();
 	}

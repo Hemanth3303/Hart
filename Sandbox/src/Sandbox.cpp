@@ -13,22 +13,9 @@ public:
 	Sandbox() {
 		setWindowConfigs(960, 540, "Hart Engine: Sandbox", true);
 		setExitKey(Keyboard::Key::Escape);
-		
-		Vec3 x(1, 2, -4);
-		Vec3 y(2, -6, 2);
-		Vec3 z(-3, 4, 7);
 
-		x += y;
-
-		z -= y;
-
-		y += y;
-
-		HART_CLIENT_INFO(x);
-		HART_CLIENT_INFO(y);
-		HART_CLIENT_INFO(z);
-
-
+		setTargetFPS(120);
+		setTargetUPS(120);
 	}
 
 	~Sandbox() {
@@ -36,11 +23,11 @@ public:
 	}
 
 	void update() override {
-
+		HART_CLIENT_INFO("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 	}
 
 	void render() override {
-
+		
 	}
 };
 

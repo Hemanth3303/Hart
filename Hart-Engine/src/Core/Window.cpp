@@ -27,6 +27,7 @@ namespace Hart {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_RESIZABLE, m_Resizable);
+		glfwSwapInterval(0);
 		HART_ENGINE_INFO("GLFW initialized successfully");
 
 		HART_ENGINE_INFO("Initializing Window");
