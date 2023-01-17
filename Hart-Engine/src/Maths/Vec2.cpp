@@ -40,6 +40,28 @@ namespace Hart {
 			return Vec2(vec.x * k, vec.y * k);
 		}
 
+        Vec2& Vec2::add(const Vec2& other) {
+			x += other.x;
+			y += other.y;
+
+			return *this;
+        }
+
+        Vec2& Vec2::subtract(const Vec2& other) {
+			x -= other.x;
+			y -= other.y;
+
+			return *this;
+        }
+
+		Vec2& Vec2::operator+=(const Vec2& other) {
+			return this->add(other);
+		}
+
+		Vec2& Vec2::operator-=(const Vec2& other) {
+			return this->subtract(other);
+		}
+
 		float Vec2::dotProduct(const Vec2& left, const Vec2& right) {
 			return ((left.x * right.x) + (left.y * right.y));
 		}
@@ -71,6 +93,14 @@ namespace Hart {
 		void Vec2::initialize(float p_x, float p_y) {
 			x = p_x;
 			y = p_y;
+		}
+
+		Vec2 operator+(const Vec2& left, const Vec2& right) {
+			return Vec2::add(left, right);
+		}
+
+		Vec2 operator-(const Vec2& left, const Vec2& right) {
+			return Vec2::subtract(left, right);
 		}
 
 		std::ostream& operator<<(std::ostream& stream, Vec2 vec) {

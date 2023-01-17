@@ -22,11 +22,23 @@ namespace Hart {
 			// converts the vector to its normalized form
 			Vec2 normalize();
 			float getMagnitude();
+			// multiplies scalar to current vector
 			void scalarMultiply(float value);
 
 			static Vec2 add(const Vec2& left, const Vec2& right);
 			static Vec2 subtract(const Vec2& left, const Vec2& right);
 			static Vec2 scalarMultiply(const Vec2& vec, float k);
+
+			// adds value to the current vector
+			Vec2& add(const Vec2& other);
+			// subtracts value from the current vector
+			Vec2& subtract(const Vec2& other);
+
+			friend Vec2 operator+(const Vec2& left, const Vec2& right);
+			friend Vec2 operator-(const Vec2& left, const Vec2& right);
+
+			Vec2& operator+=(const Vec2& other);
+			Vec2& operator-=(const Vec2& other);
 
 			static float dotProduct(const Vec2& left, const Vec2& right);
 			// returns the normal of given vector without affecting the original vector
@@ -44,6 +56,8 @@ namespace Hart {
 		private:
 			void initialize(float p_x, float p_y);
 		};
+		Vec2 operator+(const Vec2& left, const Vec2& right);
+		Vec2 operator-(const Vec2& left, const Vec2& right);
 		std::ostream& operator<<(std::ostream& stream, Vec2 vec);
 	}
 }

@@ -44,7 +44,31 @@ namespace Hart {
 			return Vec3(vec.x * k, vec.y * k, vec.z * k);
 		}
 
-		float Vec3::dotProduct(const Vec3& left, const Vec3& right) {
+        Vec3& Vec3::add(const Vec3& other) {
+			x += other.x;
+			y += other.y;
+			z += other.z;
+
+			return *this;
+        }
+
+        Vec3& Vec3::subtract(const Vec3& other) {
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+
+			return *this;
+        }
+
+        Vec3& Vec3::operator+=(const Vec3& other) {
+			return this->add(other);
+        }
+
+        Vec3& Vec3::operator-=(const Vec3& other) {
+			return this->subtract(other);
+        }
+
+        float Vec3::dotProduct(const Vec3& left, const Vec3& right) {
 			return ((left.x * right.x) + (left.y * right.y) + (left.z * right.z));
 		}
 
@@ -86,7 +110,15 @@ namespace Hart {
 			z = p_z;
 		}
 
-		std::ostream& operator<<(std::ostream& stream, Vec3 vec) {
+        Vec3 operator+(const Vec3& left, const Vec3& right) {
+            return Vec3();
+        }
+
+        Vec3 operator-(const Vec3& left, const Vec3& right) {
+            return Vec3();
+        }
+
+        std::ostream& operator<<(std::ostream& stream, Vec3 vec) {
 			stream << vec.toString();
 			return stream;
 		}
