@@ -15,12 +15,11 @@ namespace Hart {
 	class Application {
 	public:
 		Application();
+		// takes window configurations as arguments
+		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable);
 		virtual ~Application();
 
 		void run();
-		// set the configurations with which the window is created.
-		// has not effect if called outside the constructor of a child class of the application class
-		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);
 
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
@@ -43,6 +42,8 @@ namespace Hart {
 		void init();
 		void deinit();
 		void handleEvents();
+		// set the configurations with which the window is created.
+		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);
 	private:
 		std::unique_ptr<Window> m_Window;
 		WindowConfigs m_Configs;

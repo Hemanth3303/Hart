@@ -10,8 +10,9 @@ using namespace Hart::Utils;
 
 class Sandbox : public Application {
 public:
-	Sandbox() {
-		setWindowConfigs(960, 540, "Hart Engine: Sandbox", true);
+	Sandbox() 
+		: Application(960, 540, "Hart Engine: Sandbox", true) {
+
 		setExitKey(Keyboard::Key::Escape);
 
 		setTargetFPS(120);

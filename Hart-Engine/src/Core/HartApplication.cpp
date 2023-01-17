@@ -5,14 +5,21 @@
 namespace Hart {
 	Application::Application() {
 		HART_ENGINE_INFO("Initializing Hart Engine");
+		init();
+	}
+
+	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
+		HART_ENGINE_INFO("Initializing Hart Engine");
+		setWindowConfigs(windowWidth, windowHeight, windowTitle, isWindowResizable);
+		init();
 	}
 
 	Application::~Application() {
+		deinit();
 		HART_ENGINE_INFO("Shutting down Hart Engine");
 	}
 
 	void Application::run() {
-		init();
 		HART_ENGINE_INFO("Entering main engine loop");
 
 		double timePerFrame = 1000000000 / m_TargetFPS;
@@ -60,7 +67,6 @@ namespace Hart {
 			}
 			
 		}
-		deinit();
 	}
 
 	void Application::setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable) {
