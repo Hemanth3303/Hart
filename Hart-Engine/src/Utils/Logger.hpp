@@ -58,7 +58,6 @@ namespace Hart {
 	#endif //check OS is not windows
 #endif // HART_ENGINE
 
-
 #if defined(HART_DEBUG) || defined(HART_RELEASE)
 
 	#define HART_ENGINE_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, true);

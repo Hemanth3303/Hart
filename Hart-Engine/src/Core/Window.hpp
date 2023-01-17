@@ -29,7 +29,7 @@ namespace Hart {
 		friend void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 	public:
-		static Window* INSTANCE;
+		static Window* s_Instance;
 	private:
 		int32_t m_Width, m_Height;
 		std::string m_Title;
