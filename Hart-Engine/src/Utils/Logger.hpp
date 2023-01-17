@@ -58,14 +58,18 @@ namespace Hart {
 	#endif //check OS is not windows
 #endif // HART_ENGINE
 
-
 #if defined(HART_DEBUG) || defined(HART_RELEASE)
 
-	#define HART_ENGINE_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, true);
-	#define HART_ENGINE_INFO(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Info, true);
-	#define HART_ENGINE_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, true);
-	#define HART_ENGINE_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, true);
-	#define HART_ENGINE_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, true);
+	#ifdef HART_ENGINE
+		
+		#define HART_ENGINE_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, true);
+		#define HART_ENGINE_INFO(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Info, true);
+		#define HART_ENGINE_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, true);
+		#define HART_ENGINE_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, true);
+		#define HART_ENGINE_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, true);
+
+	#endif // HART_ENGINE
+
 
 	#define HART_CLIENT_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, false);
 	#define HART_CLIENT_INFO(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Info, false);

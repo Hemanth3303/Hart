@@ -115,7 +115,7 @@ namespace Hart {
 		Mat4 Mat4::perspective(float fovD, float aspectRatio, float near, float far) {
 			Mat4 result(1.0f);
 
-			float q = 1.0f / tanD(0.5f * fovD);
+			float q = 1.0f / static_cast<float>(tanD(0.5f * fovD));
 			float a = q / aspectRatio;
 			float b = (near + far) / (near - far);
 			float c = (2.0f * near * far) / (near - far);
@@ -142,8 +142,8 @@ namespace Hart {
 		Mat4 Mat4::rotate(float angleD, const Vec3& axisVector) {
 			Mat4 result(1.0f);
 
-			float cosX = cosD(angleD);
-			float sinX = sinD(angleD);
+			float cosX = static_cast<float>(cosD(angleD));
+			float sinX = static_cast<float>(sinD(angleD));
 			float oneMinusCosX = 1.0f - cosX;
 
 			float x = axisVector.x;

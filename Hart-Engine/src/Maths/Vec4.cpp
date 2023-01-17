@@ -48,7 +48,33 @@ namespace Hart {
 			return Vec4(vec.x * k, vec.y * k, vec.z * k, vec.w * k);
 		}
 
-		float Vec4::dotProduct(const Vec4& left, const Vec4& right) {
+        Vec4& Vec4::add(const Vec4& other) {
+			x += other.x;
+			y += other.y;
+			z += other.z;
+			w += other.w;
+
+			return *this;
+        }
+
+        Vec4& Vec4::subtract(const Vec4& other) {
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+			w -= other.w;
+
+			return *this;
+        }
+
+        Vec4& Vec4::operator+=(const Vec4& other) {
+			return this->add(other);
+        }
+
+        Vec4& Vec4::operator-=(const Vec4& other) {
+			return this->subtract(other);
+        }
+
+        float Vec4::dotProduct(const Vec4& left, const Vec4& right) {
 			return ((left.x * right.x) + (left.y * right.y) + (left.z * right.z) + (left.w * right.w));
 		}
 
@@ -83,7 +109,15 @@ namespace Hart {
 			w = p_w;
 		}
 
-		std::ostream& operator<<(std::ostream& stream, Vec4 vec) {
+        Vec4 operator+(const Vec4& left, const Vec4& right) {
+            return Vec4();
+        }
+
+        Vec4 operator-(const Vec4& left, const Vec4& right) {
+            return Vec4();
+        }
+
+        std::ostream& operator<<(std::ostream& stream, Vec4 vec) {
 			stream << vec.toString();
 			return stream;
 		}

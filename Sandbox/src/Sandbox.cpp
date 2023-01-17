@@ -4,19 +4,19 @@
 
 #include "Hart.hpp"
 
-class Sandbox : public Hart::Application {
+using namespace Hart;
+using namespace Hart::Maths;
+using namespace Hart::Utils;
+
+class Sandbox : public Application {
 public:
-	Sandbox() {
-		using namespace Hart;
-		using namespace Hart::Maths;
-		using namespace Hart::Utils;
+	Sandbox() 
+		: Application(960, 540, "Hart Engine: Sandbox", true) {
 
-		Mat4 ortho = Mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, 0.1f, 10.0f);
-		Mat4 persp = Mat4::perspective(45, 16.0f / 9.0f, 0.1f, 10.0f);
+		setExitKey(Keyboard::Key::Escape);
 
-		std::cout << "\nOrthographic projection matrix: \n" << ortho;
-		std::cout << "\nPerspective projection matrix: \n" << persp;
-
+		setTargetFPS(120);
+		setTargetUPS(120);
 	}
 
 	~Sandbox() {
@@ -24,11 +24,11 @@ public:
 	}
 
 	void update() override {
-
+		HART_CLIENT_INFO("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 	}
 
 	void render() override {
-
+		
 	}
 };
 

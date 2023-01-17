@@ -32,6 +32,17 @@ namespace Hart {
 			static Vec3 subtract(const Vec3& left, const Vec3& right);
 			static Vec3 scalarMultiply(const Vec3& vec, float k);
 
+			// adds value to the current vector
+			Vec3& add(const Vec3& other);
+			// subtracts value from the current vector
+			Vec3& subtract(const Vec3& other);
+
+			friend Vec3 operator+(const Vec3& left, const Vec3& right);
+			friend Vec3 operator-(const Vec3& left, const Vec3& right);
+
+			Vec3& operator+=(const Vec3& other);
+			Vec3& operator-=(const Vec3& other);
+
 			static float dotProduct(const Vec3& left, const Vec3& right);
 			static Vec3 crossProduct(const Vec3& left, const Vec3& right);
 			// returns the normal of given vector without affecting the original vector
@@ -49,6 +60,8 @@ namespace Hart {
 		private:
 			void initialize(float p_x, float p_y, float p_z);
 		};
+		Vec3 operator+(const Vec3& left, const Vec3& right);
+		Vec3 operator-(const Vec3& left, const Vec3& right);
 		std::ostream& operator<<(std::ostream& stream, Vec3 vec);
 	}
 }
