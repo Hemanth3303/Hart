@@ -14,12 +14,10 @@
 #include "Maths/Vec4.hpp"
 #include "Maths/Mat4.hpp"
 
+#include "Events/Event.hpp"
+#include "Events/WindowEvents.hpp"
+
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Random.hpp"
 #include "Utils/Timer.hpp"
-
-#include "Events/Event.hpp"
-#include "Events/WindowResizedEvent.hpp"
-
-#include "EventListeners/EventListener.hpp"
