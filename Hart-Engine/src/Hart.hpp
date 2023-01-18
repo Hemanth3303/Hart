@@ -20,5 +20,6 @@
 #include "Utils/Timer.hpp"
 
 #include "Events/Event.hpp"
+#include "Events/WindowResizedEvent.hpp"
 
 #include "EventListeners/EventListener.hpp"

@@ -17,6 +17,7 @@ public:
 
 		setTargetFPS(120);
 		setTargetUPS(120);
+
 	}
 
 	~Sandbox() {
