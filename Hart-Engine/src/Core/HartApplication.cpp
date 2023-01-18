@@ -77,8 +77,21 @@ namespace Hart {
 	}
 
 	void Application::init() {
+
+		HART_ENGINE_INFO("Initializing GLFW");
+		int32_t success = glfwInit();
+		HART_ASSERT_EQUAL(success, GLFW_TRUE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwSwapInterval(0);
+		HART_ENGINE_INFO("GLFW initialized successfully");
+
 		m_Window = std::make_unique<Window>(m_Configs.winWidth, m_Configs.winHeight, m_Configs.title, m_Configs.resiable);
 		m_IsRunning = true;
+
+		glfwSetFramebufferSizeCallback(m_Window->getGLFWwindow(), framebufferSizeCallback);
+		glfwSetCursorPosCallback(m_Window->getGLFWwindow(), cursorPositionCallback);
 	}
 
 	void Application::deinit() {
@@ -95,4 +108,18 @@ namespace Hart {
 		}
 		glfwPollEvents();
 	}
+
+	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
+		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+		engineWindow->m_Width = width;
+		engineWindow->m_Height = height;
+		glViewport(0, 0, engineWindow->m_Width, engineWindow->m_Height);
+	}
+
+	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos) {
+		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+		engineWindow->m_MousePos.x = static_cast<float>(xpos);
+		engineWindow->m_MousePos.y = static_cast<float>(ypos);
+	}
+
 }

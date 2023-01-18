@@ -37,6 +37,4 @@ namespace Hart {
 		GLFWwindow* m_Window = nullptr;
 		Maths::Vec2 m_MousePos;
 	};
-	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
-	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 }
