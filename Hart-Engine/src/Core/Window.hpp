@@ -6,13 +6,18 @@
 
 #include "HartPch.hpp"
 #include "Maths/Vec2.hpp"
+#include "Events/Event.hpp"
+#include "Events/WindowEvents.hpp"
+#include "Events/KeyEvents.hpp"
+#include "Events/MouseEvents.hpp"
+#include "Events/EventDispatcher.hpp"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "Maths/Vec2.hpp"
 
 namespace Hart {
 	class Window {
+		using EventCallBackFunction = std::function<void(Events::Event&)>;
 	public:
 		Window(int32_t width, int32_t height, const std::string& title, bool resizable = false);
 		~Window();
@@ -23,11 +28,22 @@ namespace Hart {
 		inline const int32_t& getHeight() const { return m_Height; }
 		inline GLFWwindow*& getGLFWwindow() { return m_Window; }
 		inline const Maths::Vec2& getMousePosition() const { return m_MousePos; }
-		
-		void setMousePosition(const Maths::Vec2& position) const;
 
-		friend void framebufferSizeCallback(GLFWwindow* window, int32_t width, int32_t height);
+		// sets the cursor's location to the specified location
+		void setMousePosition(const Maths::Vec2& position) const;
+		
+		void setEventCallback(const EventCallBackFunction callbackFn);
+
+		friend void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
+		friend void windowCloseCallback(GLFWwindow* glfwWindow);
+		friend void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos);
+		friend void windowFocusCallback(GLFWwindow* glfwWindow, int32_t focused);
+		friend void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
+		friend void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods);
+		friend void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
+		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
+		
 	public:
 		static Window* s_Instance;
 	private:
@@ -35,6 +51,17 @@ namespace Hart {
 		std::string m_Title;
 		bool m_Resizable;
 		GLFWwindow* m_Window = nullptr;
+		EventCallBackFunction m_EventCallbackFn;
 		Maths::Vec2 m_MousePos;
 	};
+
+	void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
+	void windowCloseCallback(GLFWwindow* glfwWindow);
+	void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos);
+	void windowFocusCallback(GLFWwindow* glfwWindow, int32_t focused);
+	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
+	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods);
+	void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
+	void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
+	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 }

@@ -19,7 +19,7 @@ public:
 		setTargetFPS(120);
 		setTargetUPS(120);
 
-		
+
 
 	}
 
@@ -28,7 +28,8 @@ public:
 	}
 
 	void update() override {
-		// HART_CLIENT_INFO("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+
 	}
 
 	void render() override {

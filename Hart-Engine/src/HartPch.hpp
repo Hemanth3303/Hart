@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <sstream>
 #include <algorithm>
+#include <functional>
 #include <chrono>
 #include <ctime>
 #include <random>

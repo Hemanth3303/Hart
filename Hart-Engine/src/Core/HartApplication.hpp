@@ -10,6 +10,11 @@
 #include "WindowConfigs.hpp"
 #include "InputManager.hpp"
 #include "Maths/Vec2.hpp"
+#include "Events/Event.hpp"
+#include "Events/WindowEvents.hpp"
+#include "Events/WindowEvents.hpp"
+#include "Events/MouseEvents.hpp"
+#include "Events/EventDispatcher.hpp"
 
 namespace Hart {
 	class Application {
@@ -43,7 +48,9 @@ namespace Hart {
 	private:
 		void init();
 		void deinit();
-		void handleEvents();
+		void onEvent(Events::Event& e);
+		bool onWindowClosed(Events::WindowClosedEvent& e);
+
 		// set the configurations with which the window is created.
 		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);
 	private:
@@ -56,7 +63,4 @@ namespace Hart {
 	};
 
 	Application* CreateApplication();
-
-	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
-	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "HartPch.hpp"
+#include "Events/Event.hpp"
 
 namespace Hart {
 
@@ -39,6 +40,7 @@ namespace Hart {
 			Loggable(const Maths::Vec4& vec);
 
 			Loggable(const Maths::Mat4& matrix);
+			Loggable(const Events::Event& e);
 
 			~Loggable();
 

@@ -4,23 +4,23 @@
 
 namespace Hart {
 	Application::Application() {
-		HART_ENGINE_INFO("Initializing Hart Engine");
+		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
 	}
 
 	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
-		HART_ENGINE_INFO("Initializing Hart Engine");
+		HART_ENGINE_LOG("Initializing Hart Engine");
 		setWindowConfigs(windowWidth, windowHeight, windowTitle, isWindowResizable);
 		init();
 	}
 
 	Application::~Application() {
 		deinit();
-		HART_ENGINE_INFO("Shutting down Hart Engine");
+		HART_ENGINE_LOG("Shutting down Hart Engine");
 	}
 
 	void Application::run() {
-		HART_ENGINE_INFO("Entering main engine loop");
+		HART_ENGINE_LOG("Entering main engine loop");
 
 		double timePerFrame = 1000000000 / m_TargetFPS;
 		double timePerUpdate = 1000000000 / m_TargetUPS;
@@ -43,7 +43,7 @@ namespace Hart {
 
 			// update loop
 			if (deltaUPS >= 1) {
-				handleEvents();
+				glfwPollEvents();
 				update();
 				updates++;
 				deltaUPS--;
@@ -78,20 +78,19 @@ namespace Hart {
 
 	void Application::init() {
 
-		HART_ENGINE_INFO("Initializing GLFW");
+		HART_ENGINE_LOG("Initializing GLFW");
 		int32_t success = glfwInit();
 		HART_ASSERT_EQUAL(success, GLFW_TRUE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwSwapInterval(0);
-		HART_ENGINE_INFO("GLFW initialized successfully");
+		HART_ENGINE_LOG("GLFW initialized successfully");
 
 		m_Window = std::make_unique<Window>(m_Configs.winWidth, m_Configs.winHeight, m_Configs.title, m_Configs.resiable);
 		m_IsRunning = true;
 
-		glfwSetFramebufferSizeCallback(m_Window->getGLFWwindow(), framebufferSizeCallback);
-		glfwSetCursorPosCallback(m_Window->getGLFWwindow(), cursorPositionCallback);
+		m_Window->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
 	}
 
 	void Application::deinit() {
@@ -99,27 +98,16 @@ namespace Hart {
 		m_Window.reset();
 	}
 
-	void Application::handleEvents() {
-		if (glfwWindowShouldClose(m_Window->getGLFWwindow())) {
-			m_IsRunning = false;
-		}
-		if (Keyboard::isKeyDown(m_ExitKey)) {
-			m_IsRunning = false;
-		}
-		glfwPollEvents();
-	}
+	void Application::onEvent(Events::Event& e) {
+		Events::EventDispatcher dispatcher(e);
+		dispatcher.dispatch<Events::WindowClosedEvent>(std::bind(&Application::onWindowClosed, this, std::placeholders::_1));
 
-	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
-		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
-		engineWindow->m_Width = width;
-		engineWindow->m_Height = height;
-		glViewport(0, 0, engineWindow->m_Width, engineWindow->m_Height);
 	}
+	
+	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
+		m_IsRunning = false;
 
-	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos) {
-		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
-		engineWindow->m_MousePos.x = static_cast<float>(xpos);
-		engineWindow->m_MousePos.y = static_cast<float>(ypos);
+		return true;
 	}
-
+	
 }

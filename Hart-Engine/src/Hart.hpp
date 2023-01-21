@@ -6,6 +6,8 @@
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
 #include "Core/InputManager.hpp"
+#include "Core/KeyCodes.hpp"
+#include "Core/MouseCodes.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
@@ -14,8 +16,11 @@
 #include "Maths/Vec4.hpp"
 #include "Maths/Mat4.hpp"
 
+#include "Events/EventCategory.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
+#include "Events/WindowEvents.hpp"
+#include "Events/MouseEvents.hpp"
 
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

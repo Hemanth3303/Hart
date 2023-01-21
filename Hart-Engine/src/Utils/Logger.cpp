@@ -31,7 +31,7 @@ namespace Hart {
 		void Logger::LogMessage(const Loggable& message, const LogSeverity& logSeverity, bool fromEngine) {
 			switch (logSeverity) {
 			case LogSeverity::Trace:
-				SET_TEXT_COLOR(TEXT_GREEN);
+				SET_TEXT_COLOR(TEXT_WHITE);
 				if (fromEngine) {
 					EngineTrace(message);
 				}
@@ -40,13 +40,13 @@ namespace Hart {
 				}
 				SET_TEXT_COLOR(TEXT_WHITE);
 				break;
-			case LogSeverity::Info:
+			case LogSeverity::Log:
 				SET_TEXT_COLOR(TEXT_GREEN);
 				if (fromEngine) {
-					EngineInfo(message);
+					EngineLog(message);
 				}
 				else {
-					ClientInfo(message);
+					ClientLog(message);
 				}
 				SET_TEXT_COLOR(TEXT_WHITE);
 				break;
@@ -93,11 +93,11 @@ namespace Hart {
 		}
 
 		void Logger::EngineTrace(const Loggable& message) {
-			std::cout << GREEN << "HART_ENGINE_TRACE: " << message << WHITE << "\n";
+			std::cout << WHITE << "HART_ENGINE_TRACE: " << message << WHITE << "\n";
 		}
 
-		void Logger::EngineInfo(const Loggable& message) {
-			std::cout << GREEN << "HART_ENGINE_INFO: " << message << WHITE << "\n";
+		void Logger::EngineLog(const Loggable& message) {
+			std::cout << GREEN << "HART_ENGINE_LOG: " << message << WHITE << "\n";
 		}
 
 		void Logger::EngineWarning(const Loggable& message) {
@@ -116,8 +116,8 @@ namespace Hart {
 			std::cout << GREEN << "HART_CLIENT_TRACE: " << message << WHITE << "\n";
 		}
 
-		void Logger::ClientInfo(const Loggable& message) {
-			std::cout << GREEN << "HART_CLIENT_INFO: " << message << WHITE << "\n";
+		void Logger::ClientLog(const Loggable& message) {
+			std::cout << GREEN << "HART_CLIENT_LOG: " << message << WHITE << "\n";
 		}
 
 		void Logger::ClientWarning(const Loggable& message) {
