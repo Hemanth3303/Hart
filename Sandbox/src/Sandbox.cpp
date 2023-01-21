@@ -14,8 +14,6 @@ public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
 
-		setExitKey(Keyboard::Key::Escape);
-
 		setTargetFPS(120);
 		setTargetUPS(120);
 

@@ -8,7 +8,6 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
 #include "WindowConfigs.hpp"
-#include "InputManager.hpp"
 #include "Maths/Vec2.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
@@ -39,7 +38,6 @@ namespace Hart {
 		inline uint32_t getCurrentFPS() { return m_CurrentFPS; }
 		inline uint32_t getCurrentUPS() { return m_CurrentUPS; }
 		// Application closes if this key is pressed
-		inline void setExitKey(Keyboard::Key key) { m_ExitKey = key; }
 	protected:
 		//must be overriden by user
 		virtual void update() = 0;
@@ -59,7 +57,6 @@ namespace Hart {
 		bool m_IsRunning = false;
 		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
-		Keyboard::Key m_ExitKey = Keyboard::Key::Unknown;
 	};
 
 	Application* CreateApplication();
