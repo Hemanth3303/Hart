@@ -13,6 +13,7 @@ namespace Hart {
 
 			}
 
+			// if the event type of the template and m_Event are same, then 'func' gets called
 			template<typename T>
 			bool dispatch(EventFunction<T&> func) {
 				if (m_Event.getEventType() == T::GetStaticType()) {

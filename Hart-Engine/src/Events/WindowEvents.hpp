@@ -1,3 +1,7 @@
+/*
+* WindowResized, windowclosed, windowfocuslost, windowfocusgained, windowmoved
+*/
+
 #pragma once
 
 #include "Event.hpp"

@@ -1,3 +1,7 @@
+/*
+* Mousebuttonpress, mousebuttonreleased, mousemoved, mousewheelscrolled
+*/
+
 #pragma once
 
 #include "Event.hpp"
