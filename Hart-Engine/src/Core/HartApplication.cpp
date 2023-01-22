@@ -99,8 +99,9 @@ namespace Hart {
 	}
 
 	void Application::onEvent(Events::Event& e) {
-		Events::EventDispatcher dispatcher(e);
-		dispatcher.dispatch<Events::WindowClosedEvent>(std::bind(&Application::onWindowClosed, this, std::placeholders::_1));
+
+		Events::EventDispatcher eventDispatcher(e);
+		eventDispatcher.dispatch<Events::WindowClosedEvent>(std::bind(&Application::onWindowClosed, this, std::placeholders::_1));
 
 	}
 	

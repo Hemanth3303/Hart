@@ -76,7 +76,7 @@ namespace Hart {
 	void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		Events::WindowMovedEvent e;
+		Events::WindowMovedEvent e(xpos, ypos);
 		engineWindow->m_EventCallbackFn(e);
 	}
 
@@ -105,9 +105,13 @@ namespace Hart {
 	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
+		static int32_t previousKey = -1, repeatCount = 0;
+
 		switch (action) {
 			case GLFW_PRESS: {
-				Events::KeyPressedEvent e(static_cast<KeyCode>(key), 0);
+				repeatCount = 0;
+				previousKey = key;
+				Events::KeyPressedEvent e(static_cast<KeyCode>(key));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -117,7 +121,14 @@ namespace Hart {
 				break;
 			}
 			case GLFW_REPEAT: {
-				Events::KeyRepeatEvent e(static_cast<KeyCode>(key));
+				if (key == previousKey) {
+					repeatCount++;
+				}
+				else {
+					repeatCount = 0;
+				}
+				previousKey = key;
+				Events::KeyRepeatEvent e(static_cast<KeyCode>(key), repeatCount);
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}

@@ -5,20 +5,20 @@ namespace Hart {
 		enum class EventType {
 			None = -1,
 
-			WindowResized,
-			WindowClosed,
-			WindowMoved,
-			WindowFocusGained,
-			WindowFocusLost,
+			WindowResizedEvent,
+			WindowClosedEvent,
+			WindowMovedEvent,
+			WindowFocusGainedEvent,
+			WindowFocusLostEvent,
 
-			KeyPressed,
-			KeyRepeat,
-			KeyReleased,
+			KeyPressedEvent,
+			KeyRepeatEvent,
+			KeyReleasedEvent,
 
-			MouseButtonPressed,
-			MouseButtonReleased,
-			MouseMoved,
-			MouseWheelScrolled,
+			MouseButtonPressedEvent,
+			MouseButtonReleasedEvent,
+			MouseMovedEvent,
+			MouseWheelScrolledEvent,
 
 		};
 	}

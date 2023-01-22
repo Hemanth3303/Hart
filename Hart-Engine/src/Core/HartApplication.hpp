@@ -14,6 +14,7 @@
 #include "Events/WindowEvents.hpp"
 #include "Events/MouseEvents.hpp"
 #include "Events/EventDispatcher.hpp"
+#include "Events/EventCategory.hpp"
 
 namespace Hart {
 	class Application {

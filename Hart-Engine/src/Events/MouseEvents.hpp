@@ -19,12 +19,12 @@ namespace Hart {
 			float getXPos() const { return m_MouseXPos; }
 			float getYPos() const { return m_MouseYPos; }
 
-			static EventType GetStaticType() { return EventType::MouseMoved; }
+			static EventType GetStaticType() { return EventType::MouseMovedEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
-			virtual std::string_view getName() const override { return "MouseMoved"; }
+			virtual std::string_view getName() const override { return "MouseMovedEvent"; }
 			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 			std::string toString() const override {
-				return "MouseMoved: " + std::to_string(m_MouseXPos) + ", " + std::to_string(m_MouseYPos);
+				return "MouseMovedEvent: " + std::to_string(m_MouseXPos) + ", " + std::to_string(m_MouseYPos);
 			}
 		private:
 			float m_MouseXPos, m_MouseYPos;
@@ -40,12 +40,12 @@ namespace Hart {
 			float getXOffset() const { return m_XOffset; }
 			float getYOffset() const { return m_YOffset; }
 
-			static EventType GetStaticType() { return EventType::MouseWheelScrolled; }
+			static EventType GetStaticType() { return EventType::MouseWheelScrolledEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
-			virtual std::string_view getName() const override { return "MouseWheelScrolled"; }
+			virtual std::string_view getName() const override { return "MouseWheelScrolledEvent"; }
 			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 			std::string toString() const override {
-				return "MouseWheelScrolled: " + std::to_string(m_XOffset) + ", " + std::to_string(m_YOffset);
+				return "MouseWheelScrolledEvent: " + std::to_string(m_XOffset) + ", " + std::to_string(m_YOffset);
 			}
 		private:
 			float m_XOffset, m_YOffset;
@@ -72,11 +72,11 @@ namespace Hart {
 
 			}
 
-			static EventType GetStaticType() { return EventType::MouseButtonPressed; }
+			static EventType GetStaticType() { return EventType::MouseButtonPressedEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
-			virtual std::string_view getName() const override { return "MouseButtonPressed"; }
+			virtual std::string_view getName() const override { return "MouseButtonPressedEvent"; }
 			std::string toString() const override {
-				return "MouseButtonPressed: " + std::to_string(static_cast<int32_t>(m_Button));
+				return "MouseButtonPressedEvent: " + std::to_string(static_cast<int32_t>(m_Button));
 			}
 		};
 
@@ -87,11 +87,11 @@ namespace Hart {
 
 			}
 
-			static EventType GetStaticType() { return EventType::MouseButtonReleased; }
+			static EventType GetStaticType() { return EventType::MouseButtonReleasedEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
-			virtual std::string_view getName() const override { return "MouseButtonReleased"; }
+			virtual std::string_view getName() const override { return "MouseButtonReleasedEvent"; }
 			std::string toString() const override {
-				return "MouseButtonReleased: " + std::to_string(static_cast<int32_t>(m_Button));
+				return "MouseButtonReleasedEvent: " + std::to_string(static_cast<int32_t>(m_Button));
 			}
 		};
 	}
