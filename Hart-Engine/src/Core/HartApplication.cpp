@@ -90,7 +90,7 @@ namespace Hart {
 		m_Window = std::make_unique<Window>(m_Configs.winWidth, m_Configs.winHeight, m_Configs.title, m_Configs.resiable);
 		m_IsRunning = true;
 
-		m_Window->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
+		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::onEvent)));
 	}
 
 	void Application::deinit() {
@@ -101,7 +101,7 @@ namespace Hart {
 	void Application::onEvent(Events::Event& e) {
 
 		Events::EventDispatcher eventDispatcher(e);
-		eventDispatcher.dispatch<Events::WindowClosedEvent>(std::bind(&Application::onWindowClosed, this, std::placeholders::_1));
+		eventDispatcher.dispatch<Events::WindowClosedEvent>(BIND_EVENT_FUNC(Application::onWindowClosed));
 
 	}
 	
