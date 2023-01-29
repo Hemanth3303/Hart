@@ -49,8 +49,8 @@ namespace Hart {
 		std::string m_Title;
 		bool m_Resizable;
 		GLFWwindow* m_Window = nullptr;
-		EventCallBackFunction m_EventCallbackFn;
 		Maths::Vec2 m_MousePos;
+		EventCallBackFunction m_EventCallbackFn;
 	};
 
 	void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);

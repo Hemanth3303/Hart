@@ -48,8 +48,25 @@ namespace Hart {
 	private:
 		void init();
 		void deinit();
+		// Event managers
 		void onEvent(Events::Event& e);
+		// window
+		bool onWindowResized(Events::WindowResizedEvent& e);
 		bool onWindowClosed(Events::WindowClosedEvent& e);
+		bool onWindowMoved(Events::WindowMovedEvent& e);
+		bool onWindowFocusGained(Events::WindowFocusGainedEvent& e);
+		bool onWindowFocusLost(Events::WindowFocusLostEvent& e);
+
+		// keyboard
+		bool onKeyPressed(Events::KeyPressedEvent& e);
+		bool onKeyReleased(Events::KeyReleasedEvent& e);
+		bool onKeyRepeat(Events::KeyRepeatEvent& e);
+
+		// mouse
+		bool onMouseMoved(Events::MouseMovedEvent& e);
+		bool onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e);
+		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
+		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
 
 		// set the configurations with which the window is created.
 		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);

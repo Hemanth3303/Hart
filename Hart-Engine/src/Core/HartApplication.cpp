@@ -107,14 +107,85 @@ namespace Hart {
 	void Application::onEvent(Events::Event& e) {
 
 		Events::EventDispatcher eventDispatcher(e);
+		// window events
+		eventDispatcher.dispatch<Events::WindowResizedEvent>(BIND_EVENT_FUNC(Application::onWindowResized));
 		eventDispatcher.dispatch<Events::WindowClosedEvent>(BIND_EVENT_FUNC(Application::onWindowClosed));
+		eventDispatcher.dispatch<Events::WindowMovedEvent>(BIND_EVENT_FUNC(Application::onWindowMoved));
+		eventDispatcher.dispatch<Events::WindowFocusGainedEvent>(BIND_EVENT_FUNC(Application::onWindowFocusGained));
+		eventDispatcher.dispatch<Events::WindowFocusLostEvent>(BIND_EVENT_FUNC(Application::onWindowFocusLost));
+
+		// key events
+		eventDispatcher.dispatch<Events::KeyPressedEvent>(BIND_EVENT_FUNC(Application::onKeyPressed));
+		eventDispatcher.dispatch<Events::KeyReleasedEvent>(BIND_EVENT_FUNC(Application::onKeyReleased));
+		eventDispatcher.dispatch<Events::KeyRepeatEvent>(BIND_EVENT_FUNC(Application::onKeyRepeat));
+
+		// mouse events
+		eventDispatcher.dispatch<Events::MouseMovedEvent>(BIND_EVENT_FUNC(Application::onMouseMoved));
+		eventDispatcher.dispatch<Events::MouseWheelScrolledEvent>(BIND_EVENT_FUNC(Application::onMouseWheelScrolled));
+		eventDispatcher.dispatch<Events::MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
+		eventDispatcher.dispatch<Events::MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
 
 	}
 	
+	bool Application::onWindowResized(Events::WindowResizedEvent& e) {
+		// TODO
+		return false;
+	}
+
 	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
 		m_IsRunning = false;
 
 		return true;
+	}
+
+	bool Application::onWindowMoved(Events::WindowMovedEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onWindowFocusGained(Events::WindowFocusGainedEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onWindowFocusLost(Events::WindowFocusLostEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onKeyPressed(Events::KeyPressedEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onKeyReleased(Events::KeyReleasedEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onKeyRepeat(Events::KeyRepeatEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onMouseMoved(Events::MouseMovedEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onMouseButtonPressed(Events::MouseButtonPressedEvent& e) {
+		// TODO
+		return false;
+	}
+
+	bool Application::onMouseButtonReleased(Events::MouseButtonReleasedEvent& e) {
+		// TODO
+		return false;
 	}
 	
 }
