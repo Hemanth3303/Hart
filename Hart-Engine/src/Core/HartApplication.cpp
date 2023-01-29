@@ -3,6 +3,9 @@
 #include "Utils/Timer.hpp"
 
 namespace Hart {
+
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application() {
 		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
@@ -77,6 +80,9 @@ namespace Hart {
 	}
 
 	void Application::init() {
+
+		s_Instance = this;
+		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
 
 		HART_ENGINE_LOG("Initializing GLFW");
 		int32_t success = glfwInit();

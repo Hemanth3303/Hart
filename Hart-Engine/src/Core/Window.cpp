@@ -2,14 +2,11 @@
 #include "Window.hpp"
 
 namespace Hart {
-	Window* Window::s_Instance;
-
 	Window::Window(int32_t width, int32_t height, const std::string& title, bool resizable)
 		:m_Width(width), m_Height(height), m_Title(title), m_Resizable(resizable) {
 		init();
 
 		HART_ASSERT_NOT_EQUAL(m_Window, nullptr);
-		s_Instance = this;
 	}
 
 	Window::~Window() {
@@ -76,7 +73,7 @@ namespace Hart {
 	void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		Events::WindowMovedEvent e(xpos, ypos);
+		Events::WindowMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
 		engineWindow->m_EventCallbackFn(e);
 	}
 

@@ -115,7 +115,7 @@ namespace Hart {
 		Mat4 Mat4::perspective(float fovD, float aspectRatio, float near, float far) {
 			Mat4 result(1.0f);
 
-			float q = 1.0f / static_cast<float>(tanD(0.5f * fovD));
+			float q = 1.0f / static_cast<float>(tanD(0.5 * static_cast<double>(fovD)));
 			float a = q / aspectRatio;
 			float b = (near + far) / (near - far);
 			float c = (2.0f * near * far) / (near - far);

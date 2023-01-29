@@ -26,6 +26,8 @@ namespace Hart {
 
 		void run();
 
+		// returns a non ownning reference to the Hart::Window object
+		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline const Maths::Vec2& getMousePositon() const { return m_Window->getMousePosition(); }
@@ -38,7 +40,6 @@ namespace Hart {
 		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
 		inline uint32_t getCurrentFPS() { return m_CurrentFPS; }
 		inline uint32_t getCurrentUPS() { return m_CurrentUPS; }
-		// Application closes if this key is pressed
 	protected:
 		//must be overriden by user
 		virtual void update() = 0;
@@ -52,6 +53,8 @@ namespace Hart {
 
 		// set the configurations with which the window is created.
 		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);
+	public:
+		static Application* s_Instance;
 	private:
 		std::unique_ptr<Window> m_Window;
 		WindowConfigs m_Configs;
@@ -60,5 +63,7 @@ namespace Hart {
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
 	};
 
+	// Create an object of a class Inheriting Hart::Application as a raw pointer using 'new' and return this it.
+	// No need to free the object, the engine takes care of it internally.
 	Application* CreateApplication();
 }

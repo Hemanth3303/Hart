@@ -44,6 +44,10 @@ namespace Hart {
 			return Vec4(left.x - right.x, left.y - right.y, left.z - right.z, left.w - right.w);
 		}
 
+		bool Vec4::equals(const Vec4& left, const Vec4& right) {
+			return (left.x == right.x && left.y == right.y && left.z == right.z && left.w == right.w);
+		}
+
 		Vec4 Vec4::scalarMultiply(const Vec4& vec, float k) {
 			return Vec4(vec.x * k, vec.y * k, vec.z * k, vec.w * k);
 		}
@@ -66,6 +70,10 @@ namespace Hart {
 			return *this;
         }
 
+		bool Vec4::equals(const Vec4& other) {
+			return Vec4::equals(*this, other);
+		}
+
         Vec4& Vec4::operator+=(const Vec4& other) {
 			return this->add(other);
         }
@@ -73,6 +81,10 @@ namespace Hart {
         Vec4& Vec4::operator-=(const Vec4& other) {
 			return this->subtract(other);
         }
+
+		bool Vec4::operator==(const Vec4& other) {
+			return this->equals(other);
+		}
 
         float Vec4::dotProduct(const Vec4& left, const Vec4& right) {
 			return ((left.x * right.x) + (left.y * right.y) + (left.z * right.z) + (left.w * right.w));
@@ -110,12 +122,16 @@ namespace Hart {
 		}
 
         Vec4 operator+(const Vec4& left, const Vec4& right) {
-            return Vec4();
+            return Vec4::add(left, right);
         }
 
         Vec4 operator-(const Vec4& left, const Vec4& right) {
-            return Vec4();
+            return Vec4::subtract(left, right);
         }
+
+		bool operator==(const Vec4& left, const Vec4& right) {
+			return Vec4::equals(left, right);
+		}
 
         std::ostream& operator<<(std::ostream& stream, Vec4 vec) {
 			stream << vec.toString();

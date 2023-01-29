@@ -26,7 +26,8 @@ namespace Hart {
 
 		inline const int32_t& getWidth() const { return m_Width; }
 		inline const int32_t& getHeight() const { return m_Height; }
-		inline GLFWwindow*& getGLFWwindow() { return m_Window; }
+		// returns a non ownning reference to the GLFWwindow object
+		inline GLFWwindow* const& getGLFWwindow() const { return m_Window; }
 		inline const Maths::Vec2& getMousePosition() const { return m_MousePos; }
 
 		// sets the cursor's location to the specified location
@@ -43,9 +44,6 @@ namespace Hart {
 		friend void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
 		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
-		
-	public:
-		static Window* s_Instance;
 	private:
 		int32_t m_Width, m_Height;
 		std::string m_Title;

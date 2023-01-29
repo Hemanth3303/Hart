@@ -17,7 +17,9 @@ namespace Hart {
 			template<typename T>
 			bool dispatch(EventFunction<T&> func) {
 				if (m_Event.getEventType() == T::GetStaticType()) {
-					m_Event.m_Handled = func(*(T*)&(m_Event));
+					// get address of m_Event, convert pointer to derived based on T, dereference the pointer
+					//m_Event.m_Handled = func(*(T*)&(m_Event));
+					m_Event.m_Handled = func(*(static_cast<T*>(&m_Event)));
 					return true;
 				}
 				return false;
