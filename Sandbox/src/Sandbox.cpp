@@ -7,6 +7,7 @@
 using namespace Hart;
 using namespace Hart::Maths;
 using namespace Hart::Events;
+using namespace Hart::Inputs;
 using namespace Hart::Utils;
 
 class Sandbox : public Application {
@@ -27,7 +28,10 @@ public:
 
 	void update() override {
 		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
-
+		HART_CLIENT_LOG(InputManager::GetMousePosition());
+		if (InputManager::IsMouseButtonPressed(MouseCode::Left)) {
+			InputManager::SetMousePosition(Vec2(getWindowWidth() / 2, getWindowHeight() / 2));
+		}
 	}
 
 	void render() override {

@@ -5,8 +5,6 @@
 #include "Core/HartApplication.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
-#include "Core/KeyCodes.hpp"
-#include "Core/MouseCodes.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
@@ -20,6 +18,10 @@
 #include "Events/WindowEvents.hpp"
 #include "Events/WindowEvents.hpp"
 #include "Events/MouseEvents.hpp"
+
+#include "Inputs/KeyCodes.hpp"
+#include "Inputs/MouseCodes.hpp"
+#include "Inputs/InputManager.hpp"
 
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

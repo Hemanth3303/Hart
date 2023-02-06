@@ -5,28 +5,28 @@
 #pragma once
 
 #include "Event.hpp"
-#include "Core/KeyCodes.hpp"
+#include "Inputs/KeyCodes.hpp"
 
 namespace Hart {
 	namespace Events {
 		class KeyEvent : public Event {
 		public:
-			KeyCode getKeyCode() const { return m_KeyCode; }
+			Inputs::KeyCode getKeyCode() const { return m_KeyCode; }
 
 			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::KeyboardEvent | EventCategory::InputEvent); }
 
 		protected:
-			KeyEvent(const KeyCode keyCode)
+			KeyEvent(const Inputs::KeyCode keyCode)
 				: m_KeyCode(keyCode) {
 
 			}
 		protected:
-			KeyCode m_KeyCode;
+			Inputs::KeyCode m_KeyCode;
 		};
 
 		class KeyPressedEvent :public KeyEvent {
 		public:
-			KeyPressedEvent(const KeyCode keyCode)
+			KeyPressedEvent(const Inputs::KeyCode keyCode)
 				: KeyEvent(keyCode) {
 
 			}
@@ -41,7 +41,7 @@ namespace Hart {
 
 		class KeyReleasedEvent :public KeyEvent {
 		public:
-			KeyReleasedEvent(const KeyCode keyCode)
+			KeyReleasedEvent(const Inputs::KeyCode keyCode)
 				: KeyEvent(keyCode) {
 
 			}
@@ -56,7 +56,7 @@ namespace Hart {
 
 		class KeyRepeatEvent : public KeyEvent {
 		public:
-			KeyRepeatEvent(const KeyCode keyCode, int32_t repeatCount)
+			KeyRepeatEvent(const Inputs::KeyCode keyCode, int32_t repeatCount)
 				: KeyEvent(keyCode), m_RepeatCount(repeatCount) {
 
 			}

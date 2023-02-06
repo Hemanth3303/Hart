@@ -28,10 +28,7 @@ namespace Hart {
 		inline const int32_t& getHeight() const { return m_Height; }
 		// returns a non ownning reference to the GLFWwindow object
 		inline GLFWwindow* const& getGLFWwindow() const { return m_Window; }
-		inline const Maths::Vec2& getMousePosition() const { return m_MousePos; }
-
-		// sets the cursor's location to the specified location
-		void setMousePosition(const Maths::Vec2& position) const;
+		inline void setWindowSize(int32_t width, int32_t height) { m_Width = width, m_Height = height; }
 		
 		void setEventCallback(const EventCallBackFunction callbackFn);
 
@@ -49,7 +46,6 @@ namespace Hart {
 		std::string m_Title;
 		bool m_Resizable;
 		GLFWwindow* m_Window = nullptr;
-		Maths::Vec2 m_MousePos;
 		EventCallBackFunction m_EventCallbackFn;
 	};
 

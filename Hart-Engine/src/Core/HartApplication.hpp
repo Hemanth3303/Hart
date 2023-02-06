@@ -30,8 +30,6 @@ namespace Hart {
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
-		inline const Maths::Vec2& getMousePositon() const { return m_Window->getMousePosition(); }
-		inline void setMousePosition(const Maths::Vec2& position) const { m_Window->setMousePosition(position); }
 		// sets the preferred frames per second
 		// default value is 60
 		inline void setTargetFPS(uint32_t targetFPS) { m_TargetFPS = targetFPS; }
@@ -50,6 +48,9 @@ namespace Hart {
 		void deinit();
 		// Event managers
 		void onEvent(Events::Event& e);
+		// Begin Event Methods
+		// The methods below return true if the event is processed and no need to propogate further, else they return false
+
 		// window
 		bool onWindowResized(Events::WindowResizedEvent& e);
 		bool onWindowClosed(Events::WindowClosedEvent& e);
@@ -67,7 +68,8 @@ namespace Hart {
 		bool onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e);
 		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
 		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
-
+		// End Event Methods
+		
 		// set the configurations with which the window is created.
 		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);
 	public:

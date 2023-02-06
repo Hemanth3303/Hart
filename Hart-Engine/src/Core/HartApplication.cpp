@@ -1,6 +1,7 @@
 #include "HartPch.hpp"
 #include "HartApplication.hpp"
 #include "Utils/Timer.hpp"
+#include "Inputs/InputManager.hpp"
 
 namespace Hart {
 
@@ -84,6 +85,8 @@ namespace Hart {
 		s_Instance = this;
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
 
+		Inputs::InputManager::Init();
+
 		HART_ENGINE_LOG("Initializing GLFW");
 		int32_t success = glfwInit();
 		HART_ASSERT_EQUAL(success, GLFW_TRUE);
@@ -128,8 +131,8 @@ namespace Hart {
 	}
 	
 	bool Application::onWindowResized(Events::WindowResizedEvent& e) {
-		// TODO
-		return false;
+		m_Window->setWindowSize(e.getWidth(), e.getHeight());
+		return true;
 	}
 
 	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
@@ -154,23 +157,23 @@ namespace Hart {
 	}
 
 	bool Application::onKeyPressed(Events::KeyPressedEvent& e) {
-		// TODO
-		return false;
+		Inputs::InputManager::SetKeyPressed(e.getKeyCode());
+		return true;
 	}
 
 	bool Application::onKeyReleased(Events::KeyReleasedEvent& e) {
-		// TODO
-		return false;
+		Inputs::InputManager::SetKeyReleased(e.getKeyCode());
+		return true;
 	}
 
 	bool Application::onKeyRepeat(Events::KeyRepeatEvent& e) {
-		// TODO
-		return false;
+		Inputs::InputManager::SetKeyPressed(e.getKeyCode());
+		return true;
 	}
 
 	bool Application::onMouseMoved(Events::MouseMovedEvent& e) {
-		// TODO
-		return false;
+		Inputs::InputManager::UpdateMousePosition(Maths::Vec2(e.getXPos(), e.getYPos()));
+		return true;
 	}
 
 	bool Application::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
@@ -179,13 +182,13 @@ namespace Hart {
 	}
 
 	bool Application::onMouseButtonPressed(Events::MouseButtonPressedEvent& e) {
-		// TODO
-		return false;
+		Inputs::InputManager::SetMouseButtonPressed(e.getMouseButton());
+		return true;
 	}
 
 	bool Application::onMouseButtonReleased(Events::MouseButtonReleasedEvent& e) {
-		// TODO
-		return false;
+		Inputs::InputManager::SetMouseButtonReleased(e.getMouseButton());
+		return true;
 	}
 	
 }

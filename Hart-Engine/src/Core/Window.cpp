@@ -49,10 +49,6 @@ namespace Hart {
 		m_EventCallbackFn = callbackFn;
 	}
 
-	void Window::setMousePosition(const Maths::Vec2& position) const {
-		glfwSetCursorPos(m_Window, static_cast<double>(position.x), static_cast<double>(position.y));
-	}
-
 	void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
@@ -108,12 +104,12 @@ namespace Hart {
 			case GLFW_PRESS: {
 				repeatCount = 0;
 				previousKey = key;
-				Events::KeyPressedEvent e(static_cast<KeyCode>(key));
+				Events::KeyPressedEvent e(static_cast<Inputs::KeyCode>(key));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
 			case GLFW_RELEASE: {
-				Events::KeyReleasedEvent e(static_cast<KeyCode>(key));
+				Events::KeyReleasedEvent e(static_cast<Inputs::KeyCode>(key));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -125,7 +121,7 @@ namespace Hart {
 					repeatCount = 0;
 				}
 				previousKey = key;
-				Events::KeyRepeatEvent e(static_cast<KeyCode>(key), repeatCount);
+				Events::KeyRepeatEvent e(static_cast<Inputs::KeyCode>(key), repeatCount);
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -138,12 +134,12 @@ namespace Hart {
 		
 		switch (action) {
 			case GLFW_PRESS: {
-				Events::MouseButtonPressedEvent e(static_cast<MouseCode>(button));
+				Events::MouseButtonPressedEvent e(static_cast<Inputs::MouseCode>(button));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
 			case GLFW_RELEASE: {
-				Events::MouseButtonReleasedEvent e(static_cast<MouseCode>(button));
+				Events::MouseButtonReleasedEvent e(static_cast<Inputs::MouseCode>(button));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -159,9 +155,6 @@ namespace Hart {
 
 	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
-
-		engineWindow->m_MousePos.x = static_cast<float>(xpos);
-		engineWindow->m_MousePos.y = static_cast<float>(ypos);
 
 		Events::MouseMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
 		engineWindow->m_EventCallbackFn(e);

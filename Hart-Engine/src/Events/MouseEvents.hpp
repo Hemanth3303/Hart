@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Event.hpp"
-#include "Core/MouseCodes.hpp"
+#include "Inputs/MouseCodes.hpp"
 
 namespace Hart {
 	namespace Events {
@@ -53,21 +53,21 @@ namespace Hart {
 
 		class MouseButtonEvent : public Event {
 		public:
-			MouseCode getMouseButton() const { return m_Button; }
+			Inputs::MouseCode getMouseButton() const { return m_Button; }
 
 			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::MouseButtonEvent | EventCategory::InputEvent); }
 		protected:
-			MouseButtonEvent(const MouseCode button)
+			MouseButtonEvent(const Inputs::MouseCode button)
 				: m_Button(button) {
 
 			}
 		protected:
-			MouseCode m_Button;
+			Inputs::MouseCode m_Button;
 		};
 
 		class MouseButtonPressedEvent : public MouseButtonEvent {
 		public:
-			MouseButtonPressedEvent(const MouseCode button)
+			MouseButtonPressedEvent(const Inputs::MouseCode button)
 				: MouseButtonEvent(button) {
 
 			}
@@ -82,7 +82,7 @@ namespace Hart {
 
 		class MouseButtonReleasedEvent : public MouseButtonEvent {
 		public:
-			MouseButtonReleasedEvent(const MouseCode button)
+			MouseButtonReleasedEvent(const Inputs::MouseCode button)
 				: MouseButtonEvent(button) {
 
 			}
