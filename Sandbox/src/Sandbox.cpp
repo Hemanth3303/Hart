@@ -28,15 +28,13 @@ public:
 
 	void update() override {
 		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
-		HART_CLIENT_LOG(InputManager::GetMousePosition());
-		if (InputManager::IsMouseButtonPressed(MouseCode::Left)) {
-			InputManager::SetMousePosition(Vec2(getWindowWidth() / 2, getWindowHeight() / 2));
-		}
+		HART_CLIENT_LOG(getWindow()->getPosition())
 	}
 
 	void render() override {
 		
 	}
+
 };
 
 Hart::Application* Hart::CreateApplication() {

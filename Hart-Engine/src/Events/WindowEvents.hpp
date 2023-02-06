@@ -48,6 +48,9 @@ namespace Hart {
 
 			}
 
+			inline float getXpos()const { return m_Xpos; }
+			inline float getYpos()const { return m_Ypos; }
+
 			static EventType GetStaticType() { return EventType::WindowMovedEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
 			virtual std::string_view getName() const override { return "WindowMovedEvent"; }

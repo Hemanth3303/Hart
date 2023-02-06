@@ -43,6 +43,11 @@ namespace Hart {
 
 		glEnable(GL_DEPTH_TEST);
 		glViewport(0, 0, m_Width, m_Height);
+
+		int32_t x, y;
+		glfwGetWindowPos(m_Window, &x, &y);
+		m_Position.x = static_cast<float>(x);
+		m_Position.y = static_cast<float>(y);
 	}
 
 	void Window::setEventCallback(const EventCallBackFunction callbackFn) {

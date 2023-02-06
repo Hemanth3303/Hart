@@ -28,9 +28,7 @@ namespace Hart {
 		inline const int32_t& getHeight() const { return m_Height; }
 		// returns a non ownning reference to the GLFWwindow object
 		inline GLFWwindow* const& getGLFWwindow() const { return m_Window; }
-		inline void setWindowSize(int32_t width, int32_t height) { m_Width = width, m_Height = height; }
-		
-		void setEventCallback(const EventCallBackFunction callbackFn);
+		inline const Maths::Vec2& getPosition() const { return m_Position; }
 
 		friend void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
 		friend void windowCloseCallback(GLFWwindow* glfwWindow);
@@ -42,11 +40,18 @@ namespace Hart {
 		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 	private:
+		inline void setWindowSize(int32_t width, int32_t height) { m_Width = width, m_Height = height; }
+		inline void setWindowPosition(float xpos, float ypos) { m_Position.x = xpos, m_Position.y = ypos; }
+		void setEventCallback(const EventCallBackFunction callbackFn);
+	private:
 		int32_t m_Width, m_Height;
 		std::string m_Title;
 		bool m_Resizable;
+		Maths::Vec2 m_Position;
 		GLFWwindow* m_Window = nullptr;
 		EventCallBackFunction m_EventCallbackFn;
+
+		friend class Application;
 	};
 
 	void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);

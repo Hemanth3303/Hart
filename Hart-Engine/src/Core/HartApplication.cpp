@@ -142,8 +142,8 @@ namespace Hart {
 	}
 
 	bool Application::onWindowMoved(Events::WindowMovedEvent& e) {
-		// TODO
-		return false;
+		m_Window->setWindowPosition(e.getXpos(), e.getYpos());
+		return true;
 	}
 
 	bool Application::onWindowFocusGained(Events::WindowFocusGainedEvent& e) {

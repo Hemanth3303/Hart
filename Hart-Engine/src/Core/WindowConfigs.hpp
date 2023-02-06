@@ -12,6 +12,7 @@ namespace Hart {
 	public:
 		int32_t winWidth = 640, winHeight = 480;
 		std::string title = "Hart Engine: Application";
+		Maths::Vec2 position = Maths::Vec2(0.0f, 0.0f);
 		bool resiable = false;
 	};
 }
