@@ -7,14 +7,15 @@ namespace Hart {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application() {
+	Application::Application() 
+		:m_WindowData() {
 		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
 	}
 
-	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
+	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
+		:m_WindowData(windowWidth, windowHeight, windowTitle, isWindowResizable) {
 		HART_ENGINE_LOG("Initializing Hart Engine");
-		setWindowConfigs(windowWidth, windowHeight, windowTitle, isWindowResizable);
 		init();
 	}
 
@@ -73,13 +74,6 @@ namespace Hart {
 		}
 	}
 
-	void Application::setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable) {
-		m_Configs.winWidth = width;
-		m_Configs.winHeight = height;
-		m_Configs.title = title;
-		m_Configs.resiable = resizable;
-	}
-
 	void Application::init() {
 
 		s_Instance = this;
@@ -96,7 +90,7 @@ namespace Hart {
 		glfwSwapInterval(0);
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
-		m_Window = std::make_unique<Window>(m_Configs.winWidth, m_Configs.winHeight, m_Configs.title, m_Configs.resiable);
+		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::onEvent)));

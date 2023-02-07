@@ -6,8 +6,8 @@
 #pragma once
 
 #include "HartPch.hpp"
+#include "WindowData.hpp"
 #include "Window.hpp"
-#include "WindowConfigs.hpp"
 #include "Maths/Vec2.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
@@ -21,7 +21,7 @@ namespace Hart {
 	public:
 		Application();
 		// takes window configurations as arguments
-		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable);
+		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
 		virtual ~Application();
 
 		void run();
@@ -69,14 +69,11 @@ namespace Hart {
 		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
 		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
 		// End Event Methods
-		
-		// set the configurations with which the window is created.
-		void setWindowConfigs(int32_t width, int32_t height, const std::string& title, bool resizable);
 	public:
 		static Application* s_Instance;
 	private:
+		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
-		WindowConfigs m_Configs;
 		bool m_IsRunning = false;
 		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;

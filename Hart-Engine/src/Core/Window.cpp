@@ -2,11 +2,11 @@
 #include "Window.hpp"
 
 namespace Hart {
-	Window::Window(int32_t width, int32_t height, const std::string& title, bool resizable)
-		:m_Width(width), m_Height(height), m_Title(title), m_Resizable(resizable) {
+	Window::Window(const WindowData& windowData)
+		:m_WindowData(windowData) {
 		init();
 
-		HART_ASSERT_NOT_EQUAL(m_Window, nullptr);
+		HART_ASSERT_NOT_EQUAL(m_GLFWwindow, nullptr);
 	}
 
 	Window::~Window() {
@@ -16,38 +16,38 @@ namespace Hart {
 	}
 
 	void Window::init() {
-		glfwWindowHint(GLFW_RESIZABLE, m_Resizable);
+		glfwWindowHint(GLFW_RESIZABLE, m_WindowData.m_Resizable);
 		HART_ENGINE_LOG("Initializing Window");
-		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
-		HART_ASSERT_NOT_EQUAL(m_Window, nullptr);
+		m_GLFWwindow = glfwCreateWindow(m_WindowData.m_Width, m_WindowData.m_Height, m_WindowData.m_Title.c_str(), nullptr, nullptr);
+		HART_ASSERT_NOT_EQUAL(m_GLFWwindow, nullptr);
 		HART_ENGINE_LOG("Window initialized successfully");
-		glfwMakeContextCurrent(m_Window);
-		glfwSetWindowUserPointer(m_Window, static_cast<void*>(this));
+		glfwMakeContextCurrent(m_GLFWwindow);
+		glfwSetWindowUserPointer(m_GLFWwindow, static_cast<void*>(this));
 
-		glfwSetWindowSizeCallback(m_Window, windowSizeCallback);
-		glfwSetWindowCloseCallback(m_Window, windowCloseCallback);
-		glfwSetWindowPosCallback(m_Window, windowPositionCallback);
-		glfwSetWindowFocusCallback(m_Window, windowFocusCallback);
+		glfwSetWindowSizeCallback(m_GLFWwindow, windowSizeCallback);
+		glfwSetWindowCloseCallback(m_GLFWwindow, windowCloseCallback);
+		glfwSetWindowPosCallback(m_GLFWwindow, windowPositionCallback);
+		glfwSetWindowFocusCallback(m_GLFWwindow, windowFocusCallback);
 
-		glfwSetFramebufferSizeCallback(m_Window, framebufferSizeCallback);
+		glfwSetFramebufferSizeCallback(m_GLFWwindow, framebufferSizeCallback);
 
-		glfwSetKeyCallback(m_Window, keyCallback);
-		
-		glfwSetCursorPosCallback(m_Window, cursorPositionCallback);
-		glfwSetScrollCallback(m_Window, mouseScrollCallback);
-		glfwSetMouseButtonCallback(m_Window, mouseButtonCallback);
+		glfwSetKeyCallback(m_GLFWwindow, keyCallback);
+
+		glfwSetCursorPosCallback(m_GLFWwindow, cursorPositionCallback);
+		glfwSetScrollCallback(m_GLFWwindow, mouseScrollCallback);
+		glfwSetMouseButtonCallback(m_GLFWwindow, mouseButtonCallback);
 
 		int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HART_ASSERT_NOT_EQUAL(success, -1);
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
 		glEnable(GL_DEPTH_TEST);
-		glViewport(0, 0, m_Width, m_Height);
+		glViewport(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
 
 		int32_t x, y;
-		glfwGetWindowPos(m_Window, &x, &y);
-		m_Position.x = static_cast<float>(x);
-		m_Position.y = static_cast<float>(y);
+		glfwGetWindowPos(m_GLFWwindow, &x, &y);
+		m_WindowData.m_Position.x = static_cast<float>(x);
+		m_WindowData.m_Position.y = static_cast<float>(y);
 	}
 
 	void Window::setEventCallback(const EventCallBackFunction callbackFn) {
@@ -57,8 +57,8 @@ namespace Hart {
 	void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		engineWindow->m_Width = width;
-		engineWindow->m_Height = height;
+		engineWindow->m_WindowData.m_Width = width;
+		engineWindow->m_WindowData.m_Height = height;
 
 		Events::WindowResizedEvent e(width, height);
 		engineWindow->m_EventCallbackFn(e);
@@ -94,10 +94,10 @@ namespace Hart {
 	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		engineWindow->m_Width = width;
-		engineWindow->m_Height = height;
+		engineWindow->m_WindowData.m_Width = width;
+		engineWindow->m_WindowData.m_Height = height;
 
-		glViewport(0, 0, engineWindow->m_Width, engineWindow->m_Height);
+		glViewport(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
 	}
 
 	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods) {

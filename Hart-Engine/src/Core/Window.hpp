@@ -5,6 +5,7 @@
 #pragma once
 
 #include "HartPch.hpp"
+#include "WindowData.hpp"
 #include "Maths/Vec2.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
@@ -19,16 +20,16 @@ namespace Hart {
 	class Window {
 		using EventCallBackFunction = std::function<void(Events::Event&)>;
 	public:
-		Window(int32_t width, int32_t height, const std::string& title, bool resizable = false);
+		Window(const WindowData& windowData);
 		~Window();
 
 		void init();
 
-		inline const int32_t& getWidth() const { return m_Width; }
-		inline const int32_t& getHeight() const { return m_Height; }
+		inline const int32_t& getWidth() const { return m_WindowData.m_Width; }
+		inline const int32_t& getHeight() const { return m_WindowData.m_Height; }
 		// returns a non ownning reference to the GLFWwindow object
-		inline GLFWwindow* const& getGLFWwindow() const { return m_Window; }
-		inline const Maths::Vec2& getPosition() const { return m_Position; }
+		inline GLFWwindow* const& getGLFWwindow() const { return m_GLFWwindow; }
+		inline const Maths::Vec2& getPosition() const { return m_WindowData.m_Position; }
 
 		friend void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
 		friend void windowCloseCallback(GLFWwindow* glfwWindow);
@@ -40,15 +41,12 @@ namespace Hart {
 		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 	private:
-		inline void setWindowSize(int32_t width, int32_t height) { m_Width = width, m_Height = height; }
-		inline void setWindowPosition(float xpos, float ypos) { m_Position.x = xpos, m_Position.y = ypos; }
+		inline void setWindowSize(int32_t width, int32_t height) { m_WindowData.m_Width = width, m_WindowData.m_Height = height; }
+		inline void setWindowPosition(float xpos, float ypos) { m_WindowData.m_Position.x = xpos, m_WindowData.m_Position.y = ypos; }
 		void setEventCallback(const EventCallBackFunction callbackFn);
 	private:
-		int32_t m_Width, m_Height;
-		std::string m_Title;
-		bool m_Resizable;
-		Maths::Vec2 m_Position;
-		GLFWwindow* m_Window = nullptr;
+		WindowData m_WindowData;
+		GLFWwindow* m_GLFWwindow = nullptr;
 		EventCallBackFunction m_EventCallbackFn;
 
 		friend class Application;
