@@ -79,7 +79,7 @@ namespace Hart {
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
 	};
 
-	// Create an object of a class Inheriting Hart::Application as a raw pointer using 'new' and return this it.
-	// No need to free the object, the engine takes care of it internally.
-	Application* CreateApplication();
+	// User must define this function
+	// Return a std::unique_ptr to Derived using the syntax std::make_unique<Derived>(args_if_they_exist), where Derived is a class derived from Hart::Application
+	std::unique_ptr<Application> CreateApplication();
 }

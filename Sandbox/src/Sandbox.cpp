@@ -35,6 +35,6 @@ public:
 
 };
 
-Hart::Application* Hart::CreateApplication() {
-	return new Sandbox();
+std::unique_ptr<Hart::Application> Hart::CreateApplication() {
+	return std::make_unique<Sandbox>();
 }

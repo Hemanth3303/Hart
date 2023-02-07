@@ -10,12 +10,12 @@
 
 #include "Core/HartApplication.hpp"
 
-extern Hart::Application* Hart::CreateApplication();
+extern std::unique_ptr<Hart::Application> Hart::CreateApplication();
 
 int main(int argc, char** argv) {
-	Hart::Application* app = Hart::CreateApplication();
+	std::unique_ptr<Hart::Application> app = Hart::CreateApplication();
+
 	app->run();
-	delete app;
 
 	return 0;
 }
