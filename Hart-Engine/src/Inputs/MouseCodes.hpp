@@ -4,6 +4,7 @@ namespace Hart {
 	namespace Inputs {
 		// These follow the same numberings as GLFW mousecodes
 		enum class MouseCode {
+			Unknown = -1,
 			One = 0,
 			Two = 1,
 			Three = 2,

@@ -8,6 +8,8 @@ namespace Hart {
 		std::array<bool, InputManager::MAX_KEYS> InputManager::s_Keys;
 		std::array<bool, InputManager::MAX_MOUSE_BUTTONS> InputManager::s_MouseButtons;
 		Maths::Vec2 InputManager::s_MousePosition;
+		KeyCode InputManager::s_CurrentKey=KeyCode::Unknown;
+		MouseCode InputManager::s_CurrentMouseButton=MouseCode::Unknown;
 
 		constexpr int32_t InputManager::GetMaxKeys() {
 			return MAX_KEYS;
@@ -42,6 +44,14 @@ namespace Hart {
 			glfwSetCursorPos(Hart::Application::s_Instance->getWindow()->getGLFWwindow(), position.x, position.y);
 		}
 
+		const KeyCode& InputManager::GetCurrentKey() {
+			return s_CurrentKey;
+		}
+
+		const MouseCode& InputManager::GetCurrentMouseButton() {
+			return s_CurrentMouseButton;
+		}
+
 		void InputManager::Init() {
 			for (bool& key : s_Keys) {
 				key = false;
@@ -54,22 +64,34 @@ namespace Hart {
 
 		void InputManager::SetKeyPressed(const KeyCode& keyCode) {
 			s_Keys[static_cast<int32_t>(keyCode)] = true;
+			SetCurrentKey(keyCode);
 		}
 
 		void InputManager::SetKeyReleased(const KeyCode& keyCode) {
 			s_Keys[static_cast<int32_t>(keyCode)] = false;
+			SetCurrentKey(KeyCode::Unknown);
 		}
 
 		void InputManager::SetMouseButtonPressed(const MouseCode& mouseCode) {
 			s_MouseButtons[static_cast<int32_t>(mouseCode)] = true;
+			SetCurrentMouseButton(mouseCode);
 		}
 
 		void InputManager::SetMouseButtonReleased(const MouseCode& mouseCode) {
 			s_MouseButtons[static_cast<int32_t>(mouseCode)] = false;
+			SetCurrentMouseButton(MouseCode::Unknown);
 		}
 
 		void InputManager::UpdateMousePosition(const Maths::Vec2& mousePosition) {
 			s_MousePosition = mousePosition;
+		}
+
+		void InputManager::SetCurrentKey(const KeyCode& keyCode) {
+			s_CurrentKey = keyCode;
+		}
+
+		void InputManager::SetCurrentMouseButton(const MouseCode& mouseCode) {
+			s_CurrentMouseButton = mouseCode;
 		}
 	}
 }
