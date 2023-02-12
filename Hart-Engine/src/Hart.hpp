@@ -6,6 +6,8 @@
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
 
+#include "Graphics/Shader.hpp"
+
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
 #include "Maths/Vec2.hpp"
