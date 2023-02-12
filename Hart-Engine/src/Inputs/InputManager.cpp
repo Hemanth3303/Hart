@@ -35,7 +35,7 @@ namespace Hart {
 			return !IsMouseButtonPressed(mouseCode);
 		}
 
-		Maths::Vec2 InputManager::GetMousePosition() {
+		const Maths::Vec2 InputManager::GetMousePosition() {
 			return s_MousePosition;
 		}
 

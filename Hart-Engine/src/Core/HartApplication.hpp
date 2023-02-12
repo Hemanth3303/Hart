@@ -36,8 +36,8 @@ namespace Hart {
 		// sets the preferred updates per second
 		// default value is 60
 		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
-		inline uint32_t getCurrentFPS() { return m_CurrentFPS; }
-		inline uint32_t getCurrentUPS() { return m_CurrentUPS; }
+		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
+		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
 	protected:
 		//must be overriden by user
 		virtual void update() = 0;

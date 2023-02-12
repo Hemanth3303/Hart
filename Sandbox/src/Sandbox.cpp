@@ -11,8 +11,6 @@ using namespace Hart::Events;
 using namespace Hart::Inputs;
 using namespace Hart::Utils;
 
-// shader test code from https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/3.3.shaders_class/shaders_class.cpp
-
 class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> basicShader;
@@ -49,6 +47,10 @@ public:
 
 		glBindVertexArray(0);
 
+		Random rd;
+		int x = rd.getRandomInt32(10, 20);
+		x++;
+
 	}
 
 	~Sandbox() {
@@ -57,7 +59,7 @@ public:
 	}
 
 	void update() override {
-		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 		
 	}
 

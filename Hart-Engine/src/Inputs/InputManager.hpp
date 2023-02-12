@@ -15,7 +15,7 @@ namespace Hart {
 			static bool IsKeyReleased(const KeyCode& keyCode);
 			static bool IsMouseButtonPressed(const MouseCode& mouseCode);
 			static bool IsMouseButtonReleased(const MouseCode& mouseCode);
-			static Maths::Vec2 GetMousePosition();
+			static const Maths::Vec2 GetMousePosition();
 			// sets the cursor's location to the specified location
 			static void SetMousePosition(const Maths::Vec2& position);
 			static const KeyCode& GetCurrentKey();
