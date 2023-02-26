@@ -14,60 +14,78 @@ using namespace Hart::Utils;
 class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> basicShader;
-	float m_Vertices[6 * 3] = {
-		// positions         // colors
-		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
+	float m_Vertices[12] = {
+		 0.5f,  0.5f, 0.0f,  // top right
+		 0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left 
 	};
-	uint32_t  m_Vbo, m_Vao;
+	float m_Colors[16] = {
+		1.0f, 0.0f,  0.0f, 1.0f,  // top right
+		0.0f, 1.0f,  0.0f, 1.0f,  // bottom right
+		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
+		0.5f, 0.25f, 0.5f, 1.0f,  // top left 
+	};
+	uint32_t m_Indices[6] = {
+		0, 1, 3,
+		1, 2, 3,
+	};
+	VertexArray m_Vao;
+	IndexBuffer m_Ibo;
+	VertexBuffer m_Vbo, m_Cbo;
 public:
 	Sandbox() 
-		: Application(960, 540, "Hart Engine: Sandbox", true) {
+		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
 
 		setTargetFPS(120);
 		setTargetUPS(120);
+		setExitKey(KeyCode::Escape);
 
 		basicShader = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 		
-		glGenVertexArrays(1, &m_Vao);
-		glGenBuffers(1, &m_Vbo);
 		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-		glBindVertexArray(m_Vao);
-
-		glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_Vertices), m_Vertices, GL_STATIC_DRAW);
+		m_Vao.bind();
 
 		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
+		m_Vbo.bind();
+		m_Vao.setVertexData(0, 3, 12, m_Vertices);
+		/*glBufferData(GL_ARRAY_BUFFER, sizeof(m_Vertices), m_Vertices, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);*/
+		m_Vbo.unbind();
+
 		// color attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(1);
+		m_Cbo.bind();
+		m_Vao.setVertexData(1, 4, 16, m_Colors);
+		/*glBufferData(GL_ARRAY_BUFFER, sizeof(m_Colors), m_Colors, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(1);*/
+		m_Cbo.unbind();
 
-		glBindVertexArray(0);
+		m_Ibo.bind();
+		m_Vao.setIndexData(6, m_Indices);
+		/*glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), m_Indices, GL_STATIC_DRAW);*/
+		m_Ibo.unbind();
 
-		Random rd;
-		int x = rd.getRandomInt32(10, 20);
-		x++;
+		m_Vao.unbind();
 
 	}
 
 	~Sandbox() {
-		glDeleteBuffers(1, &m_Vbo);
-		glDeleteVertexArrays(1, &m_Vao);
+
 	}
 
 	void update() override {
-		HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 		
 	}
 
 	void render() override {
 		basicShader->bind();
-		glBindVertexArray(m_Vao);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glBindVertexArray(0);
+		m_Vao.bind();
+		m_Ibo.bind();
+		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
+		m_Vao.unbind();
 		basicShader->unbind();
 	}
 

@@ -7,6 +7,9 @@
 #include "Core/Window.hpp"
 
 #include "Graphics/Shader.hpp"
+#include "Graphics/VertexBuffer.hpp"
+#include "Graphics/IndexBuffer.hpp"
+#include "Graphics/VertexArray.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

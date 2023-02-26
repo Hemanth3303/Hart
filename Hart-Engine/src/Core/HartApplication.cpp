@@ -41,6 +41,10 @@ namespace Hart {
 
 		while (m_IsRunning) {
 
+			if (Inputs::InputManager::IsKeyPressed(m_ExitKey)) {
+				m_IsRunning = false;
+			}
+
 			double currentTime = Utils::Timer::getTimeInNanoSeconds();
 			deltaUPS += (currentTime - previousTime) / timePerUpdate;
 			deltaFPS += (currentTime - previousTime) / timePerFrame;

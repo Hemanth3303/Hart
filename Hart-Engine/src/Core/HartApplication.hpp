@@ -15,6 +15,7 @@
 #include "Events/MouseEvents.hpp"
 #include "Events/EventDispatcher.hpp"
 #include "Events/EventCategory.hpp"
+#include "Inputs/KeyCodes.hpp"
 
 namespace Hart {
 	class Application {
@@ -38,6 +39,7 @@ namespace Hart {
 		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
 		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
 		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
+		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 	protected:
 		//must be overriden by user
 		virtual void update() = 0;
@@ -77,6 +79,7 @@ namespace Hart {
 		bool m_IsRunning = false;
 		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
+		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
 	};
 
 	// User must define this function
