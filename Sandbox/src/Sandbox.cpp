@@ -15,10 +15,10 @@ class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> basicShader;
 	float m_Vertices[12] = {
-		 0.5f,  0.5f, 0.0f,  // top right
-		 0.5f, -0.5f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f,  // bottom left
-		-0.5f,  0.5f, 0.0f   // top left 
+		 100.f,  100.f, 0.0f,  // top right
+		 100.f, -100.f, 0.0f,  // bottom right
+		-100.f, -100.f, 0.0f,  // bottom left
+		-100.f,  100.f, 0.0f   // top left 
 	};
 	float m_Colors[16] = {
 		1.0f, 0.0f,  0.0f, 1.0f,  // top right
@@ -33,6 +33,9 @@ private:
 	VertexArray m_Vao;
 	IndexBuffer m_Ibo;
 	VertexBuffer m_Vbo, m_Cbo;
+
+	//to make (0,0) at center of game window
+	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
@@ -49,25 +52,25 @@ public:
 		// position attribute
 		m_Vbo.bind();
 		m_Vao.setVertexData(0, 3, 12, m_Vertices);
-		/*glBufferData(GL_ARRAY_BUFFER, sizeof(m_Vertices), m_Vertices, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);*/
 		m_Vbo.unbind();
 
 		// color attribute
 		m_Cbo.bind();
 		m_Vao.setVertexData(1, 4, 16, m_Colors);
-		/*glBufferData(GL_ARRAY_BUFFER, sizeof(m_Colors), m_Colors, GL_STATIC_DRAW);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);*/
 		m_Cbo.unbind();
 
 		m_Ibo.bind();
 		m_Vao.setIndexData(6, m_Indices);
-		/*glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), m_Indices, GL_STATIC_DRAW);*/
 		m_Ibo.unbind();
 
 		m_Vao.unbind();
+
+		Mat4 model = Mat4(1.0f);
+		model = Mat4::translate(Vec3(100, -50, 0)) * Mat4::rotate(45.0f, Vec3(0, 0, 1)) * Mat4::scale(Vec3(1.25, 0.5, 1));
+		basicShader->bind();
+		basicShader->setUniform("projection", m_Projection);
+		basicShader->setUniform("model", model);
+		basicShader->unbind();
 
 	}
 
