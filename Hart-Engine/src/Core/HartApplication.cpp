@@ -97,6 +97,11 @@ namespace Hart {
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
 
+		HART_ENGINE_LOG("OpenGL Renderer ");
+		HART_ENGINE_LOG(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+		HART_ENGINE_LOG(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+		HART_ENGINE_LOG(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::onEvent)));
 	}
 

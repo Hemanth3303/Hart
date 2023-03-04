@@ -27,22 +27,19 @@ namespace Hart {
 			Maths::Vec4 color;
 		};
 		class Renderable2D {
+		protected:
+			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color);
 		public:
-			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color, std::shared_ptr<Shader> shader);
 			virtual ~Renderable2D();
-
-			Shader* getShader() const { return m_Shader.get(); }
 			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer.get(); }
 			VertexArray* getVertexArray() const { return m_VertexArray.get(); }
 
 			const Maths::Vec3& getPosition() const { return m_VertexData.position; }
 			const Maths::Vec2& getSize() const { return m_VertexData.size; }
 			const Maths::Vec4& getColor() const { return m_VertexData.color; }
-
-		private:
+		protected:
 			VertexData m_VertexData;
 
-			std::shared_ptr<Shader> m_Shader;
 			VertexBuffer m_VertexBuffer, m_ColorBuffer;
 			std::unique_ptr<IndexBuffer> m_IndexBuffer;
 			std::unique_ptr<VertexArray> m_VertexArray;

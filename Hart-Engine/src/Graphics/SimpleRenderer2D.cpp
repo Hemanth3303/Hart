@@ -9,7 +9,7 @@ namespace Hart {
 
 		void SimpleRenderer2D::flush() {
 			while (!m_RenderQueue.empty()) {
-				const Renderable2D* renderable = m_RenderQueue.front();
+				const StaticRenderable2D* renderable = static_cast<const StaticRenderable2D*>(m_RenderQueue.front());
 
 				renderable->getShader()->bind();
 				renderable->getVertexArray()->bind();

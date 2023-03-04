@@ -1,11 +1,12 @@
 /*
-* A simple 2d renderer that draws one renderable at a time
+* A simple 2d renderer that draws one StaticRenderable2D at a time
 */
 
 #pragma once
 
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
+#include "StaticRenderable2D.hpp"
 
 namespace Hart {
 	namespace Graphics {
