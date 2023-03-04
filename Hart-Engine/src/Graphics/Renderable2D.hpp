@@ -1,5 +1,5 @@
 /*
-* Something that is rendered by a 2d renderer
+* A 2d quad that is rendered by a 2d renderer
 */
 
 #pragma once
@@ -15,28 +15,37 @@
 
 namespace Hart {
 	namespace Graphics {
+		struct VertexData {
+		public:
+			VertexData(const Maths::Vec3& p_position, const Maths::Vec2& p_size, const Maths::Vec4& p_color) 
+				:position(p_position), size(p_size), color(p_color) {
+
+			}
+		public:
+			Maths::Vec3 position;
+			Maths::Vec2 size;
+			Maths::Vec4 color;
+		};
 		class Renderable2D {
 		public:
 			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color, std::shared_ptr<Shader> shader);
-			~Renderable2D();
+			virtual ~Renderable2D();
 
 			Shader* getShader() const { return m_Shader.get(); }
 			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer.get(); }
 			VertexArray* getVertexArray() const { return m_VertexArray.get(); }
 
-			const Maths::Vec3& getPosition() const { return m_Position; }
-			const Maths::Vec2& getSize() const { return m_Size; }
-			const Maths::Vec4& getColor() const { return m_Color; }
+			const Maths::Vec3& getPosition() const { return m_VertexData.position; }
+			const Maths::Vec2& getSize() const { return m_VertexData.size; }
+			const Maths::Vec4& getColor() const { return m_VertexData.color; }
 
 		private:
-			Maths::Vec3 m_Position;
-			Maths::Vec2 m_Size;
-			Maths::Vec4 m_Color;
+			VertexData m_VertexData;
 
 			std::shared_ptr<Shader> m_Shader;
 			VertexBuffer m_VertexBuffer, m_ColorBuffer;
-			std::shared_ptr<IndexBuffer> m_IndexBuffer;
-			std::shared_ptr<VertexArray> m_VertexArray;
+			std::unique_ptr<IndexBuffer> m_IndexBuffer;
+			std::unique_ptr<VertexArray> m_VertexArray;
 		};
 	}
 }

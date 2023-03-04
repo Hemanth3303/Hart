@@ -18,6 +18,7 @@ private:
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 
+	std::vector <std::unique_ptr<Renderable2D>> renderables;
 	std::unique_ptr<Renderable2D> renderable1, renderable2;
 	SimpleRenderer2D renderer;
 public:
@@ -44,6 +45,17 @@ public:
 			Vec4(0.0f, 0.0f, 1.0f, 1.0f),
 			basicShader
 		);
+		Random rd;
+		for (float y = -270.0f; y <= 270.0f; y+=5.4f) {
+			for (float x = -480.0f; x <= 480.0f; x+=9.6f) {
+				renderables.emplace_back(std::make_unique<Renderable2D>(
+					Vec3(x, y, 0.0f),
+					Vec2(9.6f, 5.4f),
+					Vec4(rd.getRandomFloat(0.0f, 1.0f), rd.getRandomFloat(0.0f, 1.0f), rd.getRandomFloat(0.0f, 1.0f), 1.0f),
+					basicShader
+				));
+			}
+		}
 
 		basicShader->bind();
 		basicShader->setUniform("projection", m_Projection);
@@ -56,15 +68,20 @@ public:
 	}
 
 	void update() override {
-		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 		
 	}
 
 	void render() override {
 		renderer.begin();
 		
-		renderer.submit(renderable1.get());
-		renderer.submit(renderable2.get());
+		/*renderer.submit(renderable1.get());
+		renderer.submit(renderable2.get());*/
+
+		for (const auto& renderable : renderables) {
+			renderer.submit(renderable.get());
+		}
+
 		renderer.flush();
 
 		renderer.end();
