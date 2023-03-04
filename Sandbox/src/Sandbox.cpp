@@ -14,31 +14,15 @@ using namespace Hart::Utils;
 class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> basicShader;
-	float m_Vertices[12] = {
-		 100.f,  100.f, 0.0f,  // top right
-		 100.f, -100.f, 0.0f,  // bottom right
-		-100.f, -100.f, 0.0f,  // bottom left
-		-100.f,  100.f, 0.0f   // top left 
-	};
-	float m_Colors[16] = {
-		1.0f, 0.0f,  0.0f, 1.0f,  // top right
-		0.0f, 1.0f,  0.0f, 1.0f,  // bottom right
-		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
-		0.5f, 0.25f, 0.5f, 1.0f,  // top left 
-	};
-	uint32_t m_Indices[6] = {
-		0, 1, 3,
-		1, 2, 3,
-	};
-	VertexArray m_Vao;
-	IndexBuffer m_Ibo;
-	VertexBuffer m_Vbo, m_Cbo;
 
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
+
+	Renderable2D* renderable;
+	SimpleRenderer2D renderer;
 public:
 	Sandbox() 
-		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
+		: Application(960, 540, "Hart Engine: Sandbox", true) {
 
 		setTargetFPS(120);
 		setTargetUPS(120);
@@ -46,30 +30,11 @@ public:
 
 		basicShader = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 		
-		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-		m_Vao.bind();
 
-		// position attribute
-		m_Vbo.bind();
-		m_Vao.setVertexData(0, 3, 12, m_Vertices);
-		m_Vbo.unbind();
+		renderable = new Renderable2D(Vec3(100, 100, 0), Vec2(100, 100), Vec4(1, 0, 0, 1), basicShader.get());
 
-		// color attribute
-		m_Cbo.bind();
-		m_Vao.setVertexData(1, 4, 16, m_Colors);
-		m_Cbo.unbind();
-
-		m_Ibo.bind();
-		m_Vao.setIndexData(6, m_Indices);
-		m_Ibo.unbind();
-
-		m_Vao.unbind();
-
-		Mat4 model = Mat4(1.0f);
-		model = Mat4::translate(Vec3(100, -50, 0)) * Mat4::rotate(45.0f, Vec3(0, 0, 1)) * Mat4::scale(Vec3(1.25, 0.5, 1));
 		basicShader->bind();
 		basicShader->setUniform("projection", m_Projection);
-		basicShader->setUniform("model", model);
 		basicShader->unbind();
 
 	}
@@ -84,12 +49,12 @@ public:
 	}
 
 	void render() override {
-		basicShader->bind();
-		m_Vao.bind();
-		m_Ibo.bind();
-		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
-		m_Vao.unbind();
-		basicShader->unbind();
+		renderer.begin();
+		
+		renderer.submit(renderable);
+		renderer.flush();
+
+		renderer.end();
 	}
 
 };
