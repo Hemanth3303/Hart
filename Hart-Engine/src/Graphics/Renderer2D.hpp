@@ -1,3 +1,7 @@
+/*
+* Base class for 2d renderers
+*/
+
 #pragma once
 
 #include "HartPch.hpp"

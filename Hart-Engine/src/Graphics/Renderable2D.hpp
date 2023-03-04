@@ -1,3 +1,7 @@
+/*
+* Something that is rendered by a 2d renderer
+*/
+
 #pragma once
 
 #include "HartPch.hpp"
@@ -13,12 +17,12 @@ namespace Hart {
 	namespace Graphics {
 		class Renderable2D {
 		public:
-			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color, Shader* shader);
+			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color, std::shared_ptr<Shader> shader);
 			~Renderable2D();
 
-			Shader* getShader() const { return m_Shader; }
-			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer; }
-			VertexArray* getVertexArray() const { return m_VertexArray; }
+			Shader* getShader() const { return m_Shader.get(); }
+			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer.get(); }
+			VertexArray* getVertexArray() const { return m_VertexArray.get(); }
 
 			const Maths::Vec3& getPosition() const { return m_Position; }
 			const Maths::Vec2& getSize() const { return m_Size; }
@@ -29,10 +33,10 @@ namespace Hart {
 			Maths::Vec2 m_Size;
 			Maths::Vec4 m_Color;
 
-			Shader* m_Shader;
+			std::shared_ptr<Shader> m_Shader;
 			VertexBuffer m_VertexBuffer, m_ColorBuffer;
-			IndexBuffer* m_IndexBuffer;
-			VertexArray* m_VertexArray;
+			std::shared_ptr<IndexBuffer> m_IndexBuffer;
+			std::shared_ptr<VertexArray> m_VertexArray;
 		};
 	}
 }

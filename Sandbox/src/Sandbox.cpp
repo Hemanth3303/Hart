@@ -13,12 +13,12 @@ using namespace Hart::Utils;
 
 class Sandbox : public Application {
 private:
-	std::unique_ptr<Shader> basicShader;
+	std::shared_ptr<Shader> basicShader;
 
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 
-	Renderable2D* renderable;
+	std::unique_ptr<Renderable2D> renderable1, renderable2;
 	SimpleRenderer2D renderer;
 public:
 	Sandbox() 
@@ -28,10 +28,22 @@ public:
 		setTargetUPS(120);
 		setExitKey(KeyCode::Escape);
 
-		basicShader = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
+		basicShader = std::make_shared<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 		
 
-		renderable = new Renderable2D(Vec3(100, 100, 0), Vec2(100, 100), Vec4(1, 0, 0, 1), basicShader.get());
+		renderable1 = std::make_unique<Renderable2D>(
+			Vec3(100.0f, 100.0f, 0.0f), 
+			Vec2(50.0f, 50.0f), 
+			Vec4(1.0f, 0.0f, 0.0f, 1.0f), 
+			basicShader
+		
+		);
+		renderable2 = std::make_unique<Renderable2D>(
+			Vec3(-100.0f, -100.0f, 0.0f),
+			Vec2(100.0f, 25.0f),
+			Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+			basicShader
+		);
 
 		basicShader->bind();
 		basicShader->setUniform("projection", m_Projection);
@@ -51,7 +63,8 @@ public:
 	void render() override {
 		renderer.begin();
 		
-		renderer.submit(renderable);
+		renderer.submit(renderable1.get());
+		renderer.submit(renderable2.get());
 		renderer.flush();
 
 		renderer.end();

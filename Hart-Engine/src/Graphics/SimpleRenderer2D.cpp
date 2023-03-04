@@ -14,7 +14,7 @@ namespace Hart {
 				renderable->getShader()->bind();
 				renderable->getVertexArray()->bind();
 				renderable->getIndexBuffer()->bind();
-				
+
 				glDrawElements(GL_TRIANGLES, renderable->getIndexBuffer()->getIndexCount(), GL_UNSIGNED_INT, 0);
 				
 				renderable->getIndexBuffer()->unbind();

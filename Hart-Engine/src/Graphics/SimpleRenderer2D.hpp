@@ -1,3 +1,7 @@
+/*
+* A simple 2d renderer that draws one renderable at a time
+*/
+
 #pragma once
 
 #include "HartPch.hpp"
