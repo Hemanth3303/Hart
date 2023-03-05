@@ -1,3 +1,7 @@
+/*
+* Class for timing functions
+*/
+
 #pragma once
 
 #include "HartPch.hpp"

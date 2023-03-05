@@ -40,6 +40,10 @@ namespace Hart {
 			return Vec3(left.x - right.x, left.y - right.y, left.z - right.z);
 		}
 
+        bool Vec3::equals(const Vec3& left, const Vec3& right) {
+			return (left.x == right.x && left.y == right.y && left.z == right.z);
+        }
+
 		Vec3 Vec3::scalarMultiply(const Vec3& vec, float k) {
 			return Vec3(vec.x * k, vec.y * k, vec.z * k);
 		}
@@ -60,12 +64,20 @@ namespace Hart {
 			return *this;
         }
 
+        bool Vec3::equals(const Vec3& other) {
+			return Vec3::equals(*this, other);
+        }
+
         Vec3& Vec3::operator+=(const Vec3& other) {
 			return this->add(other);
         }
 
         Vec3& Vec3::operator-=(const Vec3& other) {
 			return this->subtract(other);
+        }
+
+        bool Vec3::operator==(const Vec3& other) {
+			return this->equals(other);
         }
 
         float Vec3::dotProduct(const Vec3& left, const Vec3& right) {
@@ -111,11 +123,15 @@ namespace Hart {
 		}
 
         Vec3 operator+(const Vec3& left, const Vec3& right) {
-            return Vec3();
+			return Vec3::add(left, right);
         }
 
         Vec3 operator-(const Vec3& left, const Vec3& right) {
-            return Vec3();
+            return Vec3::subtract(left, right);
+        }
+
+        bool operator==(const Vec3& left, const Vec3& right) {
+			return Vec3::equals(left, right);
         }
 
         std::ostream& operator<<(std::ostream& stream, Vec3 vec) {

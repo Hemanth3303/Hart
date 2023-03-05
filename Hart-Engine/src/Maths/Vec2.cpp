@@ -36,6 +36,10 @@ namespace Hart {
 			return Vec2(left.x - right.x, left.y - right.y);
 		}
 
+        bool Vec2::equals(const Vec2& left, const Vec2& right) {
+			return (left.x == right.x && left.y == right.y);
+        }
+
 		Vec2 Vec2::scalarMultiply(const Vec2& vec, float k) {
 			return Vec2(vec.x * k, vec.y * k);
 		}
@@ -54,6 +58,10 @@ namespace Hart {
 			return *this;
         }
 
+        bool Vec2::equals(const Vec2& other) {
+			return Vec2::equals(*this, other);
+        }
+
 		Vec2& Vec2::operator+=(const Vec2& other) {
 			return this->add(other);
 		}
@@ -61,6 +69,10 @@ namespace Hart {
 		Vec2& Vec2::operator-=(const Vec2& other) {
 			return this->subtract(other);
 		}
+
+        bool Vec2::operator==(const Vec2& other) {
+			return this->equals(other);
+        }
 
 		float Vec2::dotProduct(const Vec2& left, const Vec2& right) {
 			return ((left.x * right.x) + (left.y * right.y));
@@ -102,6 +114,10 @@ namespace Hart {
 		Vec2 operator-(const Vec2& left, const Vec2& right) {
 			return Vec2::subtract(left, right);
 		}
+
+        bool operator==(const Vec2& left, const Vec2& right) {
+			return Vec2::equals(left, right);
+        }
 
 		std::ostream& operator<<(std::ostream& stream, Vec2 vec) {
 			stream << vec.toString();

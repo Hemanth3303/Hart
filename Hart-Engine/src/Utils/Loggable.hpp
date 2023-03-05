@@ -1,10 +1,11 @@
 /*
-* Utility class used by the Logger to help log all primitive data types and std::string
+* Utility class used by the Logger to help log different types, including primitivies and Hart objects
 */
 
 #pragma once
 
 #include "HartPch.hpp"
+#include "Events/Event.hpp"
 
 namespace Hart {
 
@@ -39,6 +40,7 @@ namespace Hart {
 			Loggable(const Maths::Vec4& vec);
 
 			Loggable(const Maths::Mat4& matrix);
+			Loggable(const Events::Event& e);
 
 			~Loggable();
 

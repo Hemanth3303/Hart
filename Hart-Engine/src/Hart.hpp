@@ -5,7 +5,16 @@
 #include "Core/HartApplication.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
-#include "Core/InputManager.hpp"
+
+#include "Graphics/Shader.hpp"
+#include "Graphics/VertexBuffer.hpp"
+#include "Graphics/IndexBuffer.hpp"
+#include "Graphics/VertexArray.hpp"
+#include "Graphics/Renderable2D.hpp"
+#include "Graphics/Renderer2D.hpp"
+#include "Graphics/BatchRenderer2D.hpp"
+#include "Graphics/Layer.hpp"
+#include "Graphics/Group.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
@@ -13,6 +22,16 @@
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
 #include "Maths/Mat4.hpp"
+
+#include "Events/EventCategory.hpp"
+#include "Events/Event.hpp"
+#include "Events/WindowEvents.hpp"
+#include "Events/WindowEvents.hpp"
+#include "Events/MouseEvents.hpp"
+
+#include "Inputs/KeyCodes.hpp"
+#include "Inputs/MouseCodes.hpp"
+#include "Inputs/InputManager.hpp"
 
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

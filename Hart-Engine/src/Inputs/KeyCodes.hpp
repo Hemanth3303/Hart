@@ -1,15 +1,9 @@
-/*
-* For managing keyboard and mouse events
-*/
-
 #pragma once
 
-#include "HartPch.hpp"
-
 namespace Hart {
-	namespace Keyboard {
+	namespace Inputs {
 		// These follow the same numberings as GLFW keycodes
-		enum class Key {
+		enum class KeyCode {
 			Unknown = -1,
 			Space = 32,
 			Apostrophe = 39,
@@ -142,42 +136,5 @@ namespace Hart {
 
 			Last = Menu,
 		};
-
-		// Warning: Do not call this function before creating an application object
-		const bool isKeyDown(Key key);
-		// Warning: Do not call this function before creating an application object
-		const bool isKeyUp(Key key);
-	}
-	
-	namespace Mouse {
-		// These follow the same numberings as GLFW keycodes
-		enum class Button {
-			One=0,
-			Two=1,
-			Three=2,
-			Four=3,
-			Five=4,
-			Six=5,
-			Seven=6,
-			Eight=7,
-
-			Last=Eight,
-			Left=One,
-			Right=Two,
-			Middle=Three,
-		};
-
-		// Warning: Do not call this function before creating an application object
-		const bool isButtonDown(Button button);
-		// Warning: Do not call this function before creating an application object
-		const bool isButtonUp(Button button);
-	}
-
-	namespace JoyStick {
-		//TODO: Implement
-	}
-
-	namespace GamePad {
-		//TODO: Implement
 	}
 }

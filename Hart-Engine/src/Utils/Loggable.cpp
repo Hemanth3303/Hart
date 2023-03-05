@@ -71,6 +71,10 @@ namespace Hart {
 			m_Data = matrix.toString();
 		}
 
+		Loggable::Loggable(const Events::Event& e) {
+			m_Data = e.toString();
+		}
+
 		Loggable::~Loggable() {
 
 		}

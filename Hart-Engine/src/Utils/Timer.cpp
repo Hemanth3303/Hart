@@ -1,12 +1,13 @@
 #include "HartPch.hpp"
 #include "Timer.hpp"
-#include "Core/Window.hpp"
+#include "Core/HartApplication.hpp"
 #include "GLFW/glfw3.h"
 
 namespace Hart {
 	namespace Utils {
 		double Timer::getTimeInSeconds() {
-			HART_ASSERT_NOT_EQUAL(Hart::Window::s_Instance, nullptr);
+			HART_ASSERT_NOT_EQUAL(Hart::Application::s_Instance, nullptr);
+			HART_ASSERT_NOT_EQUAL(Hart::Application::s_Instance->getWindow(), nullptr);
 			return glfwGetTime();
 		}
 

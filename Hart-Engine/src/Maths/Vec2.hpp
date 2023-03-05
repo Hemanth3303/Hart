@@ -27,18 +27,22 @@ namespace Hart {
 
 			static Vec2 add(const Vec2& left, const Vec2& right);
 			static Vec2 subtract(const Vec2& left, const Vec2& right);
+			static bool equals(const Vec2& left, const Vec2& right);
 			static Vec2 scalarMultiply(const Vec2& vec, float k);
 
 			// adds value to the current vector
 			Vec2& add(const Vec2& other);
 			// subtracts value from the current vector
 			Vec2& subtract(const Vec2& other);
+			bool equals(const Vec2& other);
 
 			friend Vec2 operator+(const Vec2& left, const Vec2& right);
 			friend Vec2 operator-(const Vec2& left, const Vec2& right);
+			friend bool operator==(const Vec2& left, const Vec2& right);
 
 			Vec2& operator+=(const Vec2& other);
 			Vec2& operator-=(const Vec2& other);
+			bool operator==(const Vec2& other);
 
 			static float dotProduct(const Vec2& left, const Vec2& right);
 			// returns the normal of given vector without affecting the original vector
@@ -58,6 +62,7 @@ namespace Hart {
 		};
 		Vec2 operator+(const Vec2& left, const Vec2& right);
 		Vec2 operator-(const Vec2& left, const Vec2& right);
+		bool operator==(const Vec2& left, const Vec2& right);
 		std::ostream& operator<<(std::ostream& stream, Vec2 vec);
 	}
 }
