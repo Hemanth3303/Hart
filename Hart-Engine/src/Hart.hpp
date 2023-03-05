@@ -14,6 +14,7 @@
 #include "Graphics/Renderer2D.hpp"
 #include "Graphics/BatchRenderer2D.hpp"
 #include "Graphics/Layer.hpp"
+#include "Graphics/Group.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

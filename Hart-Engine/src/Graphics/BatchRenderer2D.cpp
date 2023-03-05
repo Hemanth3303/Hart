@@ -27,19 +27,19 @@ namespace Hart {
 
 			uint32_t color = a << 24 | b << 16 | g << 8 | r;
 
-			m_Buffer->position = position;
+			m_Buffer->position = *m_TransformationBack * position;
 			m_Buffer->color = color;
 			m_Buffer++;
 
-			m_Buffer->position = Maths::Vec3(position.x, position.y + size.y, position.z);
+			m_Buffer->position = *m_TransformationBack * Maths::Vec3(position.x, position.y + size.y, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 
-			m_Buffer->position = Maths::Vec3(position.x + size.x, position.y + size.y, position.z);
+			m_Buffer->position = *m_TransformationBack * Maths::Vec3(position.x + size.x, position.y + size.y, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 
-			m_Buffer->position = Maths::Vec3(position.x + size.x, position.y, position.z);
+			m_Buffer->position = *m_TransformationBack * Maths::Vec3(position.x + size.x, position.y, position.z);
 			m_Buffer->color = color;
 			m_Buffer++;
 

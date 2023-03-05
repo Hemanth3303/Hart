@@ -15,6 +15,7 @@
 
 namespace Hart {
 	namespace Graphics {
+		class Renderer2D;
 		struct VertexData {
 		public:
 			Maths::Vec3 position;
@@ -23,9 +24,12 @@ namespace Hart {
 		};
 		class Renderable2D {
 		public:
+			Renderable2D();
 			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color);
 			Renderable2D(float x, float y, float width, float height, const Maths::Vec4& color);
 			virtual ~Renderable2D();
+
+			virtual void submit(Renderer2D* render) const;
 
 			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer.get(); }
 			VertexArray* getVertexArray() const { return m_VertexArray.get(); }

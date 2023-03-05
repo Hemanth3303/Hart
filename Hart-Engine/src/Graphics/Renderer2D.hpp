@@ -18,8 +18,30 @@ namespace Hart {
 
 			virtual void end() {}
 
+			void pushTransformationMatrix(const Maths::Mat4& matrix, bool override = false) {
+				if (override) {
+					m_TransformationStack.push_back(matrix);
+				}
+				else {
+					m_TransformationStack.push_back(m_TransformationStack.back() * matrix);
+				}
+				m_TransformationBack = &m_TransformationStack.back();
+			}
+
+			void popTransformationMatrix() {
+				if (m_TransformationStack.size() > 1) {
+					m_TransformationStack.pop_back();
+				}
+				m_TransformationBack = &m_TransformationStack.back();
+			}
 		protected:
-			std::deque<const Renderable2D*> m_RenderQueue;
+			std::vector<Maths::Mat4> m_TransformationStack;
+			const Maths::Mat4* m_TransformationBack;
+		protected:
+			Renderer2D() {
+				m_TransformationStack.push_back(Maths::Mat4::indentity());
+				m_TransformationBack = &m_TransformationStack.back();
+			}
 		};
 	}
 }
