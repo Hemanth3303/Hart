@@ -11,10 +11,7 @@
 #include "Graphics/IndexBuffer.hpp"
 #include "Graphics/VertexArray.hpp"
 #include "Graphics/Renderable2D.hpp"
-#include "Graphics/StaticRenderable2D.hpp"
-#include "Graphics/DynamicRenderable2D.hpp"
 #include "Graphics/Renderer2D.hpp"
-#include "Graphics/SimpleRenderer2D.hpp"
 #include "Graphics/BatchRenderer2D.hpp"
 
 #include "Maths/MathConstants.hpp"

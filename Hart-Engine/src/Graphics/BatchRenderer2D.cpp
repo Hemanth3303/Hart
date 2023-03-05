@@ -19,7 +19,13 @@ namespace Hart {
         void BatchRenderer2D::submit(const Renderable2D* renderable) {
 			const Maths::Vec3& position = renderable->getPosition();
 			const Maths::Vec2& size = renderable->getSize();
-			const Maths::Vec4& color = renderable->getColor();
+
+			uint32_t r = static_cast<uint32_t>(renderable->getColor().x * 255.0f);
+			uint32_t g = static_cast<uint32_t>(renderable->getColor().y * 255.0f);
+			uint32_t b = static_cast<uint32_t>(renderable->getColor().z * 255.0f);
+			uint32_t a = static_cast<uint32_t>(renderable->getColor().w * 255.0f);
+
+			uint32_t color = a << 24 | b << 16 | g << 8 | r;
 
 			m_Buffer->position = position;
 			m_Buffer->color = color;
@@ -60,14 +66,14 @@ namespace Hart {
         void BatchRenderer2D::init() {
 			m_VertexArray.bind();
 			m_VertexBuffer.bind();
-			m_VertexArray.setVertexData(SHADER_VERTEX_INDEX, 3, RENDERER_BUFFER_SIZE, RENDERER_VERTEX_SIZE, 0, GL_DYNAMIC_DRAW, static_cast<const void*>(0));
-			m_VertexArray.setVertexData(SHADER_COLOR_INDEX, 4, RENDERER_BUFFER_SIZE, RENDERER_VERTEX_SIZE, 0, GL_DYNAMIC_DRAW, reinterpret_cast<const void*>(offsetof(VertexData, VertexData::color)));
+			m_VertexArray.setVertexData(SHADER_VERTEX_INDEX, 3, RENDERER_BUFFER_SIZE, RENDERER_VERTEX_SIZE, GL_FLOAT, GL_FALSE, 0, GL_DYNAMIC_DRAW, static_cast<const void*>(0));
+			m_VertexArray.setVertexData(SHADER_COLOR_INDEX, 4, RENDERER_BUFFER_SIZE, RENDERER_VERTEX_SIZE, GL_UNSIGNED_BYTE, GL_TRUE, 0, GL_DYNAMIC_DRAW, reinterpret_cast<const void*>(offsetof(VertexData, VertexData::color)));
 			m_VertexBuffer.unbind();
 
 			std::vector<uint32_t> indices;
 			indices.resize(RENDERER_INDICES_SIZE);
 			int32_t offset = 0;
-			for (uint32_t i = 0; i < RENDERER_INDICES_SIZE; i+=6) {
+			for (size_t i = 0; i < RENDERER_INDICES_SIZE; i+=6) {
 				indices[i] = offset + 0;
 				indices[i + 1] = offset + 1;
 				indices[i + 2] = offset + 2;

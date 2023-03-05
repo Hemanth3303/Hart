@@ -17,28 +17,25 @@ namespace Hart {
 	namespace Graphics {
 		struct VertexData {
 		public:
-			VertexData(const Maths::Vec3& p_position, const Maths::Vec2& p_size, const Maths::Vec4& p_color) 
-				:position(p_position), size(p_size), color(p_color) {
-
-			}
-		public:
 			Maths::Vec3 position;
 			Maths::Vec2 size;
-			Maths::Vec4 color;
+			uint32_t color;
 		};
 		class Renderable2D {
-		protected:
-			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color);
 		public:
+			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color);
 			virtual ~Renderable2D();
+
 			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer.get(); }
 			VertexArray* getVertexArray() const { return m_VertexArray.get(); }
 
-			const Maths::Vec3& getPosition() const { return m_VertexData.position; }
-			const Maths::Vec2& getSize() const { return m_VertexData.size; }
-			const Maths::Vec4& getColor() const { return m_VertexData.color; }
+			const Maths::Vec3& getPosition() const { return m_Position; }
+			const Maths::Vec2& getSize() const { return m_Size; }
+			const Maths::Vec4& getColor() const { return m_Color; }
 		protected:
-			VertexData m_VertexData;
+			Maths::Vec3 m_Position;
+			Maths::Vec2 m_Size;
+			Maths::Vec4 m_Color;
 
 			VertexBuffer m_VertexBuffer, m_ColorBuffer;
 			std::unique_ptr<IndexBuffer> m_IndexBuffer;
