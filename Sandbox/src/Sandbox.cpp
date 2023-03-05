@@ -13,8 +13,8 @@ using namespace Hart::Utils;
 
 class TileLayer : public Layer {
 public:
-	TileLayer(Renderer2D* renderer, const Shader& shader, Maths::Mat4 projectionMatrix)
-		:Layer(renderer, shader, projectionMatrix) {
+	TileLayer(Renderer2D* renderer, const Shader& shader)
+		:Layer(renderer, shader, Mat4::orthographic(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f), -1.0f, 1.0f)) {
 
 	}
 	~TileLayer() {
@@ -24,10 +24,7 @@ public:
 
 class Sandbox : public Application {
 private:
-	Shader shader1 = Shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
-
-	//to make (0,0) at center of game window
-	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
+	Shader shader1;
 
 	std::vector <std::unique_ptr<Renderable2D>> m_Renderables;
 	std::unique_ptr<Renderable2D> m_Renderable1, m_Renderable2;
@@ -43,7 +40,7 @@ public:
 		setExitKey(KeyCode::Escape);
 
 		m_Renderer = std::make_unique<BatchRenderer2D>();
-		m_TileLayer = std::make_unique<TileLayer>(m_Renderer.get(), shader1, m_Projection);
+		m_TileLayer = std::make_unique<TileLayer>(m_Renderer.get(), shader1);
 
 		m_Renderable1 = std::make_unique<Renderable2D>(100.0f, 100.0f, 50.0f, 50.0f, Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		m_Renderable2 = std::make_unique<Renderable2D>(-100.0f, -100.0f, 100.0f, 25.0f, Vec4(0.0f, 0.0f, 1.0f, 1.0f));
@@ -68,7 +65,7 @@ public:
 		m_TileLayer->add(m_Renderable1.get());
 		m_TileLayer->add(m_Group.get());
 		for (const auto& renderable : m_Renderables) {
-			//m_TileLayer->add(renderable.get());
+			m_TileLayer->add(renderable.get());
 		}
 	}
 
