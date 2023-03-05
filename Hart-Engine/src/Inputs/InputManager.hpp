@@ -6,6 +6,7 @@
 #include "Maths/Vec2.hpp"
 
 namespace Hart {
+	class Application;
 	namespace Inputs {
 		class InputManager {
 		public:
@@ -38,7 +39,7 @@ namespace Hart {
 			static KeyCode s_CurrentKey;
 			static MouseCode s_CurrentMouseButton;
 
-			friend class Application;
+			friend class Hart::Application;
 		};
 	}
 }
