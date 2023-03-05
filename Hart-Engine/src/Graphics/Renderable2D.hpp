@@ -24,6 +24,7 @@ namespace Hart {
 		class Renderable2D {
 		public:
 			Renderable2D(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color);
+			Renderable2D(float x, float y, float width, float height, const Maths::Vec4& color);
 			virtual ~Renderable2D();
 
 			IndexBuffer* getIndexBuffer() const { return m_IndexBuffer.get(); }

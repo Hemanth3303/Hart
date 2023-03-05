@@ -8,6 +8,11 @@ namespace Hart {
 
 		}
 
+		Renderable2D::Renderable2D(float x, float y, float width, float height, const Maths::Vec4& color) 
+			: m_Position(Maths::Vec3(x, y, 0.0f)), m_Size(Maths::Vec2(width, height)), m_Color(color) {
+
+		}
+
 		Renderable2D::~Renderable2D() {
 
 		}

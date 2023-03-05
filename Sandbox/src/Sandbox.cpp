@@ -11,16 +11,28 @@ using namespace Hart::Events;
 using namespace Hart::Inputs;
 using namespace Hart::Utils;
 
+class TileLayer : public Layer {
+public:
+	TileLayer(Renderer2D* renderer, const Shader& shader, Maths::Mat4 projectionMatrix)
+		:Layer(renderer, shader, projectionMatrix) {
+
+	}
+	~TileLayer() {
+
+	}
+};
+
 class Sandbox : public Application {
 private:
-	std::shared_ptr<Shader> basicShader;
+	Shader m_BasicShader = Shader("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 
-	std::vector <std::unique_ptr<Renderable2D>> renderables;
-	std::unique_ptr<Renderable2D> renderable1, renderable2;
-	BatchRenderer2D renderer;
+	std::vector <std::unique_ptr<Renderable2D>> m_Renderables;
+	std::unique_ptr<Renderable2D> m_Renderable1, m_Renderable2;
+	std::unique_ptr <Renderer2D> m_Renderer;
+	std::unique_ptr<TileLayer> m_TileLayer;
 public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
@@ -29,34 +41,30 @@ public:
 		setTargetUPS(120);
 		setExitKey(KeyCode::Escape);
 
-		basicShader = std::make_shared<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
-		
+		m_Renderer = std::make_unique<BatchRenderer2D>();
+		m_TileLayer = std::make_unique<TileLayer>(m_Renderer.get(), m_BasicShader, m_Projection);
 
-		renderable1 = std::make_unique<Renderable2D>(
-			Vec3(100.0f, 100.0f, 0.0f),
-			Vec2(50.0f, 50.0f),
-			Vec4(1.0f, 0.0f, 0.0f, 1.0f)
-		);
-		renderable2 = std::make_unique<Renderable2D>(
-			Vec3(-100.0f, -100.0f, 0.0f),
-			Vec2(100.0f, 25.0f),
-			Vec4(0.0f, 0.0f, 1.0f, 1.0f)
-		);
+		m_Renderable1 = std::make_unique<Renderable2D>(100.0f, 100.0f, 50.0f, 50.0f, Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		m_Renderable2 = std::make_unique<Renderable2D>(-100.0f, -100.0f, 100.0f, 25.0f, Vec4(0.0f, 0.0f, 1.0f, 1.0f));
 		Random rd;
 		for (float y = -270.0f; y <= 270.0f; y+=3.0f) {
 			for (float x = -480.0f; x <= 480.0f; x+=3.0f) {
-				renderables.emplace_back(std::make_unique<Renderable2D>(
-					Vec3(x, y, 0.0f),
-					Vec2(3.0f, 3.0f),
+				m_Renderables.emplace_back(std::make_unique<Renderable2D>(
+					x, y, 3.0f, 3.0f,
 					Vec4(rd.getRandomFloat(0.0f, 1.0f), rd.getRandomFloat(0.0f, 1.0f), rd.getRandomFloat(0.0f, 1.0f), 1.0f)
 				));
 			}
 		}
 
-		basicShader->bind();
-		basicShader->setUniform("projection", m_Projection);
-		basicShader->unbind();
+		m_BasicShader.bind();
+		m_BasicShader.setUniform("projection", m_Projection);
+		m_BasicShader.unbind();
 
+		m_TileLayer->add(m_Renderable1.get());
+		m_TileLayer->add(m_Renderable2.get());
+		for (const auto& renderable : m_Renderables) {
+			m_TileLayer->add(renderable.get());
+		}
 	}
 
 	~Sandbox() {
@@ -68,20 +76,7 @@ public:
 	}
 
 	void render() override {
-		basicShader->bind();
-		renderer.begin();
-		
-		renderer.submit(renderable1.get());
-		renderer.submit(renderable2.get());
-
-		for (const auto& renderable : renderables) {
-			renderer.submit(renderable.get());
-		}
-
-		renderer.end();
-		renderer.flush();
-
-		basicShader->unbind();
+		m_TileLayer->render();
 	}
 
 };

@@ -13,6 +13,7 @@
 #include "Graphics/Renderable2D.hpp"
 #include "Graphics/Renderer2D.hpp"
 #include "Graphics/BatchRenderer2D.hpp"
+#include "Graphics/Layer.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
