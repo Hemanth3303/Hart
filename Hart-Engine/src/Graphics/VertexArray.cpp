@@ -20,7 +20,7 @@ namespace Hart {
 			glBindVertexArray(0);
 		}
 
-		void VertexArray::setVertexData(uint32_t index, int32_t sizeOfBuffer, int32_t noOfElementsPerVertex, float* dataBuffer, uint32_t strideToAttributeInBuffer, GLenum dataType, GLboolean isNormalized, GLenum usage, const void* pointer) {
+		void VertexArray::setVertexData(uint32_t index, int32_t sizeOfBuffer, int32_t noOfElementsPerVertex, float* dataBuffer, uint32_t strideToAttributeInBuffer, const void* pointer, GLenum dataType, GLboolean isNormalized, GLenum usage) {
 			glBufferData(GL_ARRAY_BUFFER, sizeOfBuffer, static_cast<const void*>(dataBuffer), usage);
 			glVertexAttribPointer(index, noOfElementsPerVertex, dataType, isNormalized, strideToAttributeInBuffer, pointer);
 			glEnableVertexAttribArray(index);

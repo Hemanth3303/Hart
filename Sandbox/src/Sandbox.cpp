@@ -26,7 +26,7 @@ private:
 		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
 		0.5f, 0.25f, 0.5f, 1.0f,  // top left 
 	};
-	uint32_t m_Indices[6] = {
+	std::array<uint32_t, 6> m_Indices = {
 		0, 1, 3,
 		1, 2, 3,
 	};
@@ -60,16 +60,13 @@ public:
 		m_Cbo.unbind();
 
 		m_Ibo.bind();
-		m_Vao.setIndexData(6, m_Indices);
+		m_Vao.setIndexData((uint32_t)m_Indices.size(), m_Indices.data());
 		m_Ibo.unbind();
 
 		m_Vao.unbind();
 
-		Mat4 model = Mat4(1.0f);
-		model = Mat4::translate(Vec3(100, -50, 0)) * Mat4::rotate(45.0f, Vec3(0, 0, 1)) * Mat4::scale(Vec3(1.25, 0.5, 1));
 		basicShader->bind();
 		basicShader->setUniform("projection", m_Projection);
-		basicShader->setUniform("model", model);
 		basicShader->unbind();
 
 	}
