@@ -14,13 +14,13 @@ using namespace Hart::Utils;
 class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> basicShader;
-	float m_Vertices[12] = {
+	std::array<float, 12> m_Vertices = {
 		 100.f,  100.f, 0.0f,  // top right
 		 100.f, -100.f, 0.0f,  // bottom right
 		-100.f, -100.f, 0.0f,  // bottom left
 		-100.f,  100.f, 0.0f   // top left 
 	};
-	float m_Colors[16] = {
+	std::array<float, 16> m_Colors = {
 		1.0f, 0.0f,  0.0f, 1.0f,  // top right
 		0.0f, 1.0f,  0.0f, 1.0f,  // bottom right
 		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
@@ -51,12 +51,12 @@ public:
 
 		// position attribute
 		m_Vbo.bind();
-		m_Vao.setVertexData(0, 3, 12, m_Vertices);
+		m_Vao.setVertexData(0, sizeof(m_Vertices), 3, m_Vertices.data());
 		m_Vbo.unbind();
 
 		// color attribute
 		m_Cbo.bind();
-		m_Vao.setVertexData(1, 4, 16, m_Colors);
+		m_Vao.setVertexData(1, sizeof(m_Colors), 4, m_Colors.data());
 		m_Cbo.unbind();
 
 		m_Ibo.bind();
