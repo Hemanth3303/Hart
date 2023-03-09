@@ -7,6 +7,7 @@
 
 namespace Hart {
 	namespace Inputs {
+		class Application;
 		class InputManager {
 		public:
 			static constexpr int32_t GetMaxKeys();
@@ -38,7 +39,7 @@ namespace Hart {
 			static KeyCode s_CurrentKey;
 			static MouseCode s_CurrentMouseButton;
 
-			friend class Application;
+			friend class Hart::Application;
 		};
 	}
 }
