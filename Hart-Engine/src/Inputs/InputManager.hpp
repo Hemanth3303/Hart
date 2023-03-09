@@ -6,8 +6,8 @@
 #include "Maths/Vec2.hpp"
 
 namespace Hart {
-	namespace Inputs {
 		class Application;
+	namespace Inputs {
 		class InputManager {
 		public:
 			static constexpr int32_t GetMaxKeys();
