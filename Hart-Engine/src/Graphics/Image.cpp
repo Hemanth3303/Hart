@@ -15,8 +15,8 @@ namespace Hart {
 			m_ImageData = reinterpret_cast<uint32_t*>(stbi_load(fileName.c_str(), &m_Width, &m_Height, &m_NoOfChannels, STBI_rgb_alpha));
 		}
 
-        Image::Image(uint32_t* buffer, int32_t width, int32_t height, int32_t noOfChannels)
-			: m_ImageData(buffer), m_Width(width), m_Height(height), m_NoOfChannels(noOfChannels) {
+        Image::Image(uint32_t* dataBuffer, int32_t width, int32_t height, int32_t noOfChannels)
+			: m_ImageData(dataBuffer), m_Width(width), m_Height(height), m_NoOfChannels(noOfChannels) {
 
         }
 
