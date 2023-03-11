@@ -20,6 +20,8 @@ namespace Hart {
         }
 
         Texture2D::~Texture2D() {
+			HART_ENGINE_LOG(std::string("Deleting Texture Number: ") + std::to_string(m_TextureSlot));
+			s_NoOfTextures -= 1;
 			glDeleteTextures(1, &m_ID);
         }
 

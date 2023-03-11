@@ -15,10 +15,10 @@ class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> shader1;
 	std::array<float, 12> m_Vertices = {
-		 480.0f,  270.f, 0.0f,  // top right
-		 480.0f, -270.f, 0.0f,  // bottom right
-		-480.0f, -270.f, 0.0f,  // bottom left
-		-480.0f,  270.f, 0.0f   // top left 
+		 100.0f,  100.f, 0.0f,  // top right
+		 100.0f, -100.f, 0.0f,  // bottom right
+		-100.0f, -100.f, 0.0f,  // bottom left
+		-100.0f,  100.f, 0.0f   // top left 
 	};
 	std::array<float, 16> m_Colors = {
 		1.0f, 0.0f,  0.0f, 1.0f,  // top right
@@ -39,7 +39,6 @@ private:
 	VertexArray m_Vao;
 	IndexBuffer m_Ibo;
 	VertexBuffer m_Vbo, m_Cbo, m_Tbo;
-	Texture2D* tex1;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
@@ -50,7 +49,7 @@ public:
 		setTargetUPS(120);
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_unique<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
+		shader1 = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 		
 		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 		m_Vao.bind();
@@ -75,25 +74,9 @@ public:
 		m_Ibo.unbind();
 
 		m_Vao.unbind();
-		
-		uint32_t* pixels = new uint32_t[200 * 100];
-		Random rd;
-		for (int y = 0; y < 100; y++) {
-			for (int x = 0; x < 200; x++) {
-				int r = rd.getRandomInt32(0, 255);
-				int g = rd.getRandomInt32(0, 255);
-				int b = rd.getRandomInt32(0, 255);
-				int a = rd.getRandomInt32(0, 255);
-
-				int c = a << 24 | b << 16 | g << 8 | r;
-				pixels[x * 100 + y] = c;
-			}
-		}
-		tex1 = new Texture2D(pixels, 32, 32, 4, GL_NEAREST, GL_NEAREST_MIPMAP_NEAREST);
 
 		shader1->bind();
 		shader1->setUniform("projection", m_Projection);
-		shader1->setUniform("gameTexture1", 0);
 		shader1->unbind();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -110,13 +93,11 @@ public:
 
 	void render() override {
 		shader1->bind();
-		tex1->bind();
 		m_Vao.bind();
 		m_Ibo.bind();
 		
 		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
 
-		tex1->unbind();
 		m_Ibo.unbind();
 		m_Vao.unbind();
 		shader1->unbind();
