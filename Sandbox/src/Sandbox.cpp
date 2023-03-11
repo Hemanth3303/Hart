@@ -39,14 +39,12 @@ private:
 	VertexArray m_Vao;
 	IndexBuffer m_Ibo;
 	VertexBuffer m_Vbo, m_Cbo, m_Tbo;
-	Texture2D m_Tex1;
-	Texture2D m_Tex2;
-
+	Texture2D* tex;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
 	Sandbox() 
-		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6), m_Tex1("res/images/grass_block.png", GL_NEAREST, GL_NEAREST_MIPMAP_NEAREST), m_Tex2("res/images/awesomeface.png") {
+		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
 
 		setTargetFPS(120);
 		setTargetUPS(120);
@@ -77,14 +75,21 @@ public:
 		m_Ibo.unbind();
 
 		m_Vao.unbind();
+		
+		uint32_t* pixels = new uint32_t[200 * 100];
+		for (int y = 0; y < 100; y++) {
+			for (int x = 0; x < 200; x++) {
+				pixels[x * 100 + y] = 0xffff0000;
+			}
+		}
+		tex = new Texture2D(pixels, 32, 32);
 
 		shader1->bind();
 		shader1->setUniform("projection", m_Projection);
 		shader1->setUniform("gameTexture1", 0);
-		shader1->setUniform("gameTexture2", 1);
 		shader1->unbind();
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	~Sandbox() {
@@ -98,14 +103,13 @@ public:
 
 	void render() override {
 		shader1->bind();
-		m_Tex1.bind();
-		m_Tex2.bind();
+		tex->bind();
 		m_Vao.bind();
 		m_Ibo.bind();
+		
 		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
 
-		m_Tex1.unbind();
-		m_Tex2.unbind();
+		tex->unbind();
 		m_Ibo.unbind();
 		m_Vao.unbind();
 		shader1->unbind();
