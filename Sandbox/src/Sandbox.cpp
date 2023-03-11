@@ -39,7 +39,7 @@ private:
 	VertexArray m_Vao;
 	IndexBuffer m_Ibo;
 	VertexBuffer m_Vbo, m_Cbo, m_Tbo;
-	Texture2D* tex;
+	Texture2D* tex1;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
@@ -82,14 +82,14 @@ public:
 				pixels[x * 100 + y] = 0xffff0000;
 			}
 		}
-		tex = new Texture2D(pixels, 32, 32);
+		tex1 = new Texture2D(pixels, 32, 32);
 
 		shader1->bind();
 		shader1->setUniform("projection", m_Projection);
 		shader1->setUniform("gameTexture1", 0);
 		shader1->unbind();
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	}
 
 	~Sandbox() {
@@ -103,13 +103,13 @@ public:
 
 	void render() override {
 		shader1->bind();
-		tex->bind();
+		tex1->bind();
 		m_Vao.bind();
 		m_Ibo.bind();
 		
 		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
 
-		tex->unbind();
+		tex1->unbind();
 		m_Ibo.unbind();
 		m_Vao.unbind();
 		shader1->unbind();
