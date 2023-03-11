@@ -56,8 +56,10 @@ project "Sandbox"
 	filter { "system:windows" }
 		defines { "_CRT_SECURE_NO_WARNINGS", "NOMINMAX", "WIN32_LEAN_AND_MEAN" }
 
-	filter { "system:windows", "action:not vs" }
-		links { "glfw", "glad", "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
+	filter { "system:windows", "action:not vs*" }
+		links { "glfw", "glad", "stb_image"}
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
 
 	filter { "system:linux" }
-		links { "glfw", "glad", "pthread", "GL", "m", "dl", "rt", "X11" }
+		links { "glfw", "glad", "stb_image"}
+		links { "pthread", "GL", "m", "dl", "rt", "X11" }

@@ -45,6 +45,7 @@ project "Hart-Engine"
 		"%{wks.location}/vendor/stb_image/include",
 	}
 
+	-- remember to add dependencies to Client App/Game's links{} section if compiler!=MSVC (action: not vs*)
 	links { "glfw", "glad", "stb_image" }
 
 	filter "configurations:Debug"
