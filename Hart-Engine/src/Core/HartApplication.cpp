@@ -7,6 +7,8 @@ namespace Hart {
 
 	Application* Application::s_Instance = nullptr;
 
+	int64_t Application::s_MaxNoOfTextureSlotsPerShader;
+
 	Application::Application() 
 		:m_WindowData() {
 		HART_ENGINE_LOG("Initializing Hart Engine");
@@ -96,6 +98,10 @@ namespace Hart {
 
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
+
+		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &s_MaxNoOfTextureSlotsPerShader);
+		HART_ENGINE_LOG(std::string("Maximum texture slots per shader = ") + std::to_string(s_MaxNoOfTextureSlotsPerShader));
+		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::onEvent)));
 	}

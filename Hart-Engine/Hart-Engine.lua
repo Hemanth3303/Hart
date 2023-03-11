@@ -42,9 +42,10 @@ project "Hart-Engine"
 		"%{prj.location}/src",
 		"%{wks.location}/vendor/glfw/include",
 		"%{wks.location}/vendor/glad/include",
+		"%{wks.location}/vendor/stb_image/include",
 	}
 
-	links { "glfw", "glad" }
+	links { "glfw", "glad", "stb_image" }
 
 	filter "configurations:Debug"
 		runtime "Debug"

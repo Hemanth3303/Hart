@@ -22,6 +22,9 @@ project "Sandbox"
 		"%{prj.location}/**.glsl",
 		"%{prj.location}/**.vert",
 		"%{prj.location}/**.frag",
+		"%{prj.location}/**.png",
+		"%{prj.location}/**.jpg",
+		"%{prj.location}/**.jpeg",
 		"%{prj.location}/Sandbox.lua",
 	}
 

@@ -40,6 +40,8 @@ namespace Hart {
 		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
 		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
+		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
+		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
 	protected:
 		//must be overriden by user
 		virtual void update() = 0;
@@ -80,6 +82,9 @@ namespace Hart {
 		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
+
+		static int64_t s_MaxNoOfTextureSlotsPerShader;
+		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 	};
 
 	// User must define this function

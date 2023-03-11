@@ -1,9 +1,10 @@
 #include "HartPch.hpp"
 #include "FileManager.hpp"
+#include "stb_image.h"
 
 namespace Hart {
 	namespace Utils {
-		std::string FileManager::ReadFromFile(const std::string& fileName) {
+		std::string FileManager::ReadStringFromFile(const std::string& fileName) {
 			std::ifstream inFile;
 			std::stringstream dataStream;
 			std::string outDataStr = "";
@@ -27,7 +28,7 @@ namespace Hart {
 			return outDataStr;
 		}
 
-		void FileManager::WriteToFile(const std::string& data, const std::string& fileName, const std::string& directory) {
+		void FileManager::WriteStringToFile(const std::string& data, const std::string& fileName, const std::string& directory) {
 			std::fstream outFile;
 			
 			if (!std::filesystem::is_directory(directory)) {
