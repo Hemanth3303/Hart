@@ -15,10 +15,10 @@ class Sandbox : public Application {
 private:
 	std::unique_ptr<Shader> shader1;
 	std::array<float, 12> m_Vertices = {
-		 100.f,  100.f, 0.0f,  // top right
-		 100.f, -100.f, 0.0f,  // bottom right
-		-100.f, -100.f, 0.0f,  // bottom left
-		-100.f,  100.f, 0.0f   // top left 
+		 480.0f,  270.f, 0.0f,  // top right
+		 480.0f, -270.f, 0.0f,  // bottom right
+		-480.0f, -270.f, 0.0f,  // bottom left
+		-480.0f,  270.f, 0.0f   // top left 
 	};
 	std::array<float, 16> m_Colors = {
 		1.0f, 0.0f,  0.0f, 1.0f,  // top right
@@ -77,19 +77,26 @@ public:
 		m_Vao.unbind();
 		
 		uint32_t* pixels = new uint32_t[200 * 100];
+		Random rd;
 		for (int y = 0; y < 100; y++) {
 			for (int x = 0; x < 200; x++) {
-				pixels[x * 100 + y] = 0xffff0000;
+				int r = rd.getRandomInt32(0, 255);
+				int g = rd.getRandomInt32(0, 255);
+				int b = rd.getRandomInt32(0, 255);
+				int a = rd.getRandomInt32(0, 255);
+
+				int c = a << 24 | b << 16 | g << 8 | r;
+				pixels[x * 100 + y] = c;
 			}
 		}
-		tex1 = new Texture2D(pixels, 32, 32);
+		tex1 = new Texture2D(pixels, 32, 32, 4, GL_NEAREST, GL_NEAREST_MIPMAP_NEAREST);
 
 		shader1->bind();
 		shader1->setUniform("projection", m_Projection);
 		shader1->setUniform("gameTexture1", 0);
 		shader1->unbind();
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	~Sandbox() {
