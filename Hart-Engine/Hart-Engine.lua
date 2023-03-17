@@ -5,7 +5,7 @@ project "Hart-Engine"
 	cdialect "C17"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
-	staticruntime "Off"
+	staticruntime "on"
 	kind "StaticLib"
 	systemversion "latest"
 	targetname "%{prj.name}"
@@ -15,8 +15,8 @@ project "Hart-Engine"
 	}
 
 	filter { "action:not cmake" }
-	pchheader "HartPch.hpp"
-	pchsource "%{prj.location}/src/HartPch.cpp"
+		pchheader "HartPch.hpp"
+		pchsource "%{prj.location}/src/HartPch.cpp"
 
 	filter {  }
 

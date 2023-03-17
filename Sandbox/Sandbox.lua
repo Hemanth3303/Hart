@@ -5,7 +5,7 @@ project "Sandbox"
 	cdialect "C17"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
-	staticruntime "Off"
+	staticruntime "on"
 	systemversion "latest"
 	targetname "%{prj.name}"
 
@@ -54,7 +54,11 @@ project "Sandbox"
 		entrypoint "mainCRTStartup"
 
 	filter { "system:windows" }
-		defines { "_CRT_SECURE_NO_WARNINGS", "NOMINMAX", "WIN32_LEAN_AND_MEAN" }
+		defines { 
+			"_CRT_SECURE_NO_WARNINGS", 
+			"NOMINMAX", 
+			"WIN32_LEAN_AND_MEAN"
+		}
 
 	filter { "system:windows", "action:not vs*" }
 		links { "glfw", "glad", "stb_image"}
