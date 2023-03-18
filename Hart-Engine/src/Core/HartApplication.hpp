@@ -37,7 +37,7 @@ namespace Hart {
 		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
 		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
 		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
-		inline bool getIsVsyncEnabled() const { return m_IsVsyncEnabled; }
+		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		// sets the preferred frames per second
 		// default value is 60
 		inline void setTargetFPS(uint32_t targetFPS) { m_TargetFPS = targetFPS; }
@@ -46,8 +46,8 @@ namespace Hart {
 		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 	protected:
-		//must be overriden by user
-		virtual void onEvent(const Events::Event& e) = 0;
+		//can be overriden by user, default implementation does nothing
+		virtual void onEvent(const Events::Event& e) {}
 		//must be overriden by user
 		virtual void update() = 0;
 		//must be overriden by user

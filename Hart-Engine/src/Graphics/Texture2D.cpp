@@ -13,6 +13,12 @@ namespace Hart {
 			init(magFilterParam, minFliterParam);
         }
 
+		Texture2D::Texture2D(const Image& image, GLint magFilterParam, GLint minFliterParam) 
+			:m_Image(image) {
+			
+			init(magFilterParam, minFliterParam);
+		}
+
         Texture2D::Texture2D(uint32_t* dataBuffer, int32_t width, int32_t height, int32_t noOfChannels, GLint magFilterParam, GLint minFliterParam)
 			: m_Image(dataBuffer, width, height, noOfChannels) {
 

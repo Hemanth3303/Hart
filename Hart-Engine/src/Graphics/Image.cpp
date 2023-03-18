@@ -13,6 +13,7 @@ namespace Hart {
 			HART_ENGINE_LOG(std::string("Loading Image: ") + fileName);
 			stbi_set_flip_vertically_on_load(true);
 			m_ImageData = reinterpret_cast<uint32_t*>(stbi_load(fileName.c_str(), &m_Width, &m_Height, &m_NoOfChannels, STBI_rgb_alpha));
+			stbi_set_flip_vertically_on_load(false);
 		}
 
         Image::Image(uint32_t* dataBuffer, int32_t width, int32_t height, int32_t noOfChannels)
@@ -22,7 +23,6 @@ namespace Hart {
 
 		Image::~Image() {
 			stbi_image_free(m_ImageData);
-			stbi_set_flip_vertically_on_load(false);
 		}
 	}
 }

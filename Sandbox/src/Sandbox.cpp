@@ -39,17 +39,18 @@ private:
 	VertexArray m_Vao;
 	IndexBuffer m_Ibo;
 	VertexBuffer m_Vbo, m_Cbo, m_Tbo;
+	Texture2D* tex;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
 
-		setTargetFPS(240);
-		setTargetUPS(240);
+		setTargetFPS(144);
+		setTargetUPS(144);
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
+		shader1 = std::make_unique<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
 		
 		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 		m_Vao.bind();
@@ -80,39 +81,32 @@ public:
 		shader1->unbind();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+		uint32_t *buffer = new uint32_t[100 * 100];
+		for (int i = 0; i < 100 * 100; i++) {
+			buffer[i] = 0xff00ff00;
+		}
+		Image image(buffer, 100, 100);
+		tex = new Texture2D(image);
 	}
 
 	~Sandbox() {
 
 	}
 
-	virtual void onEvent(const Events::Event& e) {
-		if (e.getEventType() == Events::EventType::WindowResizedEvent) {
-			HART_CLIENT_LOG("window resized");
-		}
-		if (InputManager::IsKeyPressed(KeyCode::V)) {
-			if (getIsVsyncEnabled()) {
-				enableVsync(false);
-			}
-			else {
-				enableVsync();
-			}
-		}
-		
-	}
-
 	void update() override {
-		HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
-		
+		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 	}
 
 	void render() override {
 		shader1->bind();
 		m_Vao.bind();
 		m_Ibo.bind();
-		
+		tex->bind();
+
 		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
 
+		tex->unbind();
 		m_Ibo.unbind();
 		m_Vao.unbind();
 		shader1->unbind();
