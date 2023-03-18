@@ -15,6 +15,10 @@ namespace Hart {
 		HART_ENGINE_LOG("Closing Window");
 	}
 
+    void Window::swapBuffers() {
+		glfwSwapBuffers(m_GLFWwindow);
+    }
+
 	void Window::init() {
 		glfwWindowHint(GLFW_RESIZABLE, m_WindowData.m_Resizable);
 		HART_ENGINE_LOG("Initializing Window");

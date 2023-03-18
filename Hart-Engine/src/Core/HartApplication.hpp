@@ -26,23 +26,28 @@ namespace Hart {
 		virtual ~Application();
 
 		void run();
+		// enables or disables vsync
+		void enableVsync(bool enable = true);
 
 		// returns a non ownning reference to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
+		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
+		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
+		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
+		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
+		inline bool getIsVsyncEnabled() const { return m_IsVsyncEnabled; }
 		// sets the preferred frames per second
 		// default value is 60
 		inline void setTargetFPS(uint32_t targetFPS) { m_TargetFPS = targetFPS; }
 		// sets the preferred updates per second
 		// default value is 60
 		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
-		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
-		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
-		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
-		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
 	protected:
+		//must be overriden by user
+		virtual void onEvent(const Events::Event& e) = 0;
 		//must be overriden by user
 		virtual void update() = 0;
 		//must be overriden by user
@@ -51,7 +56,7 @@ namespace Hart {
 		void init();
 		void deinit();
 		// Event managers
-		void onEvent(Events::Event& e);
+		void eventHandler(Events::Event& e);
 		// Begin Event Methods
 		// The methods below return true if the event is processed and no need to propogate further, else they return false
 
@@ -82,6 +87,7 @@ namespace Hart {
 		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
 		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
+		bool m_IsVsyncEnabled = false;
 
 		static int64_t s_MaxNoOfTextureSlotsPerShader;
 		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;

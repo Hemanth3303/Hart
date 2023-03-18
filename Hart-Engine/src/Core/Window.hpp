@@ -23,7 +23,7 @@ namespace Hart {
 		Window(const WindowData& windowData);
 		~Window();
 
-		void init();
+		void swapBuffers();
 
 		inline const int32_t& getWidth() const { return m_WindowData.m_Width; }
 		inline const int32_t& getHeight() const { return m_WindowData.m_Height; }
@@ -41,6 +41,7 @@ namespace Hart {
 		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 	private:
+		void init();
 		inline void setWindowSize(int32_t width, int32_t height) { m_WindowData.m_Width = width, m_WindowData.m_Height = height; }
 		inline void setWindowPosition(float xpos, float ypos) { m_WindowData.m_Position.x = xpos, m_WindowData.m_Position.y = ypos; }
 		void setEventCallback(const EventCallBackFunction callbackFn);

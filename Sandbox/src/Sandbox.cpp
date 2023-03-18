@@ -45,8 +45,8 @@ public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
 
-		setTargetFPS(120);
-		setTargetUPS(120);
+		setTargetFPS(240);
+		setTargetUPS(240);
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
@@ -86,8 +86,23 @@ public:
 
 	}
 
+	virtual void onEvent(const Events::Event& e) {
+		if (e.getEventType() == Events::EventType::WindowResizedEvent) {
+			HART_CLIENT_LOG("window resized");
+		}
+		if (InputManager::IsKeyPressed(KeyCode::V)) {
+			if (getIsVsyncEnabled()) {
+				enableVsync(false);
+			}
+			else {
+				enableVsync();
+			}
+		}
+		
+	}
+
 	void update() override {
-		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
 		
 	}
 

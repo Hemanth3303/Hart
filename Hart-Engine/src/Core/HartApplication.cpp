@@ -61,10 +61,11 @@ namespace Hart {
 			}
 
 			// render loop
+			
 			if (deltaFPS >= 1) {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				render();
-				glfwSwapBuffers(m_Window->getGLFWwindow());
+				m_Window->swapBuffers();
 				frames++;
 				deltaFPS--;
 			}
@@ -77,6 +78,17 @@ namespace Hart {
 				updates = 0;
 			}
 			
+		}
+	}
+
+	void Application::enableVsync(bool enable) {
+		if (!enable) {
+			m_IsVsyncEnabled = false;
+			glfwSwapInterval(0);
+		}
+		else {
+			m_IsVsyncEnabled = true;
+			glfwSwapInterval(1);
 		}
 	}
 
@@ -103,7 +115,7 @@ namespace Hart {
 		HART_ENGINE_LOG(std::string("Maximum texture slots per shader = ") + std::to_string(s_MaxNoOfTextureSlotsPerShader));
 		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
 
-		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::onEvent)));
+		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
 
 	void Application::deinit() {
@@ -111,7 +123,7 @@ namespace Hart {
 		m_Window.reset();
 	}
 
-	void Application::onEvent(Events::Event& e) {
+	void Application::eventHandler(Events::Event& e) {
 
 		Events::EventDispatcher eventDispatcher(e);
 		// window events
@@ -132,6 +144,9 @@ namespace Hart {
 		eventDispatcher.dispatch<Events::MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
 		eventDispatcher.dispatch<Events::MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
 
+		//pass events to client
+		onEvent(e);
+
 	}
 	
 	bool Application::onWindowResized(Events::WindowResizedEvent& e) {
@@ -141,7 +156,6 @@ namespace Hart {
 
 	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
 		m_IsRunning = false;
-
 		return true;
 	}
 
