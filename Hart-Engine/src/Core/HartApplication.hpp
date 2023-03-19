@@ -53,8 +53,8 @@ namespace Hart {
 		//must be overriden by user
 		virtual void render() = 0;
 	private:
-		void init();
-		void deinit();
+		void initApplication();
+		void deinitApplication();
 		// Event managers
 		void eventHandler(Events::Event& e);
 		// Begin Event Methods

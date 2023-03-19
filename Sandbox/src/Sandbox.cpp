@@ -26,7 +26,7 @@ private:
 		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
 		0.5f, 0.25f, 0.5f, 1.0f,  // top left 
 	};
-	std::array<float, 8> m_Textures = {
+	std::array<float, 8> m_TexCoords = {
 		1.0f, 1.0f,  // top right
 		1.0f, 0.0f,	 // bottom right
 		0.0f, 0.0f,	 // bottom left
@@ -36,15 +36,15 @@ private:
 		0, 1, 3,
 		1, 2, 3,
 	};
-	VertexArray m_Vao;
-	IndexBuffer m_Ibo;
-	VertexBuffer m_Vbo, m_Cbo, m_Tbo;
+	uint32_t vao;
+	IndexBuffer *m_Ibo;
+	VertexBuffer *m_Vbo, *m_Cbo, *m_Tbo;
 	Texture2D* tex;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
 	Sandbox() 
-		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
+		: Application(960, 540, "Hart Engine: Sandbox", true) {
 
 		setTargetFPS(144);
 		setTargetUPS(144);
@@ -53,28 +53,31 @@ public:
 		shader1 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
 		
 		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-		m_Vao.bind();
-
+		glCreateVertexArrays(1, &vao);
+		glBindVertexArray(vao);
 		// position attribute
-		m_Vbo.bind();
-		m_Vao.setVertexData(0, sizeof(m_Vertices), 3, m_Vertices.data(), 3 * sizeof(float));
-		m_Vbo.unbind();
+		m_Vbo = new VertexBuffer(m_Vertices.data(), sizeof(m_Vertices));
+		m_Vbo->bind();
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 
 		// color attribute
-		m_Cbo.bind();
-		m_Vao.setVertexData(1, sizeof(m_Colors), 4, m_Colors.data(), 4 * sizeof(float));
-		m_Cbo.unbind();
+		m_Cbo = new VertexBuffer(m_Colors.data(), sizeof(m_Colors));
+		m_Cbo->bind();
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 
 		//texture attribute
-		m_Tbo.bind();
-		m_Vao.setVertexData(2, sizeof(m_Textures), 2, m_Textures.data(), 2 * sizeof(float));
-		m_Tbo.unbind();
+		m_Tbo = new VertexBuffer(m_TexCoords.data(), sizeof(m_TexCoords));
+		m_Tbo->bind();
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
-		m_Ibo.bind();
-		m_Vao.setIndexData((uint32_t)m_Indices.size(), m_Indices.data());
-		m_Ibo.unbind();
+		m_Ibo = new IndexBuffer(m_Indices.data(), 6);
 
-		m_Vao.unbind();
+		m_Ibo->bind();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), m_Indices.data(), GL_STATIC_DRAW);
+		m_Ibo->unbind();
 
 		shader1->bind();
 		shader1->setUniform("projection", m_Projection);
@@ -82,10 +85,12 @@ public:
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		tex = new Texture2D("res/images/awesomeface.png");
+
+		glBindVertexArray(0);
 	}
 
 	~Sandbox() {
-
+		delete tex;
 	}
 
 	void update() override {
@@ -94,18 +99,17 @@ public:
 
 	void render() override {
 		shader1->bind();
-		m_Vao.bind();
-		m_Ibo.bind();
+		glBindVertexArray(vao);
+		m_Ibo->bind();
 		tex->bind();
 
-		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, m_Ibo->getIndexCount(), GL_UNSIGNED_INT, 0);
 
 		tex->unbind();
-		m_Ibo.unbind();
-		m_Vao.unbind();
+		m_Ibo->unbind();
+		glBindVertexArray(0);
 		shader1->unbind();
 	}
-
 };
 
 std::unique_ptr<Hart::Application> Hart::CreateApplication() {

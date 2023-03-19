@@ -3,9 +3,13 @@
 
 namespace Hart {
 	namespace Graphics {
-		IndexBuffer::IndexBuffer(uint32_t indexCount) 
+		IndexBuffer::IndexBuffer(uint32_t* indices, uint32_t indexCount)
 			:m_IndexCount(indexCount) {
-			glGenBuffers(1, &m_ID);
+
+			glCreateBuffers(1, &m_ID);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 
 		IndexBuffer::~IndexBuffer() {

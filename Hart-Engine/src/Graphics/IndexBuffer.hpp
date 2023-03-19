@@ -8,7 +8,7 @@ namespace Hart {
 	namespace Graphics {
 		class IndexBuffer {
 		public:
-			IndexBuffer(uint32_t indexCount);
+			IndexBuffer(uint32_t* indices, uint32_t indexCount);
 			~IndexBuffer();
 
 			inline const uint32_t getIndexCount() const { return m_IndexCount; }
