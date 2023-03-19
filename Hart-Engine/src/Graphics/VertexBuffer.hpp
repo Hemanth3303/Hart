@@ -13,7 +13,7 @@ namespace Hart {
 			ShaderDataType type;
 			std::string name;
 			uint32_t size;
-			uint32_t offset;
+			uint64_t offset;
 			bool normalized;
 		public:
 			BufferElement(ShaderDataType ptype, const std::string& pname, bool pnormalized = false);

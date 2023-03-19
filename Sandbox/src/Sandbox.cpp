@@ -14,6 +14,7 @@ using namespace Hart::Utils;
 class Sandbox : public Application {
 private:
 	std::array<float, 36> m_Vertices = {
+		 //position              // color                   // texture coords
 		 100.0f,  100.f, 0.0f,   1.0f, 0.0f,  0.0f, 1.0f,   1.0f, 1.0f, // top right
 		 100.0f, -100.f, 0.0f,   0.0f, 1.0f,  0.0f, 1.0f,   1.0f, 0.0f, // bottom right
 		-100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,   0.0f, 0.0f, // bottom left
