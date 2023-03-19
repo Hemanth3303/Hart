@@ -49,7 +49,7 @@ namespace Hart {
 		//can be overriden by user, default implementation does nothing
 		virtual void onEvent(const Events::Event& e) {}
 		//must be overriden by user
-		virtual void update() = 0;
+		virtual void update(double deltaTime) = 0;
 		//must be overriden by user
 		virtual void render() = 0;
 	private:

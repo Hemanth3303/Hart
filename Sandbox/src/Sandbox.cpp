@@ -28,6 +28,7 @@ private:
 	IndexBuffer *m_IndexBuffer;
 	VertexBuffer* m_VertexBuffer;
 	Texture2D* tex;
+	float angle = 0.0f;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
@@ -53,10 +54,6 @@ public:
 		m_VertexBuffer = new VertexBuffer(m_Vertices.data(), sizeof(m_Vertices));
 		m_VertexBuffer->bind();
 		m_VertexBuffer->setLayout(layout);
-
-		#ifdef _MSC_VER
-		#pragma warning(disable: 4312) 
-		#endif // _MSC_VER
 
 		uint32_t index = 0;
 		for (const auto& element : m_VertexBuffer->getLayout()) {
@@ -95,8 +92,12 @@ public:
 		delete tex;
 	}
 
-	void update() override {
+	void update(double deltaTime) override {
 		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		angle += (float)deltaTime;
+		if (angle >= 360.0f) {
+			angle = 0.0f;
+		}
 	}
 
 	void render() override {
@@ -120,7 +121,7 @@ public:
 		tex->bind();
 
 		Mat4 model = Mat4::indentity();
-		model *= Mat4::translate(Vec3(200, 0, 0)) * Mat4::rotate(45, Vec3(0, 0, 1));
+		model *= Mat4::translate(Vec3(200, 0, 0)) * Mat4::rotate(angle, Vec3(0, 0, 1));
 		shader2->setUniform("model", model);
 		glDrawElements(GL_TRIANGLES, m_IndexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
 

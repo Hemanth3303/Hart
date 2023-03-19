@@ -1,26 +1,42 @@
 #include "HartPch.hpp"
 #include "Timer.hpp"
-#include "Core/HartApplication.hpp"
-#include "GLFW/glfw3.h"
 
 namespace Hart {
 	namespace Utils {
+		std::chrono::high_resolution_clock::time_point Timer::m_TimePoint;
+
+		void Timer::Init() {
+			HART_ENGINE_LOG("Initialized Timer");
+			m_TimePoint = std::chrono::high_resolution_clock::now();
+		}
+
 		double Timer::getTimeInSeconds() {
-			HART_ASSERT_NOT_EQUAL(Hart::Application::s_Instance, nullptr);
-			HART_ASSERT_NOT_EQUAL(Hart::Application::s_Instance->getWindow(), nullptr);
-			return glfwGetTime();
+			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> elapsed = timePoint2 - m_TimePoint;
+			return std::chrono::duration_cast<std::chrono::seconds>(elapsed).count();
+
 		}
 
 		double Timer::getTimeInMilliSeconds() {
-			return getTimeInSeconds() * 1000;
+			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> elapsed = timePoint2 - m_TimePoint;
+			return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
 		}
 
 		double Timer::getTimeInMicroSeconds() {
-			return getTimeInSeconds() * 1000000;
+			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> elapsed = timePoint2 - m_TimePoint;
+			return std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 		}
 
 		double Timer::getTimeInNanoSeconds() {
-			return getTimeInSeconds() * 1000000000;
+			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> elapsed = timePoint2 - m_TimePoint;
+			return std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed).count();
+		}
+
+		void Timer::DeInit() {
+			HART_ENGINE_LOG("DeInitialized Timer");
 		}
 
 	}

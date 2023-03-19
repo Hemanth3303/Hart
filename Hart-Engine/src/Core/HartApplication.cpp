@@ -55,7 +55,7 @@ namespace Hart {
 			// update loop
 			if (deltaUPS >= 1) {
 				glfwPollEvents();
-				update();
+				update(deltaUPS);
 				updates++;
 				deltaUPS--;
 			}
@@ -97,6 +97,8 @@ namespace Hart {
 		s_Instance = this;
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
 
+		Utils::Timer::Init();
+
 		Inputs::InputManager::Init();
 
 		HART_ENGINE_LOG("Initializing GLFW");
@@ -135,6 +137,7 @@ namespace Hart {
 	void Application::deinitApplication() {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
+		Utils::Timer::DeInit();
 	}
 
 	void Application::eventHandler(Events::Event& e) {
