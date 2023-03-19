@@ -50,7 +50,7 @@ public:
 		setTargetUPS(144);
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_unique<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
+		shader1 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
 		
 		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 		m_Vao.bind();
@@ -81,13 +81,7 @@ public:
 		shader1->unbind();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-		uint32_t *buffer = new uint32_t[100 * 100];
-		for (int i = 0; i < 100 * 100; i++) {
-			buffer[i] = 0xff00ff00;
-		}
-		Image image(buffer, 100, 100);
-		tex = new Texture2D(image);
+		tex = new Texture2D("res/images/awesomeface.png");
 	}
 
 	~Sandbox() {

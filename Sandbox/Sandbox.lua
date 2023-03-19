@@ -33,6 +33,7 @@ project "Sandbox"
 		"%{wks.location}/Hart-Engine/src",
 		"%{wks.location}/vendor/glfw/include",
 		"%{wks.location}/vendor/glad/include",
+		"%{wks.location}/vendor/stb_image/include",
 	}
 
 	links { "Hart-Engine" }
