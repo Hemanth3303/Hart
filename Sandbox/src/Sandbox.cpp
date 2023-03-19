@@ -13,32 +13,20 @@ using namespace Hart::Utils;
 
 class Sandbox : public Application {
 private:
-	std::unique_ptr<Shader> shader1;
-	std::array<float, 12> m_Vertices = {
-		 100.0f,  100.f, 0.0f,  // top right
-		 100.0f, -100.f, 0.0f,  // bottom right
-		-100.0f, -100.f, 0.0f,  // bottom left
-		-100.0f,  100.f, 0.0f   // top left 
-	};
-	std::array<float, 16> m_Colors = {
-		1.0f, 0.0f,  0.0f, 1.0f,  // top right
-		0.0f, 1.0f,  0.0f, 1.0f,  // bottom right
-		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
-		0.5f, 0.25f, 0.5f, 1.0f,  // top left 
-	};
-	std::array<float, 8> m_TexCoords = {
-		1.0f, 1.0f,  // top right
-		1.0f, 0.0f,	 // bottom right
-		0.0f, 0.0f,	 // bottom left
-		0.0f, 1.0f,	 // top left 
+	std::array<float, 36> m_Vertices = {
+		 100.0f,  100.f, 0.0f,   1.0f, 0.0f,  0.0f, 1.0f,   1.0f, 1.0f, // top right
+		 100.0f, -100.f, 0.0f,   0.0f, 1.0f,  0.0f, 1.0f,   1.0f, 0.0f, // bottom right
+		-100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,   0.0f, 0.0f, // bottom left
+		-100.0f,  100.f, 0.0f,   0.5f, 0.25f, 0.5f, 1.0f,   0.0f, 1.0f, // top left 
 	};
 	std::array<uint32_t, 6> m_Indices = {
 		0, 1, 3,
 		1, 2, 3,
 	};
+	std::unique_ptr<Shader> shader1, shader2;
 	uint32_t vao;
-	IndexBuffer *m_Ibo;
-	VertexBuffer *m_Vbo, *m_Cbo, *m_Tbo;
+	IndexBuffer *m_IndexBuffer;
+	VertexBuffer* m_VertexBuffer;
 	Texture2D* tex;
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
@@ -51,37 +39,51 @@ public:
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
+		shader2 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
+
+		BufferLayout layout = {
+			{ ShaderDataType::Float3,  "aPosition" },
+			{ ShaderDataType::Float4,  "aColor" },
+			{ ShaderDataType::Float2,  "aTexCoord" },
+		};
 		
-		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 		glCreateVertexArrays(1, &vao);
 		glBindVertexArray(vao);
-		// position attribute
-		m_Vbo = new VertexBuffer(m_Vertices.data(), sizeof(m_Vertices));
-		m_Vbo->bind();
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 
-		// color attribute
-		m_Cbo = new VertexBuffer(m_Colors.data(), sizeof(m_Colors));
-		m_Cbo->bind();
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+		m_VertexBuffer = new VertexBuffer(m_Vertices.data(), sizeof(m_Vertices));
+		m_VertexBuffer->bind();
+		m_VertexBuffer->setLayout(layout);
 
-		//texture attribute
-		m_Tbo = new VertexBuffer(m_TexCoords.data(), sizeof(m_TexCoords));
-		m_Tbo->bind();
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+		#ifdef _MSC_VER
+		#pragma warning(disable: 4312) 
+		#endif // _MSC_VER
 
-		m_Ibo = new IndexBuffer(m_Indices.data(), 6);
+		uint32_t index = 0;
+		for (const auto& element : m_VertexBuffer->getLayout()) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(
+				index, 
+				element.getComponentCount(), 
+				element.getOpenGLType(), 
+				element.normalized ? GL_TRUE : GL_FALSE, 
+				m_VertexBuffer->getLayout().getStride(),
+				reinterpret_cast<const void*>(element.offset)
+			);
+			index++;
+		}
 
-		m_Ibo->bind();
+		m_IndexBuffer = new IndexBuffer(m_Indices.data(), 6);
+		m_IndexBuffer->bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), m_Indices.data(), GL_STATIC_DRAW);
-		m_Ibo->unbind();
+		m_IndexBuffer->unbind();
 
 		shader1->bind();
 		shader1->setUniform("projection", m_Projection);
 		shader1->unbind();
+
+		shader2->bind();
+		shader2->setUniform("projection", m_Projection);
+		shader2->unbind();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		tex = new Texture2D("res/images/awesomeface.png");
@@ -100,15 +102,32 @@ public:
 	void render() override {
 		shader1->bind();
 		glBindVertexArray(vao);
-		m_Ibo->bind();
+		m_IndexBuffer->bind();
 		tex->bind();
 
-		glDrawElements(GL_TRIANGLES, m_Ibo->getIndexCount(), GL_UNSIGNED_INT, 0);
+		shader1->setUniform("model", Mat4::translate(Vec3(-200, 0, 0)));
+		glDrawElements(GL_TRIANGLES, m_IndexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
 
 		tex->unbind();
-		m_Ibo->unbind();
+		m_IndexBuffer->unbind();
 		glBindVertexArray(0);
 		shader1->unbind();
+
+
+		shader2->bind();
+		glBindVertexArray(vao);
+		m_IndexBuffer->bind();
+		tex->bind();
+
+		Mat4 model = Mat4::indentity();
+		model *= Mat4::translate(Vec3(200, 0, 0)) * Mat4::rotate(45, Vec3(0, 0, 1));
+		shader2->setUniform("model", model);
+		glDrawElements(GL_TRIANGLES, m_IndexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+		tex->unbind();
+		m_IndexBuffer->unbind();
+		glBindVertexArray(0);
+		shader2->unbind();
 	}
 };
 

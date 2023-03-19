@@ -62,20 +62,20 @@ namespace Hart {
 
 	#ifdef HART_ENGINE
 		
-		#define HART_ENGINE_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, true);
-		#define HART_ENGINE_LOG(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Log, true);
-		#define HART_ENGINE_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, true);
-		#define HART_ENGINE_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, true);
-		#define HART_ENGINE_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, true);
+		#define HART_ENGINE_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, true)
+		#define HART_ENGINE_LOG(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Log, true)
+		#define HART_ENGINE_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, true)
+		#define HART_ENGINE_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, true)
+		#define HART_ENGINE_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, true)
 
 	#endif // HART_ENGINE
 
 	
-	#define HART_CLIENT_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, false);
-	#define HART_CLIENT_LOG(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Log, false);
-	#define HART_CLIENT_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, false);
-	#define HART_CLIENT_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, false);
-	#define HART_CLIENT_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, false);
+	#define HART_CLIENT_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, false)
+	#define HART_CLIENT_LOG(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Log, false)
+	#define HART_CLIENT_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, false)
+	#define HART_CLIENT_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, false)
+	#define HART_CLIENT_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, false)
 
 #elif defined(HART_DIST)
 

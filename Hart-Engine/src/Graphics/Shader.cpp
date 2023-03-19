@@ -64,6 +64,68 @@ namespace Hart {
 			glUniformMatrix4fv(getUniformLocation(uniformName), 1, GL_FALSE, value.elements);
 		}
 
+		uint32_t Shader::GetShaderDataTypeSize(ShaderDataType type) {
+			switch (type) {
+				case Hart::Graphics::ShaderDataType::None:
+					HART_ENGINE_ERROR("Can't have ShaderDataType==None");
+					return 0;
+				case Hart::Graphics::ShaderDataType::Float:
+					return 4;
+				case Hart::Graphics::ShaderDataType::Float2:
+					return 4 * 2;
+				case Hart::Graphics::ShaderDataType::Float3:
+					return 4 * 3;
+				case Hart::Graphics::ShaderDataType::Float4:
+					return 4 * 4;
+				case Hart::Graphics::ShaderDataType::Mat4:
+					return 4 * 4 * 4;
+				case Hart::Graphics::ShaderDataType::Int:
+					return 4;
+				case Hart::Graphics::ShaderDataType::Int2:
+					return 4 * 2;
+				case Hart::Graphics::ShaderDataType::Int3:
+					return 4 * 3;
+				case Hart::Graphics::ShaderDataType::Int4:
+					return 4 * 4;
+				case Hart::Graphics::ShaderDataType::Bool:
+					return 1;
+				default:
+					HART_ENGINE_ERROR("Unknown ShaderDataType");
+					return 0;
+			}
+		}
+
+        GLenum Shader::ShaderDataTypeToOpenGLType(ShaderDataType type) {
+			switch (type) {
+				case Hart::Graphics::ShaderDataType::None:
+					HART_ENGINE_ERROR("ShaderDataType can't be null");
+					return GL_INVALID_ENUM;
+				case Hart::Graphics::ShaderDataType::Float:
+					return GL_FLOAT;
+				case Hart::Graphics::ShaderDataType::Float2:
+					return GL_FLOAT;
+				case Hart::Graphics::ShaderDataType::Float3:
+					return GL_FLOAT;
+				case Hart::Graphics::ShaderDataType::Float4:
+					return GL_FLOAT;
+				case Hart::Graphics::ShaderDataType::Mat4:
+					return GL_FLOAT;
+				case Hart::Graphics::ShaderDataType::Int:
+					return GL_INT;
+				case Hart::Graphics::ShaderDataType::Int2:
+					return GL_INT;
+				case Hart::Graphics::ShaderDataType::Int3:
+					return GL_INT;
+				case Hart::Graphics::ShaderDataType::Int4:
+					return GL_INT;
+				case Hart::Graphics::ShaderDataType::Bool:
+					return GL_BOOL;
+				default:
+					HART_ENGINE_ERROR("Unknown ShaderDataType");
+					return GL_INVALID_ENUM;
+			}
+        }
+
 		void Shader::init(const char* vsSource, const char* fsSource) {
 			const char* vertexShaderSource = vsSource;
 			const char* fragmentShaderSource = fsSource;

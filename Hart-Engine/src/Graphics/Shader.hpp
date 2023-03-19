@@ -9,6 +9,21 @@
 
 namespace Hart {
 	namespace Graphics {
+
+		enum class ShaderDataType {
+			None = 0,
+			Float,
+			Float2,
+			Float3,
+			Float4,
+			Mat4,
+			Int,
+			Int2,
+			Int3,
+			Int4,
+			Bool,
+		};
+
 		enum class ShaderType {
 			VertexShader = 0,
 			FragmentShader = 1,
@@ -31,6 +46,8 @@ namespace Hart {
 			void setUniform(const std::string& uniformName, const Maths::Vec4& value) const;
 			void setUniform(const std::string& uniformName, const Maths::Mat4& value) const;
 
+			static uint32_t GetShaderDataTypeSize(ShaderDataType type);
+			static GLenum ShaderDataTypeToOpenGLType(ShaderDataType type);
 		private:
 			void init(const char* vsSource, const char* fsSource);
 			int32_t getUniformLocation(const std::string& uniformName) const;

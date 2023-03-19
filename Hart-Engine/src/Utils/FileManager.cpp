@@ -14,7 +14,7 @@ namespace Hart {
 			}
 			else {
 				std::string info = std::string("Opening file ") + fileName;
-				HART_ENGINE_LOG(info)
+				HART_ENGINE_LOG(info);
 				inFile.open(fileName, std::ios::in);
 
 				HART_ASSERT(inFile);
