@@ -1,13 +1,10 @@
-/*
-* represents a generic image
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
 
 namespace Hart {
 	namespace Graphics {
+		// Class representing a generic image
 		class Image {
 		public:
 			Image(const std::string& fileName);

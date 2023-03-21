@@ -1,13 +1,10 @@
-/*
-* Class with methods for random number generation
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
 
 namespace Hart {
 	namespace Utils {
+		// Class with methods for random number generation
 		class Random {
 		public:
 			Random();

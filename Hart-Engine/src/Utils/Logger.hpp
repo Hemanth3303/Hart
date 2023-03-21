@@ -10,7 +10,6 @@
 
 namespace Hart {
 	namespace Utils {
-
 		enum class LogSeverity {
 			Trace = 0,
 			Log,

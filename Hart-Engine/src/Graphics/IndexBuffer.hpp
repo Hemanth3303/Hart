@@ -6,6 +6,7 @@
 
 namespace Hart {
 	namespace Graphics {
+		// Class representing an OpenGL VertexBuffer 
 		class IndexBuffer {
 		public:
 			IndexBuffer(uint32_t* indices, uint32_t indexCount);

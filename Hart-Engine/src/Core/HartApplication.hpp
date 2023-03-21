@@ -1,8 +1,3 @@
-/*
-* Base class representing an application/game made using Hart.
-* The user must extend from this class and override some methods to make an app/game
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -18,6 +13,8 @@
 #include "Inputs/KeyCodes.hpp"
 
 namespace Hart {
+	// Base class representing an application/game made using Hart.
+	// The user must extend from this class and override some methods to make an app/game
 	class Application {
 	public:
 		Application();
@@ -25,9 +22,10 @@ namespace Hart {
 		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
 		virtual ~Application();
 
-		void run();
 		// enables or disables vsync
 		void enableVsync(bool enable = true);
+		// main engine loop
+		void run();
 
 		// returns a non ownning reference to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
@@ -53,8 +51,10 @@ namespace Hart {
 		//must be overriden by user
 		virtual void render() = 0;
 	private:
-		void initApplication();
-		void deinitApplication();
+		// initializes application
+		void init();
+		// deinitializes application
+		void deinit();
 		// Event managers
 		void eventHandler(Events::Event& e);
 		// Begin Event Methods

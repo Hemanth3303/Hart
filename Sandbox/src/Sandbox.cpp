@@ -91,6 +91,8 @@ public:
 
 	~Sandbox() {
 		delete tex;
+		delete m_VertexBuffer;
+		delete m_IndexBuffer;
 	}
 
 	void update(double deltaTime) override {

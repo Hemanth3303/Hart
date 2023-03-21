@@ -1,7 +1,3 @@
-/*
-* Class Representing a 2d texture for opengl
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -29,6 +25,7 @@ namespace Hart {
 			GLNearestMipMapLinear = GL_NEAREST_MIPMAP_LINEAR,
 			GLLinearMipMapLinear = GL_LINEAR_MIPMAP_LINEAR,
 		};
+		// Class Representing a 2d texture for OpenGL
 		class Texture2D {
 		public:
 			// defaults: magFilterParam = GL_LINEAR, minFliterParam = GL_LINEAR_MIPMAP_LINEAR;

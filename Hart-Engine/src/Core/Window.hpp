@@ -1,7 +1,3 @@
-/*
-* Class representing the gui window
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -17,6 +13,7 @@
 #include "GLFW/glfw3.h"
 
 namespace Hart {
+	// Class representing the GUI Window
 	class Window {
 		using EventCallBackFunction = std::function<void(Events::Event&)>;
 	public:

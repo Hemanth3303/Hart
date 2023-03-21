@@ -51,6 +51,7 @@ namespace Hart {
 			float m_XOffset, m_YOffset;
 		};
 
+		// Base class for mouse pressed and released events
 		class MouseButtonEvent : public Event {
 		public:
 			Inputs::MouseCode getMouseButton() const { return m_Button; }

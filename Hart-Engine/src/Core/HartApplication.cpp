@@ -12,17 +12,17 @@ namespace Hart {
 	Application::Application() 
 		:m_WindowData() {
 		HART_ENGINE_LOG("Initializing Hart Engine");
-		initApplication();
+		init();
 	}
 
 	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
 		:m_WindowData(windowWidth, windowHeight, windowTitle, isWindowResizable) {
 		HART_ENGINE_LOG("Initializing Hart Engine");
-		initApplication();
+		init();
 	}
 
 	Application::~Application() {
-		deinitApplication();
+		deinit();
 		HART_ENGINE_LOG("Shutting down Hart Engine");
 	}
 
@@ -92,7 +92,7 @@ namespace Hart {
 		}
 	}
 
-	void Application::initApplication() {
+	void Application::init() {
 
 		s_Instance = this;
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
@@ -134,7 +134,7 @@ namespace Hart {
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
 
-	void Application::deinitApplication() {
+	void Application::deinit() {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 		Utils::Timer::DeInit();

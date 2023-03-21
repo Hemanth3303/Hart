@@ -1,7 +1,3 @@
-/*
-* Utility class used by the Logger to help log different types, including primitivies and Hart objects
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -17,6 +13,7 @@ namespace Hart {
 	}
 
 	namespace Utils {
+		// Utility class used by the Logger to help log different types, including primitivies and Hart objects
 		class Loggable {
 		public:
 			Loggable(int8_t value);

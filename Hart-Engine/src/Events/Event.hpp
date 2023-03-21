@@ -1,5 +1,4 @@
 /*
-* Base class for events
 * Note: Learned most of this stuff from TheCherno's game engine series
 */
 
@@ -14,6 +13,7 @@
 
 namespace Hart {
 	namespace Events {
+		// Base class for events
 		class Event {
 		public:
 			Event() = default;

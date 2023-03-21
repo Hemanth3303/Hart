@@ -9,6 +9,7 @@
 
 namespace Hart {
 	namespace Events {
+		// Base class for key events
 		class KeyEvent : public Event {
 		public:
 			Inputs::KeyCode getKeyCode() const { return m_KeyCode; }

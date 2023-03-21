@@ -1,7 +1,3 @@
-/*
-* A two component vector
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -9,6 +5,7 @@
 
 namespace Hart {
 	namespace Maths {
+		// A two component vector
 		struct Vec2 {
 		public:
 			float x, y;

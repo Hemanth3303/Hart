@@ -7,7 +7,7 @@
 
 namespace Hart {
 	namespace Graphics {
-
+		// A struct representing one attribute in a VertexBuffer
 		struct BufferElement {
 		public:
 			ShaderDataType type;
@@ -21,6 +21,8 @@ namespace Hart {
 			GLenum getOpenGLType() const;
 		};
 
+		// A class representing the layout of attributes in a VertexBuffer.
+		// Made up of BufferElements
 		class BufferLayout {
 		public:
 			BufferLayout();
@@ -40,6 +42,7 @@ namespace Hart {
 			uint32_t m_Stride = 0;
 		};
 
+		// A class representing an OpenGL VertexBuffer 
 		class VertexBuffer {
 		public:
 			VertexBuffer(float* vertices, uint32_t size);

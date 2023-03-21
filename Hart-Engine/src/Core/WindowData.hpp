@@ -1,13 +1,10 @@
 #pragma once
 
-/*
-* Window data with default values
-*/
-
 #include "HartPch.hpp"
 #include "Maths/Vec2.hpp"
 
 namespace Hart {
+	// A struct representing Window data with default values
 	struct WindowData {
 	public:
 		WindowData(int32_t width = DEFAULT_WINDOW_WIDTH, int32_t height = DEFAULT_WINDOW_HEIGHT, const std::string& title = "Hart Engine: Application", bool resizable = false)

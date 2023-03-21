@@ -1,7 +1,3 @@
-/*
-* A four component vector
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -11,6 +7,7 @@
 
 namespace Hart {
 	namespace Maths {
+		// A four component vector
 		struct Vec4 {
 		public:
 			float x, y, z, w;
