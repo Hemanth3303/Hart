@@ -1,11 +1,14 @@
 #pragma once
 
 #include "HartPch.hpp"
+#include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
 
 #include "glad/glad.h"
 
 namespace Hart {
 	namespace Graphics {
+		// Class representing an OpenGL VertexArray
 		class VertexArray {
 		public:
 			VertexArray();
@@ -13,10 +16,17 @@ namespace Hart {
 
 			void bind() const;
 			void unbind() const;
-			void setVertexData(uint32_t index, int32_t sizeOfBuffer, int32_t noOfElementsPerVertexAttribute, void* dataBuffer, uint32_t sizeOfOneVertexData, const void* offsetOfVertexAttribute = static_cast<const void*>(0), GLenum dataType = GL_FLOAT, GLboolean isNormalized = GL_FALSE, GLenum usage = GL_STATIC_DRAW);
-			void setIndexData(uint32_t noOfIndices, uint32_t* indexData, GLenum usage = GL_STATIC_DRAW);
+
+			void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer);
+			void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer);
+
+			inline const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return m_vertexBuffers; }
+			inline const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; }
+			
 		private:
 			uint32_t m_ID;
+			std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
+			std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		};
 	}
 }

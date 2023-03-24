@@ -5,7 +5,7 @@
 namespace Hart {
 	namespace Graphics {
 		Hart::Graphics::VertexArray::VertexArray() {
-			glGenVertexArrays(1, &m_ID);
+			glCreateVertexArrays(1, &m_ID);
 		}
 
 		VertexArray::~VertexArray() {
@@ -19,15 +19,44 @@ namespace Hart {
 		void VertexArray::unbind() const {
 			glBindVertexArray(0);
 		}
+		// Adds a vertexbuffer to the vertexarray
+		// Note: Only add a vertexbuffer after settings its layout
+		void VertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
+			glBindVertexArray(m_ID);
 
-		void VertexArray::setVertexData(uint32_t index, int32_t sizeOfBuffer, int32_t noOfElementsPerVertexAttribute, void* dataBuffer, uint32_t sizeOfOneVertexData, const void* offsetOfVertexAttribute, GLenum dataType, GLboolean isNormalized, GLenum usage) {
-			glBufferData(GL_ARRAY_BUFFER, sizeOfBuffer, dataBuffer, usage);
-			glVertexAttribPointer(index, noOfElementsPerVertexAttribute, dataType, isNormalized, sizeOfOneVertexData, offsetOfVertexAttribute);
-			glEnableVertexAttribArray(index);
+			HART_ASSERT_NOT_EQUAL(vertexBuffer->getLayout().isEmpty(), true);
+			if (vertexBuffer->getLayout().isEmpty()) {
+				HART_ENGINE_ERROR("Attempting to add a VertexBuffer with an empty layout to VertexArray, aborting attempt");
+				return;
+			}
+			vertexBuffer->bind();
+			uint32_t index = 0;
+			for (const auto& element : vertexBuffer->getLayout()) {
+				glEnableVertexAttribArray(index);
+				glVertexAttribPointer(
+					index,
+					element.getComponentCount(),
+					element.getOpenGLType(),
+					element.normalized ? GL_TRUE : GL_FALSE,
+					vertexBuffer->getLayout().getStride(),
+					reinterpret_cast<const void*>(element.offset)
+				);
+				index++;
+			}
+			vertexBuffer->unbind();
+			m_vertexBuffers.push_back(vertexBuffer);
+			
+			glBindVertexArray(0);
 		}
 
-		void VertexArray::setIndexData(uint32_t noOfIndices, uint32_t* indexData, GLenum usage) {
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, noOfIndices*sizeof(uint32_t), indexData, usage);
+		void VertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
+			glBindVertexArray(m_ID);
+
+			indexBuffer->bind();
+			m_IndexBuffer = indexBuffer;
+			indexBuffer->unbind();
+
+			glBindVertexArray(0);
 		}
 	}
 }

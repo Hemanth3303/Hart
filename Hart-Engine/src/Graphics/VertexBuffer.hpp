@@ -30,6 +30,7 @@ namespace Hart {
 			
 			inline uint32_t getStride() const { return m_Stride; }
 			inline const std::vector<BufferElement>& getElements() const { return m_Elements; }
+			inline bool isEmpty() const { return m_Elements.empty(); }
 
 			std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
 			std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
