@@ -56,3 +56,5 @@ CMakeDoxyfile.in
 CMakeDoxygenDefaults.cmake
 cmake_install.cmake
 cmake_uninstall.cmake
+*cmake
+CMakeLists.txt
