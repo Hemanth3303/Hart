@@ -27,7 +27,7 @@ include "vendor/glad.lua"
 include "vendor/stb_image.lua"
 
 --when using the cmake generator module for premake
--- require "cmake"
+require "cmake"
 
 newaction {
 	trigger = "clean",
@@ -54,6 +54,11 @@ newaction {
 		os.remove("**.project")
 		os.remove("CMakeLists.txt")
 		os.remove("CMakeCache.txt")
+		os.remove("vendor/glfw/glfw.cmake")
+		os.remove("vendor/glad/glad.cmake")
+		os.remove("vendor/stb_image/stb_image.cmake")
+		os.remove("Hart-Engine/Hart-Engine.cmake")
+		os.remove("Sandbox/Sandbox.cmake")
 		print("Done")
 	end
 }
