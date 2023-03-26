@@ -31,7 +31,7 @@ private:
 	Mat4 m_View = Mat4::indentity();
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
-	Vec3 m_TineGayPogSmileyPosition;
+	Vec3 m_TinyGayPogSmileyPosition;
 public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
@@ -90,8 +90,8 @@ public:
 			angle = 0.0f;
 		}
 
-		m_TineGayPogSmileyPosition.x = (float)(cosD(-angle) * 400);
-		m_TineGayPogSmileyPosition.y = (float)(sinD(-angle) * 400);
+		m_TinyGayPogSmileyPosition.x = (float)(cosD(-angle) * 400);
+		m_TinyGayPogSmileyPosition.y = (float)(sinD(-angle) * 400);
 
 	}
 
@@ -103,7 +103,7 @@ public:
 
 			Mat4 model = Mat4::indentity();
 			model *= Mat4::scale(Vec3(0.2f, 0.2f, 0.0f));
-			model *= Mat4::translate(m_TineGayPogSmileyPosition);
+			model *= Mat4::translate(m_TinyGayPogSmileyPosition);
 			model *= Mat4::rotate(-3 * angle, Vec3(0, 0, 1));
 			shader2->setUniform("uModelMatrix", model);
 			shader3->setUniform("uViewMatrix", m_View);
