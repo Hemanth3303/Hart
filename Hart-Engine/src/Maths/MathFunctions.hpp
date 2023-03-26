@@ -59,5 +59,6 @@ namespace Hart {
 		inline double cube(double value) { return power(value, 3); }
 		inline double squareRoot(double value) { return std::sqrt(value); }
 		inline double cubeRoot(double value) { return power(value, (1.0 / 3.0)); }
+		inline double absoluteValue(double value) { return std::abs(value); }
 	}
 }

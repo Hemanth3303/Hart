@@ -24,13 +24,14 @@ private:
 		0, 1, 3,
 		1, 2, 3,
 	};
-	std::unique_ptr<Shader> shader1, shader2;
+	std::unique_ptr<Shader> shader1, shader2, shader3;
 	std::shared_ptr<VertexArray> m_VertexArray;
 	Texture2D* tex;
 	float angle = 0.0f;
 	Mat4 m_View = Mat4::indentity();
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
+	Vec3 m_TineGayPogSmileyPosition;
 public:
 	Sandbox() 
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
@@ -41,6 +42,7 @@ public:
 
 		shader1 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
 		shader2 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
+		shader3 = std::make_unique<Shader>("res/shaders/texWithColVert.glsl", "res/shaders/texWithColFrag.glsl");
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3,  "aPosition" },
@@ -68,6 +70,10 @@ public:
 		shader2->setUniform("uProjectionMatrix", m_Projection);
 		shader2->unbind();
 
+		shader3->bind();
+		shader3->setUniform("uProjectionMatrix", m_Projection);
+		shader3->unbind();
+
 		tex = new Texture2D("res/images/awesomeface.png");
 
 	}
@@ -83,9 +89,44 @@ public:
 		if (angle >= 360.0f) {
 			angle = 0.0f;
 		}
+
+		static float speedX = 5.0f;
+		static float speedY = 5.0f;
+
+		HART_CLIENT_WARNING(std::string("speedX: ") + std::to_string(speedX) + std::string(" | speedY: ") + std::to_string(speedY));
+
+		m_TineGayPogSmileyPosition.x += speedX * (float)deltaTime;
+		m_TineGayPogSmileyPosition.y += speedY * (float)deltaTime;
+
+		if (m_TineGayPogSmileyPosition.x > ( 960 * 2.4 ) || (m_TineGayPogSmileyPosition.x < -960 * 2.4)) {
+			speedX *= -1.1f;
+		}
+		if (m_TineGayPogSmileyPosition.y > (540 * 2.35) || (m_TineGayPogSmileyPosition.y < -540 * 2.35)) {
+			speedY *= -1.1f;
+		}
 	}
 
 	void render() override {
+
+		{
+			shader3->bind();
+			tex->bind();
+
+			Mat4 model = Mat4::indentity();
+			model *= Mat4::scale(Vec3(0.2f, 0.2f, 0.0f));
+			model *= Mat4::translate(m_TineGayPogSmileyPosition);
+			model *= Mat4::rotate(-3 * angle, Vec3(0, 0, 1));
+			shader2->setUniform("uModelMatrix", model);
+			shader3->setUniform("uViewMatrix", m_View);
+
+			Renderer2D::BeginScene();
+			Renderer2D::Submit(m_VertexArray);
+			Renderer2D::EndScene();
+
+			tex->unbind();
+			shader3->unbind();
+		}
+
 		{
 			shader1->bind();
 			tex->bind();
@@ -118,6 +159,7 @@ public:
 			tex->unbind();
 			shader2->unbind();
 		}
+
 	}
 };
 
