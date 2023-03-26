@@ -15,6 +15,10 @@
 namespace Hart {
 	// Base class representing an application/game made using Hart.
 	// The user must extend from this class and override some methods to make an app/game
+	// Methods available to override:
+	//		void onEvent(const Events::Event& e): optional
+	//		void update(const double deltaTime): compulsory
+	//		void render(): compulsory
 	class Application {
 	public:
 		Application();
@@ -33,21 +37,21 @@ namespace Hart {
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
 		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
-		inline uint32_t getCurrentFPS() const { return m_CurrentFPS; }
-		inline uint32_t getCurrentUPS() const { return m_CurrentUPS; }
+		inline double getCurrentFPS() const { return m_CurrentFPS; }
+		inline double getCurrentUPS() const { return m_CurrentUPS; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		// sets the preferred frames per second
 		// default value is 60
-		inline void setTargetFPS(uint32_t targetFPS) { m_TargetFPS = targetFPS; }
+		inline void setTargetFPS(double targetFPS) { m_TargetFPS = targetFPS; }
 		// sets the preferred updates per second
 		// default value is 60
-		inline void setTargetUPS(uint32_t targetUPS) { m_TargetUPS = targetUPS; }
+		inline void setTargetUPS(double targetUPS) { m_TargetUPS = targetUPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 	protected:
 		//can be overriden by user, default implementation does nothing
 		virtual void onEvent(const Events::Event& e) {}
 		//must be overriden by user
-		virtual void update(double deltaTime) = 0;
+		virtual void update(const double deltaTime) = 0;
 		//must be overriden by user
 		virtual void render() = 0;
 	private:
@@ -84,8 +88,8 @@ namespace Hart {
 		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		bool m_IsRunning = false;
-		uint32_t m_TargetFPS = 60, m_TargetUPS = 60;
-		uint32_t m_CurrentFPS = 0, m_CurrentUPS = 0;
+		double m_TargetFPS = 60, m_TargetUPS = 60;
+		double m_CurrentFPS = 0, m_CurrentUPS = 0;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
 		bool m_IsVsyncEnabled = false;
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * A Game/App made using Hart-Engine, currently used for testing purposes
 */
 
@@ -28,6 +28,7 @@ private:
 	std::shared_ptr<VertexArray> m_VertexArray;
 	Texture2D* tex;
 	float angle = 0.0f;
+	Mat4 m_View = Mat4::indentity();
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
@@ -60,15 +61,15 @@ public:
 		m_VertexArray->unbind();
 
 		shader1->bind();
-		shader1->setUniform("projection", m_Projection);
+		shader1->setUniform("uProjectionMatrix", m_Projection);
 		shader1->unbind();
 
 		shader2->bind();
-		shader2->setUniform("projection", m_Projection);
+		shader2->setUniform("uProjectionMatrix", m_Projection);
 		shader2->unbind();
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		tex = new Texture2D("res/images/awesomeface.png");
+
 	}
 
 	~Sandbox() {
@@ -76,7 +77,8 @@ public:
 	}
 
 	void update(double deltaTime) override {
-		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
+		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()) + " | DeltaTime: "+ std::to_string(deltaTime));
+
 		angle += (float)deltaTime;
 		if (angle >= 360.0f) {
 			angle = 0.0f;
@@ -86,33 +88,34 @@ public:
 	void render() override {
 		{
 			shader1->bind();
-			m_VertexArray->bind();
-			m_VertexArray->getIndexBuffer()->bind();
 			tex->bind();
 
-			shader1->setUniform("model", Mat4::translate(Vec3(-200, 0, 0)));
-			glDrawElements(GL_TRIANGLES, m_VertexArray->getIndexBuffer()->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+			shader1->setUniform("uModelMatrix", Mat4::translate(Vec3(-200, 0, 0)));
+			shader2->setUniform("uViewMatrix", m_View);
+
+			Renderer2D::BeginScene();
+			Renderer2D::Submit(m_VertexArray);
+			Renderer2D::EndScene();
 
 			tex->unbind();
-			m_VertexArray->getIndexBuffer()->unbind();
-			m_VertexArray->unbind();
 			shader1->unbind();
 		}
 
 		{
 			shader2->bind();
-			m_VertexArray->bind();
-			m_VertexArray->getIndexBuffer()->bind();
 			tex->bind();
 
 			Mat4 model = Mat4::indentity();
 			model *= Mat4::translate(Vec3(200, 0, 0)) * Mat4::rotate(angle, Vec3(0, 0, 1));
-			shader2->setUniform("model", model);
-			glDrawElements(GL_TRIANGLES, m_VertexArray->getIndexBuffer()->getIndexCount(), GL_UNSIGNED_INT, 0);
+			shader2->setUniform("uModelMatrix", model);
+			shader2->setUniform("uViewMatrix", m_View);
+			
+			Renderer2D::BeginScene();
+			Renderer2D::Submit(m_VertexArray);
+			Renderer2D::EndScene();
 
 			tex->unbind();
-			m_VertexArray->getIndexBuffer()->unbind();
-			m_VertexArray->unbind();
 			shader2->unbind();
 		}
 	}

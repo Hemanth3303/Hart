@@ -12,6 +12,8 @@
 #include "Graphics/VertexArray.hpp"
 #include "Graphics/Image.hpp"
 #include "Graphics/Texture2D.hpp"
+#include "Graphics/RenderCommand.hpp"
+#include "Graphics/Renderer2D.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

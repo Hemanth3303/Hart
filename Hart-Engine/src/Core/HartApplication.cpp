@@ -2,6 +2,7 @@
 #include "HartApplication.hpp"
 #include "Utils/Timer.hpp"
 #include "Inputs/InputManager.hpp"
+#include "Graphics/Renderer2D.hpp"
 
 namespace Hart {
 
@@ -29,8 +30,8 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
-		double timePerFrame = 1000000000 / m_TargetFPS;
-		double timePerUpdate = 1000000000 / m_TargetUPS;
+		double timePerFrame = 1000000000.0 / m_TargetFPS;
+		double timePerUpdate = 1000000000.0 / m_TargetUPS;
 
 		double previousTime = Utils::Timer::getTimeInNanoSeconds();
 
@@ -40,6 +41,9 @@ namespace Hart {
 
 		double deltaUPS = 0;
 		double deltaFPS = 0;
+
+		// Setting clear color as black
+		Graphics::RenderCommand::SetClearColor(Maths::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		while (m_IsRunning) {
 
@@ -63,7 +67,7 @@ namespace Hart {
 			// render loop
 			
 			if (deltaFPS >= 1) {
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				Graphics::RenderCommand::Clear();
 				render();
 				m_Window->swapBuffers();
 				frames++;
