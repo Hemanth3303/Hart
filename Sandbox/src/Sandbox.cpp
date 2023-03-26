@@ -90,20 +90,9 @@ public:
 			angle = 0.0f;
 		}
 
-		static float speedX = 5.0f;
-		static float speedY = 5.0f;
+		m_TineGayPogSmileyPosition.x = (float)(cosD(-angle) * 400);
+		m_TineGayPogSmileyPosition.y = (float)(sinD(-angle) * 400);
 
-		HART_CLIENT_WARNING(std::string("speedX: ") + std::to_string(speedX) + std::string(" | speedY: ") + std::to_string(speedY));
-
-		m_TineGayPogSmileyPosition.x += speedX * (float)deltaTime;
-		m_TineGayPogSmileyPosition.y += speedY * (float)deltaTime;
-
-		if (m_TineGayPogSmileyPosition.x > ( 960 * 2.4 ) || (m_TineGayPogSmileyPosition.x < -960 * 2.4)) {
-			speedX *= -1.1f;
-		}
-		if (m_TineGayPogSmileyPosition.y > (540 * 2.35) || (m_TineGayPogSmileyPosition.y < -540 * 2.35)) {
-			speedY *= -1.1f;
-		}
 	}
 
 	void render() override {
