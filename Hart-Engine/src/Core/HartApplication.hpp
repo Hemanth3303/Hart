@@ -90,7 +90,7 @@ namespace Hart {
 		bool m_IsRunning = false;
 		double m_TargetFPS = 60, m_TargetUPS = 60;
 		double m_CurrentFPS = 0, m_CurrentUPS = 0;
-		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
+		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Escape;
 		bool m_IsVsyncEnabled = false;
 
 		static int64_t s_MaxNoOfTextureSlotsPerShader;
