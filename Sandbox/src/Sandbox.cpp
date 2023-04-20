@@ -76,6 +76,8 @@ public:
 
 		tex = new Texture2D("res/images/awesomeface.png");
 
+		uint32_t buff[32 * 32];
+		Image x(buff, 32, 32);
 	}
 
 	~Sandbox() {

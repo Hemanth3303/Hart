@@ -19,6 +19,7 @@ namespace Hart {
 		private:
 			int32_t m_Width = 0, m_Height = 0, m_NoOfChannels = 0;
 			uint32_t* m_ImageData = nullptr;
+			bool m_WasCreatedFromCharBuff;
 		};
 	}
 }

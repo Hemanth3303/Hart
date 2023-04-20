@@ -31,7 +31,7 @@ namespace Hart {
 		// main engine loop
 		void run();
 
-		// returns a non ownning reference to the Hart::Window object
+		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
