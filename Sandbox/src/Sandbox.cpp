@@ -107,7 +107,7 @@ public:
 			model *= Mat4::scale(Vec3(0.2f, 0.2f, 0.0f));
 			model *= Mat4::translate(m_TinyGayPogSmileyPosition);
 			model *= Mat4::rotate(-3 * angle, Vec3(0, 0, 1));
-			shader2->setUniform("uModelMatrix", model);
+			shader3->setUniform("uModelMatrix", model);
 			shader3->setUniform("uViewMatrix", m_View);
 
 			Renderer2D::BeginScene();
@@ -124,7 +124,7 @@ public:
 
 
 			shader1->setUniform("uModelMatrix", Mat4::translate(Vec3(-200, 0, 0)));
-			shader2->setUniform("uViewMatrix", m_View);
+			shader1->setUniform("uViewMatrix", m_View);
 
 			Renderer2D::BeginScene();
 			Renderer2D::Submit(m_VertexArray);
