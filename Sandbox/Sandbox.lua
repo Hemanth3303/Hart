@@ -68,3 +68,10 @@ project "Sandbox"
 	filter { "system:linux" }
 		links { "glfw", "glad", "stb_image"}
 		links { "pthread", "GL", "m", "dl", "rt", "X11" }
+
+	filter { "system:windows", "action:vs*" }
+		defines { 
+			"STRICT",
+			"_CRT_SECURE_NO_WARNINGS",
+			"WIN32_LEAN_AND_MEAN",
+		}

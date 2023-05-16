@@ -1,7 +1,7 @@
 #pragma once
 
 #include "HartPch.hpp"
-#include "VertexArray.hpp"
+#include "../Primitives/VertexArray.hpp"
 
 #include "glad/glad.h"
 

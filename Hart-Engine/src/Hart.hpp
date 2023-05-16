@@ -6,12 +6,12 @@
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
 
-#include "Graphics/Shader.hpp"
-#include "Graphics/VertexBuffer.hpp"
-#include "Graphics/IndexBuffer.hpp"
-#include "Graphics/VertexArray.hpp"
-#include "Graphics/RenderCommand.hpp"
-#include "Graphics/Renderer2D.hpp"
+#include "Graphics/Primitives/Shader.hpp"
+#include "Graphics/Primitives/VertexBuffer.hpp"
+#include "Graphics/Primitives/IndexBuffer.hpp"
+#include "Graphics/Primitives/VertexArray.hpp"
+#include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/Renderer2D.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

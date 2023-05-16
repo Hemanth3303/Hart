@@ -60,7 +60,7 @@ project "Hart-Engine"
 		runtime "Release"
 		optimize "On"
 
-	filter "system:windows"
+	filter { "system:windows", "action:not vs*" }
 		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
 		defines { 
 			"HART_WINDOWS", 
@@ -74,6 +74,8 @@ project "Hart-Engine"
 
 	filter { "system:windows", "action:vs*" }
 		defines { 
+			"HART_WINDOWS", 
+			"NOMINMAX", 
 			"STRICT",
 			"_CRT_SECURE_NO_WARNINGS",
 			"WIN32_LEAN_AND_MEAN",
