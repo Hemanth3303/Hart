@@ -10,8 +10,6 @@
 #include "Graphics/VertexBuffer.hpp"
 #include "Graphics/IndexBuffer.hpp"
 #include "Graphics/VertexArray.hpp"
-#include "Graphics/Image.hpp"
-#include "Graphics/Texture2D.hpp"
 #include "Graphics/RenderCommand.hpp"
 #include "Graphics/Renderer2D.hpp"
 
