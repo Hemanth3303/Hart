@@ -4,13 +4,13 @@
 namespace Hart {
 	namespace Maths {
 		Mat4::Mat4() {
-			for (int32_t i = 0; i < 4 * 4; i++) {
+			for (std::int32_t i = 0; i < 4 * 4; i++) {
 				elements[i] = 0.0f;
 			}
 		}
 
 		Mat4::Mat4(float diagonal) {
-			for (int32_t i = 0; i < 4 * 4; i++) {
+			for (std::int32_t i = 0; i < 4 * 4; i++) {
 				elements[i] = 0.0f;
 			}
 			elements[0 + 0 * 4] = diagonal;
@@ -22,7 +22,7 @@ namespace Hart {
 		Mat4::~Mat4() {
 		}
 
-		Vec4 Mat4::getColumn(int32_t index) {
+		Vec4 Mat4::getColumn(std::int32_t index) {
 			index *= 4;
 			return Vec4(
 				elements[index + 0],
@@ -38,9 +38,9 @@ namespace Hart {
 
 		std::string Mat4::toString() const {
 			std::string out = "Mat4(\n";
-			for (int32_t i = 0; i < 4; i++) {
+			for (std::int32_t i = 0; i < 4; i++) {
 				out += "[ ";
-				for (int32_t j = 0; j < 4; j++) {
+				for (std::int32_t j = 0; j < 4; j++) {
 					out += std::to_string(elements[i + j * 4]) + ", ";
 				}
 				out += "]\n";
@@ -51,10 +51,10 @@ namespace Hart {
 
 		Mat4& Mat4::multiply(const Mat4& other) {
 			float data[4 * 4];
-			for (int32_t y = 0; y < 4; y++) {
-				for (int32_t x = 0; x < 4; x++) {
+			for (std::int32_t y = 0; y < 4; y++) {
+				for (std::int32_t x = 0; x < 4; x++) {
 					float sum = 0.0f;
-					for (int32_t e = 0; e < 4; e++) {
+					for (std::int32_t e = 0; e < 4; e++) {
 						sum += elements[x + e * 4] * other.elements[e + y * 4];
 					}
 					data[x + y * 4] = sum;

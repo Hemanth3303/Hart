@@ -20,7 +20,7 @@ private:
 		-100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
 		-100.0f,  100.f, 0.0f,   0.5f, 0.25f, 0.5f, 1.0f,
 	};
-	std::array<uint32_t, 6> m_Indices = {
+	std::array<std::uint32_t, 6> m_Indices = {
 		0, 1, 3,
 		1, 2, 3,
 	};
@@ -47,7 +47,7 @@ public:
 		m_VertexArray=std::make_shared<VertexArray>();
 		m_VertexArray->bind();
 
-		std::shared_ptr<VertexBuffer> vbo = std::make_shared<VertexBuffer>(m_Vertices.data(), (uint32_t)sizeof(m_Vertices));
+		std::shared_ptr<VertexBuffer> vbo = std::make_shared<VertexBuffer>(m_Vertices.data(), (std::uint32_t)sizeof(m_Vertices));
 		vbo->setLayout(layout);
 		m_VertexArray->addVertexBuffer(vbo);
 

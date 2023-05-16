@@ -62,10 +62,10 @@ namespace Hart {
 		}
 
 		void Shader::setUniform(const std::string& uniformName, bool value) const {
-			glUniform1i(getUniformLocation(uniformName), static_cast<int32_t>(value));
+			glUniform1i(getUniformLocation(uniformName), static_cast<std::int32_t>(value));
 		}
 
-		void Shader::setUniform(const std::string& uniformName, int value) const {
+		void Shader::setUniform(const std::string& uniformName, std::int32_t value) const {
 			glUniform1i(getUniformLocation(uniformName), value);
 
 		}
@@ -90,7 +90,7 @@ namespace Hart {
 			glUniformMatrix4fv(getUniformLocation(uniformName), 1, GL_FALSE, value.elements);
 		}
 
-		uint32_t Shader::GetShaderDataTypeSize(ShaderDataType type) {
+		std::uint32_t Shader::GetShaderDataTypeSize(ShaderDataType type) {
 			switch (type) {
 				case Hart::Graphics::ShaderDataType::None:
 					HART_ENGINE_ERROR("Can't have ShaderDataType==None");
@@ -121,7 +121,7 @@ namespace Hart {
 			}
 		}
 
-        GLenum Shader::ShaderDataTypeToOpenGLType(ShaderDataType type) {
+		GLenum Shader::ShaderDataTypeToOpenGLType(ShaderDataType type) {
 			switch (type) {
 				case Hart::Graphics::ShaderDataType::None:
 					HART_ENGINE_ERROR("ShaderDataType can't be null");
@@ -150,18 +150,18 @@ namespace Hart {
 					HART_ENGINE_ERROR("Unknown ShaderDataType");
 					return GL_INVALID_ENUM;
 			}
-        }
+		}
 
 		void Shader::init(const char* vsSource, const char* fsSource) {
 			const char* vertexShaderSource = vsSource;
 			const char* fragmentShaderSource = fsSource;
 
-			uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
+			std::uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
 			glCompileShader(vertexShader);
 			checkCompileErrors(vertexShader, ShaderType::VertexShader);
 
-			uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+			std::uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 			glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
 			glCompileShader(fragmentShader);
 			checkCompileErrors(fragmentShader, ShaderType::FragmentShader);
@@ -176,18 +176,18 @@ namespace Hart {
 			glDeleteShader(fragmentShader);
 		}
 
-		int32_t Shader::getUniformLocation(const std::string& uniformName) const {
+		std::int32_t Shader::getUniformLocation(const std::string& uniformName) const {
 			if (m_UniformLocationCache.find(uniformName) != m_UniformLocationCache.end()) {
 				return m_UniformLocationCache[uniformName];
 			}
 
-			int32_t uniformLocation = glGetUniformLocation(m_ShaderID, uniformName.c_str());
+			std::int32_t uniformLocation = glGetUniformLocation(m_ShaderID, uniformName.c_str());
 			m_UniformLocationCache[uniformName] = uniformLocation;
 			return uniformLocation;
 		}
 
-		void Shader::checkCompileErrors(uint32_t shader, const ShaderType& type) const {
-			int32_t success;
+		void Shader::checkCompileErrors(std::uint32_t shader, const ShaderType& type) const {
+			std::int32_t success;
 			constexpr size_t INFOLOG_SIZE = 2048;
 			char infoLog[INFOLOG_SIZE];
 

@@ -16,7 +16,7 @@ namespace Hart {
 		init();
 	}
 
-	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
+	Application::Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
 		:m_WindowData(windowWidth, windowHeight, windowTitle, isWindowResizable) {
 		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
@@ -35,8 +35,8 @@ namespace Hart {
 
 		double previousTime = Utils::Timer::getTimeInNanoSeconds();
 
-		int32_t updates = 0;
-		int32_t frames = 0;
+		std::int32_t updates = 0;
+		std::int32_t frames = 0;
 		double lastCheck = Utils::Timer::getTimeInMilliSeconds();
 
 		double deltaUPS = 0;
@@ -106,7 +106,7 @@ namespace Hart {
 		Inputs::InputManager::Init();
 
 		HART_ENGINE_LOG("Initializing GLFW");
-		int32_t success = glfwInit();
+		std::int32_t success = glfwInit();
 		HART_ASSERT_EQUAL(success, GLFW_TRUE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);

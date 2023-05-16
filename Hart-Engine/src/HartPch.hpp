@@ -3,6 +3,8 @@
 // from the standard library
 #include <iostream>
 #include <cstring>
+#include <cstdint>
+#include <cstddef>
 #include <string>
 #include <memory>
 #include <array>

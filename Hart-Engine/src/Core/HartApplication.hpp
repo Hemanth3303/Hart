@@ -23,7 +23,7 @@ namespace Hart {
 	public:
 		Application();
 		// takes window configurations as arguments
-		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
+		Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
 		virtual ~Application();
 
 		// enables or disables vsync
@@ -33,8 +33,8 @@ namespace Hart {
 
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
-		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
-		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
+		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
+		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
 		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
 		inline double getCurrentFPS() const { return m_CurrentFPS; }

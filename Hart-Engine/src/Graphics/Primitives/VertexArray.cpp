@@ -30,7 +30,7 @@ namespace Hart {
 				return;
 			}
 			vertexBuffer->bind();
-			uint32_t index = 0;
+			std::uint32_t index = 0;
 			for (const auto& element : vertexBuffer->getLayout()) {
 				glEnableVertexAttribArray(index);
 				glVertexAttribPointer(

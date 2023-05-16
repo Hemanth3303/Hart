@@ -24,7 +24,7 @@ namespace Hart {
 			~Mat4();
 
 			// returns a column as a vector
-			Vec4 getColumn(int32_t index);
+			Vec4 getColumn(std::int32_t index);
 
 			// creates a new 4x4 identity matrix
 			static Mat4 indentity();

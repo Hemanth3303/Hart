@@ -10,8 +10,8 @@ namespace Hart {
 	namespace Inputs {
 		class InputManager {
 		public:
-			static constexpr int32_t GetMaxKeys();
-			static constexpr int32_t GetMaxMouseButtons();
+			static constexpr std::int32_t GetMaxKeys();
+			static constexpr std::int32_t GetMaxMouseButtons();
 			static bool IsKeyPressed(const KeyCode& keyCode);
 			static bool IsKeyReleased(const KeyCode& keyCode);
 			static bool IsMouseButtonPressed(const MouseCode& mouseCode);
@@ -31,8 +31,8 @@ namespace Hart {
 			static void SetCurrentKey(const KeyCode& keyCode);
 			static void SetCurrentMouseButton(const MouseCode& mouseCode);
 		private:
-			static constexpr int32_t MAX_KEYS = 1024;
-			static constexpr int32_t MAX_MOUSE_BUTTONS = 512;
+			static constexpr std::int32_t MAX_KEYS = 1024;
+			static constexpr std::int32_t MAX_MOUSE_BUTTONS = 512;
 			static std::array<bool, MAX_KEYS> s_Keys;
 			static std::array<bool, MAX_MOUSE_BUTTONS> s_MouseButtons;
 			static Maths::Vec2 s_MousePosition;

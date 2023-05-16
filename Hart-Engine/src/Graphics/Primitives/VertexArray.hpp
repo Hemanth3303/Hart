@@ -24,7 +24,7 @@ namespace Hart {
 			inline const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return m_IndexBuffer; }
 			
 		private:
-			uint32_t m_ID;
+			std::uint32_t m_ID;
 			std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
 			std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		};

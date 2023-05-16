@@ -7,35 +7,35 @@
 
 namespace Hart {
 	namespace Utils {
-		Loggable::Loggable(int8_t value) {
+		Loggable::Loggable(std::int8_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(int16_t value) {
+		Loggable::Loggable(std::int16_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(int32_t value) {
+		Loggable::Loggable(std::int32_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(int64_t value) {
+		Loggable::Loggable(std::int64_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(uint8_t value) {
+		Loggable::Loggable(std::uint8_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(uint16_t value) {
+		Loggable::Loggable(std::uint16_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(uint32_t value) {
+		Loggable::Loggable(std::uint32_t value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(uint64_t value) {
+		Loggable::Loggable(std::uint64_t value) {
 			m_Data = std::to_string(value);
 		}
 

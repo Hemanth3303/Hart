@@ -12,12 +12,12 @@ namespace Hart {
 		public:
 			ShaderDataType type;
 			std::string name;
-			uint32_t size;
+			std::uint32_t size;
 			uint64_t offset;
 			bool normalized;
 		public:
 			BufferElement(ShaderDataType ptype, const std::string& pname, bool pnormalized = false);
-			uint32_t getComponentCount() const;
+			std::uint32_t getComponentCount() const;
 			GLenum getOpenGLType() const;
 		};
 
@@ -28,7 +28,7 @@ namespace Hart {
 			BufferLayout();
 			BufferLayout(const std::initializer_list<BufferElement>& elements);
 			
-			inline uint32_t getStride() const { return m_Stride; }
+			inline std::uint32_t getStride() const { return m_Stride; }
 			inline const std::vector<BufferElement>& getElements() const { return m_Elements; }
 			inline bool isEmpty() const { return m_Elements.empty(); }
 
@@ -40,13 +40,13 @@ namespace Hart {
 			void calculateOffsetAndStride();
 		private:
 			std::vector<BufferElement> m_Elements;
-			uint32_t m_Stride = 0;
+			std::uint32_t m_Stride = 0;
 		};
 
 		// A class representing an OpenGL VertexBuffer 
 		class VertexBuffer {
 		public:
-			VertexBuffer(float* vertices, uint32_t size);
+			VertexBuffer(float* vertices, std::uint32_t size);
 			~VertexBuffer();
 
 			inline const BufferLayout& getLayout() const { return m_Layout; }
@@ -55,7 +55,7 @@ namespace Hart {
 			void bind() const;
 			void unbind() const;
 		private:
-			uint32_t m_ID;
+			std::uint32_t m_ID;
 			BufferLayout m_Layout;
 		};
 	}

@@ -8,7 +8,7 @@ namespace Hart {
 
 		}
 
-		uint32_t BufferElement::getComponentCount() const {
+		std::uint32_t BufferElement::getComponentCount() const {
 			switch (type) {
 				case Hart::Graphics::ShaderDataType::None:
 					HART_ENGINE_ERROR("ShaderDataType can't be null");
@@ -63,7 +63,7 @@ namespace Hart {
 			}
 		}
 
-		VertexBuffer::VertexBuffer(float* vertices, uint32_t size) {
+		VertexBuffer::VertexBuffer(float* vertices, std::uint32_t size) {
 			glCreateBuffers(1, &m_ID);
 			glBindBuffer(GL_ARRAY_BUFFER, m_ID);
 			glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);

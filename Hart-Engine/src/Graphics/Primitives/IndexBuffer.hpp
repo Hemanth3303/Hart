@@ -9,16 +9,16 @@ namespace Hart {
 		// Class representing an OpenGL VertexBuffer 
 		class IndexBuffer {
 		public:
-			IndexBuffer(uint32_t* indices, uint32_t indexCount);
+			IndexBuffer(std::uint32_t* indices, std::uint32_t indexCount);
 			~IndexBuffer();
 
-			inline const uint32_t getIndexCount() const { return m_IndexCount; }
+			inline const std::uint32_t getIndexCount() const { return m_IndexCount; }
 
 			void bind() const;
 			void unbind() const;
 		private:
-			uint32_t m_ID;
-			uint32_t m_IndexCount;
+			std::uint32_t m_ID;
+			std::uint32_t m_IndexCount;
 		};
 	}
 }

@@ -10,8 +10,8 @@ namespace Hart {
 			Random();
 			~Random();
 
-			int32_t getRandomInt32(int32_t begin, int32_t end) const;
-			int64_t getRandomInt64(int64_t begin, int64_t end) const;
+			std::int32_t getRandomInt32(std::int32_t begin, std::int32_t end) const;
+			std::int64_t getRandomInt64(std::int64_t begin, std::int64_t end) const;
 
 			float getRandomFloat(float begin, float end) const;
 			double getRandomDouble(double begin, double end) const;
