@@ -32,6 +32,10 @@ namespace Hart {
 			);
 		}
 
+		float Mat4::getElement(std::int32_t i, std::int32_t j)const {
+			return elements[i + j * 4];
+		}
+
 		Mat4 Mat4::indentity() {
 			return Mat4(1.0f);
 		}
@@ -50,7 +54,7 @@ namespace Hart {
 		}
 
 		Mat4& Mat4::multiply(const Mat4& other) {
-			float data[4 * 4];
+			float data[4 * 4]{};
 			for (std::int32_t y = 0; y < 4; y++) {
 				for (std::int32_t x = 0; x < 4; x++) {
 					float sum = 0.0f;
@@ -60,7 +64,7 @@ namespace Hart {
 					data[x + y * 4] = sum;
 				}
 			}
-			std::memcpy(elements, data, 4 * 4 * sizeof(float));
+			std::memcpy(elements, data, static_cast<std::size_t>(4) * 4 * sizeof(float));
 
 			return *this;
 		}
@@ -92,6 +96,25 @@ namespace Hart {
 				columns[0].z * vec.x + columns[1].z * vec.y + columns[2].z * vec.z + columns[3].z * vec.w,
 				columns[0].w * vec.x + columns[1].w * vec.y + columns[2].w * vec.z + columns[3].w * vec.w
 			);
+		}
+
+		Mat4& Mat4::transpose() {
+			*this = transpose(*this);
+			return *this;
+		}
+
+		const float Mat4::determinant() {
+			return determinant(*this);
+		}
+
+		Mat4& Mat4::adjoint() {
+			*this = adjoint(*this);
+			return *this;
+		}
+
+		Mat4& Mat4::inverse() {
+			*this = inverse(*this);
+			return *this;
 		}
 
 		Vec4 operator*(const Mat4& left, const Vec4& right) {
@@ -127,6 +150,31 @@ namespace Hart {
 			result.elements[2 + 3 * 4] = c;
 
 			return result;
+		}
+
+		Mat4 Mat4::transpose(const Mat4& matrix) {
+			Mat4 result;
+			for (std::int32_t y = 0; y < 4; y++) {
+				for (std::int32_t x = 0; x < 4; x++) {
+					result.elements[x * 4 + y] = matrix.elements[x + y * 4];
+				}
+			}
+			return result;
+		}
+
+		const float Mat4::determinant(const Mat4& matrix) {
+			//TODO
+			return 0.0f;
+		}
+
+		Mat4 Mat4::adjoint(const Mat4& matrix) {
+			//TODO
+			return Mat4();
+		}
+
+		Mat4 Mat4::inverse(const Mat4& matrix) {
+			//TODO
+			return Mat4();
 		}
 
 		Mat4 Mat4::translate(const Vec3& translationVector) {

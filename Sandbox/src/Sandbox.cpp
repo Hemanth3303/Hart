@@ -60,6 +60,15 @@ public:
 		shader1->setUniform("uProjectionMatrix", m_Projection);
 		shader1->unbind();
 
+		Mat4 mat4;
+		float cnt = 0;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				mat4.elements[j+i*4] = cnt++;
+			}
+		}
+		HART_CLIENT_ERROR(mat4);
+		HART_CLIENT_WARNING(mat4.getElement(0, 3));
 	}
 
 	~Sandbox() {

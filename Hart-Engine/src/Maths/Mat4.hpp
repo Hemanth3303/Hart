@@ -26,6 +26,9 @@ namespace Hart {
 			// returns a column as a vector
 			Vec4 getColumn(std::int32_t index);
 
+			// returns element at aij of A
+			float getElement(std::int32_t i, std::int32_t j) const;
+
 			// creates a new 4x4 identity matrix
 			static Mat4 indentity();
 
@@ -45,10 +48,28 @@ namespace Hart {
 			Vec4 multiply(const Vec4& vec) const;
 			friend Vec4 operator*(const Mat4& left, const Vec4& right);
 
+			// transposes the current matrix, and returns it. The original is modified
+			Mat4& transpose();
+			// returns the determinant of the current matrix object
+			const float determinant();
+			// returns the adjoint(adjugate) of the the matrix and modifies it
+			Mat4& adjoint();
+			// inverses the current matrix, and returns it. The original is modified
+			Mat4& inverse();
+
 			// orthographic projection matrix
 			static Mat4 orthographic(float left, float right, float bottom, float top, float near, float far);
 			// perspective projection matrix(angle in degrees)
 			static Mat4 perspective(float fovD, float aspectRatio, float near, float far);
+
+			// returns the transpose of given matrix
+			static Mat4 transpose(const Mat4& matrix);
+			// returns the determinant of the given matrix
+			static const float determinant(const Mat4& matrix);
+			// returns the adjoint(adjugate) of the the given matrix without modifiying it
+			Mat4 adjoint(const Mat4& matrix);
+			// returns the inverse of given matrix
+			static Mat4 inverse(const Mat4& matrix);
 
 			// transformation operations
 
