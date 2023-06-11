@@ -21,6 +21,17 @@ namespace Hart {
 			Mat4();
 			// initializes all non-diagonal elements to zero, diagonal elements are set to argument value
 			Mat4(float diagonal);
+			/* 
+			initialize all elements as in the initializer list provided
+			note that matrix will look exactly as it is provided in the initializer list
+			ie, if m=
+				     {1, 2,
+			          3, 4}
+			then printing m will give 
+			     [1, 2,
+				  3, 4]
+			*/
+			Mat4(const std::initializer_list<float>& values);
 			~Mat4();
 
 			// returns a column as a vector
@@ -67,7 +78,7 @@ namespace Hart {
 			// returns the determinant of the given matrix
 			static const float determinant(const Mat4& matrix);
 			// returns the adjoint(adjugate) of the the given matrix without modifiying it
-			Mat4 adjoint(const Mat4& matrix);
+			static Mat4 adjoint(const Mat4& matrix);
 			// returns the inverse of given matrix
 			static Mat4 inverse(const Mat4& matrix);
 

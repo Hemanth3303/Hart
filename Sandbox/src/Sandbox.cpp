@@ -30,7 +30,7 @@ private:
 	//to make (0,0) at center of game window
 	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
-	Sandbox() 
+	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
 
 		setTargetFPS(144);
@@ -43,8 +43,8 @@ public:
 			{ ShaderDataType::Float3,  "aPosition" },
 			{ ShaderDataType::Float4,  "aColor" },
 		};
-		
-		m_VertexArray=std::make_shared<VertexArray>();
+
+		m_VertexArray = std::make_shared<VertexArray>();
 		m_VertexArray->bind();
 
 		std::shared_ptr<VertexBuffer> vbo = std::make_shared<VertexBuffer>(m_Vertices.data(), (std::uint32_t)sizeof(m_Vertices));
@@ -60,15 +60,23 @@ public:
 		shader1->setUniform("uProjectionMatrix", m_Projection);
 		shader1->unbind();
 
-		Mat4 mat4;
-		float cnt = 0;
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				mat4.elements[j+i*4] = cnt++;
-			}
-		}
-		HART_CLIENT_ERROR(mat4);
-		HART_CLIENT_WARNING(mat4.getElementAt(0, 3));
+		Mat4 mat4 = {
+			7, 1, 3, 6,
+			2, 3, 4, 0,
+			5, 2, 2, 5,
+			9, 4, 7, 1,
+		};
+		HART_CLIENT_LOG("Matrix");
+		HART_CLIENT_LOG(mat4);
+		std::cout << std::endl;
+		HART_CLIENT_LOG("Determinant");
+		HART_CLIENT_LOG(Mat4::determinant(mat4));
+		std::cout << std::endl;
+		HART_CLIENT_LOG("Adjoint");
+		HART_CLIENT_LOG(Mat4::adjoint(mat4));
+		std::cout << std::endl;
+		HART_CLIENT_LOG("Inverse");
+		HART_CLIENT_LOG(Mat4::inverse(mat4));
 	}
 
 	~Sandbox() {
