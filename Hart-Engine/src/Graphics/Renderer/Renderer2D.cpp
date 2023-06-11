@@ -12,6 +12,8 @@ namespace Hart {
 		}
 
 		void Renderer2D::Submit(const std::shared_ptr<VertexArray>& vertexArray) {
+			HART_ASSERT_NOT_EQUAL(vertexArray->getIndexBuffer(), nullptr);
+
 			vertexArray->bind();
 			vertexArray->getIndexBuffer()->bind();
 
