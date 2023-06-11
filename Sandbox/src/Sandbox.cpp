@@ -68,7 +68,7 @@ public:
 			}
 		}
 		HART_CLIENT_ERROR(mat4);
-		HART_CLIENT_WARNING(mat4.getElement(0, 3));
+		HART_CLIENT_WARNING(mat4.getElementAt(0, 3));
 	}
 
 	~Sandbox() {

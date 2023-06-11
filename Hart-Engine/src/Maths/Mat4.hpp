@@ -27,7 +27,7 @@ namespace Hart {
 			Vec4 getColumn(std::int32_t index);
 
 			// returns element at aij of A
-			float getElement(std::int32_t i, std::int32_t j) const;
+			float getElementAt(std::int32_t i, std::int32_t j) const;
 
 			// creates a new 4x4 identity matrix
 			static Mat4 indentity();

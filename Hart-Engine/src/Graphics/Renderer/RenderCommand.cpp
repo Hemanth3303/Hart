@@ -12,6 +12,10 @@ namespace Hart {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
+		void RenderCommand::DrawArrays(std::uint32_t vertexCount) {
+			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+		}
+
 		void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) {
 			// TODO: Give options to specify OpenGL primitive type
 			glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getIndexCount(), GL_UNSIGNED_INT, nullptr);

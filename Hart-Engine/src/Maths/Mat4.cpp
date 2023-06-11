@@ -32,7 +32,7 @@ namespace Hart {
 			);
 		}
 
-		float Mat4::getElement(std::int32_t i, std::int32_t j)const {
+		float Mat4::getElementAt(std::int32_t i, std::int32_t j) const {
 			return elements[i + j * 4];
 		}
 

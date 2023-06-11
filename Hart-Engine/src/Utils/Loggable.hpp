@@ -29,10 +29,10 @@ namespace Hart {
 			Loggable(float value);
 			Loggable(double value);
 
-			Loggable(const char* value);
-			Loggable(const unsigned char* value);
 			Loggable(char* value);
+			Loggable(const char* value);
 			Loggable(unsigned char* value);
+			Loggable(const unsigned char* value);
 			Loggable(const std::string& value);
 
 			Loggable(const Maths::Vec2& vec);
