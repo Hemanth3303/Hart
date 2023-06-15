@@ -59,24 +59,7 @@ public:
 		shader1->bind();
 		shader1->setUniform("uProjectionMatrix", m_Projection);
 		shader1->unbind();
-
-		Mat4 mat4 = {
-			7, 1, 3, 6,
-			2, 3, 4, 0,
-			5, 2, 2, 5,
-			9, 4, 7, 1,
-		};
-		HART_CLIENT_LOG("Matrix");
-		HART_CLIENT_LOG(mat4);
-		std::cout << std::endl;
-		HART_CLIENT_LOG("Determinant");
-		HART_CLIENT_LOG(Mat4::determinant(mat4));
-		std::cout << std::endl;
-		HART_CLIENT_LOG("Adjoint");
-		HART_CLIENT_LOG(Mat4::adjoint(mat4));
-		std::cout << std::endl;
-		HART_CLIENT_LOG("Inverse");
-		HART_CLIENT_LOG(Mat4::inverse(mat4));
+		
 	}
 
 	~Sandbox() {

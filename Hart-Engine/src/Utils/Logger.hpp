@@ -20,19 +20,21 @@ namespace Hart {
 
 		class Logger {
 		public:
-			static void LogMessage(const Loggable& message, const LogSeverity& logSeverity, bool fromEngine);
+			static void LogMessageList(std::initializer_list<Loggable> messageList, const LogSeverity& logSeverity, bool fromEngine);
 		private:
-			static void EngineTrace(const Loggable& message);
-			static void EngineLog(const Loggable& message);
-			static void EngineWarning(const Loggable& message);
-			static void EngineError(const Loggable& message);
-			static void EngineFatal(const Loggable& message);
+			static void EngineTrace(std::initializer_list<Loggable> messageList);
+			static void EngineLog(std::initializer_list<Loggable> messageList);
+			static void EngineWarning(std::initializer_list<Loggable> messageList);
+			static void EngineError(std::initializer_list<Loggable> messageList);
+			static void EngineFatal(std::initializer_list<Loggable> messageList);
 
-			static void ClientTrace(const Loggable& message);
-			static void ClientLog(const Loggable& message);
-			static void ClientWarning(const Loggable& message);
-			static void ClientError(const Loggable& message);
-			static void ClientFatal(const Loggable& message);
+			static void ClientTrace(std::initializer_list<Loggable> messageList);
+			static void ClientLog(std::initializer_list<Loggable> messageList);
+			static void ClientWarning(std::initializer_list<Loggable> messageList);
+			static void ClientError(std::initializer_list<Loggable> messageList);
+			static void ClientFatal(std::initializer_list<Loggable> messageList);
+
+			static void LogMessagesFromList(std::initializer_list<Loggable> messageList);
 
 		};
 	}
@@ -61,20 +63,30 @@ namespace Hart {
 
 	#ifdef HART_ENGINE
 		
-		#define HART_ENGINE_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, true)
-		#define HART_ENGINE_LOG(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Log, true)
-		#define HART_ENGINE_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, true)
-		#define HART_ENGINE_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, true)
-		#define HART_ENGINE_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, true)
+		#define HART_ENGINE_TRACE(message, ...)\
+			Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Trace, true)
+		#define HART_ENGINE_LOG(message, ...)\
+			Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Log, true)
+		#define HART_ENGINE_WARNING(message, ...)\
+			Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Warning, true)
+		#define HART_ENGINE_ERROR(message, ...)\
+			Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Error, true)
+		#define HART_ENGINE_FATAL(message, ...)\
+			Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Fatal, true)
 
 	#endif // HART_ENGINE
 
 	
-	#define HART_CLIENT_TRACE(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Trace, false)
-	#define HART_CLIENT_LOG(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Log, false)
-	#define HART_CLIENT_WARNING(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Warning, false)
-	#define HART_CLIENT_ERROR(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Error, false)
-	#define HART_CLIENT_FATAL(message) Hart::Utils::Logger::LogMessage(message, Hart::Utils::LogSeverity::Fatal, false)
+	#define HART_CLIENT_TRACE(message, ...)\
+		Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Trace, false)
+	#define HART_CLIENT_LOG(message, ...)\
+		Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Log, false)
+	#define HART_CLIENT_WARNING(message, ...)\
+		Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Warning, false)
+	#define HART_CLIENT_ERROR(message, ...)\
+		Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Error, false)
+	#define HART_CLIENT_FATAL(message, ...)\
+		Hart::Utils::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::Utils::LogSeverity::Fatal, false)
 
 #elif defined(HART_DIST)
 

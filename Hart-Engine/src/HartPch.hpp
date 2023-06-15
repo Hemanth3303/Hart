@@ -9,6 +9,7 @@
 #include <memory>
 #include <array>
 #include <vector>
+#include <initializer_list>
 #include <deque>
 #include <fstream>
 #include <filesystem>

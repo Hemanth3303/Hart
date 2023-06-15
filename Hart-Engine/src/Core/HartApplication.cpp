@@ -122,17 +122,14 @@ namespace Hart {
 		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
 
 	#if defined(HART_DEBUG) || defined(HART_RELEASE)
-		std::string OpenGLInfo = "";
-		OpenGLInfo += std::string("OpenGL Renderer Info: \n\t\t\t");
-		OpenGLInfo += std::string("Vendor: ");
-		OpenGLInfo += std::string(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
-		OpenGLInfo += std::string("\n\t\t\t");
-		OpenGLInfo += std::string("Renderer: ");
-		OpenGLInfo += std::string(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
-		OpenGLInfo += std::string("\n\t\t\t");
-		OpenGLInfo += std::string("Version: ");
-		OpenGLInfo += std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
-		HART_ENGINE_LOG(OpenGLInfo);
+
+		HART_ENGINE_LOG(
+			"OpenGL Renderer Info:",
+			std::string("\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
+			std::string("\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
+			std::string("\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
+		);
+
 	#endif // Only create this string and info in debug and release builds
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
