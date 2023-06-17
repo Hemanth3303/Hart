@@ -74,6 +74,7 @@ namespace Hart {
 				deltaFPS--;
 			}
 
+			// update every 1 second
 			if (Utils::Timer::getTimeInMilliSeconds() - lastCheck >= 1000) {
 				lastCheck = Utils::Timer::getTimeInMilliSeconds();
 				m_CurrentFPS = frames;

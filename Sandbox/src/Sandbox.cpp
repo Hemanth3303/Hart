@@ -35,8 +35,8 @@ public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {
 
-		setTargetFPS(144);
-		setTargetUPS(144);
+		setTargetFPS(500);
+		setTargetUPS(500);
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
@@ -71,22 +71,22 @@ public:
 	void update(double deltaTime) override {
 		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()) + " | DeltaTime: "+ std::to_string(deltaTime));
 		if (InputManager::IsKeyPressed(KeyCode::A)) {
-			m_CameraPos.x -= 5 * (float)deltaTime;
+			m_CameraPos.x -= 5.0f * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::D)) {
-			m_CameraPos.x += 5 * (float)deltaTime;
+			m_CameraPos.x += 5.0f * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::W)) {
-			m_CameraPos.y += 5 * (float)deltaTime;
+			m_CameraPos.y += 5.0f * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::S)) {
-			m_CameraPos.y -= 5 * (float)deltaTime;
+			m_CameraPos.y -= 5.0f * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::ArrowLeft)) {
-			m_CameraRotD -= 0.5;
+			m_CameraRotD -= 0.5f * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::ArrowRight)) {
-			m_CameraRotD += 0.5;
+			m_CameraRotD += 0.5f * (float)deltaTime;
 		}
 
 		m_Camera.setPosition(m_CameraPos);
