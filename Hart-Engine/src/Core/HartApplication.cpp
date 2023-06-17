@@ -30,18 +30,6 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
-		double timePerFrame = 1000000000.0 / m_TargetFPS;
-		double timePerUpdate = 1000000000.0 / m_TargetUPS;
-
-		double previousTime = Utils::Timer::getTimeInNanoSeconds();
-
-		std::int32_t updates = 0;
-		std::int32_t frames = 0;
-		double lastCheck = Utils::Timer::getTimeInMilliSeconds();
-
-		double deltaUPS = 0;
-		double deltaFPS = 0;
-
 		// Setting clear color as black
 		Graphics::RenderCommand::SetClearColor(Maths::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
@@ -51,36 +39,20 @@ namespace Hart {
 				m_IsRunning = false;
 			}
 
-			double currentTime = Utils::Timer::getTimeInNanoSeconds();
-			deltaUPS += (currentTime - previousTime) / timePerUpdate;
-			deltaFPS += (currentTime - previousTime) / timePerFrame;
-			previousTime = currentTime;
-
-			// update loop
-			if (deltaUPS >= 1) {
-				glfwPollEvents();
-				update(deltaUPS);
-				updates++;
-				deltaUPS--;
-			}
-
-			// render loop
+			glfwPollEvents();
 			
-			if (deltaFPS >= 1) {
+			double maxPeriod = 1.0f / m_MaxFPS;
+			double currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
+			double deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
+			
+			if (deltaTime >= maxPeriod) {
+				m_LastFrameTime = currentFrameTime;
+				m_CurrentFPS = 1.0 / deltaTime;
+
+				update(deltaTime);
 				Graphics::RenderCommand::Clear();
 				render();
 				m_Window->swapBuffers();
-				frames++;
-				deltaFPS--;
-			}
-
-			// update every 1 second
-			if (Utils::Timer::getTimeInMilliSeconds() - lastCheck >= 1000) {
-				lastCheck = Utils::Timer::getTimeInMilliSeconds();
-				m_CurrentFPS = frames;
-				m_CurrentUPS = updates;
-				frames = 0;
-				updates = 0;
 			}
 		}
 		HART_ENGINE_LOG("Exiting main engine loop");
@@ -122,17 +94,12 @@ namespace Hart {
 		HART_ENGINE_LOG(std::string("Maximum texture slots per shader = ") + std::to_string(s_MaxNoOfTextureSlotsPerShader));
 		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
 
-	#if defined(HART_DEBUG) || defined(HART_RELEASE)
-
 		HART_ENGINE_LOG(
 			"OpenGL Renderer Info:",
 			std::string("\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
 			std::string("\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
 			std::string("\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
 		);
-
-	#endif // Only create this string and info in debug and release builds
-
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
 

@@ -24,7 +24,7 @@ private:
 		0, 1, 3,
 		1, 2, 3,
 	};
-	std::shared_ptr<Shader> shader1;
+	std::shared_ptr<Shader> shader1, shader2;
 	std::shared_ptr<VertexArray> m_VertexArray;
 	OrthographicCamera m_Camera;
 
@@ -35,11 +35,12 @@ public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {
 
-		setTargetFPS(500);
-		setTargetUPS(500);
+		setMaxFPS(144);
+		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
+		shader2 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3,  "aPosition" },
@@ -61,6 +62,11 @@ public:
 		shader1->bind();
 		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
 		shader1->unbind();
+
+		shader2->bind();
+		shader2->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
+		shader2->setUniform("uModelMatrix", Mat4::translate({ -200, 100, 0 }) * Mat4::rotate(45, { 0, 0, 1 }) * Mat4::scale({ 0.5, 0.5, 1 }));
+		shader2->unbind();
 		
 	}
 
@@ -69,24 +75,27 @@ public:
 	}
 
 	void update(double deltaTime) override {
-		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()) + " | DeltaTime: "+ std::to_string(deltaTime));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
+
+		float movementSpeed = 400.0f;
+
 		if (InputManager::IsKeyPressed(KeyCode::A)) {
-			m_CameraPos.x -= 5.0f * (float)deltaTime;
+			m_CameraPos.x -= movementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::D)) {
-			m_CameraPos.x += 5.0f * (float)deltaTime;
+			m_CameraPos.x += movementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::W)) {
-			m_CameraPos.y += 5.0f * (float)deltaTime;
+			m_CameraPos.y += movementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::S)) {
-			m_CameraPos.y -= 5.0f * (float)deltaTime;
+			m_CameraPos.y -= movementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::ArrowLeft)) {
-			m_CameraRotD -= 0.5f * (float)deltaTime;
+			m_CameraRotD += 45 * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::ArrowRight)) {
-			m_CameraRotD += 0.5f * (float)deltaTime;
+			m_CameraRotD -= 45 * (float)deltaTime;
 		}
 
 		m_Camera.setPosition(m_CameraPos);
@@ -98,6 +107,7 @@ public:
 		{
 			Renderer2D::BeginScene(m_Camera);
 			Renderer2D::Submit(m_VertexArray, shader1);
+			Renderer2D::Submit(m_VertexArray, shader2);
 			Renderer2D::EndScene();
 		}
 

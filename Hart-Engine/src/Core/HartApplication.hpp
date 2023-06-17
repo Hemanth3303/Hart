@@ -37,15 +37,11 @@ namespace Hart {
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
 		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
-		inline double getCurrentFPS() const { return m_CurrentFPS; }
-		inline double getCurrentUPS() const { return m_CurrentUPS; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
-		// sets the preferred frames per second
+		inline const double getCurrentFPS() { return m_CurrentFPS; }
+		// sets the maximum frames per second
 		// default value is 60
-		inline void setTargetFPS(double targetFPS) { m_TargetFPS = targetFPS; }
-		// sets the preferred updates per second
-		// default value is 60
-		inline void setTargetUPS(double targetUPS) { m_TargetUPS = targetUPS; }
+		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 	protected:
 		//can be overriden by user, default implementation does nothing
@@ -88,10 +84,10 @@ namespace Hart {
 		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		bool m_IsRunning = false;
-		double m_TargetFPS = 60, m_TargetUPS = 60;
-		double m_CurrentFPS = 0, m_CurrentUPS = 0;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Escape;
 		bool m_IsVsyncEnabled = false;
+		double m_MaxFPS = 60.0, m_CurrentFPS=0.0;
+		double m_LastFrameTime = 0.0;
 
 		static int64_t s_MaxNoOfTextureSlotsPerShader;
 		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
