@@ -12,6 +12,7 @@
 #include "Graphics/Primitives/VertexArray.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
+#include "Graphics/Renderer/OrthographicCamera.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

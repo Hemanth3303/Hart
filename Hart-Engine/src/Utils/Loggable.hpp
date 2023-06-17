@@ -34,6 +34,7 @@ namespace Hart {
 			Loggable(unsigned char* value);
 			Loggable(const unsigned char* value);
 			Loggable(const std::string& value);
+			Loggable(std::string_view value);
 
 			Loggable(const Maths::Vec2& vec);
 			Loggable(const Maths::Vec3& vec);

@@ -24,20 +24,22 @@ private:
 		0, 1, 3,
 		1, 2, 3,
 	};
-	std::unique_ptr<Shader> shader1;
+	std::shared_ptr<Shader> shader1;
 	std::shared_ptr<VertexArray> m_VertexArray;
-	Mat4 m_View = Mat4::indentity();
+	OrthographicCamera m_Camera;
+
+	Vec3 m_CameraPos = { 0.0f, 0.0f, 0.0f };
+	float m_CameraRotD = 0.0f;
 	//to make (0,0) at center of game window
-	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
 public:
 	Sandbox()
-		: Application(960, 540, "Hart Engine: Sandbox", true) {
+		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {
 
 		setTargetFPS(144);
 		setTargetUPS(144);
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
+		shader1 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3,  "aPosition" },
@@ -57,7 +59,7 @@ public:
 		m_VertexArray->unbind();
 
 		shader1->bind();
-		shader1->setUniform("uProjectionMatrix", m_Projection);
+		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
 		shader1->unbind();
 		
 	}
@@ -68,21 +70,35 @@ public:
 
 	void update(double deltaTime) override {
 		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()) + " | DeltaTime: "+ std::to_string(deltaTime));
+		if (InputManager::IsKeyPressed(KeyCode::A)) {
+			m_CameraPos.x -= 5 * (float)deltaTime;
+		}
+		if (InputManager::IsKeyPressed(KeyCode::D)) {
+			m_CameraPos.x += 5 * (float)deltaTime;
+		}
+		if (InputManager::IsKeyPressed(KeyCode::W)) {
+			m_CameraPos.y += 5 * (float)deltaTime;
+		}
+		if (InputManager::IsKeyPressed(KeyCode::S)) {
+			m_CameraPos.y -= 5 * (float)deltaTime;
+		}
+		if (InputManager::IsKeyPressed(KeyCode::ArrowLeft)) {
+			m_CameraRotD -= 0.5;
+		}
+		if (InputManager::IsKeyPressed(KeyCode::ArrowRight)) {
+			m_CameraRotD += 0.5;
+		}
+
+		m_Camera.setPosition(m_CameraPos);
+		m_Camera.setRotation(m_CameraRotD);
 	}
 
 	void render() override {
 
 		{
-			shader1->bind();
-
-			shader1->setUniform("uModelMatrix", Mat4::translate(Vec3(100, 100, 0)));
-			shader1->setUniform("uViewMatrix", m_View);
-
-			Renderer2D::BeginScene();
-			Renderer2D::Submit(m_VertexArray);
+			Renderer2D::BeginScene(m_Camera);
+			Renderer2D::Submit(m_VertexArray, shader1);
 			Renderer2D::EndScene();
-
-			shader1->unbind();
 		}
 
 	}

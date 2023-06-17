@@ -67,6 +67,11 @@ namespace Hart {
 			m_Data = value;
 		}
 
+		Loggable::Loggable(std::string_view value) {
+			m_Data = value;
+		}
+
+
 		Loggable::Loggable(const Maths::Vec2& vec) {
 			m_Data = vec.toString();
 		}
