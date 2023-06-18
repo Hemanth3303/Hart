@@ -12,13 +12,11 @@ namespace Hart {
 
 	Application::Application() 
 		:m_WindowData() {
-		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
 	}
 
 	Application::Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
 		:m_WindowData(windowWidth, windowHeight, windowTitle, isWindowResizable) {
-		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
 	}
 
@@ -70,6 +68,8 @@ namespace Hart {
 	}
 
 	void Application::init() {
+		HART_ENGINE_LOG("COMPILED ON " __DATE__ " " __TIME__);
+		HART_ENGINE_LOG("Initializing Hart Engine");
 
 		s_Instance = this;
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
@@ -96,9 +96,9 @@ namespace Hart {
 
 		HART_ENGINE_LOG(
 			"OpenGL Renderer Info:",
-			std::string("\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
-			std::string("\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
-			std::string("\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
+			std::string("\t\t\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
+			std::string("\t\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
+			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
 		);
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
