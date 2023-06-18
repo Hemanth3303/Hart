@@ -35,6 +35,7 @@ namespace Hart {
 			static void ClientFatal(std::initializer_list<Loggable> messageList);
 
 			static void LogMessagesFromList(std::initializer_list<Loggable> messageList);
+			static void LogTimeStamp();
 
 		};
 	}

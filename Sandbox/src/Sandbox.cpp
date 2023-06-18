@@ -39,7 +39,7 @@ public:
 		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
+		shader1 = std::make_shared<Shader>("resshaders/cameraVert.glsl", "resshaders/cameraFrag.glsl");
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3,  "aPosition" },
@@ -60,7 +60,7 @@ public:
 
 		shader1->bind();
 		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
-		shader1->unbind();		
+		shader1->unbind();
 	}
 
 	~Sandbox() {

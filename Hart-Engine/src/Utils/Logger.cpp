@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Logger.hpp"
+#include "Timer.hpp"
 
 #ifdef HART_WINDOWS
 #include <Windows.h>
@@ -93,61 +94,81 @@ namespace Hart {
 		}
 
 		void Logger::EngineTrace(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_ENGINE_TRACE: ";
+			std::cout << WHITE;
+			LogTimeStamp();
+			std::cout << "HART_ENGINE_TRACE: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::EngineLog(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_ENGINE_LOG: ";
+			std::cout << GREEN;
+			LogTimeStamp();
+			std::cout << "HART_ENGINE_LOG: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::EngineWarning(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_ENGINE_WARNING: ";
+			std::cout << YELLOW;
+			LogTimeStamp();
+			std::cout << "HART_ENGINE_WARNING: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::EngineError(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_ENGINE_ERROR: ";
+			std::cout << RED;
+			LogTimeStamp();
+			std::cout << "HART_ENGINE_ERROR: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::EngineFatal(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_ENGINE_FATAL: ";
+			std::cout << RED;
+			LogTimeStamp();
+			std::cout << "HART_ENGINE_FATAL: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::ClientTrace(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_CLIENT_TRACE: ";
+			std::cout << WHITE;
+			LogTimeStamp();
+			std::cout << "HART_CLIENT_TRACE: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::ClientLog(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_CLIENT_LOG: ";
+			std::cout << GREEN;
+			LogTimeStamp();
+			std::cout << "HART_CLIENT_LOG: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";;
 		}
 
 		void Logger::ClientWarning(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_CLIENT_WARNING: ";
+			std::cout << YELLOW;
+			LogTimeStamp();
+			std::cout << "HART_CLIENT_WARNING: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::ClientError(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_CLIENT_ERROR: ";
+			std::cout << RED;
+			LogTimeStamp();
+			std::cout << "HART_CLIENT_ERROR: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
 
 		void Logger::ClientFatal(std::initializer_list<Loggable> LogMessageList) {
-			std::cout << WHITE << "HART_CLIENT_FATAL: ";
+			std::cout << RED;
+			LogTimeStamp();
+			std::cout << "HART_CLIENT_FATAL: ";
 			LogMessagesFromList(LogMessageList);
 			std::cout << WHITE << "\n";
 		}
@@ -163,6 +184,9 @@ namespace Hart {
 					std::cout << "\n";
 				}
 			}
+		}
+		void Logger::LogTimeStamp() {
+			std::cout << "[" << Timer::GetCurrentTimeStamp() << "] ";
 		}
 	}
 }

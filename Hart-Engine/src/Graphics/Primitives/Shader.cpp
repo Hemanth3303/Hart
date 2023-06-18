@@ -196,12 +196,10 @@ namespace Hart {
 				if (!success) {
 					glGetShaderInfoLog(shader, INFOLOG_SIZE, nullptr, infoLog);
 					if (type == ShaderType::VertexShader) {
-						HART_ENGINE_ERROR("Vertex Shader Compile Error");
-						HART_ENGINE_ERROR(infoLog);
+						HART_ENGINE_ERROR("Vertex Shader Compile Error", infoLog);
 					}
 					else {
-						HART_ENGINE_ERROR("Fragment Shader Compile Error");
-						HART_ENGINE_ERROR(infoLog);
+						HART_ENGINE_ERROR("Fragment Shader Compile Error", infoLog);
 					}
 				}
 				else {
@@ -217,8 +215,7 @@ namespace Hart {
 				glGetProgramiv(shader, GL_LINK_STATUS, &success);
 				if (!success) {
 					glGetProgramInfoLog(shader, INFOLOG_SIZE, nullptr, infoLog);
-					HART_ENGINE_ERROR("Shader Program Link Error");
-					HART_ENGINE_ERROR(infoLog);
+					HART_ENGINE_ERROR("Shader Program Link Error", infoLog);
 				}
 			}
 		}
