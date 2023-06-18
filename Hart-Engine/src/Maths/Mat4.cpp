@@ -349,6 +349,33 @@ namespace Hart {
 			return result;
 		}
 
+        Mat4 Mat4::lookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp) {
+			// calculate cameraDirection
+			Vec3 zAxis = Vec3::getNormal(position - target);
+			// get position of right axiz vector
+			Vec3 xAxis = Vec3::getNormal(Vec3::crossProduct(Vec3::getNormal(worldUp), zAxis));
+			// calculate camera up vector
+			Vec3 yAxis = Vec3::crossProduct(zAxis, xAxis);
+
+			// create translation and rotation matrix
+			Mat4 translation = Mat4::indentity();
+			translation.elements[3 * 0 + 4] = -position.x;
+			translation.elements[3 * 1 + 4] = -position.y;
+			translation.elements[3 * 2 + 4] = -position.z;
+			Mat4 rotation = Mat4::indentity();
+			rotation.elements[0 + 0 * 4] = xAxis.x;
+			rotation.elements[1 + 0 * 4] = xAxis.y;
+			rotation.elements[2 + 0 * 4] = xAxis.z;
+			rotation.elements[0 + 1 * 4] = yAxis.x;
+			rotation.elements[1 + 1 * 4] = yAxis.y;
+			rotation.elements[2 + 1 * 4] = yAxis.z;
+			rotation.elements[0 + 2 * 4] = zAxis.x;
+			rotation.elements[1 + 2 * 4] = zAxis.y;
+			rotation.elements[2 + 2 * 4] = zAxis.z;
+
+			return (rotation * translation);
+        }
+
 		std::ostream& operator<<(std::ostream& stream, const Mat4& matrix) {
 			stream << matrix.toString();
 			return stream;

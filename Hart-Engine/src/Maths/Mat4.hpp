@@ -88,6 +88,11 @@ namespace Hart {
 			static Mat4 rotate(float angleD, const Vec3& axisVector);
 			static Mat4 scale(const Vec3& scaleVector);
 
+			// camera utils
+			
+			// returns a view matrix
+			static Mat4 lookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp);
+
 			friend std::ostream& operator<<(std::ostream& stream, const Mat4& matrix);
 		};
 		Mat4 operator*(Mat4 left, const Mat4& right);

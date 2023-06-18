@@ -15,16 +15,16 @@ class Sandbox : public Application {
 private:
 	std::array<float, 36> m_Vertices = {
 		 //position              // color                
-		 100.0f,  100.f, 0.0f,   1.0f, 0.0f,  0.0f, 1.0f,
-		 100.0f, -100.f, 0.0f,   0.0f, 1.0f,  0.0f, 1.0f,
+		 100.0f,  100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
+		 100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
 		-100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
-		-100.0f,  100.f, 0.0f,   0.5f, 0.25f, 0.5f, 1.0f,
+		-100.0f,  100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
 	};
 	std::array<std::uint32_t, 6> m_Indices = {
 		0, 1, 3,
 		1, 2, 3,
 	};
-	std::shared_ptr<Shader> shader1, shader2;
+	std::shared_ptr<Shader> shader1;
 	std::shared_ptr<VertexArray> m_VertexArray;
 	OrthographicCamera m_Camera;
 
@@ -40,7 +40,6 @@ public:
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
-		shader2 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3,  "aPosition" },
@@ -54,47 +53,45 @@ public:
 		vbo->setLayout(layout);
 		m_VertexArray->addVertexBuffer(vbo);
 
-		std::shared_ptr <IndexBuffer> ibo = std::make_shared<IndexBuffer>(m_Indices.data(), 6);
+		std::shared_ptr<IndexBuffer> ibo = std::make_shared<IndexBuffer>(m_Indices.data(), 6);
 		m_VertexArray->setIndexBuffer(ibo);
 
 		m_VertexArray->unbind();
 
 		shader1->bind();
 		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
-		shader1->unbind();
-
-		shader2->bind();
-		shader2->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
-		shader2->setUniform("uModelMatrix", Mat4::translate({ -200, 100, 0 }) * Mat4::rotate(45, { 0, 0, 1 }) * Mat4::scale({ 0.5, 0.5, 1 }));
-		shader2->unbind();
-		
+		shader1->unbind();		
 	}
 
 	~Sandbox() {
 
 	}
 
+	void onEvent(const Event& e) override {
+		//HART_CLIENT_LOG(e);
+	}
+
 	void update(double deltaTime) override {
 		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
 
-		float movementSpeed = 400.0f;
+		float cameraMovementSpeed = 600.0f;
 
 		if (InputManager::IsKeyPressed(KeyCode::A)) {
-			m_CameraPos.x -= movementSpeed * (float)deltaTime;
+			m_CameraPos.x -= cameraMovementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::D)) {
-			m_CameraPos.x += movementSpeed * (float)deltaTime;
+			m_CameraPos.x += cameraMovementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::W)) {
-			m_CameraPos.y += movementSpeed * (float)deltaTime;
+			m_CameraPos.y += cameraMovementSpeed * (float)deltaTime;
 		}
 		if (InputManager::IsKeyPressed(KeyCode::S)) {
-			m_CameraPos.y -= movementSpeed * (float)deltaTime;
+			m_CameraPos.y -= cameraMovementSpeed * (float)deltaTime;
 		}
-		if (InputManager::IsKeyPressed(KeyCode::ArrowLeft)) {
+		if (InputManager::IsKeyPressed(KeyCode::Q)) {
 			m_CameraRotD += 45 * (float)deltaTime;
 		}
-		if (InputManager::IsKeyPressed(KeyCode::ArrowRight)) {
+		if (InputManager::IsKeyPressed(KeyCode::E)) {
 			m_CameraRotD -= 45 * (float)deltaTime;
 		}
 
@@ -104,12 +101,19 @@ public:
 
 	void render() override {
 
-		{
-			Renderer2D::BeginScene(m_Camera);
-			Renderer2D::Submit(m_VertexArray, shader1);
-			Renderer2D::Submit(m_VertexArray, shader2);
-			Renderer2D::EndScene();
+		Mat4 scale = Mat4::scale(Vec3(0.15f));
+
+		Renderer::BeginScene(m_Camera);
+
+		for (float y = -5; y <= 5; y++) {
+			for (float x = -5; x <= 5; x++) {
+				Vec3 pos(x * 35, y * 35, 0);
+				Mat4 transform = Mat4::translate(pos);
+				Renderer::Submit(m_VertexArray, shader1, transform * scale);
+			}
 		}
+
+		Renderer::EndScene();
 
 	}
 };
