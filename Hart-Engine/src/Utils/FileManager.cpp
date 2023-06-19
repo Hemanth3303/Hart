@@ -1,6 +1,5 @@
 #include "HartPch.hpp"
 #include "FileManager.hpp"
-#include "stb_image.h"
 
 namespace Hart {
 	namespace Utils {

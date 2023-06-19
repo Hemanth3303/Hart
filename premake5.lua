@@ -24,7 +24,7 @@ include "Sandbox/Sandbox.lua"
 include "Hart-Engine/Hart-Engine.lua"
 include "vendor/glfw.lua"
 include "vendor/glad.lua"
-include "vendor/stb_image.lua"
+include "vendor/stb.lua"
 
 --when using the cmake generator module for premake
 require "cmake"

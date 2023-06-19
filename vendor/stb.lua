@@ -1,9 +1,9 @@
-project "stb_image"
+project "stb"
 	kind "StaticLib"
 	language "C"
 	cdialect "C17"
 	cppdialect "C++20"
-	location "%{wks.location}/vendor/stb_image"
+	location "%{wks.location}/vendor/stb"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
 	staticruntime "on"
@@ -17,7 +17,7 @@ project "stb_image"
 	files { 
 		"%{prj.location}/**.c",
 		"%{prj.location}/**.h",
-		"%{prj.location}/../stb_image.lua",
+		"%{prj.location}/../stb.lua",
 	}
 
 	includedirs { 

@@ -105,13 +105,15 @@ public:
 
 		Renderer::BeginScene(m_Camera);
 
-		for (float y = -5; y <= 5; y++) {
+		/*for (float y = -5; y <= 5; y++) {
 			for (float x = -5; x <= 5; x++) {
 				Vec3 pos(x * 35, y * 35, 0);
 				Mat4 transform = Mat4::translate(pos);
 				Renderer::Submit(m_VertexArray, shader1, transform * scale);
 			}
-		}
+		}*/
+
+		Renderer::Submit(m_VertexArray, shader1, Mat4::indentity());
 
 		Renderer::EndScene();
 

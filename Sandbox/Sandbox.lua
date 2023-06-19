@@ -33,7 +33,7 @@ project "Sandbox"
 		"%{wks.location}/Hart-Engine/src",
 		"%{wks.location}/vendor/glfw/include",
 		"%{wks.location}/vendor/glad/include",
-		"%{wks.location}/vendor/stb_image/include",
+		"%{wks.location}/vendor/stb/include",
 	}
 
 	links { "Hart-Engine" }
@@ -62,11 +62,11 @@ project "Sandbox"
 		}
 
 	filter { "system:windows", "action:not vs*" }
-		links { "glfw", "glad", "stb_image"}
+		links { "glfw", "glad", "stb"}
 		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
 
 	filter { "system:linux" }
-		links { "glfw", "glad", "stb_image"}
+		links { "glfw", "glad", "stb"}
 		links { "pthread", "GL", "m", "dl", "rt", "X11" }
 
 	filter { "system:windows", "action:vs*" }
