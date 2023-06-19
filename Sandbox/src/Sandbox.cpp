@@ -13,12 +13,12 @@ using namespace Hart::Utils;
 
 class Sandbox : public Application {
 private:
-	std::array<float, 36> m_Vertices = {
-		 //position              // color                
-		 100.0f,  100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
-		 100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
-		-100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
-		-100.0f,  100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,
+	std::array<float, 42> m_Vertices = {
+		 //position              // color                  // texture coords
+		 100.0f,  100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,  1.0f, 1.0f,
+		 100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,  1.0f, 0.0f,
+		-100.0f, -100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,  0.0f, 0.0f,
+		-100.0f,  100.f, 0.0f,   0.0f, 0.0f,  1.0f, 1.0f,  0.0f, 1.0f,
 	};
 	std::array<std::uint32_t, 6> m_Indices = {
 		0, 1, 3,
@@ -34,16 +34,17 @@ private:
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {
-
+		
 		setMaxFPS(144);
 		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_shared<Shader>("res/shaders/cameraVert.glsl", "res/shaders/cameraFrag.glsl");
+		shader1 = std::make_shared<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3,  "aPosition" },
 			{ ShaderDataType::Float4,  "aColor" },
+			{ ShaderDataType::Float2, "aTexCoord" },
 		};
 
 		m_VertexArray = std::make_shared<VertexArray>();
