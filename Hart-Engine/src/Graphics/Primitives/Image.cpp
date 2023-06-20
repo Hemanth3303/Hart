@@ -4,7 +4,7 @@
 
 namespace Hart {
 	namespace Graphics {
-		Image::Image(std::uint32_t* buffer, std::int32_t width, std::int32_t height, std::int32_t channels)
+		Image::Image(std::uint32_t* buffer, std::uint32_t width, std::uint32_t height, std::uint32_t channels)
 			: m_Buffer(buffer), m_Width(width), m_Height(height), m_Channels(channels), m_loadedFromStbi(false) {
 
 		}
@@ -16,7 +16,15 @@ namespace Hart {
 				HART_ASSERT(false);
 			}
 			else {
-				m_Buffer = reinterpret_cast<std::uint32_t*>(stbi_load(filePath.c_str(), &m_Width, &m_Height, &m_Channels, 0));
+				int32_t width, height, channels;
+
+				stbi_set_flip_vertically_on_load(true);
+				m_Buffer = reinterpret_cast<std::uint32_t*>(stbi_load(filePath.c_str(), &width, &height, &channels, 0));
+				stbi_set_flip_vertically_on_load(false);
+
+				m_Width = width;
+				m_Height = height;
+				m_Channels = channels;
 			}
 		}
 

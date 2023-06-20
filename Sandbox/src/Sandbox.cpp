@@ -15,9 +15,9 @@ class Sandbox : public Application {
 private:
 	std::array<float, 42> m_Vertices = {
 		 //position              // color                 //texture coords
-		 100.0f,  100.f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 0.0f,
+		 100.0f,  100.f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f,
 		 100.0f, -100.f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 0.0f,
-		-100.0f, -100.f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f,
+		-100.0f, -100.f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f,
 		-100.0f,  100.f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f,
 	};
 	std::array<std::uint32_t, 6> m_Indices = {
@@ -30,7 +30,7 @@ private:
 
 	Vec3 m_CameraPos = { 0.0f, 0.0f, 0.0f };
 	float m_CameraRotD = 0.0f;
-	std::shared_ptr<Image> img;
+	std::shared_ptr<Texture2D> m_Tex;
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {
@@ -39,14 +39,13 @@ public:
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_shared<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
+		m_Tex = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3, "aPosition" },
 			{ ShaderDataType::Float4, "aColor" },
 			{ ShaderDataType::Float2, "aTexCoord" }
 		};
-
-		img = std::make_shared<Image>("./res/images/awesomeface.png");
 
 		m_VertexArray = std::make_shared<VertexArray>();
 		m_VertexArray->bind();
@@ -62,6 +61,7 @@ public:
 
 		shader1->bind();
 		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
+		shader1->setUniform("uTexture", m_Tex->getSlot());
 		shader1->unbind();
 	}
 
@@ -105,19 +105,11 @@ public:
 
 		Mat4 scale = Mat4::scale(Vec3(0.15f));
 
+		m_Tex->bind();
 		Renderer::BeginScene(m_Camera);
-
-		/*for (float y = -5; y <= 5; y++) {
-			for (float x = -5; x <= 5; x++) {
-				Vec3 pos(x * 35, y * 35, 0);
-				Mat4 transform = Mat4::translate(pos);
-				Renderer::Submit(m_VertexArray, shader1, transform * scale);
-			}
-		}*/
-
 		Renderer::Submit(m_VertexArray, shader1, Mat4::indentity());
-
 		Renderer::EndScene();
+		m_Tex->unbind();
 
 	}
 };

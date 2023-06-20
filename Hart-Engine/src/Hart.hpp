@@ -11,6 +11,7 @@
 #include "Graphics/Primitives/IndexBuffer.hpp"
 #include "Graphics/Primitives/VertexArray.hpp"
 #include "Graphics/Primitives/Image.hpp"
+#include "Graphics/Primitives/Texture2D.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer.hpp"
 #include "Graphics/Renderer/OrthographicCamera.hpp"
