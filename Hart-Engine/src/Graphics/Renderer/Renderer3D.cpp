@@ -1,29 +1,29 @@
 #include "HartPch.hpp"
-#include "Renderer.hpp"
+#include "Renderer3D.hpp"
 
 namespace Hart {
 	namespace Graphics {
 
-		std::unique_ptr<SceneData> Renderer::s_SceneData = std::make_unique<SceneData>();
+		std::unique_ptr<SceneData> Renderer3D::s_SceneData = std::make_unique<SceneData>();
 
-		void Renderer::Init() {
-			HART_ENGINE_LOG("Initializing Renderer");
+		void Renderer3D::Init() {
+			HART_ENGINE_LOG("Initializing Renderer3D");
 			RenderCommand::Init();
 		}
 
-		void Renderer::DeInit() {
-			HART_ENGINE_LOG("DeIntializing Renderer");
+		void Renderer3D::DeInit() {
+			HART_ENGINE_LOG("DeIntializing Renderer3D");
 		}
 
-		void Renderer::BeginScene(OrthographicCamera& camera) {
+		void Renderer3D::BeginScene(OrthographicCamera& camera) {
 			s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
 		}
 		
-		void Renderer::EndScene() {
+		void Renderer3D::EndScene() {
 			//TODO
 		}
 
-		void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Maths::Mat4& transformationMatrix) {
+		void Renderer3D::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Maths::Mat4& transformationMatrix) {
 			HART_ASSERT_NOT_EQUAL(vertexArray->getIndexBuffer(), nullptr);
 
 			shader->bind();

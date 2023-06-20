@@ -12,7 +12,7 @@ namespace Hart {
 		struct SceneData {
 			Maths::Mat4 viewProjectionMatrix;
 		};
-		class Renderer {
+		class Renderer3D {
 		public:
 			static void Init();
 			static void DeInit();

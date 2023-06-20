@@ -105,12 +105,12 @@ public:
 
 		Mat4 scale = Mat4::scale(Vec3(0.15f));
 
-		Renderer::BeginScene(m_Camera);
+		Renderer3D::BeginScene(m_Camera);
 		m_Tex1->bind();
-		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
+		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
 		m_Tex2->bind();
-		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(100, 0, 1)));
-		Renderer::EndScene();
+		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(100, 0, 1)));
+		Renderer3D::EndScene();
 
 	}
 };

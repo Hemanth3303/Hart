@@ -14,7 +14,7 @@
 #include "Graphics/Primitives/Texture2D.hpp"
 #include "Graphics/Primitives/ShaderLibrary.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
-#include "Graphics/Renderer/Renderer.hpp"
+#include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/OrthographicCamera.hpp"
 
 #include "Maths/MathConstants.hpp"
