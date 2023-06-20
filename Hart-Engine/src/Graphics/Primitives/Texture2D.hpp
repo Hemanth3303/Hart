@@ -23,6 +23,7 @@ namespace Hart {
 			LinearLinear = 0x2703,
 		};
 		
+		// OpenGL Textures
 		class Texture2D {
 		public:
 			Texture2D(const Image& image, MagFilter magFilter = MagFilter::Linear, MinFilter minFiler = MinFilter::LinearLinear);

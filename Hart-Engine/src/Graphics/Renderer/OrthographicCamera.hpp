@@ -6,6 +6,7 @@
 
 namespace Hart {
 	namespace Graphics {
+		// 2D orthographic camera
 		class OrthographicCamera {
 		public:
 			OrthographicCamera(float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);

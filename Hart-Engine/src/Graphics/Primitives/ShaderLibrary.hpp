@@ -1,7 +1,3 @@
-/*
-* class for managing shaders
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -9,6 +5,7 @@
 
 namespace Hart {
 	namespace Graphics {
+		// Class for managing shaders
 		class ShaderLibrary {
 		public:
 			ShaderLibrary();

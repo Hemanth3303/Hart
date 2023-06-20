@@ -61,7 +61,6 @@ public:
 		m_VertexArray->unbind();
 
 		m_ShaderLibrary.getShader("textureShader")->bind();
-		m_ShaderLibrary.getShader("textureShader")->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
 		m_ShaderLibrary.getShader("textureShader")->setUniform("uTexture", m_Tex1->getSlot());
 		m_ShaderLibrary.getShader("textureShader")->unbind();
 	}
@@ -75,7 +74,7 @@ public:
 	}
 
 	void update(double deltaTime) override {
-		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
 
 		float cameraMovementSpeed = 600.0f;
 
@@ -110,7 +109,7 @@ public:
 		m_Tex1->bind();
 		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
 		m_Tex2->bind();
-		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(0, 0, 1)));
+		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(100, 0, 1)));
 		Renderer::EndScene();
 
 	}

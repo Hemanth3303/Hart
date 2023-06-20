@@ -1,13 +1,10 @@
-/*
-* Abstract Image class
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
 
 namespace Hart {
 	namespace Graphics {
+		// Abstract Image class
 		class Image {
 		public:
 		public:
