@@ -11,8 +11,16 @@ namespace Hart {
 			RenderCommand::Init();
 		}
 
+		void Renderer::DeInit() {
+			HART_ENGINE_LOG("DeIntializing Renderer");
+		}
+
 		void Renderer::BeginScene(OrthographicCamera& camera) {
 			s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
+		}
+		
+		void Renderer::EndScene() {
+			//TODO
 		}
 
 		void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Maths::Mat4& transformationMatrix) {
@@ -31,14 +39,6 @@ namespace Hart {
 			vertexArray->unbind();
 
 			shader->unbind();
-		}
-
-		void Renderer::EndScene() {
-			//TODO
-		}
-
-		void Renderer::DeInit() {
-			HART_ENGINE_LOG("DeIntializing Renderer");
 		}
 	}
 }

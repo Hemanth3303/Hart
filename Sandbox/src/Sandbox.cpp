@@ -24,7 +24,7 @@ private:
 		0, 1, 3,
 		1, 2, 3,
 	};
-	std::shared_ptr<Shader> shader1;
+	ShaderLibrary m_ShaderLibrary;
 	std::shared_ptr<VertexArray> m_VertexArray;
 	OrthographicCamera m_Camera;
 
@@ -38,7 +38,7 @@ public:
 		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
-		shader1 = std::make_shared<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
+		m_ShaderLibrary.loadShader("textureShader", "res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
 		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
 		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", MagFilter::Linear);
 
@@ -60,10 +60,10 @@ public:
 
 		m_VertexArray->unbind();
 
-		shader1->bind();
-		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
-		shader1->setUniform("uTexture", m_Tex1->getSlot());
-		shader1->unbind();
+		m_ShaderLibrary.getShader("textureShader")->bind();
+		m_ShaderLibrary.getShader("textureShader")->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
+		m_ShaderLibrary.getShader("textureShader")->setUniform("uTexture", m_Tex1->getSlot());
+		m_ShaderLibrary.getShader("textureShader")->unbind();
 	}
 
 	~Sandbox() {
@@ -75,7 +75,7 @@ public:
 	}
 
 	void update(double deltaTime) override {
-		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
+		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
 
 		float cameraMovementSpeed = 600.0f;
 
@@ -108,9 +108,9 @@ public:
 
 		Renderer::BeginScene(m_Camera);
 		m_Tex1->bind();
-		Renderer::Submit(m_VertexArray, shader1, Mat4::indentity());
+		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
 		m_Tex2->bind();
-		Renderer::Submit(m_VertexArray, shader1, Mat4::translate(Vec3(0, 0, 1)));
+		Renderer::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(0, 0, 1)));
 		Renderer::EndScene();
 
 	}

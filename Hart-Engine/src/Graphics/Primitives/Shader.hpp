@@ -31,8 +31,10 @@ namespace Hart {
 		};
 		class Shader {
 		public:
-			Shader();
+			Shader(const std::string& name);
+			// shaders name is choosen as the name of the vertexshader file, by default
 			Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+			Shader(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 			~Shader();
 
 			void bind() const;
@@ -46,14 +48,18 @@ namespace Hart {
 			void setUniform(const std::string& uniformName, const Maths::Vec4& value) const;
 			void setUniform(const std::string& uniformName, const Maths::Mat4& value) const;
 
+			inline const std::string& getName() const { return m_Name; }
+
 			static std::uint32_t GetShaderDataTypeSize(ShaderDataType type);
 			static GLenum ShaderDataTypeToOpenGLType(ShaderDataType type);
 		private:
 			void init(const char* vsSource, const char* fsSource);
 			std::int32_t getUniformLocation(const std::string& uniformName) const;
 			void checkCompileErrors(std::uint32_t shader, const ShaderType& type) const;
+			std::string getNameFromFile(const std::string& filePath);
 		private:
 			std::uint32_t m_ShaderID = 0;
+			std::string m_Name;
 			mutable std::unordered_map<std::string, std::int32_t> m_UniformLocationCache;
 		};
 	}

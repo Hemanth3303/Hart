@@ -8,7 +8,7 @@
 
 namespace Hart {
 	namespace Graphics {
-		Shader::Shader() {
+		Shader::Shader(const std::string& name) {
 			// TODO: Implement default vertex and fragment shaders
 			const char* vertexShaderSource = R"(
 				#version 460 core
@@ -42,7 +42,17 @@ namespace Hart {
 			init(vertexShaderSource, fragmentShaderSource);
 		}
 
+
 		Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
+			std::string vertexShaderString = Utils::FileManager::ReadStringFromFile(vertexShaderPath);
+			std::string fragmentShaderString = Utils::FileManager::ReadStringFromFile(fragmentShaderPath);
+
+			m_Name = getNameFromFile(vertexShaderPath);
+			init(vertexShaderString.c_str(), fragmentShaderString.c_str());
+		}
+
+		Shader::Shader(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
+			: m_Name(name) {
 			std::string vertexShaderString = Utils::FileManager::ReadStringFromFile(vertexShaderPath);
 			std::string fragmentShaderString = Utils::FileManager::ReadStringFromFile(fragmentShaderPath);
 
@@ -218,6 +228,27 @@ namespace Hart {
 					HART_ENGINE_ERROR("Shader Program Link Error", infoLog);
 				}
 			}
+		}
+		std::string Shader::getNameFromFile(const std::string& filePath) {
+			
+			//get name from filepath
+			std::size_t lastSlash = filePath.find_last_of("/\\");
+			if (lastSlash == std::string::npos) {
+				lastSlash = 0;
+			}
+			else {
+				lastSlash += 1;
+			}
+
+			std::size_t lastDot = filePath.rfind('.');
+			if (lastDot == std::string::npos) {
+				lastDot = filePath.size() - lastSlash;
+			}
+			else {
+				lastDot -= lastSlash;
+			}
+
+			return filePath.substr(lastSlash , lastDot);
 		}
 	}
 }

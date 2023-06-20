@@ -5,6 +5,7 @@
 #include "OrthographicCamera.hpp"
 #include "../Primitives/VertexArray.hpp"
 #include "../Primitives/Shader.hpp"
+#include "../Primitives/Texture2D.hpp"
 
 namespace Hart {
 	namespace Graphics {
@@ -14,10 +15,12 @@ namespace Hart {
 		class Renderer {
 		public:
 			static void Init();
-			static void BeginScene(OrthographicCamera& camera);
-			static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Maths::Mat4& transformationMatrix = Maths::Mat4(1.0f));
-			static void EndScene();
 			static void DeInit();
+			
+			static void BeginScene(OrthographicCamera& camera);
+			static void EndScene();
+
+			static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Maths::Mat4& transformationMatrix = Maths::Mat4(1.0f));
 		private:
 			static std::unique_ptr<SceneData> s_SceneData;
 		};
