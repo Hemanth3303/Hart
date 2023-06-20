@@ -3,7 +3,12 @@
 
 namespace Hart {
 	namespace Graphics {
-		void RenderCommand::SetClearColor(const Maths::Vec4& color) {
+        void RenderCommand::Init() {
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+        void RenderCommand::SetClearColor(const Maths::Vec4& color) {
 			glClearColor(color.x, color.y, color.z, color.w);
 		}
 

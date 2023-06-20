@@ -3,6 +3,7 @@
 #include "Utils/Timer.hpp"
 #include "Inputs/InputManager.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/Renderer.hpp"
 
 namespace Hart {
 
@@ -100,6 +101,9 @@ namespace Hart {
 			std::string("\t\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
 			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
 		);
+
+		Graphics::Renderer::Init();
+
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
 

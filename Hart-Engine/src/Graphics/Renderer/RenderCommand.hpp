@@ -9,6 +9,8 @@ namespace Hart {
 	namespace Graphics {
 		class RenderCommand {
 		public:
+			static void Init();
+
 			static void SetClearColor(const Maths::Vec4& color);
 			static void Clear();
 

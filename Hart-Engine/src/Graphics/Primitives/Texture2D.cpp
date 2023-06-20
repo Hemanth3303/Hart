@@ -33,6 +33,7 @@ namespace Hart {
 
 		void Texture2D::unbind(std::uint32_t slot) const {
 			glBindTextureUnit(slot, 0);
+			m_Slot = slot;
 		}
 
 		void Texture2D::init(MagFilter magFilter, MinFilter minFilter) {

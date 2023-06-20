@@ -12,8 +12,7 @@ namespace Hart {
 		Image::Image(const std::string& filePath)
 			: m_loadedFromStbi(true) {
 			if (!Utils::FileManager::FileExists(filePath)) {
-				HART_ENGINE_ERROR("File " + filePath + "does not exits", "Is the name and/or path correct?");
-				HART_ASSERT(false);
+				HART_ENGINE_ERROR("File " + filePath + " does not exits", "Is the name and/or path correct?");
 			}
 			else {
 				int32_t width, height, channels;

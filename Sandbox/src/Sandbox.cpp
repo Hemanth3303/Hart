@@ -30,7 +30,7 @@ private:
 
 	Vec3 m_CameraPos = { 0.0f, 0.0f, 0.0f };
 	float m_CameraRotD = 0.0f;
-	std::shared_ptr<Texture2D> m_Tex;
+	std::shared_ptr<Texture2D> m_Tex1, m_Tex2;
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {
@@ -39,7 +39,8 @@ public:
 		setExitKey(KeyCode::Escape);
 
 		shader1 = std::make_shared<Shader>("res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
-		m_Tex = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
+		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
+		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", MagFilter::Linear);
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3, "aPosition" },
@@ -61,7 +62,7 @@ public:
 
 		shader1->bind();
 		shader1->setUniform("uViewProjectionMatrix", m_Camera.getViewProjectionMatrix());
-		shader1->setUniform("uTexture", m_Tex->getSlot());
+		shader1->setUniform("uTexture", m_Tex1->getSlot());
 		shader1->unbind();
 	}
 
@@ -105,11 +106,12 @@ public:
 
 		Mat4 scale = Mat4::scale(Vec3(0.15f));
 
-		m_Tex->bind();
 		Renderer::BeginScene(m_Camera);
+		m_Tex1->bind();
 		Renderer::Submit(m_VertexArray, shader1, Mat4::indentity());
+		m_Tex2->bind();
+		Renderer::Submit(m_VertexArray, shader1, Mat4::translate(Vec3(0, 0, 1)));
 		Renderer::EndScene();
-		m_Tex->unbind();
 
 	}
 };

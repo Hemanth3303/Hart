@@ -45,7 +45,6 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(success, -1);
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
-		glEnable(GL_DEPTH_TEST);
 		glViewport(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
 
 		std::int32_t x, y;
