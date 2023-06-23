@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
+#include "Graphics/Renderer/RenderCommand.hpp"
 
 namespace Hart {
 	Window::Window(const WindowData& windowData)
@@ -45,7 +46,7 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(success, -1);
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
-		glViewport(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
+		Graphics::RenderCommand::SetViewPort(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
 
 		std::int32_t x, y;
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
@@ -100,7 +101,7 @@ namespace Hart {
 		engineWindow->m_WindowData.m_Width = width;
 		engineWindow->m_WindowData.m_Height = height;
 
-		glViewport(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
+		Graphics::RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
 	}
 
 	void keyCallback(GLFWwindow* glfwWindow, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {

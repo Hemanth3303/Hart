@@ -46,9 +46,9 @@ namespace Hart {
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 	protected:
 		//can be overriden by user, default implementation does nothing
-		virtual void onEvent(const Events::Event& e) {}
+		virtual void onEvent(Events::Event& e) {}
 		//must be overriden by user
-		virtual void update(const double deltaTime) = 0;
+		virtual void update(const float deltaTime) = 0;
 		//must be overriden by user
 		virtual void render() = 0;
 	private:

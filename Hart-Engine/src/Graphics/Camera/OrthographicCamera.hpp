@@ -11,6 +11,8 @@ namespace Hart {
 		public:
 			OrthographicCamera(float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);
 
+			void setProjection(float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);
+
 			inline void setPosition(const Maths::Vec3& position) { m_Position = position; recalculateViewMatrix(); }
 			// Rotation along Z-axis only
 			// Provide angle in degrees

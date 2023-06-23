@@ -48,7 +48,7 @@ namespace Hart {
 				m_LastFrameTime = currentFrameTime;
 				m_CurrentFPS = 1.0 / deltaTime;
 
-				update(deltaTime);
+				update(static_cast<float>(deltaTime));
 				Graphics::RenderCommand::Clear();
 				render();
 				m_Window->swapBuffers();

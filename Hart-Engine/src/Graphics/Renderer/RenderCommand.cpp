@@ -9,12 +9,16 @@ namespace Hart {
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         }
         void RenderCommand::SetClearColor(const Maths::Vec4& color) {
-			glClearColor(color.x, color.y, color.z, color.w);
+			glClearColor(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 		}
 
 		void RenderCommand::Clear() {
 			// TODO: ask for flags to what to clear
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
+
+		void RenderCommand::SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height) {
+			glViewport(x, y, width, height);
 		}
 
 		void RenderCommand::DrawArrays(std::uint32_t vertexCount) {
