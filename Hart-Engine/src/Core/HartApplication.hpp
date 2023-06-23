@@ -11,6 +11,7 @@
 #include "Events/EventDispatcher.hpp"
 #include "Events/EventCategory.hpp"
 #include "Inputs/KeyCodes.hpp"
+#include "Graphics/Primitives/ShaderLibrary.hpp"
 
 namespace Hart {
 	// Base class representing an application/game made using Hart.
@@ -78,6 +79,7 @@ namespace Hart {
 		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
 		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
 		// End Event Methods
+
 	public:
 		static Application* s_Instance;
 	private:

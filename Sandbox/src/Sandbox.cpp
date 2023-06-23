@@ -24,13 +24,12 @@ private:
 		0, 1, 3,
 		1, 2, 3,
 	};
-	ShaderLibrary m_ShaderLibrary;
 	std::shared_ptr<VertexArray> m_VertexArray;
 	OrthographicCamera m_Camera;
-
 	Vec3 m_CameraPos = { 0.0f, 0.0f, 0.0f };
 	float m_CameraRotD = 0.0f;
 	std::shared_ptr<Texture2D> m_Tex1, m_Tex2;
+	ShaderLibrary m_ShaderLibrary;
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) , m_Camera(-(960 / 2.0f), (960 / 2.0f), -(540 / 2.0f), (540 / 2.0f)) {

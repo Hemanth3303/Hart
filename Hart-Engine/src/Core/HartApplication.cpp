@@ -198,5 +198,4 @@ namespace Hart {
 		Inputs::InputManager::SetMouseButtonReleased(e.getMouseButton());
 		return true;
 	}
-	
 }

@@ -212,14 +212,6 @@ namespace Hart {
 						HART_ENGINE_ERROR("Fragment Shader Compile Error", infoLog);
 					}
 				}
-				else {
-					if (type == ShaderType::VertexShader) {
-						HART_ENGINE_LOG("Vertex Shader Compiled Successfully");
-					}
-					else {
-						HART_ENGINE_LOG("Fragment Shader Compiled Successfully");
-					}
-				}
 			}
 			else {
 				glGetProgramiv(shader, GL_LINK_STATUS, &success);

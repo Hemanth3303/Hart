@@ -15,7 +15,7 @@
 #include "Graphics/Primitives/ShaderLibrary.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
-#include "Graphics/Renderer/OrthographicCamera.hpp"
+#include "Graphics/Camera/OrthographicCamera.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
