@@ -16,7 +16,7 @@
 
 #endif // _MSC_VER
 
-#include "Core/HartApplication.hpp"
+#include "HartApplication.hpp"
 
 extern std::unique_ptr<Hart::Application> Hart::CreateApplication();
 
