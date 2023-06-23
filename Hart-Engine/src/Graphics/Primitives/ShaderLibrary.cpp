@@ -44,6 +44,15 @@ namespace Hart {
 			}
 		}
 
+		std::vector<std::string_view> ShaderLibrary::getAllShaderNames() {
+			std::vector<std::string_view> shaderNames;
+			for (const auto& [key, value] : m_Shaders) {
+				shaderNames.push_back(key);
+			}
+			return shaderNames;
+		}
+
+
 		bool ShaderLibrary::exists(const std::string& name) {
 			if (m_Shaders.find(name) == m_Shaders.end()) {
 				return false;

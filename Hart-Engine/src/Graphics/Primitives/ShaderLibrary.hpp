@@ -18,6 +18,8 @@ namespace Hart {
 			// create new shader and adds it to library
 			std::shared_ptr<Shader> loadShader(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 			std::shared_ptr<Shader> getShader(const std::string& name);
+			// returns names of all currently stored shaders in the shaderlibrary
+			std::vector<std::string_view> getAllShaderNames();
 		private:
 			bool exists(const std::string& name);
 		private:
