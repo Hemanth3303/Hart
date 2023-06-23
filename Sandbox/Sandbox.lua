@@ -62,11 +62,11 @@ project "Sandbox"
 		}
 
 	filter { "system:windows", "action:not vs*" }
-		links { "glfw", "glad", "stb"}
-		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
+		links { "glfw", "glad", "stb" }
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
 
 	filter { "system:linux" }
-		links { "glfw", "glad", "stb"}
+		links { "glfw", "glad", "stb" }
 		links { "pthread", "GL", "m", "dl", "rt", "X11" }
 
 	filter { "system:windows", "action:vs*" }

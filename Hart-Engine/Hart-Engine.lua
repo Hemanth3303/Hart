@@ -61,10 +61,11 @@ project "Hart-Engine"
 		optimize "On"
 
 	filter { "system:windows", "action:not vs*" }
-		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
 		defines { 
 			"HART_WINDOWS", 
 			"NOMINMAX", 
+			"_CRT_SECURE_NO_WARNINGS",
 			"WIN32_LEAN_AND_MEAN",
 		}
 
