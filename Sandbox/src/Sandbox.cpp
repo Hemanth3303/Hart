@@ -62,7 +62,6 @@ public:
 		m_ShaderLibrary.getShader("textureShader")->bind();
 		m_ShaderLibrary.getShader("textureShader")->setUniform("uTexture", m_Tex1->getSlot());
 		m_ShaderLibrary.getShader("textureShader")->unbind();
-
 	}
 
 	~Sandbox() {

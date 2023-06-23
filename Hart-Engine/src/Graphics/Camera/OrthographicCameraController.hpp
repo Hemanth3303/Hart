@@ -25,7 +25,6 @@ namespace Hart {
 			inline const float ZoomLevel() const { return m_ZoomLevel; }
 
 			inline void setRotationSpeed(const float rotationSpeed) { m_CameraRotationSpeed = rotationSpeed; }
-			inline void setZoomLevel(const float zoomLevel) { m_ZoomLevel = zoomLevel; }
 		private:
 			bool onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e);
 			bool onWindowResized(Events::WindowResizedEvent& e);
