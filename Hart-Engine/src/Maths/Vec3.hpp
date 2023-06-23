@@ -1,8 +1,3 @@
-/*
-* A three component vector.
-* This class has an additional crossProduct() method
-*/
-
 #pragma once
 
 #include "HartPch.hpp"
@@ -11,6 +6,8 @@
 
 namespace Hart {
 	namespace Maths {
+		// A three component vector.
+		// This class has an additional crossProduct() method
 		struct Vec3 {
 		public:
 			float x, y, z;

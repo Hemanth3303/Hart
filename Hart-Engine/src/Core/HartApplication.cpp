@@ -2,20 +2,22 @@
 #include "HartApplication.hpp"
 #include "Utils/Timer.hpp"
 #include "Inputs/InputManager.hpp"
+#include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/Renderer3D.hpp"
 
 namespace Hart {
 
 	Application* Application::s_Instance = nullptr;
 
+	int64_t Application::s_MaxNoOfTextureSlotsPerShader;
+
 	Application::Application() 
 		:m_WindowData() {
-		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
 	}
 
-	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
+	Application::Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
 		:m_WindowData(windowWidth, windowHeight, windowTitle, isWindowResizable) {
-		HART_ENGINE_LOG("Initializing Hart Engine");
 		init();
 	}
 
@@ -27,17 +29,8 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
-		double timePerFrame = 1000000000 / m_TargetFPS;
-		double timePerUpdate = 1000000000 / m_TargetUPS;
-
-		double previousTime = Utils::Timer::getTimeInNanoSeconds();
-
-		int32_t updates = 0;
-		int32_t frames = 0;
-		double lastCheck = Utils::Timer::getTimeInMilliSeconds();
-
-		double deltaUPS = 0;
-		double deltaFPS = 0;
+		// Setting clear color as black
+		Graphics::RenderCommand::SetClearColor(Maths::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		while (m_IsRunning) {
 
@@ -45,48 +38,49 @@ namespace Hart {
 				m_IsRunning = false;
 			}
 
-			double currentTime = Utils::Timer::getTimeInNanoSeconds();
-			deltaUPS += (currentTime - previousTime) / timePerUpdate;
-			deltaFPS += (currentTime - previousTime) / timePerFrame;
-			previousTime = currentTime;
-
-			// update loop
-			if (deltaUPS >= 1) {
-				glfwPollEvents();
-				update();
-				updates++;
-				deltaUPS--;
-			}
-
-			// render loop
-			if (deltaFPS >= 1) {
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				render();
-				glfwSwapBuffers(m_Window->getGLFWwindow());
-				frames++;
-				deltaFPS--;
-			}
-
-			if (Utils::Timer::getTimeInMilliSeconds() - lastCheck >= 1000) {
-				lastCheck = Utils::Timer::getTimeInMilliSeconds();
-				m_CurrentFPS = frames;
-				m_CurrentUPS = updates;
-				frames = 0;
-				updates = 0;
-			}
+			glfwPollEvents();
 			
+			double maxPeriod = 1.0f / m_MaxFPS;
+			double currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
+			double deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
+			
+			if (deltaTime >= maxPeriod) {
+				m_LastFrameTime = currentFrameTime;
+				m_CurrentFPS = 1.0 / deltaTime;
+
+				update(static_cast<float>(deltaTime));
+				Graphics::RenderCommand::Clear();
+				render();
+				m_Window->swapBuffers();
+			}
+		}
+		HART_ENGINE_LOG("Exiting main engine loop");
+	}
+
+	void Application::enableVsync(bool enable) {
+		if (!enable) {
+			m_IsVsyncEnabled = false;
+			glfwSwapInterval(0);
+		}
+		else {
+			m_IsVsyncEnabled = true;
+			glfwSwapInterval(1);
 		}
 	}
 
 	void Application::init() {
+		HART_ENGINE_LOG("COMPILED ON " __DATE__ " " __TIME__);
+		HART_ENGINE_LOG("Initializing Hart Engine");
 
 		s_Instance = this;
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
 
+		Utils::Timer::Init();
+
 		Inputs::InputManager::Init();
 
 		HART_ENGINE_LOG("Initializing GLFW");
-		int32_t success = glfwInit();
+		std::int32_t success = glfwInit();
 		HART_ASSERT_EQUAL(success, GLFW_TRUE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -97,15 +91,29 @@ namespace Hart {
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
 
-		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::onEvent)));
+		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &s_MaxNoOfTextureSlotsPerShader);
+		HART_ENGINE_LOG(std::string("Maximum texture slots per shader = ") + std::to_string(s_MaxNoOfTextureSlotsPerShader));
+		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
+
+		HART_ENGINE_LOG(
+			"OpenGL Renderer Info:",
+			std::string("\t\t\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
+			std::string("\t\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
+			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
+		);
+
+		Graphics::Renderer3D::Init();
+
+		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
 
 	void Application::deinit() {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
+		Utils::Timer::DeInit();
 	}
 
-	void Application::onEvent(Events::Event& e) {
+	void Application::eventHandler(Events::Event& e) {
 
 		Events::EventDispatcher eventDispatcher(e);
 		// window events
@@ -126,6 +134,9 @@ namespace Hart {
 		eventDispatcher.dispatch<Events::MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
 		eventDispatcher.dispatch<Events::MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
 
+		//pass events to client
+		onEvent(e);
+
 	}
 	
 	bool Application::onWindowResized(Events::WindowResizedEvent& e) {
@@ -135,7 +146,6 @@ namespace Hart {
 
 	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
 		m_IsRunning = false;
-
 		return true;
 	}
 
@@ -188,5 +198,4 @@ namespace Hart {
 		Inputs::InputManager::SetMouseButtonReleased(e.getMouseButton());
 		return true;
 	}
-	
 }

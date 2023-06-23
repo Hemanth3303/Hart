@@ -22,7 +22,7 @@ namespace Hart {
 			static EventType GetStaticType() { return EventType::MouseMovedEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
 			virtual std::string_view getName() const override { return "MouseMovedEvent"; }
-			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
+			virtual std::int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 			std::string toString() const override {
 				return "MouseMovedEvent: " + std::to_string(m_MouseXPos) + ", " + std::to_string(m_MouseYPos);
 			}
@@ -43,7 +43,7 @@ namespace Hart {
 			static EventType GetStaticType() { return EventType::MouseWheelScrolledEvent; }
 			virtual EventType getEventType() const override { return GetStaticType(); }
 			virtual std::string_view getName() const override { return "MouseWheelScrolledEvent"; }
-			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
+			virtual std::int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 			std::string toString() const override {
 				return "MouseWheelScrolledEvent: " + std::to_string(m_XOffset) + ", " + std::to_string(m_YOffset);
 			}
@@ -51,11 +51,12 @@ namespace Hart {
 			float m_XOffset, m_YOffset;
 		};
 
+		// Base class for mouse pressed and released events
 		class MouseButtonEvent : public Event {
 		public:
 			Inputs::MouseCode getMouseButton() const { return m_Button; }
 
-			virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::MouseButtonEvent | EventCategory::InputEvent); }
+			virtual std::int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::MouseButtonEvent | EventCategory::InputEvent); }
 		protected:
 			MouseButtonEvent(const Inputs::MouseCode button)
 				: m_Button(button) {
@@ -76,7 +77,7 @@ namespace Hart {
 			virtual EventType getEventType() const override { return GetStaticType(); }
 			virtual std::string_view getName() const override { return "MouseButtonPressedEvent"; }
 			std::string toString() const override {
-				return "MouseButtonPressedEvent: " + std::to_string(static_cast<int32_t>(m_Button));
+				return "MouseButtonPressedEvent: " + std::to_string(static_cast<std::int32_t>(m_Button));
 			}
 		};
 
@@ -91,7 +92,7 @@ namespace Hart {
 			virtual EventType getEventType() const override { return GetStaticType(); }
 			virtual std::string_view getName() const override { return "MouseButtonReleasedEvent"; }
 			std::string toString() const override {
-				return "MouseButtonReleasedEvent: " + std::to_string(static_cast<int32_t>(m_Button));
+				return "MouseButtonReleasedEvent: " + std::to_string(static_cast<std::int32_t>(m_Button));
 			}
 		};
 	}

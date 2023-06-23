@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
+#include "Graphics/Renderer/RenderCommand.hpp"
 
 namespace Hart {
 	Window::Window(const WindowData& windowData)
@@ -14,6 +15,10 @@ namespace Hart {
 		glfwTerminate();
 		HART_ENGINE_LOG("Closing Window");
 	}
+
+    void Window::swapBuffers() {
+		glfwSwapBuffers(m_GLFWwindow);
+    }
 
 	void Window::init() {
 		glfwWindowHint(GLFW_RESIZABLE, m_WindowData.m_Resizable);
@@ -37,14 +42,13 @@ namespace Hart {
 		glfwSetScrollCallback(m_GLFWwindow, mouseScrollCallback);
 		glfwSetMouseButtonCallback(m_GLFWwindow, mouseButtonCallback);
 
-		int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		std::int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HART_ASSERT_NOT_EQUAL(success, -1);
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
-		glEnable(GL_DEPTH_TEST);
-		glViewport(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
+		Graphics::RenderCommand::SetViewPort(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
 
-		int32_t x, y;
+		std::int32_t x, y;
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
 		m_WindowData.m_Position.x = static_cast<float>(x);
 		m_WindowData.m_Position.y = static_cast<float>(y);
@@ -54,7 +58,7 @@ namespace Hart {
 		m_EventCallbackFn = callbackFn;
 	}
 
-	void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
+	void windowSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
 		engineWindow->m_WindowData.m_Width = width;
@@ -71,14 +75,14 @@ namespace Hart {
 		engineWindow->m_EventCallbackFn(e);
 	}
 
-	void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos) {
+	void windowPositionCallback(GLFWwindow* glfwWindow, std::int32_t xpos, std::int32_t ypos) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
 		Events::WindowMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
 		engineWindow->m_EventCallbackFn(e);
 	}
 
-	void windowFocusCallback(GLFWwindow* glfwWindow, int32_t focused) {
+	void windowFocusCallback(GLFWwindow* glfwWindow, std::int32_t focused) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
 		if (focused == GLFW_TRUE) {
@@ -91,19 +95,19 @@ namespace Hart {
 		}
 	}
 
-	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
+	void framebufferSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
 		engineWindow->m_WindowData.m_Width = width;
 		engineWindow->m_WindowData.m_Height = height;
 
-		glViewport(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
+		Graphics::RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
 	}
 
-	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods) {
+	void keyCallback(GLFWwindow* glfwWindow, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		static int32_t previousKey = -1, repeatCount = 0;
+		static std::int32_t previousKey = -1, repeatCount = 0;
 
 		switch (action) {
 			case GLFW_PRESS: {
@@ -134,7 +138,7 @@ namespace Hart {
 
 	}
 
-	void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods) {
+	void mouseButtonCallback(GLFWwindow* glfwWindow, std::int32_t button, std::int32_t action, std::int32_t mods) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 		
 		switch (action) {

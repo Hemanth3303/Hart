@@ -106,7 +106,7 @@ namespace Hart {
 
 		float Vec4::getMagnitude(const Vec4& vec) {
 			// sqrt(x^2+y^2+z^2+w^2)
-			return static_cast<float>(square_root(power(vec.x, 2) + power(vec.y, 2) + power(vec.z, 2) + power(vec.w, 2)));
+			return static_cast<float>(squareRoot(power(vec.x, 2) + power(vec.y, 2) + power(vec.z, 2) + power(vec.w, 2)));
 		}
 		
 		const std::string Vec4::toString() const {

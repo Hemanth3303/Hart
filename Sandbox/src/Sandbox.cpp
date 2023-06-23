@@ -1,4 +1,4 @@
-/*
+﻿/*
 * A Game/App made using Hart-Engine, currently used for testing purposes
 */
 
@@ -13,85 +13,86 @@ using namespace Hart::Utils;
 
 class Sandbox : public Application {
 private:
-	std::unique_ptr<Shader> basicShader;
-	float m_Vertices[12] = {
-		 100.f,  100.f, 0.0f,  // top right
-		 100.f, -100.f, 0.0f,  // bottom right
-		-100.f, -100.f, 0.0f,  // bottom left
-		-100.f,  100.f, 0.0f   // top left 
+	std::array<float, 42> m_Vertices = {
+		 //position              // color                 //texture coords
+		 1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f,
 	};
-	float m_Colors[16] = {
-		1.0f, 0.0f,  0.0f, 1.0f,  // top right
-		0.0f, 1.0f,  0.0f, 1.0f,  // bottom right
-		0.0f, 0.0f,  1.0f, 1.0f,  // bottom left
-		0.5f, 0.25f, 0.5f, 1.0f,  // top left 
-	};
-	uint32_t m_Indices[6] = {
+	std::array<std::uint32_t, 6> m_Indices = {
 		0, 1, 3,
 		1, 2, 3,
 	};
-	VertexArray m_Vao;
-	IndexBuffer m_Ibo;
-	VertexBuffer m_Vbo, m_Cbo;
-
-	//to make (0,0) at center of game window
-	Mat4 m_Projection = Mat4::orthographic(-(960/2.0f), (960/2.0f), -(540/2.0f), (540/2.0f), -1.0f, 1.0f);
+	std::shared_ptr<VertexArray> m_VertexArray;
+	std::shared_ptr<Texture2D> m_Tex1, m_Tex2;
+	ShaderLibrary m_ShaderLibrary;
+	OrthographicCameraController m_CameraController;
 public:
-	Sandbox() 
-		: Application(960, 540, "Hart Engine: Sandbox", true), m_Ibo(6) {
-
-		setTargetFPS(120);
-		setTargetUPS(120);
+	Sandbox()
+		: Application(960, 540, "Hart Engine: Sandbox", true), m_CameraController(960.0f / 540.0f) {
+		setMaxFPS(144);
+		//enableVsync();
 		setExitKey(KeyCode::Escape);
-
-		basicShader = std::make_unique<Shader>("res/shaders/basicVert.glsl", "res/shaders/basicFrag.glsl");
 		
-		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-		m_Vao.bind();
+		m_CameraController.setRotationSpeed(45);
 
-		// position attribute
-		m_Vbo.bind();
-		m_Vao.setVertexData(0, 3, 12, m_Vertices);
-		m_Vbo.unbind();
+		m_ShaderLibrary.loadShader("textureShader", "res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
+		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
+		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", MagFilter::Linear);
 
-		// color attribute
-		m_Cbo.bind();
-		m_Vao.setVertexData(1, 4, 16, m_Colors);
-		m_Cbo.unbind();
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "aPosition" },
+			{ ShaderDataType::Float4, "aColor" },
+			{ ShaderDataType::Float2, "aTexCoord" }
+		};
+		
+		m_VertexArray = std::make_shared<VertexArray>();
+		m_VertexArray->bind();
 
-		m_Ibo.bind();
-		m_Vao.setIndexData(6, m_Indices);
-		m_Ibo.unbind();
+		std::shared_ptr<VertexBuffer> vbo = std::make_shared<VertexBuffer>(m_Vertices.data(), (std::uint32_t)sizeof(m_Vertices));
+		vbo->setLayout(layout);
+		m_VertexArray->addVertexBuffer(vbo);
 
-		m_Vao.unbind();
+		std::shared_ptr<IndexBuffer> ibo = std::make_shared<IndexBuffer>(m_Indices.data(), 6);
+		m_VertexArray->setIndexBuffer(ibo);
 
-		Mat4 model = Mat4(1.0f);
-		model = Mat4::translate(Vec3(100, -50, 0)) * Mat4::rotate(45.0f, Vec3(0, 0, 1)) * Mat4::scale(Vec3(1.25, 0.5, 1));
-		basicShader->bind();
-		basicShader->setUniform("projection", m_Projection);
-		basicShader->setUniform("model", model);
-		basicShader->unbind();
+		m_VertexArray->unbind();
 
+		m_ShaderLibrary.getShader("textureShader")->bind();
+		m_ShaderLibrary.getShader("textureShader")->setUniform("uTexture", m_Tex1->getSlot());
+		m_ShaderLibrary.getShader("textureShader")->unbind();
 	}
 
 	~Sandbox() {
 
 	}
 
-	void update() override {
-		//HART_CLIENT_LOG("FPS: " + std::to_string(getCurrentFPS()) + " | UPS: " + std::to_string(getCurrentUPS()));
-		
+	void onEvent(Event& e) override {
+		//HART_CLIENT_LOG(e);
+		m_CameraController.onEvent(e);
+	}
+
+	void update(const float deltaTime) override {
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
+		m_CameraController.update(deltaTime);
+		m_CameraController.setMovementSpeed(15);
 	}
 
 	void render() override {
-		basicShader->bind();
-		m_Vao.bind();
-		m_Ibo.bind();
-		glDrawElements(GL_TRIANGLES, m_Ibo.getIndexCount(), GL_UNSIGNED_INT, 0);
-		m_Vao.unbind();
-		basicShader->unbind();
-	}
 
+		Mat4 scale = Mat4::scale(Vec3(0.15f));
+		
+		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 1.0f });
+
+		Renderer3D::BeginScene(m_CameraController.getCamera());
+		m_Tex1->bind();
+		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
+		m_Tex2->bind();
+		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(1.5, 0, 1)));
+		Renderer3D::EndScene();
+
+	}
 };
 
 std::unique_ptr<Hart::Application> Hart::CreateApplication() {

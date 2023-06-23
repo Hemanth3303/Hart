@@ -4,13 +4,13 @@
 namespace Hart {
 	namespace Maths {
 		Mat4::Mat4() {
-			for (int32_t i = 0; i < 4 * 4; i++) {
+			for (std::int32_t i = 0; i < 4 * 4; i++) {
 				elements[i] = 0.0f;
 			}
 		}
 
 		Mat4::Mat4(float diagonal) {
-			for (int32_t i = 0; i < 4 * 4; i++) {
+			for (std::int32_t i = 0; i < 4 * 4; i++) {
 				elements[i] = 0.0f;
 			}
 			elements[0 + 0 * 4] = diagonal;
@@ -19,10 +19,22 @@ namespace Hart {
 			elements[3 + 3 * 4] = diagonal;
 		}
 
-		Mat4::~Mat4() {
+		Mat4::Mat4(const std::initializer_list<float>& values) {
+			HART_ASSERT_EQUAL(values.size(), 16);
+			const float* itr = values.begin();
+			for (int i = 0; i < 4; ++i) {
+				for (int j = 0; j < 4; ++j) {
+					elements[j * 4 + i] = *itr;
+					itr++;
+				}
+			}
 		}
 
-		Vec4 Mat4::getColumn(int32_t index) {
+		Mat4::~Mat4() {
+
+		}
+
+		Vec4 Mat4::getColumn(std::int32_t index) {
 			index *= 4;
 			return Vec4(
 				elements[index + 0],
@@ -32,15 +44,19 @@ namespace Hart {
 			);
 		}
 
+		float Mat4::getElementAt(std::int32_t i, std::int32_t j) const {
+			return elements[i + j * 4];
+		}
+
 		Mat4 Mat4::indentity() {
 			return Mat4(1.0f);
 		}
 
 		std::string Mat4::toString() const {
 			std::string out = "Mat4(\n";
-			for (int32_t i = 0; i < 4; i++) {
+			for (std::int32_t i = 0; i < 4; i++) {
 				out += "[ ";
-				for (int32_t j = 0; j < 4; j++) {
+				for (std::int32_t j = 0; j < 4; j++) {
 					out += std::to_string(elements[i + j * 4]) + ", ";
 				}
 				out += "]\n";
@@ -50,17 +66,17 @@ namespace Hart {
 		}
 
 		Mat4& Mat4::multiply(const Mat4& other) {
-			float data[4 * 4];
-			for (int32_t y = 0; y < 4; y++) {
-				for (int32_t x = 0; x < 4; x++) {
+			float data[4 * 4]{};
+			for (std::int32_t y = 0; y < 4; y++) {
+				for (std::int32_t x = 0; x < 4; x++) {
 					float sum = 0.0f;
-					for (int32_t e = 0; e < 4; e++) {
+					for (std::int32_t e = 0; e < 4; e++) {
 						sum += elements[x + e * 4] * other.elements[e + y * 4];
 					}
 					data[x + y * 4] = sum;
 				}
 			}
-			std::memcpy(elements, data, 4 * 4 * sizeof(float));
+			std::memcpy(elements, data, static_cast<std::size_t>(4) * 4 * sizeof(float));
 
 			return *this;
 		}
@@ -92,6 +108,25 @@ namespace Hart {
 				columns[0].z * vec.x + columns[1].z * vec.y + columns[2].z * vec.z + columns[3].z * vec.w,
 				columns[0].w * vec.x + columns[1].w * vec.y + columns[2].w * vec.z + columns[3].w * vec.w
 			);
+		}
+
+		Mat4& Mat4::transpose() {
+			*this = transpose(*this);
+			return *this;
+		}
+
+		const float Mat4::determinant() {
+			return determinant(*this);
+		}
+
+		Mat4& Mat4::adjoint() {
+			*this = adjoint(*this);
+			return *this;
+		}
+
+		Mat4& Mat4::inverse() {
+			*this = inverse(*this);
+			return *this;
 		}
 
 		Vec4 operator*(const Mat4& left, const Vec4& right) {
@@ -127,6 +162,145 @@ namespace Hart {
 			result.elements[2 + 3 * 4] = c;
 
 			return result;
+		}
+
+		Mat4 Mat4::transpose(const Mat4& matrix) {
+			Mat4 result;
+			for (std::int32_t y = 0; y < 4; y++) {
+				for (std::int32_t x = 0; x < 4; x++) {
+					result.elements[x * 4 + y] = matrix.elements[x + y * 4];
+				}
+			}
+			return result;
+		}
+
+		const float Mat4::determinant(const Mat4& matrix) {
+			const float* e = matrix.elements;
+
+			float cofactor0 = 
+				e[5] * (e[10] * e[15] - e[11] * e[14]) -
+				e[9] * (e[6] * e[15] - e[7] * e[14]) +
+				e[13] * (e[6] * e[11] - e[7] * e[10]);
+
+			float cofactor1 = 
+				e[4] * (e[10] * e[15] - e[11] * e[14]) -
+				e[8] * (e[6] * e[15] - e[7] * e[14]) +
+				e[12] * (e[6] * e[11] - e[7] * e[10]);
+
+			float cofactor2 = 
+				e[4] * (e[9] * e[15] - e[11] * e[13]) -
+				e[8] * (e[5] * e[15] - e[7] * e[13]) +
+				e[12] * (e[5] * e[11] - e[7] * e[9]);
+
+			float cofactor3 = 
+				e[4] * (e[9] * e[14] - e[10] * e[13]) -
+				e[8] * (e[5] * e[14] - e[6] * e[13]) +
+				e[12] * (e[5] * e[10] - e[6] * e[9]);
+
+			// Calculate the determinant
+			return (e[0] * cofactor0 - e[1] * cofactor1 + e[2] * cofactor2 - e[3] * cofactor3);
+		}
+
+		Mat4 Mat4::adjoint(const Mat4& matrix) {
+			Mat4 adjointMatrix;
+
+			adjointMatrix.elements[0] = 
+				matrix.elements[5] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
+				matrix.elements[6] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) +
+				matrix.elements[7] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]);
+
+			adjointMatrix.elements[1] = 
+				-(matrix.elements[1] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
+				matrix.elements[2] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) +
+				matrix.elements[3] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]));
+
+			adjointMatrix.elements[2] = 
+				matrix.elements[1] * (matrix.elements[6] * matrix.elements[15] - matrix.elements[7] * matrix.elements[14]) -
+				matrix.elements[2] * (matrix.elements[5] * matrix.elements[15] - matrix.elements[7] * matrix.elements[13]) +
+				matrix.elements[3] * (matrix.elements[5] * matrix.elements[14] - matrix.elements[6] * matrix.elements[13]);
+
+			adjointMatrix.elements[3] = 
+				-(matrix.elements[1] * (matrix.elements[6] * matrix.elements[11] - matrix.elements[7] * matrix.elements[10]) -
+				matrix.elements[2] * (matrix.elements[5] * matrix.elements[11] - matrix.elements[7] * matrix.elements[9]) +
+				matrix.elements[3] * (matrix.elements[5] * matrix.elements[10] - matrix.elements[6] * matrix.elements[9]));
+
+			adjointMatrix.elements[4] = 
+				-(matrix.elements[4] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
+				matrix.elements[6] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
+				matrix.elements[7] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]));
+
+			adjointMatrix.elements[5] = 
+				matrix.elements[0] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
+				matrix.elements[2] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
+				matrix.elements[3] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]);
+
+			adjointMatrix.elements[6] =
+				-(matrix.elements[0] * (matrix.elements[6] * matrix.elements[15] - matrix.elements[7] * matrix.elements[14]) -
+				matrix.elements[2] * (matrix.elements[4] * matrix.elements[15] - matrix.elements[7] * matrix.elements[12]) +
+				matrix.elements[3] * (matrix.elements[4] * matrix.elements[14] - matrix.elements[6] * matrix.elements[12]));
+
+			adjointMatrix.elements[7] = 
+				matrix.elements[0] * (matrix.elements[6] * matrix.elements[11] - matrix.elements[7] * matrix.elements[10]) -
+				matrix.elements[2] * (matrix.elements[4] * matrix.elements[11] - matrix.elements[7] * matrix.elements[8]) +
+				matrix.elements[3] * (matrix.elements[4] * matrix.elements[10] - matrix.elements[6] * matrix.elements[8]);
+
+			adjointMatrix.elements[8] = 
+				matrix.elements[4] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) -
+				matrix.elements[5] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
+				matrix.elements[7] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]);
+
+			adjointMatrix.elements[9] = 
+				-(matrix.elements[0] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) -
+				matrix.elements[1] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
+				matrix.elements[3] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]));
+
+			adjointMatrix.elements[10] = 
+				matrix.elements[0] * (matrix.elements[5] * matrix.elements[15] - matrix.elements[7] * matrix.elements[13]) -
+				matrix.elements[1] * (matrix.elements[4] * matrix.elements[15] - matrix.elements[7] * matrix.elements[12]) +
+				matrix.elements[3] * (matrix.elements[4] * matrix.elements[13] - matrix.elements[5] * matrix.elements[12]);
+
+			adjointMatrix.elements[11] = 
+				-(matrix.elements[0] * (matrix.elements[5] * matrix.elements[11] - matrix.elements[7] * matrix.elements[9]) -
+				matrix.elements[1] * (matrix.elements[4] * matrix.elements[11] - matrix.elements[7] * matrix.elements[8]) +
+				matrix.elements[3] * (matrix.elements[4] * matrix.elements[9] - matrix.elements[5] * matrix.elements[8]));
+
+			adjointMatrix.elements[12] = 
+				-(matrix.elements[4] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]) -
+				matrix.elements[5] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]) +
+				matrix.elements[6] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]));
+
+			adjointMatrix.elements[13] = 
+				matrix.elements[0] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]) -
+				matrix.elements[1] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]) +
+				matrix.elements[2] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]);
+
+			adjointMatrix.elements[14] = 
+				-(matrix.elements[0] * (matrix.elements[5] * matrix.elements[14] - matrix.elements[6] * matrix.elements[13]) -
+				matrix.elements[1] * (matrix.elements[4] * matrix.elements[14] - matrix.elements[6] * matrix.elements[12]) +
+				matrix.elements[2] * (matrix.elements[4] * matrix.elements[13] - matrix.elements[5] * matrix.elements[12]));
+
+			adjointMatrix.elements[15] = 
+				matrix.elements[0] * (matrix.elements[5] * matrix.elements[10] - matrix.elements[6] * matrix.elements[9]) -
+				matrix.elements[1] * (matrix.elements[4] * matrix.elements[10] - matrix.elements[6] * matrix.elements[8]) +
+				matrix.elements[2] * (matrix.elements[4] * matrix.elements[9] - matrix.elements[5] * matrix.elements[8]);
+
+			return adjointMatrix;
+		}
+
+		Mat4 Mat4::inverse(const Mat4& matrix) {
+			const float deter = determinant(matrix);
+			HART_ASSERT_NOT_EQUAL(deter, 0);
+			if (deter == 0.0f) {
+				HART_ENGINE_ERROR("The given matrix is not invertible, returning itself");
+				return matrix;
+			}
+
+			Mat4 inverseMat = adjoint(matrix);
+			for (std::int32_t i = 0; i < 4 * 4; i++) {
+				inverseMat.elements[i] /= deter;
+			}
+
+			return inverseMat;
 		}
 
 		Mat4 Mat4::translate(const Vec3& translationVector) {
@@ -174,6 +348,33 @@ namespace Hart {
 
 			return result;
 		}
+
+        Mat4 Mat4::lookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp) {
+			// calculate cameraDirection
+			Vec3 zAxis = Vec3::getNormal(position - target);
+			// get position of right axiz vector
+			Vec3 xAxis = Vec3::getNormal(Vec3::crossProduct(Vec3::getNormal(worldUp), zAxis));
+			// calculate camera up vector
+			Vec3 yAxis = Vec3::crossProduct(zAxis, xAxis);
+
+			// create translation and rotation matrix
+			Mat4 translation = Mat4::indentity();
+			translation.elements[3 * 0 + 4] = -position.x;
+			translation.elements[3 * 1 + 4] = -position.y;
+			translation.elements[3 * 2 + 4] = -position.z;
+			Mat4 rotation = Mat4::indentity();
+			rotation.elements[0 + 0 * 4] = xAxis.x;
+			rotation.elements[1 + 0 * 4] = xAxis.y;
+			rotation.elements[2 + 0 * 4] = xAxis.z;
+			rotation.elements[0 + 1 * 4] = yAxis.x;
+			rotation.elements[1 + 1 * 4] = yAxis.y;
+			rotation.elements[2 + 1 * 4] = yAxis.z;
+			rotation.elements[0 + 2 * 4] = zAxis.x;
+			rotation.elements[1 + 2 * 4] = zAxis.y;
+			rotation.elements[2 + 2 * 4] = zAxis.z;
+
+			return (rotation * translation);
+        }
 
 		std::ostream& operator<<(std::ostream& stream, const Mat4& matrix) {
 			stream << matrix.toString();

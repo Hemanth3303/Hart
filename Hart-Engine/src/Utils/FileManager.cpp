@@ -3,17 +3,16 @@
 
 namespace Hart {
 	namespace Utils {
-		std::string FileManager::ReadFromFile(const std::string& fileName) {
+		std::string FileManager::ReadStringFromFile(const std::string& fileName) {
 			std::ifstream inFile;
 			std::stringstream dataStream;
 			std::string outDataStr = "";
 
 			if (!FileExists(fileName)) {
-				HART_ENGINE_ERROR("File doesn't exist, is the file path and/or name correct?");
+				HART_ENGINE_ERROR("Could not find file named " + fileName, "\t\t\tIs the file name and/or file path correct?");
 			}
 			else {
-				std::string info = std::string("Opening file ") + fileName;
-				HART_ENGINE_LOG(info)
+				HART_ENGINE_LOG("Opening file " + fileName);
 				inFile.open(fileName, std::ios::in);
 
 				HART_ASSERT(inFile);
@@ -27,12 +26,11 @@ namespace Hart {
 			return outDataStr;
 		}
 
-		void FileManager::WriteToFile(const std::string& data, const std::string& fileName, const std::string& directory) {
+		void FileManager::WriteStringToFile(const std::string& data, const std::string& fileName, const std::string& directory) {
 			std::fstream outFile;
 			
 			if (!std::filesystem::is_directory(directory)) {
-				std::string info = std::string("Directory ") + directory + std::string(" doesn't exist. Creating it");
-				HART_ENGINE_LOG(info);
+				HART_ENGINE_LOG("Directory " + directory + " doesn't exist. Creating it");
 				std::filesystem::create_directories(directory);
 			}
 
@@ -40,8 +38,7 @@ namespace Hart {
 
 			outFile.open(outFileName, std::ios::out | std::ios::app);
 
-			std::string info = std::string("Writing to file ") + outFileName;
-			HART_ENGINE_LOG(info);
+			HART_ENGINE_LOG("Writing to file " + outFileName);
 			
 			HART_ASSERT(outFile);
 			outFile << data << "\n";

@@ -1,15 +1,22 @@
 #pragma once
 
-#include "EntryPoint.hpp"
+#include "Core/EntryPoint.hpp"
 
 #include "Core/HartApplication.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
 
-#include "Graphics/Shader.hpp"
-#include "Graphics/VertexBuffer.hpp"
-#include "Graphics/IndexBuffer.hpp"
-#include "Graphics/VertexArray.hpp"
+#include "Graphics/Primitives/Shader.hpp"
+#include "Graphics/Primitives/VertexBuffer.hpp"
+#include "Graphics/Primitives/IndexBuffer.hpp"
+#include "Graphics/Primitives/VertexArray.hpp"
+#include "Graphics/Primitives/Image.hpp"
+#include "Graphics/Primitives/Texture2D.hpp"
+#include "Graphics/Primitives/ShaderLibrary.hpp"
+#include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/Renderer3D.hpp"
+#include "Graphics/Camera/OrthographicCamera.hpp"
+#include "Graphics/Camera/OrthographicCameraController.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

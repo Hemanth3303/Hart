@@ -12,14 +12,14 @@ namespace Hart {
 
 		}
 
-		int32_t Random::getRandomInt32(int32_t begin, int32_t end) const {
-			std::uniform_int_distribution<int32_t> distribution(begin, end);
+		std::int32_t Random::getRandomInt32(std::int32_t begin, std::int32_t end) const {
+			std::uniform_int_distribution<std::int32_t> distribution(begin, end);
 
 			return distribution(*(m_MT19937.get()));
 		}
 
-		int64_t Random::getRandomInt64(int64_t begin, int64_t end) const {
-			std::uniform_int_distribution<int64_t> distribution(begin, end);
+		std::int64_t Random::getRandomInt64(std::int64_t begin, std::int64_t end) const {
+			std::uniform_int_distribution<std::int64_t> distribution(begin, end);
 			return distribution(*(m_MT19937.get()));
 		}
 

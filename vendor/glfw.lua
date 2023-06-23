@@ -5,12 +5,19 @@ project "glfw"
 	cppdialect "C++20"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
-	staticruntime "Off"
+	staticruntime "on"
 	systemversion "latest"
 	targetname "%{prj.name}"
 	kind "StaticLib"
 
-	includedirs { "%{prj.location}/include" }
+	vpaths {
+		["Header Files"] = { "**.h", "**.hpp" },
+		["Source Files"] = { "**.c", "**.cpp" },
+	}
+
+	includedirs { 
+		"%{prj.location}/include"
+	}
 	
 	files {
 	"%{prj.location}/include/GLFW/glfw3.h",
@@ -95,3 +102,16 @@ project "glfw"
 	filter "configurations:Dist"
 		runtime "Release"
 		optimize "On"
+
+	filter { "system:windows" }
+		defines { 
+			"_CRT_SECURE_NO_WARNINGS", 
+			"NOMINMAX", 
+			"WIN32_LEAN_AND_MEAN"
+		}
+	filter { "system:windows", "action:vs*" }
+		defines { 
+			"STRICT",
+			"_CRT_SECURE_NO_WARNINGS",
+			"WIN32_LEAN_AND_MEAN",
+		}

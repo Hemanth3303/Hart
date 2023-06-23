@@ -5,7 +5,7 @@ project "Sandbox"
 	cdialect "C17"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
-	staticruntime "Off"
+	staticruntime "on"
 	systemversion "latest"
 	targetname "%{prj.name}"
 
@@ -22,6 +22,9 @@ project "Sandbox"
 		"%{prj.location}/**.glsl",
 		"%{prj.location}/**.vert",
 		"%{prj.location}/**.frag",
+		"%{prj.location}/**.png",
+		"%{prj.location}/**.jpg",
+		"%{prj.location}/**.jpeg",
 		"%{prj.location}/Sandbox.lua",
 	}
 
@@ -30,6 +33,7 @@ project "Sandbox"
 		"%{wks.location}/Hart-Engine/src",
 		"%{wks.location}/vendor/glfw/include",
 		"%{wks.location}/vendor/glad/include",
+		"%{wks.location}/vendor/stb/include",
 	}
 
 	links { "Hart-Engine" }
@@ -51,10 +55,23 @@ project "Sandbox"
 		entrypoint "mainCRTStartup"
 
 	filter { "system:windows" }
-		defines { "_CRT_SECURE_NO_WARNINGS", "NOMINMAX", "WIN32_LEAN_AND_MEAN" }
+		defines { 
+			"_CRT_SECURE_NO_WARNINGS", 
+			"NOMINMAX", 
+			"WIN32_LEAN_AND_MEAN"
+		}
 
-	filter { "system:windows", "action:not vs" }
-		links { "glfw", "glad", "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
+	filter { "system:windows", "action:not vs*" }
+		links { "glfw", "glad", "stb" }
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
 
 	filter { "system:linux" }
-		links { "glfw", "glad", "pthread", "GL", "m", "dl", "rt", "X11" }
+		links { "glfw", "glad", "stb" }
+		links { "pthread", "GL", "m", "dl", "rt", "X11" }
+
+	filter { "system:windows", "action:vs*" }
+		defines { 
+			"STRICT",
+			"_CRT_SECURE_NO_WARNINGS",
+			"WIN32_LEAN_AND_MEAN",
+		}

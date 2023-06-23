@@ -1,5 +1,4 @@
 /*
-* Base class for events
 * Note: Learned most of this stuff from TheCherno's game engine series
 */
 
@@ -14,6 +13,7 @@
 
 namespace Hart {
 	namespace Events {
+		// Base class for events
 		class Event {
 		public:
 			Event() = default;
@@ -21,7 +21,7 @@ namespace Hart {
 
 			virtual EventType getEventType() const = 0;
 			virtual std::string_view getName() const = 0;
-			virtual int32_t getEventCategoryFlags() const = 0;
+			virtual std::int32_t getEventCategoryFlags() const = 0;
 			virtual std::string toString() const { return std::string(getName()); }
 
 			bool isInCategory(EventCategory category) {

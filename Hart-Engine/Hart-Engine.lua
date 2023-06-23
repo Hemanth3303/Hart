@@ -5,7 +5,7 @@ project "Hart-Engine"
 	cdialect "C17"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
-	staticruntime "Off"
+	staticruntime "on"
 	kind "StaticLib"
 	systemversion "latest"
 	targetname "%{prj.name}"
@@ -15,8 +15,8 @@ project "Hart-Engine"
 	}
 
 	filter { "action:not cmake" }
-	pchheader "HartPch.hpp"
-	pchsource "%{prj.location}/src/HartPch.cpp"
+		pchheader "HartPch.hpp"
+		pchsource "%{prj.location}/src/HartPch.cpp"
 
 	filter {  }
 
@@ -42,9 +42,11 @@ project "Hart-Engine"
 		"%{prj.location}/src",
 		"%{wks.location}/vendor/glfw/include",
 		"%{wks.location}/vendor/glad/include",
+		"%{wks.location}/vendor/stb/include",
 	}
 
-	links { "glfw", "glad" }
+	-- remember to add dependencies to Client App/Game's links{} section if compiler!=MSVC (action: not vs*)
+	links { "glfw", "glad", "stb" }
 
 	filter "configurations:Debug"
 		runtime "Debug"
@@ -58,11 +60,12 @@ project "Hart-Engine"
 		runtime "Release"
 		optimize "On"
 
-	filter "system:windows"
-		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32" }
+	filter { "system:windows", "action:not vs*" }
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
 		defines { 
 			"HART_WINDOWS", 
 			"NOMINMAX", 
+			"_CRT_SECURE_NO_WARNINGS",
 			"WIN32_LEAN_AND_MEAN",
 		}
 
@@ -72,6 +75,8 @@ project "Hart-Engine"
 
 	filter { "system:windows", "action:vs*" }
 		defines { 
+			"HART_WINDOWS", 
+			"NOMINMAX", 
 			"STRICT",
 			"_CRT_SECURE_NO_WARNINGS",
 			"WIN32_LEAN_AND_MEAN",

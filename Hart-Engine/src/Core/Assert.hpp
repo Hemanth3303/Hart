@@ -4,11 +4,11 @@
 
 #pragma once
 
-#if defined(HART_DEBUG) || defined(HART_RELEASE)
+#ifdef HART_DEBUG
 
 #include <cassert>
 
-	#define HART_ASSERT(expression) assert(expression)
+	#define HART_ASSERT(expression, ...) assert(expression)
 	#define HART_ASSERT_EQUAL(expression, value) assert(expression == value)
 	#define HART_ASSERT_NOT_EQUAL(expression, value) assert(expression != value)
 
@@ -18,4 +18,4 @@
 	#define HART_ASSERT_EQUAL(expression, value) 
 	#define HART_ASSERT_NOT_EQUAL(expression, value) 
 
-#endif
+#endif // HART_DEBUG
