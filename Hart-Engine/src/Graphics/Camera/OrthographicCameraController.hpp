@@ -10,6 +10,7 @@
 
 namespace Hart {
 	namespace Graphics {
+		// default 2d camera controller
 		class OrthographicCameraController {
 		public:
 			OrthographicCameraController(float aspectRatio, bool enableCameraRotation = false);
@@ -24,7 +25,10 @@ namespace Hart {
 			inline const float getRotationSpeed() const { return m_CameraRotationSpeed; }
 			inline const float ZoomLevel() const { return m_ZoomLevel; }
 
+			// default is 20.0f
 			inline void setRotationSpeed(const float rotationSpeed) { m_CameraRotationSpeed = rotationSpeed; }
+			// default is 5.0f
+			inline void setMovementSpeed(const float movementSpeed) { m_SpeedMultiplier = movementSpeed; }
 		private:
 			bool onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e);
 			bool onWindowResized(Events::WindowResizedEvent& e);
@@ -35,6 +39,7 @@ namespace Hart {
 			OrthographicCamera m_Camera;
 
 			float m_CameraMovementSpeed = m_ZoomLevel;
+			float m_SpeedMultiplier = 5.0f;
 			float m_CameraRotationSpeed = 20.0f;
 			Maths::Vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
 			float m_CameraRotation = 0.0f;

@@ -37,7 +37,7 @@ namespace Hart {
 			}
 
 			m_Camera.setPosition(m_CameraPosition);
-			m_CameraMovementSpeed = m_ZoomLevel;
+			m_CameraMovementSpeed = m_ZoomLevel * m_SpeedMultiplier;
 		}
 
 		void OrthographicCameraController::onEvent(Events::Event& e) {

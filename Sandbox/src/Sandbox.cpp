@@ -76,6 +76,7 @@ public:
 	void update(const float deltaTime) override {
 		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
 		m_CameraController.update(deltaTime);
+		m_CameraController.setMovementSpeed(15);
 	}
 
 	void render() override {
