@@ -62,6 +62,10 @@ namespace Hart {
 			s_MousePosition = Maths::Vec2(0.0f, 0.0f);
 		}
 
+		void InputManager::DeInit() {
+
+		}
+
 		void InputManager::SetKeyPressed(const KeyCode& keyCode) {
 			s_Keys[static_cast<std::int32_t>(keyCode)] = true;
 			SetCurrentKey(keyCode);

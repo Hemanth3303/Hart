@@ -76,7 +76,6 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
 
 		Utils::Timer::Init();
-
 		Inputs::InputManager::Init();
 
 		HART_ENGINE_LOG("Initializing GLFW");
@@ -111,6 +110,7 @@ namespace Hart {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 		Utils::Timer::DeInit();
+		Inputs::InputManager::DeInit();
 	}
 
 	void Application::eventHandler(Events::Event& e) {
