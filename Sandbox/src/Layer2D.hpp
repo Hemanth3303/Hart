@@ -87,7 +87,7 @@ public:
 
 		Mat4 scale = Mat4::scale(Vec3(0.15f));
 
-		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 1.0f });
+		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 255.0f });
 
 		Renderer3D::BeginScene(m_CameraController.getCamera());
 		m_Tex1->bind();

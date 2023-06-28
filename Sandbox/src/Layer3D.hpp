@@ -32,7 +32,7 @@ public:
 
 		m_CameraController.setRotationSpeed(45);
 
-		m_ShaderLibrary.loadShader("textureShader", "res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
+		m_ShaderLibrary.loadShader("textureShader", "res/shaders/textureWithColorVert.glsl", "res/shaders/textureWithColorFrag.glsl");
 		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
 		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", MagFilter::Linear);
 
@@ -87,7 +87,7 @@ public:
 
 		Mat4 scale = Mat4::scale(Vec3(0.15f));
 
-		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 1.0f });
+		RenderCommand::SetClearColor({ 255.0f, 0.0f, 255.0f, 255.0f });
 
 		Renderer3D::BeginScene(m_CameraController.getCamera());
 		m_Tex1->bind();
