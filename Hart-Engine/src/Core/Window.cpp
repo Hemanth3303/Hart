@@ -11,9 +11,7 @@ namespace Hart {
 	}
 
 	Window::~Window() {
-		HART_ENGINE_LOG("Closing GLFW");
-		glfwTerminate();
-		HART_ENGINE_LOG("Closing Window");
+		HART_ENGINE_LOG("DeInitializing Window");
 	}
 
     void Window::swapBuffers() {

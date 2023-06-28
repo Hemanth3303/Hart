@@ -89,11 +89,11 @@ public:
 
 		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 255.0f });
 
-		Renderer3D::BeginScene(m_CameraController.getCamera());
+		Renderer2D::BeginScene(m_CameraController.getCamera());
 		m_Tex1->bind();
-		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
+		Renderer2D::DrawQuad();
 		m_Tex2->bind();
-		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::translate(Vec3(1.5, 0, 1)));
-		Renderer3D::EndScene();
+		Renderer2D::DrawQuad();
+		Renderer2D::EndScene();
 	}
 };

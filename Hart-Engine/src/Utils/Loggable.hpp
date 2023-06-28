@@ -29,6 +29,9 @@ namespace Hart {
 			Loggable(float value);
 			Loggable(double value);
 
+			Loggable(long value);
+			Loggable(unsigned long value);
+
 			Loggable(char* value);
 			Loggable(const char* value);
 			Loggable(unsigned char* value);

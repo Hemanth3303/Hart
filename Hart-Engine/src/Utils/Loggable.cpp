@@ -47,6 +47,14 @@ namespace Hart {
 			m_Data = std::to_string(value);
 		}
 
+		Loggable::Loggable(long value) {
+			m_Data = std::to_string(value);
+		}
+
+		Loggable::Loggable(unsigned long value) {
+			m_Data = std::to_string(value);
+		}
+
 		Loggable::Loggable(const char* value) {
 			m_Data = std::string(value);
 		}

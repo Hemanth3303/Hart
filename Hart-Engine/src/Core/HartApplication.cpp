@@ -4,6 +4,7 @@
 #include "Inputs/InputManager.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
+#include "Graphics/Renderer/Renderer2D.hpp"
 
 namespace Hart {
 
@@ -77,6 +78,7 @@ namespace Hart {
 
 	void Application::pushLayer(const std::shared_ptr<Layer>& layer) {
 		m_LayerStack.pushLayer(layer);
+		Hart::Utils::Logger::LogMessageList({ layer.use_count(), }, Hart::Utils::LogSeverity::Log, true);
 	}
 
 	void Application::popLayer(const std::shared_ptr<Layer>& layer) {
@@ -124,17 +126,22 @@ namespace Hart {
 		Utils::Timer::Init();
 		Inputs::InputManager::Init();
 		Graphics::Renderer3D::Init();
+		Graphics::Renderer2D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 	}
 
 	void Application::deinit() {
-		// i just want to see the "shutting down hart engine" message at last o_o
 		m_LayerStack.popAll();
-		m_Window.reset();
-		Utils::Timer::DeInit();
-		Inputs::InputManager::DeInit();
+		Graphics::Renderer2D::DeInit();
 		Graphics::Renderer3D::DeInit();
+		Inputs::InputManager::DeInit();
+		Utils::Timer::DeInit();
+		// i just want to see the "shutting down hart engine" message at last o_o
+		m_Window.reset();
+
+		HART_ENGINE_LOG("DeInitilizing GLFW");
+		glfwTerminate();
 	}
 
 	void Application::eventHandler(Events::Event& e) {

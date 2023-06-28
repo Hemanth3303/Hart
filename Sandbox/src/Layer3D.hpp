@@ -88,8 +88,8 @@ public:
 		Mat4 scale = Mat4::scale(Vec3(0.15f));
 
 		RenderCommand::SetClearColor({ 255.0f, 0.0f, 255.0f, 255.0f });
-
-		Renderer3D::BeginScene(m_CameraController.getCamera());
+		PerspectiveCamera cam;
+		Renderer3D::BeginScene(cam);
 		m_Tex1->bind();
 		Renderer3D::Submit(m_VertexArray, m_ShaderLibrary.getShader("textureShader"), Mat4::indentity());
 		m_Tex2->bind();

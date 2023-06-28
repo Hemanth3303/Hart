@@ -15,8 +15,8 @@ namespace Hart {
 			HART_ENGINE_LOG("DeIntializing Renderer3D");
 		}
 
-		void Renderer3D::BeginScene(OrthographicCamera& camera) {
-			s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
+		void Renderer3D::BeginScene(PerspectiveCamera& camera) {
+			// s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
 		}
 		
 		void Renderer3D::EndScene() {
