@@ -28,7 +28,7 @@ private:
 	OrthographicCameraController m_CameraController;
 public:
 	Layer3D(const std::string& name = "Layer3D")
-		:Layer(name), m_CameraController(960.0f / 540.0f) {
+		:Layer(name), m_CameraController(960.0f, 540.0f) {
 
 		m_CameraController.setRotationSpeed(45);
 
