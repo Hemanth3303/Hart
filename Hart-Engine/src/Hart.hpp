@@ -5,6 +5,8 @@
 #include "Core/HartApplication.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
+#include "Core/Layer.hpp"
+#include "Core/LayerStack.hpp"
 
 #include "Graphics/Primitives/Shader.hpp"
 #include "Graphics/Primitives/VertexBuffer.hpp"
