@@ -33,8 +33,8 @@ public:
 		m_CameraController.setRotationSpeed(45);
 
 		m_ShaderLibrary.loadShader("textureShader", "res/shaders/textureWithColorVert.glsl", "res/shaders/textureWithColorFrag.glsl");
-		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
-		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", MagFilter::Linear);
+		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", TextureMagFilter::Nearest);
+		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", TextureMagFilter::Linear);
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3, "aPosition" },

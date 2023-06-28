@@ -78,7 +78,6 @@ namespace Hart {
 
 	void Application::pushLayer(const std::shared_ptr<Layer>& layer) {
 		m_LayerStack.pushLayer(layer);
-		Hart::Utils::Logger::LogMessageList({ layer.use_count(), }, Hart::Utils::LogSeverity::Log, true);
 	}
 
 	void Application::popLayer(const std::shared_ptr<Layer>& layer) {

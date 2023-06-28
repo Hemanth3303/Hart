@@ -11,18 +11,6 @@ using namespace Hart::Utils;
 
 class Layer2D : public Layer {
 private:
-	std::array<float, 42> m_Vertices = {
-		//position              // color                 //texture coords
-		1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f,
-		1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 0.0f,
-	   -1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f,
-	   -1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f,
-	};
-	std::array<std::uint32_t, 6> m_Indices = {
-		0, 1, 3,
-		1, 2, 3,
-	};
-	std::shared_ptr<VertexArray> m_VertexArray;
 	std::shared_ptr<Texture2D> m_Tex1, m_Tex2;
 	ShaderLibrary m_ShaderLibrary;
 	OrthographicCameraController m_CameraController;
@@ -33,32 +21,11 @@ public:
 		m_CameraController.setRotationSpeed(45);
 
 		m_ShaderLibrary.loadShader("textureShader", "res/shaders/textureVert.glsl", "res/shaders/textureFrag.glsl");
-		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", MagFilter::Nearest);
-		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", MagFilter::Linear);
+		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", TextureMagFilter::Nearest);
+		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", TextureMagFilter::Linear);
 
-		BufferLayout layout = {
-			{ ShaderDataType::Float3, "aPosition" },
-			{ ShaderDataType::Float4, "aColor" },
-			{ ShaderDataType::Float2, "aTexCoord" }
-		};
+		m_CameraController.setMovementSpeed(7);
 
-		m_VertexArray = std::make_shared<VertexArray>();
-		m_VertexArray->bind();
-
-		std::shared_ptr<VertexBuffer> vbo = std::make_shared<VertexBuffer>(m_Vertices.data(), (std::uint32_t)sizeof(m_Vertices));
-		vbo->setLayout(layout);
-		m_VertexArray->addVertexBuffer(vbo);
-
-		std::shared_ptr<IndexBuffer> ibo = std::make_shared<IndexBuffer>(m_Indices.data(), 6);
-		m_VertexArray->setIndexBuffer(ibo);
-
-		m_VertexArray->unbind();
-
-		m_ShaderLibrary.getShader("textureShader")->bind();
-		m_ShaderLibrary.getShader("textureShader")->setUniform("uTexture", m_Tex1->getSlot());
-		m_ShaderLibrary.getShader("textureShader")->unbind();
-
-		m_CameraController.setMovementSpeed(10);
 	}
 
 	~Layer2D() {
@@ -84,16 +51,11 @@ public:
 	}
 
 	void render() override {
-
-		Mat4 scale = Mat4::scale(Vec3(0.15f));
-
 		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 255.0f });
 
-		Renderer2D::BeginScene(m_CameraController.getCamera());
-		m_Tex1->bind();
-		Renderer2D::DrawQuad();
-		m_Tex2->bind();
-		Renderer2D::DrawQuad();
+		Renderer2D::BeginScene(m_CameraController.getCamera(), m_ShaderLibrary.getShader("textureShader"));
+		Renderer2D::DrawQuad(Vec2(0.0f, 0.0f), Vec2(0.4f, 0.4f), 0.0f, Vec4(255.0f, 0.0f, 0.0f, 255.0f));
+		Renderer2D::DrawQuad(Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 1.0f), 45, m_Tex2);
 		Renderer2D::EndScene();
 	}
 };
