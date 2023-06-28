@@ -26,7 +26,7 @@ namespace Hart {
 			virtual std::string toString() const { return std::string(getName()); }
 
 			inline bool isInCategory(EventCategory category) { return getEventCategoryFlags() & category; }
-			inline bool handled() const { return m_Handled; }
+			inline bool getHandled() const { return m_Handled; }
 
 		private:
 			bool m_Handled = false;

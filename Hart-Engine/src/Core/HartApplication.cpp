@@ -160,7 +160,7 @@ namespace Hart {
 
 		//pass events to layers
 		for (auto itr = m_LayerStack.rbegin(); itr != m_LayerStack.rend(); itr++) {
-			if (e.handled()) {
+			if (e.getHandled()) {
 				break;
 			}
 			(*itr)->onEvent(e);
