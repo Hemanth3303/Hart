@@ -19,6 +19,7 @@ namespace Hart {
 		public:
 			std::shared_ptr<VertexArray> vertexArray;
 			std::shared_ptr<Shader> shader;
+			Maths::Mat4 viewProjectionMatrix;
 		};
 
 		class Renderer2D {
@@ -26,6 +27,7 @@ namespace Hart {
 			static void Init();
 			static void DeInit();
 
+			static void BeginScene(OrthographicCamera& camera);
 			static void BeginScene(OrthographicCamera& camera, const std::shared_ptr<Shader>& sceneShader);
 			static void EndScene();
 
@@ -48,6 +50,8 @@ namespace Hart {
 			static void DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint = Maths::Vec4(255.0f));
 			// color is in rgba(0 to 255) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint = Maths::Vec4(255.0f));
+		private:
+			static void BeginSceneImplementation();
 		private:
 			static std::unique_ptr<Scene2DData> s_SceneData;
 		};

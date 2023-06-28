@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
+#include "Core/HartApplication.hpp"
 
 namespace Hart {
 	namespace Graphics {
@@ -41,14 +42,18 @@ namespace Hart {
 			s_SceneData->shader->unbind();
 		}
 
+		void Renderer2D::BeginScene(OrthographicCamera& camera) {
+			s_SceneData->shader = Application::s_Instance->getShader("DefaultShader2D");
+			s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
+
+			BeginSceneImplementation();
+		}
+
 		void Renderer2D::BeginScene(OrthographicCamera& camera, const std::shared_ptr<Shader>& sceneShader) {
 			s_SceneData->shader = sceneShader;
+			s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
 
-			s_SceneData->shader->bind();
-			s_SceneData->shader->setUniform("uViewProjectionMatrix", camera.getViewProjectionMatrix());
-
-			s_SceneData->vertexArray->bind();
-			s_SceneData->vertexArray->getIndexBuffer()->bind();
+			BeginSceneImplementation();
 		}
 
 		void Renderer2D::EndScene() {
@@ -103,6 +108,15 @@ namespace Hart {
 			s_SceneData->shader->setUniform("uTexture", texture->getSlot());
 			RenderCommand::DrawIndexed(s_SceneData->vertexArray);
 
+		}
+		void Renderer2D::BeginSceneImplementation() {
+			HART_ASSERT_NOT_EQUAL(s_SceneData->shader, nullptr);
+			HART_ASSERT_NOT_EQUAL(s_SceneData->vertexArray, nullptr);
+			s_SceneData->shader->bind();
+			s_SceneData->shader->setUniform("uViewProjectionMatrix", s_SceneData->viewProjectionMatrix);
+
+			s_SceneData->vertexArray->bind();
+			s_SceneData->vertexArray->getIndexBuffer()->bind();
 		}
 	}
 }

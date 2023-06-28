@@ -6,6 +6,7 @@
 #include "Layer.hpp"
 #include "LayerStack.hpp"
 #include "Maths/Vec2.hpp"
+#include "Graphics/Primitives/ShaderLibrary.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
 #include "Events/WindowEvents.hpp"
@@ -46,6 +47,8 @@ namespace Hart {
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
+		inline std::shared_ptr<Graphics::Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
+		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 	protected:
 		void pushLayer(const std::shared_ptr<Layer>& layer);
 		void popLayer(const std::shared_ptr<Layer>& layer);
@@ -56,6 +59,7 @@ namespace Hart {
 		void init();
 		// deinitializes application
 		void deinit();
+
 		// Event managers
 		void eventHandler(Events::Event& e);
 		// Begin Event Methods
@@ -79,13 +83,13 @@ namespace Hart {
 		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
 		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
 		// End Event Methods
-
 	public:
 		static Application* s_Instance;
 	private:
 		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
+		Graphics::ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Escape;
 		double m_MaxFPS = 60.0, m_CurrentFPS=0.0;
@@ -95,9 +99,13 @@ namespace Hart {
 
 		static int64_t s_MaxNoOfTextureSlotsPerShader;
 		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
+	private:
+		// initializes engine's shader library with some defaul shaders
+		friend extern void initializeShaderLibrary();
 	};
 
 	// User must define this function
 	// Return a std::unique_ptr to Derived using the syntax std::make_unique<Derived>(args_if_they_exist), where Derived is a class derived from Hart::Application
 	std::unique_ptr<Application> CreateApplication();
+
 }

@@ -8,41 +8,6 @@
 
 namespace Hart {
 	namespace Graphics {
-		Shader::Shader(const std::string& name) {
-			// TODO: Implement default vertex and fragment shaders
-			const char* vertexShaderSource = R"(
-				#version 460 core
-				
-				layout (location = 0) in vec3 aPosition;
-				layout (location = 1) in vec4 aColor;
-				
-				out vec4 vColor;
-				
-				uniform mat4 uModelMatrix=mat4(1.0);
-				uniform mat4 uViewMatrix=mat4(1.0);
-				uniform mat4 uProjectionMatrix;
-				
-				void main() {
-					gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
-					vColor = aColor;
-				}
-			)";
-			const char* fragmentShaderSource = R"(
-				#version 460 core
-				
-				out vec4 FragColor;
-				
-				in vec4 vColor;
-				
-				void main() {
-					FragColor = vColor;
-				}
-			)";
-
-			init(vertexShaderSource, fragmentShaderSource);
-		}
-
-
 		Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
 			std::string vertexShaderString = Utils::FileManager::ReadStringFromFile(vertexShaderPath);
 			std::string fragmentShaderString = Utils::FileManager::ReadStringFromFile(fragmentShaderPath);
@@ -57,6 +22,12 @@ namespace Hart {
 			std::string fragmentShaderString = Utils::FileManager::ReadStringFromFile(fragmentShaderPath);
 
 			init(vertexShaderString.c_str(), fragmentShaderString.c_str());
+		}
+
+		Shader::Shader(const std::string& name, const char* vertexShaderSource, const char* fragmentShaderSource) 
+			:m_Name(name) {
+
+			init(vertexShaderSource, fragmentShaderSource);
 		}
 
 		Shader::~Shader() {

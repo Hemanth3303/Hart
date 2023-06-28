@@ -21,19 +21,25 @@ namespace Hart {
 			}
 		}
 
-		std::shared_ptr<Shader> ShaderLibrary::loadShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
+		std::shared_ptr<Shader> ShaderLibrary::loadShaderFromDisk(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
 			std::shared_ptr<Shader> shader = std::make_shared<Shader>(vertexShaderPath, fragmentShaderPath);
 			addShader(shader);
 			return shader;
 		}
 
-		std::shared_ptr<Shader> ShaderLibrary::loadShader(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
+		std::shared_ptr<Shader> ShaderLibrary::loadShaderFromDisk(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
 			std::shared_ptr<Shader> shader = std::make_shared<Shader>(name, vertexShaderPath, fragmentShaderPath);
 			addShader(shader);
 			return shader;
 		}
 
-		std::shared_ptr<Shader> ShaderLibrary::getShader(const std::string& name) {
+        std::shared_ptr<Shader> ShaderLibrary::loadShaderFromString(const std::string& name, const char* vertexShaderSource, const char* fragmentShaderSource) {
+			std::shared_ptr<Shader> shader = std::make_shared<Shader>(name, vertexShaderSource, fragmentShaderSource);
+			addShader(shader);
+			return shader;
+        }
+
+        std::shared_ptr<Shader> ShaderLibrary::getShader(const std::string& name) {
 			if (!exists(name)) {
 				HART_ENGINE_ERROR("Shader named " + name + " doesn't exist");
 				HART_ASSERT(false);

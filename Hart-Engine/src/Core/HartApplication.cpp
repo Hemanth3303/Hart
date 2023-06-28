@@ -12,6 +12,8 @@ namespace Hart {
 
 	int64_t Application::s_MaxNoOfTextureSlotsPerShader;
 
+	extern void initializeShaderLibrary();
+
 	Application::Application() 
 		:m_WindowData() {
 		init();
@@ -128,6 +130,8 @@ namespace Hart {
 		Graphics::Renderer2D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
+
+		initializeShaderLibrary();
 	}
 
 	void Application::deinit() {
@@ -142,7 +146,6 @@ namespace Hart {
 		HART_ENGINE_LOG("DeInitilizing GLFW");
 		glfwTerminate();
 	}
-
 	void Application::eventHandler(Events::Event& e) {
 
 		Events::EventDispatcher eventDispatcher(e);
