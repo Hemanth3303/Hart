@@ -15,6 +15,7 @@ namespace Hart {
 
 			float getRandomFloat(float begin, float end) const;
 			double getRandomDouble(double begin, double end) const;
+
 		private:
 			std::unique_ptr<std::mt19937> m_MT19937;
 		};

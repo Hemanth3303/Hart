@@ -39,37 +39,20 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(getCurrentFPS()));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
 		m_CameraController.update(deltaTime);
 	}
 
 	void render() override {
 		RenderCommand::SetClearColor(DarkGreenishBlue);
-
-		static float rotationAngle1 = 0;
-		static float rotationAngle2 = 0;
-		static float rotationAngle3 = 0;
-		static float rotationAngle4 = 0;
+		Random rd;
 
 		Renderer2D::BeginScene(m_CameraController.getCamera());
-
-		Renderer2D::DrawQuad(Vec2(-400, 200), Vec2(50, 50), White);
-		Renderer2D::DrawQuad(Vec2(-300, 200), Vec2(50, 50), Black);
-		Renderer2D::DrawQuad(Vec2(-200, 200), Vec2(50, 50), Red);
-		Renderer2D::DrawQuad(Vec2(-100, 200), Vec2(50, 50), Green);
-		Renderer2D::DrawQuad(Vec2(0, 200), Vec2(50, 50), Blue);
-		Renderer2D::DrawQuad(Vec2(100, 200), Vec2(50, 50), Yellow);
-		Renderer2D::DrawQuad(Vec2(200, 200), Vec2(50, 50), Cyan);
-		Renderer2D::DrawQuad(Vec2(300, 200), Vec2(50, 50), Magenta);
-		Renderer2D::DrawQuad(Vec2(400, 200), Vec2(50, 50), Gray);
-		Renderer2D::DrawQuad(Vec2(-400, 100), Vec2(50, 50), Orange);
-		Renderer2D::DrawQuad(Vec2(-300, 100), Vec2(50, 50), Purple);
-		Renderer2D::DrawQuad(Vec2(-200, 100), Vec2(50, 50), Pink);
-		Renderer2D::DrawQuad(Vec2(-100, 100), Vec2(50, 50), Brown);
-		Renderer2D::DrawQuad(Vec2(0, 100), Vec2(50, 50), Teal);
-		Renderer2D::DrawQuad(Vec2(100, 100), Vec2(50, 50), Silver);
-		Renderer2D::DrawQuad(Vec2(200, 100), Vec2(50, 50), Gold);
-
+		for (float y = -270; y <= 270; y+=10) {
+			for (float x = -480; x <= 480; x+=10) {
+				Renderer2D::DrawQuad(Vec2(x, y), Vec2(3, 3), Vec4(rd.getRandomFloat(0.0f, 255.0f), rd.getRandomFloat(0.0f, 255.0f), rd.getRandomFloat(0.0f, 255.0f), 255.0f));
+			}
+		}
 		Renderer2D::EndScene();
 	}
 };
