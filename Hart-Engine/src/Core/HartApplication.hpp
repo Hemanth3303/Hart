@@ -101,7 +101,7 @@ namespace Hart {
 		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 	private:
 		// initializes engine's shader library with some defaul shaders
-		friend extern void initializeShaderLibrary();
+		friend void initializeShaderLibrary();
 	};
 
 	// User must define this function
