@@ -32,7 +32,8 @@ public:
 	}
 
 	~Sandbox() {
-
+		//popLayer(m_Layer3D);
+		popLayer(m_Layer2D);
 	}
 	
 };
