@@ -32,9 +32,6 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
-		// Setting clear color as black
-		Graphics::RenderCommand::SetClearColor(Maths::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
 		while (m_IsRunning) {
 
 			if (Inputs::InputManager::IsKeyPressed(m_ExitKey)) {
@@ -132,6 +129,9 @@ namespace Hart {
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 
 		initializeShaderLibrary();
+
+		// Setting clear color as black
+		Graphics::RenderCommand::SetClearColor(Graphics::Black);
 	}
 
 	void Application::deinit() {

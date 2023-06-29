@@ -24,6 +24,8 @@ public:
 		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
+		RenderCommand::SetClearColor(DarkGreenishBlue);
+
 		//m_Layer3D = std::make_shared<Layer3D>("TestLayer3D");
 		m_Layer2D = std::make_shared<Layer2D>("TestLayer2D");
 

@@ -44,15 +44,10 @@ public:
 	}
 
 	void render() override {
-		RenderCommand::SetClearColor(DarkGreenishBlue);
 		Random rd;
 
 		Renderer2D::BeginScene(m_CameraController.getCamera());
-		for (float y = -270; y <= 270; y+=10) {
-			for (float x = -480; x <= 480; x+=10) {
-				Renderer2D::DrawQuad(Vec2(x, y), Vec2(3, 3), Vec4(rd.getRandomFloat(0.0f, 255.0f), rd.getRandomFloat(0.0f, 255.0f), rd.getRandomFloat(0.0f, 255.0f), 255.0f));
-			}
-		}
+		Renderer2D::DrawQuad({ 100, -20, 0}, { 100, 200 }, Magenta);
 		Renderer2D::EndScene();
 	}
 };
