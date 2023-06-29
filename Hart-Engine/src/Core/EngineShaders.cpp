@@ -59,11 +59,11 @@ namespace Hart {
 			in vec2 vTexCoord;
 
 			uniform vec4 uColor;
-			uniform float uTextureTilingScale = 1;
+			uniform float uTextureTilingFactor = 1;
 			uniform sampler2D uTexture;
 
 			void main() {
-				FragColor = texture(uTexture, vTexCoord * uTextureTilingScale) * uColor;
+				FragColor = texture(uTexture, vTexCoord * uTextureTilingFactor) * uColor;
 			}
 		)";
 

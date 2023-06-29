@@ -16,6 +16,7 @@
 #include "Graphics/Primitives/Texture2D.hpp"
 #include "Graphics/Primitives/ShaderLibrary.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/Colors.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"

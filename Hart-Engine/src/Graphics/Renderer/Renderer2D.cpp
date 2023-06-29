@@ -61,11 +61,21 @@ namespace Hart {
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, const Maths::Vec4& color) {
-			DrawQuad(position, size, 0.0f, color);
+			DrawQuad(Maths::Vec3(position, 1.0f), size, color);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color) {
-			DrawQuad(position, size, 0.0f, color);
+			Maths::Mat4 transformationMatrix = Maths::Mat4::translate(position) * Maths::Mat4::scale(size);
+			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
+
+			std::uint32_t whiteTextureData = 0xffffffff;
+			Texture2D tex(&whiteTextureData, 1, 1);
+			tex.bind();
+
+			s_SceneData->shader->setUniform("uColor", quadColor);
+			s_SceneData->shader->setUniform("uModelMatrix", transformationMatrix);
+			s_SceneData->shader->setUniform("uTexture", tex.getSlot());
+			RenderCommand::DrawIndexed(s_SceneData->vertexArray);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& color) {
@@ -86,19 +96,27 @@ namespace Hart {
 			RenderCommand::DrawIndexed(s_SceneData->vertexArray);
 		}
 
-		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint) {
-			DrawQuad(position, size, 0.0f, texture, textureTint);
+		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float textureTilingFactor) {
+			DrawQuad(Maths::Vec3(position, 1.0f), size, 0.0f, texture, textureTint, textureTilingFactor);
 		}
 
-		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint) {
-			DrawQuad(position, size, 0.0f, texture, textureTint);
+		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float textureTilingFactor) {
+			Maths::Mat4 transformationMatrix = Maths::Mat4::translate(position) * Maths::Mat4::scale(size);
+			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
+
+			texture->bind();
+			s_SceneData->shader->setUniform("uColor", quadColor);
+			s_SceneData->shader->setUniform("uModelMatrix", transformationMatrix);
+			s_SceneData->shader->setUniform("uTexture", texture->getSlot());
+			s_SceneData->shader->setUniform("uTextureTilingFactor", textureTilingFactor);
+			RenderCommand::DrawIndexed(s_SceneData->vertexArray);
 		}
 
-		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint) {
-			DrawQuad(Maths::Vec3(position, 1.0f), size, angleD, texture, textureTint);
+		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float textureTilingFactor) {
+			DrawQuad(Maths::Vec3(position, 1.0f), size, angleD, texture, textureTint, textureTilingFactor);
 		}
 
-		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint) {
+		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float textureTilingFactor) {
 			Maths::Mat4 transformationMatrix = Maths::Mat4::translate(position) * Maths::Mat4::rotate(angleD, Maths::Vec3(0.0f, 0.0f, 1.0f)) * Maths::Mat4::scale(size);
 			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 
@@ -106,9 +124,10 @@ namespace Hart {
 			s_SceneData->shader->setUniform("uColor", quadColor);
 			s_SceneData->shader->setUniform("uModelMatrix", transformationMatrix);
 			s_SceneData->shader->setUniform("uTexture", texture->getSlot());
+			s_SceneData->shader->setUniform("uTextureTilingFactor", textureTilingFactor);
 			RenderCommand::DrawIndexed(s_SceneData->vertexArray);
-
 		}
+
 		void Renderer2D::BeginSceneImplementation() {
 			HART_ASSERT_NOT_EQUAL(s_SceneData->shader, nullptr);
 			HART_ASSERT_NOT_EQUAL(s_SceneData->vertexArray, nullptr);

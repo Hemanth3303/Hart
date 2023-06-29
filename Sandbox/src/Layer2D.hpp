@@ -19,7 +19,6 @@ public:
 
 		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", TextureMagFilter::Nearest);
 		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", TextureMagFilter::Linear);
-
 	}
 
 	~Layer2D() {
@@ -45,7 +44,7 @@ public:
 	}
 
 	void render() override {
-		RenderCommand::SetClearColor({ 18.0f, 18.0f, 18.0f, 255.0f });
+		RenderCommand::SetClearColor(DarkGreenishBlue);
 
 		static float rotationAngle1 = 0;
 		static float rotationAngle2 = 0;
@@ -53,10 +52,24 @@ public:
 		static float rotationAngle4 = 0;
 
 		Renderer2D::BeginScene(m_CameraController.getCamera());
-		Renderer2D::DrawQuad(Vec2(170, 90), Vec2(80, 100), rotationAngle1++ * 0.5f, Vec4(255.0f, 0.0f, 0.0f, 255.0f));
-		Renderer2D::DrawQuad(Vec2(170, -120), Vec2(70, 70), -rotationAngle2++, m_Tex1);
-		Renderer2D::DrawQuad(Vec2(-170, -120), Vec2(70, 70), rotationAngle3++, m_Tex1, Vec4(0, 255, 255, 255));
-		Renderer2D::DrawQuad(Vec3(-50, 0, 1), Vec2(100, 100), rotationAngle1++, m_Tex2);
+
+		Renderer2D::DrawQuad(Vec2(-400, 200), Vec2(50, 50), White);
+		Renderer2D::DrawQuad(Vec2(-300, 200), Vec2(50, 50), Black);
+		Renderer2D::DrawQuad(Vec2(-200, 200), Vec2(50, 50), Red);
+		Renderer2D::DrawQuad(Vec2(-100, 200), Vec2(50, 50), Green);
+		Renderer2D::DrawQuad(Vec2(0, 200), Vec2(50, 50), Blue);
+		Renderer2D::DrawQuad(Vec2(100, 200), Vec2(50, 50), Yellow);
+		Renderer2D::DrawQuad(Vec2(200, 200), Vec2(50, 50), Cyan);
+		Renderer2D::DrawQuad(Vec2(300, 200), Vec2(50, 50), Magenta);
+		Renderer2D::DrawQuad(Vec2(400, 200), Vec2(50, 50), Gray);
+		Renderer2D::DrawQuad(Vec2(-400, 100), Vec2(50, 50), Orange);
+		Renderer2D::DrawQuad(Vec2(-300, 100), Vec2(50, 50), Purple);
+		Renderer2D::DrawQuad(Vec2(-200, 100), Vec2(50, 50), Pink);
+		Renderer2D::DrawQuad(Vec2(-100, 100), Vec2(50, 50), Brown);
+		Renderer2D::DrawQuad(Vec2(0, 100), Vec2(50, 50), Teal);
+		Renderer2D::DrawQuad(Vec2(100, 100), Vec2(50, 50), Silver);
+		Renderer2D::DrawQuad(Vec2(200, 100), Vec2(50, 50), Gold);
+
 		Renderer2D::EndScene();
 	}
 };

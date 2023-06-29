@@ -1,11 +1,12 @@
 #pragma once
 
 #include "HartPch.hpp"
-#include "RenderCommand.hpp"
 #include "../Camera/PerspectiveCamera.hpp"
 #include "../Primitives/VertexArray.hpp"
 #include "../Primitives/Shader.hpp"
 #include "../Primitives/Texture2D.hpp"
+#include "RenderCommand.hpp"
+#include "Colors.hpp"
 
 namespace Hart {
 	namespace Graphics {
