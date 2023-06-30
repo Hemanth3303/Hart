@@ -16,21 +16,21 @@ namespace Hart {
 		// Utility class used by the Logger to help log different types, including primitivies and Hart objects
 		class Loggable {
 		public:
-			Loggable(std::int8_t value);
-			Loggable(std::int16_t value);
-			Loggable(std::int32_t value);
-			Loggable(std::int64_t value);
+			Loggable(char value);
+			Loggable(short value);
+			Loggable(int value);
+			Loggable(long value);
+			Loggable(long long value);
 
-			Loggable(std::uint8_t value);
-			Loggable(std::uint16_t value);
-			Loggable(std::uint32_t value);
-			Loggable(std::uint64_t value);
+			Loggable(unsigned char value);
+			Loggable(unsigned short value);
+			Loggable(unsigned int value);
+			Loggable(unsigned long value);
+			Loggable(unsigned long long value);
 
 			Loggable(float value);
 			Loggable(double value);
-
-			Loggable(long value);
-			Loggable(unsigned long value);
+			Loggable(long double value);
 
 			Loggable(char* value);
 			Loggable(const char* value);

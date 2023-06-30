@@ -7,35 +7,43 @@
 
 namespace Hart {
 	namespace Utils {
-		Loggable::Loggable(std::int8_t value) {
+		Loggable::Loggable(char value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::int16_t value) {
+		Loggable::Loggable(short value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::int32_t value) {
+		Loggable::Loggable(int value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::int64_t value) {
+		Loggable::Loggable(long value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::uint8_t value) {
+		Loggable::Loggable(long long value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::uint16_t value) {
+		Loggable::Loggable(unsigned char value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::uint32_t value) {
+		Loggable::Loggable(unsigned short value) {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(std::uint64_t value) {
+		Loggable::Loggable(unsigned int value) {
+			m_Data = std::to_string(value);
+		}
+
+		Loggable::Loggable(unsigned long value) {
+			m_Data = std::to_string(value);
+		}
+
+		Loggable::Loggable(unsigned long long value) {
 			m_Data = std::to_string(value);
 		}
 
@@ -47,11 +55,7 @@ namespace Hart {
 			m_Data = std::to_string(value);
 		}
 
-		Loggable::Loggable(long value) {
-			m_Data = std::to_string(value);
-		}
-
-		Loggable::Loggable(unsigned long value) {
+		Loggable::Loggable(long double value) {
 			m_Data = std::to_string(value);
 		}
 
