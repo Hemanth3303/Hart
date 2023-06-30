@@ -13,6 +13,7 @@ class Layer2D : public Layer {
 private:
 	std::shared_ptr<Texture2D> m_Tex1, m_Tex2;
 	OrthographicCameraController m_CameraController;
+	Random m_Rd;
 public:
 	Layer2D(const std::string& name = "Layer2D")
 		:Layer(name), m_CameraController(960.0f, 540.0f, true) {
@@ -39,13 +40,21 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
 		m_CameraController.update(deltaTime);
 	}
 
 	void render() override {
+		int count = 0;
 		Renderer2D::BeginScene(m_CameraController.getCamera());
-		Renderer2D::DrawQuad({ 100, -20, 0}, { 100, 200 }, Magenta);
+		for (float y = -250; y <= 250; y += 10) {
+			for (float x = -460; x <= 460; x += 10) {
+				Renderer2D::DrawQuad(Vec2(x, y), Vec2(10, 10), Vec4(m_Rd.getRandomFloat(0.0f, 255.0f), m_Rd.getRandomFloat(0.0f, 255.0f), m_Rd.getRandomFloat(0.0f, 255.0f), 255.0f));
+				count++;
+			}
+		}
 		Renderer2D::EndScene();
+
+		HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
 	}
 };

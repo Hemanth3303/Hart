@@ -38,8 +38,6 @@ namespace Hart {
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
-		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
-		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
 		// sets the maximum frames per second
 		// default value is 60
@@ -96,9 +94,6 @@ namespace Hart {
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
-
-		static int64_t s_MaxNoOfTextureSlotsPerShader;
-		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 	private:
 		// initializes engine's shader library with some defaul shaders
 		friend void initializeShaderLibrary();

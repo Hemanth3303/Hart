@@ -23,7 +23,7 @@ namespace Hart {
 			inline OrthographicCamera& getCamera() { return m_Camera; }
 			inline const OrthographicCamera& getCamera() const { return m_Camera; }
 			inline const float getRotationSpeed() const { return m_CameraRotationSpeed; }
-			inline const float ZoomLevel() const { return m_ZoomLevel; }
+			inline const float getZoomLevel() const { return m_ZoomLevel; }
 
 			// default is 45.0f
 			inline void setRotationSpeed(const float rotationSpeed) { m_CameraRotationSpeed = rotationSpeed; }

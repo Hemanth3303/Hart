@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Renderer3D.hpp"
+#include "Renderer2D.hpp"
 
 namespace Hart {
 	namespace Graphics {
@@ -7,11 +8,13 @@ namespace Hart {
 		std::unique_ptr<Scene3DData> Renderer3D::s_SceneData = std::make_unique<Scene3DData>();
 
 		void Renderer3D::Init() {
-			HART_ENGINE_LOG("Initializing Renderer3D");
 			RenderCommand::Init();
+			Renderer2D::Init();
+			HART_ENGINE_LOG("Initializing Renderer3D");
 		}
 
 		void Renderer3D::DeInit() {
+			Renderer2D::DeInit();
 			HART_ENGINE_LOG("DeIntializing Renderer3D");
 		}
 

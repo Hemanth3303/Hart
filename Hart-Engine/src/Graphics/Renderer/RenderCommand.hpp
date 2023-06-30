@@ -15,9 +15,13 @@ namespace Hart {
 			static void SetClearColor(const Maths::Vec4& color);
 			static void Clear();
 			static void SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height);
+			static std::int64_t getMaxTextureSlotsPerShader();
+			static const std::int64_t getMaxTextureSlotsTotal();
 
 			static void DrawArrays(std::uint32_t vertexCount);
-			static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+			// by default uses index count of index buffer in vertex array
+			// if provided with an indexCount > 0, it uses that indexCount instead
+			static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount = 0);
 		};
 	}
 }

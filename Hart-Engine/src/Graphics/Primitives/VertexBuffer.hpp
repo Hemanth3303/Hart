@@ -46,6 +46,7 @@ namespace Hart {
 		// A class representing an OpenGL VertexBuffer 
 		class VertexBuffer {
 		public:
+			VertexBuffer(std::uint32_t size);
 			VertexBuffer(float* vertices, std::uint32_t size);
 			~VertexBuffer();
 

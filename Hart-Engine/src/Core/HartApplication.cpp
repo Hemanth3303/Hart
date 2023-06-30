@@ -10,8 +10,6 @@ namespace Hart {
 
 	Application* Application::s_Instance = nullptr;
 
-	int64_t Application::s_MaxNoOfTextureSlotsPerShader;
-
 	extern void initializeShaderLibrary();
 
 	Application::Application() 
@@ -110,21 +108,9 @@ namespace Hart {
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
 
-		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &s_MaxNoOfTextureSlotsPerShader);
-		HART_ENGINE_LOG(std::string("Maximum texture slots per shader = ") + std::to_string(s_MaxNoOfTextureSlotsPerShader));
-		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
-
-		HART_ENGINE_LOG(
-			"OpenGL Renderer Info:",
-			std::string("\t\t\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
-			std::string("\t\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
-			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
-		);
-
 		Utils::Timer::Init();
 		Inputs::InputManager::Init();
 		Graphics::Renderer3D::Init();
-		Graphics::Renderer2D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 
@@ -136,7 +122,6 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		Graphics::Renderer2D::DeInit();
 		Graphics::Renderer3D::DeInit();
 		Inputs::InputManager::DeInit();
 		Utils::Timer::DeInit();
