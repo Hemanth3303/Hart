@@ -18,7 +18,9 @@ namespace Hart {
 
 			void update(const float deltaTime);
 			void onEvent(Events::Event& e);
-			void setInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
+			void setMovementKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey);
+			void setRotationKeys(Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
+			void setAllInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
 
 			inline OrthographicCamera& getCamera() { return m_Camera; }
 			inline const OrthographicCamera& getCamera() const { return m_Camera; }

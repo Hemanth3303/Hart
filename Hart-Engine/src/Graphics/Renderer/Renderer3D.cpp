@@ -16,6 +16,7 @@ namespace Hart {
 		void Renderer3D::DeInit() {
 			Renderer2D::DeInit();
 			HART_ENGINE_LOG("DeIntializing Renderer3D");
+			RenderCommand::DeInit();
 		}
 
 		void Renderer3D::BeginScene(PerspectiveCamera& camera) {

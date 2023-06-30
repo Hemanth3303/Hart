@@ -16,7 +16,7 @@ private:
 	Random m_Rd;
 public:
 	Layer2D(const std::string& name = "Layer2D")
-		:Layer(name), m_CameraController(960.0f, 540.0f, true) {
+		:Layer(name), m_CameraController(960.0f, 540.0f) {
 
 		m_Tex1 = std::make_shared<Texture2D>("res/images/grass_block.png", TextureMagFilter::Nearest);
 		m_Tex2 = std::make_shared<Texture2D>("res/images/awesomeface.png", TextureMagFilter::Linear);
@@ -40,7 +40,7 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
 		m_CameraController.update(deltaTime);
 	}
 
@@ -55,6 +55,6 @@ public:
 		}
 		Renderer2D::EndScene();
 
-		HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
+		//HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
 	}
 };

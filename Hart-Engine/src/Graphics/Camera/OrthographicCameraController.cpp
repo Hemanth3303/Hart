@@ -50,13 +50,21 @@ namespace Hart {
 			eventDispatcher.dispatch<Events::WindowResizedEvent>(BIND_EVENT_FUNC(OrthographicCameraController::onWindowResized));
 		}
 
-		void OrthographicCameraController::setInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey) {
+		void OrthographicCameraController::setMovementKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey) {
 			m_LeftKey = leftKey;
 			m_RightKey = rightKey;
 			m_UpKey = upKey;
 			m_DownKey = downKey;
+		}
+
+		void OrthographicCameraController::setRotationKeys(Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey) {
 			m_LeftRotateKey = leftRotateKey;
 			m_RightRotateKey = rightRotateKey;
+		}
+
+		void OrthographicCameraController::setAllInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey) {
+			setMovementKeys(leftKey, rightKey, upKey, downKey);
+			setRotationKeys(leftRotateKey, rightKey);
 		}
 
 		bool OrthographicCameraController::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {

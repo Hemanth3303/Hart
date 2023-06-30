@@ -10,6 +10,7 @@ namespace Hart {
 		class RenderCommand {
 		public:
 			static void Init();
+			static void DeInit();
 
 			// rgba values in range 0 to 255
 			static void SetClearColor(const Maths::Vec4& color);

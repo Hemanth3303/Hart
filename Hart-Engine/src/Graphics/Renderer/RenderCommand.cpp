@@ -16,6 +16,9 @@ namespace Hart {
 				std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
 			);
         }
+        void RenderCommand::DeInit() {
+			HART_ENGINE_LOG("DeInitializing OpenGL Renderer");
+        }
         void RenderCommand::SetClearColor(const Maths::Vec4& color) {
 			glClearColor(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 		}

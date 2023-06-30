@@ -20,18 +20,30 @@ namespace Hart {
 		}
 
 		bool InputManager::IsKeyPressed(const KeyCode& keyCode) {
+			if (keyCode == KeyCode::Unknown) {
+				return false;
+			}
 			return s_Keys[static_cast<std::int32_t>(keyCode)];
 		}
 
 		bool InputManager::IsKeyReleased(const KeyCode& keyCode) {
+			if (keyCode == KeyCode::Unknown) {
+				return false;
+			}
 			return !IsKeyPressed(keyCode);
 		}
 
 		bool InputManager::IsMouseButtonPressed(const MouseCode& mouseCode) {
+			if (mouseCode == MouseCode::Unknown) {
+				return false;
+			}
 			return s_MouseButtons[static_cast<std::int32_t>(mouseCode)];
 		}
 
 		bool InputManager::IsMouseButtonReleased(const MouseCode& mouseCode) {
+			if (mouseCode == MouseCode::Unknown) {
+				return false;
+			}
 			return !IsMouseButtonPressed(mouseCode);
 		}
 
@@ -53,6 +65,7 @@ namespace Hart {
 		}
 
 		void InputManager::Init() {
+			HART_ENGINE_LOG("Initializing Input Manager");
 			for (bool& key : s_Keys) {
 				key = false;
 			}
@@ -63,7 +76,7 @@ namespace Hart {
 		}
 
 		void InputManager::DeInit() {
-
+			HART_ENGINE_LOG("DeInitializing Input Manager");
 		}
 
 		void InputManager::SetKeyPressed(const KeyCode& keyCode) {
