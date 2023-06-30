@@ -23,6 +23,8 @@ namespace Hart {
 			static const MouseCode& GetCurrentMouseButton();
 		private:
 			static void Init();
+			static void DeInit();
+
 			static void SetKeyPressed(const KeyCode& keyCode);
 			static void SetKeyReleased(const KeyCode& keyCode);
 			static void SetMouseButtonPressed(const MouseCode& mouseCode);

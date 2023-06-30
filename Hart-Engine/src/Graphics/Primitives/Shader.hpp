@@ -31,10 +31,10 @@ namespace Hart {
 		};
 		class Shader {
 		public:
-			Shader(const std::string& name);
 			// shaders name is choosen as the name of the vertexshader file, by default
 			Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 			Shader(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+			Shader(const std::string& name, const char* vertexShaderSource, const char* fragmentShaderSource);
 			~Shader();
 
 			void bind() const;

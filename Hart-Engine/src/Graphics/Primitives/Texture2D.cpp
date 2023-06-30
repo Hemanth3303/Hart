@@ -4,22 +4,22 @@
 
 namespace Hart {
 	namespace Graphics {
-		Texture2D::Texture2D(const Image& image, MagFilter magFilter, MinFilter minFiler) 
+		Texture2D::Texture2D(const Image& image, TextureMagFilter magFilter, TextureMinFilter minFiler, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY)
 			: m_Image(image) {
-			
-			init(magFilter, minFiler);
+
+			init(magFilter, minFiler, repeatX, repeatY);
 		}
 
-		Texture2D::Texture2D(const std::string& filePath, MagFilter magFilter, MinFilter minFiler)
+		Texture2D::Texture2D(const std::string& filePath, TextureMagFilter magFilter, TextureMinFilter minFiler, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY)
 			: m_Image(filePath) {
-			
-			init(magFilter, minFiler);
+
+			init(magFilter, minFiler, repeatX, repeatY);
 		}
 
-		Texture2D::Texture2D(std::uint32_t* buffer, std::uint32_t width, std::uint32_t height, std::uint32_t channels, MagFilter magFilter, MinFilter minFiler) 
+		Texture2D::Texture2D(std::uint32_t* buffer, std::uint32_t width, std::uint32_t height, std::uint32_t channels, TextureMagFilter magFilter, TextureMinFilter minFiler, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY)
 			:m_Image(buffer, width, height, channels) {
-		
-			init(magFilter, minFiler);
+
+			init(magFilter, minFiler, repeatX, repeatY);
 		}
 
 		Texture2D::~Texture2D() {
@@ -36,7 +36,7 @@ namespace Hart {
 			m_Slot = slot;
 		}
 
-		void Texture2D::init(MagFilter magFilter, MinFilter minFilter) {
+		void Texture2D::init(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY) {
 			GLenum internaFormat = GL_RGB8, incomingFormat = GL_RGB;
 			if (m_Image.getChannels() == 3) {
 				internaFormat = GL_RGB8;
@@ -52,6 +52,8 @@ namespace Hart {
 
 			glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, static_cast<std::int32_t>(magFilter));
 			glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, static_cast<std::int32_t>(minFilter));
+			glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, static_cast<std::int32_t>(repeatX));
+			glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, static_cast<std::int32_t>(repeatY));
 
 			glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Image.getWidth(), m_Image.getHeight(), incomingFormat, GL_UNSIGNED_BYTE, m_Image.getBuffer());
 		}

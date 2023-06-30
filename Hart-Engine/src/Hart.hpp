@@ -5,6 +5,8 @@
 #include "Core/HartApplication.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
+#include "Core/Layer.hpp"
+#include "Core/LayerStack.hpp"
 
 #include "Graphics/Primitives/Shader.hpp"
 #include "Graphics/Primitives/VertexBuffer.hpp"
@@ -14,9 +16,12 @@
 #include "Graphics/Primitives/Texture2D.hpp"
 #include "Graphics/Primitives/ShaderLibrary.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/Colors.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
+#include "Graphics/Renderer/Renderer2D.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"
 #include "Graphics/Camera/OrthographicCameraController.hpp"
+#include "Graphics/Camera/PerspectiveCamera.hpp"
 
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"

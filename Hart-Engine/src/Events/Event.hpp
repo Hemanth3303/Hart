@@ -13,6 +13,7 @@
 
 namespace Hart {
 	namespace Events {
+		class EventDispatcher;
 		// Base class for events
 		class Event {
 		public:
@@ -24,12 +25,13 @@ namespace Hart {
 			virtual std::int32_t getEventCategoryFlags() const = 0;
 			virtual std::string toString() const { return std::string(getName()); }
 
-			bool isInCategory(EventCategory category) {
-				return getEventCategoryFlags() & category;
-			}
+			inline const bool isInCategory(EventCategory category) { return getEventCategoryFlags() & category; }
+			inline const bool getHandled() const { return m_Handled; }
 
-		public:
+		private:
 			bool m_Handled = false;
+
+			friend class Hart::Events::EventDispatcher;
 		};
 
 		inline std::ostream& operator<<(std::ostream& stream, const Event& e) {

@@ -3,8 +3,11 @@
 
 namespace Hart {
 	namespace Graphics {
-		OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool enableCameraRotation)
-			: m_AspectRatio(aspectRatio), m_EnableCameraRotation(enableCameraRotation), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel) {
+
+		constexpr float HIDDEN_SPEED_MULTIPLIER = 100.0f;
+
+		OrthographicCameraController::OrthographicCameraController(float width, float height, bool enableCameraRotation)
+			: m_Width(width), m_Height(height), m_EnableCameraRotation(enableCameraRotation), m_Camera(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f) {
 
 		}
 
@@ -37,7 +40,7 @@ namespace Hart {
 			}
 
 			m_Camera.setPosition(m_CameraPosition);
-			m_CameraMovementSpeed = m_ZoomLevel * m_SpeedMultiplier;
+			m_CameraMovementSpeed = m_ZoomLevel * m_SpeedMultiplier * HIDDEN_SPEED_MULTIPLIER;
 		}
 
 		void OrthographicCameraController::onEvent(Events::Event& e) {
@@ -57,15 +60,16 @@ namespace Hart {
 		}
 
 		bool OrthographicCameraController::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
-			m_ZoomLevel -= e.getYOffset() * 0.25f;
-			m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
-			m_Camera.setProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+			m_ZoomLevel -= e.getYOffset() * 0.05f;
+			m_ZoomLevel = std::max(m_ZoomLevel, 0.05f);
+			m_Camera.setProjection(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f);
 			return true;
 		}
 		
 		bool OrthographicCameraController::onWindowResized(Events::WindowResizedEvent& e) {
-			m_AspectRatio = static_cast<float>(e.getWidth()) / static_cast<float>(e.getHeight());
-			m_Camera.setProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+			m_Width = static_cast<float>(e.getWidth());
+			m_Height = static_cast<float>(e.getHeight());
+			m_Camera.setProjection(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f);
 			return true;
 		}
 	}

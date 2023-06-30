@@ -1,15 +1,16 @@
 #pragma once
 
 #include "HartPch.hpp"
-#include "RenderCommand.hpp"
-#include "../Camera/OrthographicCamera.hpp"
+#include "../Camera/PerspectiveCamera.hpp"
 #include "../Primitives/VertexArray.hpp"
 #include "../Primitives/Shader.hpp"
 #include "../Primitives/Texture2D.hpp"
+#include "RenderCommand.hpp"
+#include "Colors.hpp"
 
 namespace Hart {
 	namespace Graphics {
-		struct SceneData {
+		struct Scene3DData {
 			Maths::Mat4 viewProjectionMatrix;
 		};
 		class Renderer3D {
@@ -17,12 +18,12 @@ namespace Hart {
 			static void Init();
 			static void DeInit();
 			
-			static void BeginScene(OrthographicCamera& camera);
+			static void BeginScene(PerspectiveCamera& camera);
 			static void EndScene();
 
 			static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Maths::Mat4& transformationMatrix = Maths::Mat4(1.0f));
 		private:
-			static std::unique_ptr<SceneData> s_SceneData;
+			static std::unique_ptr<Scene3DData> s_SceneData;
 		};
 	}
 }

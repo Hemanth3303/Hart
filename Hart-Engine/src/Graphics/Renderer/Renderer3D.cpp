@@ -4,7 +4,7 @@
 namespace Hart {
 	namespace Graphics {
 
-		std::unique_ptr<SceneData> Renderer3D::s_SceneData = std::make_unique<SceneData>();
+		std::unique_ptr<Scene3DData> Renderer3D::s_SceneData = std::make_unique<Scene3DData>();
 
 		void Renderer3D::Init() {
 			HART_ENGINE_LOG("Initializing Renderer3D");
@@ -15,8 +15,8 @@ namespace Hart {
 			HART_ENGINE_LOG("DeIntializing Renderer3D");
 		}
 
-		void Renderer3D::BeginScene(OrthographicCamera& camera) {
-			s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
+		void Renderer3D::BeginScene(PerspectiveCamera& camera) {
+			// s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
 		}
 		
 		void Renderer3D::EndScene() {

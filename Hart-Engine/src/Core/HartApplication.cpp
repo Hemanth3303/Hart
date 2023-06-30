@@ -4,12 +4,15 @@
 #include "Inputs/InputManager.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
+#include "Graphics/Renderer/Renderer2D.hpp"
 
 namespace Hart {
 
 	Application* Application::s_Instance = nullptr;
 
 	int64_t Application::s_MaxNoOfTextureSlotsPerShader;
+
+	extern void initializeShaderLibrary();
 
 	Application::Application() 
 		:m_WindowData() {
@@ -29,9 +32,6 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
-		// Setting clear color as black
-		Graphics::RenderCommand::SetClearColor(Maths::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
 		while (m_IsRunning) {
 
 			if (Inputs::InputManager::IsKeyPressed(m_ExitKey)) {
@@ -48,9 +48,16 @@ namespace Hart {
 				m_LastFrameTime = currentFrameTime;
 				m_CurrentFPS = 1.0 / deltaTime;
 
-				update(static_cast<float>(deltaTime));
+				// update
+				for (const auto& layer : m_LayerStack) {
+					layer->update(static_cast<float>(deltaTime));
+				}
+
+				//render
 				Graphics::RenderCommand::Clear();
-				render();
+				for (const auto& layer : m_LayerStack) {
+					layer->render();
+				}
 				m_Window->swapBuffers();
 			}
 		}
@@ -68,16 +75,28 @@ namespace Hart {
 		}
 	}
 
+	void Application::pushLayer(const std::shared_ptr<Layer>& layer) {
+		m_LayerStack.pushLayer(layer);
+	}
+
+	void Application::popLayer(const std::shared_ptr<Layer>& layer) {
+		m_LayerStack.popLayer(layer);
+	}
+
+	void Application::pushOverlay(const std::shared_ptr<Layer>& overlay) {
+		m_LayerStack.pushOverlay(overlay);
+	}
+
+	void Application::popOverlay(const std::shared_ptr<Layer>& overlay) {
+		m_LayerStack.popOverlay(overlay);
+	}
+
 	void Application::init() {
 		HART_ENGINE_LOG("COMPILED ON " __DATE__ " " __TIME__);
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
 		s_Instance = this;
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
-
-		Utils::Timer::Init();
-
-		Inputs::InputManager::Init();
 
 		HART_ENGINE_LOG("Initializing GLFW");
 		std::int32_t success = glfwInit();
@@ -102,17 +121,31 @@ namespace Hart {
 			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
 		);
 
+		Utils::Timer::Init();
+		Inputs::InputManager::Init();
 		Graphics::Renderer3D::Init();
+		Graphics::Renderer2D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
+
+		initializeShaderLibrary();
+
+		// Setting clear color as black
+		Graphics::RenderCommand::SetClearColor(Graphics::Black);
 	}
 
 	void Application::deinit() {
+		m_LayerStack.popAll();
+		Graphics::Renderer2D::DeInit();
+		Graphics::Renderer3D::DeInit();
+		Inputs::InputManager::DeInit();
+		Utils::Timer::DeInit();
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
-		Utils::Timer::DeInit();
-	}
 
+		HART_ENGINE_LOG("DeInitilizing GLFW");
+		glfwTerminate();
+	}
 	void Application::eventHandler(Events::Event& e) {
 
 		Events::EventDispatcher eventDispatcher(e);
@@ -134,14 +167,26 @@ namespace Hart {
 		eventDispatcher.dispatch<Events::MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
 		eventDispatcher.dispatch<Events::MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
 
-		//pass events to client
-		onEvent(e);
-
+		//pass events to layers
+		for (auto itr = m_LayerStack.rbegin(); itr != m_LayerStack.rend(); itr++) {
+			if (e.getHandled()) {
+				break;
+			}
+			(*itr)->onEvent(e);
+		}
 	}
 	
 	bool Application::onWindowResized(Events::WindowResizedEvent& e) {
+
+		if (e.getWidth() == 0 || e.getHeight() == 0) {
+			m_IsWindowMinimized = true;
+		}
+		else {
+			m_IsWindowMinimized = false;
+		}
+
 		m_Window->setWindowSize(e.getWidth(), e.getHeight());
-		return true;
+		return false;
 	}
 
 	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
@@ -166,22 +211,22 @@ namespace Hart {
 
 	bool Application::onKeyPressed(Events::KeyPressedEvent& e) {
 		Inputs::InputManager::SetKeyPressed(e.getKeyCode());
-		return true;
+		return false;
 	}
 
 	bool Application::onKeyReleased(Events::KeyReleasedEvent& e) {
 		Inputs::InputManager::SetKeyReleased(e.getKeyCode());
-		return true;
+		return false;
 	}
 
 	bool Application::onKeyRepeat(Events::KeyRepeatEvent& e) {
 		Inputs::InputManager::SetKeyPressed(e.getKeyCode());
-		return true;
+		return false;
 	}
 
 	bool Application::onMouseMoved(Events::MouseMovedEvent& e) {
 		Inputs::InputManager::UpdateMousePosition(Maths::Vec2(e.getXPos(), e.getYPos()));
-		return true;
+		return false;
 	}
 
 	bool Application::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
@@ -191,11 +236,11 @@ namespace Hart {
 
 	bool Application::onMouseButtonPressed(Events::MouseButtonPressedEvent& e) {
 		Inputs::InputManager::SetMouseButtonPressed(e.getMouseButton());
-		return true;
+		return false;
 	}
 
 	bool Application::onMouseButtonReleased(Events::MouseButtonReleasedEvent& e) {
 		Inputs::InputManager::SetMouseButtonReleased(e.getMouseButton());
-		return true;
+		return false;
 	}
 }

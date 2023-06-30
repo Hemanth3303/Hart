@@ -15,7 +15,11 @@ namespace Hart {
 			}
 			s_TimePoint = std::chrono::high_resolution_clock::now();
 			s_IsInitialized = true;
-			HART_ENGINE_LOG("Initialized Timer");
+			HART_ENGINE_LOG("Initializing Timer");
+		}
+
+		void Timer::DeInit() {
+			HART_ENGINE_LOG("DeInitializing Timer");
 		}
 
 		double Timer::getTimeInSeconds() {
@@ -53,10 +57,5 @@ namespace Hart {
 
 			return s_CurrentTimeStamp;
 		}
-
-		void Timer::DeInit() {
-			HART_ENGINE_LOG("DeInitialized Timer");
-		}
-
 	}
 }
