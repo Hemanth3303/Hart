@@ -26,6 +26,7 @@
 #include <cmath>
 
 // from engine
+#include "Core/Base.hpp"
 #include "Core/Assert.hpp"
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

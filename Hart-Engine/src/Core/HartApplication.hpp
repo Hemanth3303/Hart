@@ -89,7 +89,7 @@ namespace Hart {
 		LayerStack m_LayerStack;
 		Graphics::ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
-		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Escape;
+		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
 		double m_MaxFPS = 60.0, m_CurrentFPS=0.0;
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;

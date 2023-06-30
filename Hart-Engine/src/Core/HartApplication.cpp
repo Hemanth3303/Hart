@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "HartApplication.hpp"
+#include "Base.hpp"
 #include "Utils/Timer.hpp"
 #include "Inputs/InputManager.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
@@ -90,7 +91,14 @@ namespace Hart {
 	}
 
 	void Application::init() {
-		HART_ENGINE_LOG("COMPILED ON " __DATE__ " " __TIME__);
+		HART_ENGINE_LOG(
+			"Compilation Information:", 
+			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
+			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
+			"\t\t\t\t\tOn Platform: " HART_PLATFORM
+		);
+
+
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
 		s_Instance = this;
