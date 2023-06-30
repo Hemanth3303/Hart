@@ -44,8 +44,6 @@ public:
 	}
 
 	void render() override {
-		Random rd;
-
 		Renderer2D::BeginScene(m_CameraController.getCamera());
 		Renderer2D::DrawQuad({ 100, -20, 0}, { 100, 200 }, Magenta);
 		Renderer2D::EndScene();

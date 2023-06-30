@@ -8,12 +8,13 @@ namespace Hart {
 
 		void Renderer2D::Init() {
 			HART_ENGINE_LOG("Initializing Renderer2D");
+			// -0.5 to +0.5 gives a unit square quad in normalized device coordinates(ndc)
 			std::array<float, 20> vertices = {
 				//position          //texture coords
-				1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
-				1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
-			   -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
-			   -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
+				0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
+				0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
+			   -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
+			   -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
 			};
 			std::array<std::uint32_t, 6> indices = {
 				0, 1, 3,
