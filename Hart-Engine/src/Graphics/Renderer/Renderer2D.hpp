@@ -18,8 +18,14 @@ namespace Hart {
 			static void DeInit();
 
 			static void BeginScene(OrthographicCamera& camera);
-			static void BeginScene(OrthographicCamera& camera, const std::shared_ptr<Shader>& sceneShader);
 			static void EndScene();
+
+			static void setCustomShader(const std::shared_ptr<Shader>& shader);
+			// removes custom shader and goes back to default shader
+			static void unsetCustomShader();
+
+			// return number of draw call from BeginScene() to EndScene()
+			inline static std::uint32_t GetNumberOfDrawCalls() { return s_NumberOfDrawCalls; }
 
 			// Draws a quad with color
 			// color is in rgba(0 to 255) format
@@ -49,7 +55,10 @@ namespace Hart {
 			// color is in rgba(0 to 255) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint = Maths::Vec4(255.0f), float textureTilingFactor = 1.0f);
 		private:
-			static void BeginSceneImplementation();
+			static void BeginBatch();
+			static void Flush();
+		private:
+			static std::uint32_t s_NumberOfDrawCalls;
 		};
 	}
 }

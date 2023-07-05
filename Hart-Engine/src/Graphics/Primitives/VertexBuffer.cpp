@@ -88,5 +88,11 @@ namespace Hart {
 		void VertexBuffer::unbind() const {
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
+
+		void VertexBuffer::setData(const void* data, std::uint32_t size, std::uint32_t offset) {
+			glBindBuffer(GL_ARRAY_BUFFER, m_ID);
+			glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
 	}
 }

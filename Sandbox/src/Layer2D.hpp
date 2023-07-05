@@ -40,21 +40,24 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
 		m_CameraController.update(deltaTime);
 	}
 
 	void render() override {
 		int count = 0;
 		Renderer2D::BeginScene(m_CameraController.getCamera());
-		for (float y = -250; y <= 250; y += 10) {
-			for (float x = -460; x <= 460; x += 10) {
-				Renderer2D::DrawQuad(Vec2(x, y), Vec2(10, 10), Vec4(m_Rd.getRandomFloat(0.0f, 255.0f), m_Rd.getRandomFloat(0.0f, 255.0f), m_Rd.getRandomFloat(0.0f, 255.0f), 255.0f));
+		for (float y = -270; y <= 270; y += 2) {
+			for (float x = -480; x <= 480; x += 2) {
+				Renderer2D::DrawQuad(Vec2(x, y), Vec2(2, 2), Vec4(m_Rd.getRandomFloat(0.0f, 255.0f), m_Rd.getRandomFloat(0.0f, 255.0f), m_Rd.getRandomFloat(0.0f, 255.0f), 255.0f));
 				count++;
 			}
 		}
-		Renderer2D::EndScene();
+		/*Renderer2D::DrawQuad(Vec2(100, 100), Vec2(50, 250), Red);
+		Renderer2D::DrawQuad(Vec2(-100, -100), Vec2(150, 50), Blue);*/
 
-		//HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
+		HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
+
+		Renderer2D::EndScene();
 	}
 };

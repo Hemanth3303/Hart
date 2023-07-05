@@ -17,70 +17,101 @@ namespace Hart {
 
 		struct Renderer2DData {
 		public:
+			const std::uint32_t MAX_QUADS = 10000;
+			const std::uint32_t MAX_VERTICES = MAX_QUADS * 4;
+			const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
+
 			std::shared_ptr<Shader> shader;
 			Maths::Mat4 viewProjectionMatrix;
 
 			std::shared_ptr<VertexArray> quadVertexArray;
 			std::shared_ptr<VertexBuffer> quadVertexBuffer;
 
-			// TODO: Add vertex types
+			QuadVertex* quadVertexBufferBase = nullptr;
+			QuadVertex* quadVertexBufferPtr = nullptr;
+
+			std::uint32_t quadIndexCount = 0;
 		};
 
-		Renderer2DData s_Data;
+		Renderer2DData renderer2dData;
+
+		std::uint32_t Renderer2D::s_NumberOfDrawCalls = 0;
 
 		void Renderer2D::Init() {
 			HART_ENGINE_LOG("Initializing Renderer2D");
-			// -0.5 to +0.5 gives a unit square quad in normalized device coordinates(ndc)
-			std::array<float, 20> quadVertices = {
-				//position          //texture coords
-				0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
-				0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
-			   -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
-			   -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
-			};
-			std::array<std::uint32_t, 6> quadIndices = {
-				0, 1, 3,
-				1, 2, 3,
-			};
+			std::vector<std::uint32_t> quadIndices;
+			quadIndices.resize(renderer2dData.MAX_INDICES);
+
+			std::uint32_t offset = 0;
+			for (std::size_t i = 0; i < renderer2dData.MAX_INDICES; i += 6) {
+				quadIndices.at(i + 0) = offset + 0;
+				quadIndices.at(i + 1) = offset + 1;
+				quadIndices.at(i + 2) = offset + 3;
+
+				quadIndices.at(i + 3) = offset + 1;
+				quadIndices.at(i + 4) = offset + 2;
+				quadIndices.at(i + 5) = offset + 3;
+
+				offset += 4;
+			}
 
 			BufferLayout layout = {
 				{ ShaderDataType::Float3, "aPosition" },
+				{ ShaderDataType::Float4, "aColor" },
 				{ ShaderDataType::Float2, "aTexCoord" }
 			};
-			s_Data.quadVertexArray = std::make_shared<VertexArray>();
-			s_Data.quadVertexArray->bind();
+			renderer2dData.quadVertexArray = std::make_shared<VertexArray>();
+			renderer2dData.quadVertexArray->bind();
 
-			s_Data.quadVertexBuffer = std::make_shared<VertexBuffer>(quadVertices.data(), static_cast<std::uint32_t>(sizeof(quadVertices)));
-			s_Data.quadVertexBuffer->setLayout(layout);
-			s_Data.quadVertexArray->addVertexBuffer(s_Data.quadVertexBuffer);
+			renderer2dData.quadVertexBuffer = std::make_shared<VertexBuffer>(renderer2dData.MAX_VERTICES * static_cast < std::uint32_t>(sizeof(QuadVertex)));
+			renderer2dData.quadVertexBuffer->setLayout(layout);
+			renderer2dData.quadVertexArray->addVertexBuffer(renderer2dData.quadVertexBuffer);
 
-			std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), static_cast<std::uint32_t>(quadIndices.size()));
-			s_Data.quadVertexArray->setIndexBuffer(indexBuffer); // this unbinds quadVertexArray
+			renderer2dData.quadVertexBufferBase = new QuadVertex[renderer2dData.MAX_VERTICES];
+
+			std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), renderer2dData.MAX_INDICES);
+			renderer2dData.quadVertexArray->setIndexBuffer(indexBuffer); // this unbinds quadVertexArray
 		}
 
 		void Renderer2D::DeInit() {
 			HART_ENGINE_LOG("DeInitializing Renderer2D");
-			s_Data.quadVertexArray->getIndexBuffer()->unbind();
-			s_Data.quadVertexArray->unbind();
-			s_Data.shader->unbind();
+
+			delete renderer2dData.quadVertexBufferBase;
+
+			renderer2dData.quadVertexArray->getIndexBuffer()->unbind();
+			renderer2dData.quadVertexArray->unbind();
+			renderer2dData.shader->unbind();
 		}
 
 		void Renderer2D::BeginScene(OrthographicCamera& camera) {
-			s_Data.shader = Application::s_Instance->getShader("DefaultShader2D");
-			s_Data.viewProjectionMatrix = camera.getViewProjectionMatrix();
+			renderer2dData.shader = Application::s_Instance->getShader("DefaultShader2D");
+			renderer2dData.viewProjectionMatrix = camera.getViewProjectionMatrix();
 
-			BeginSceneImplementation();
-		}
+			HART_ASSERT_NOT_EQUAL(renderer2dData.shader, nullptr);
+			HART_ASSERT_NOT_EQUAL(renderer2dData.quadVertexArray, nullptr);
 
-		void Renderer2D::BeginScene(OrthographicCamera& camera, const std::shared_ptr<Shader>& sceneShader) {
-			s_Data.shader = sceneShader;
-			s_Data.viewProjectionMatrix = camera.getViewProjectionMatrix();
+			BeginBatch();
 
-			BeginSceneImplementation();
+			renderer2dData.shader->bind();
+			renderer2dData.shader->setUniform("uViewProjectionMatrix", renderer2dData.viewProjectionMatrix);
+
+			renderer2dData.quadVertexArray->bind();
+			renderer2dData.quadVertexArray->getIndexBuffer()->bind();
 		}
 
 		void Renderer2D::EndScene() {
-			// TODO
+			Flush();
+			s_NumberOfDrawCalls = 0;
+		}
+
+		void Renderer2D::setCustomShader(const std::shared_ptr<Shader>& shader) {
+			renderer2dData.shader = shader;
+			shader->bind();
+		}
+
+		void Renderer2D::unsetCustomShader() {
+			renderer2dData.shader = Application::s_Instance->getShader("DefaultShader2D");
+			renderer2dData.shader->bind();
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, const Maths::Vec4& color) {
@@ -88,18 +119,34 @@ namespace Hart {
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color) {
-			Maths::Mat4 transformationMatrix = Maths::Mat4::translate(position) * Maths::Mat4::scale(size);
 			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 
-			std::uint32_t whiteTextureData = 0xffffffff;
-			Texture2D tex(&whiteTextureData, 1, 1);
-			tex.bind();
+			if (renderer2dData.quadIndexCount >= renderer2dData.MAX_INDICES) {
+				Flush();
+				BeginBatch();
+			}
 
-			s_Data.shader->setUniform("uColor", quadColor);
-			s_Data.shader->setUniform("uModelMatrix", transformationMatrix);
-			s_Data.shader->setUniform("uTexture", tex.getSlot());
-			s_Data.shader->setUniform("uTextureTilingFactor", 1.0f);
-			RenderCommand::DrawIndexed(s_Data.quadVertexArray);
+			renderer2dData.quadVertexBufferPtr->position = { position.x + size.x, position.y + size.y, position.z };
+			renderer2dData.quadVertexBufferPtr->color = quadColor;
+			renderer2dData.quadVertexBufferPtr->textureCoords = { 1.0f, 1.0f };
+			renderer2dData.quadVertexBufferPtr++;
+
+			renderer2dData.quadVertexBufferPtr->position = { position.x + size.x, position.y, position.z };
+			renderer2dData.quadVertexBufferPtr->color = quadColor;
+			renderer2dData.quadVertexBufferPtr->textureCoords = { 1.0f, 0.0f };
+			renderer2dData.quadVertexBufferPtr++;
+
+			renderer2dData.quadVertexBufferPtr->position = position;
+			renderer2dData.quadVertexBufferPtr->color = quadColor;
+			renderer2dData.quadVertexBufferPtr->textureCoords = { 0.0f, 0.0f };
+			renderer2dData.quadVertexBufferPtr++;
+
+			renderer2dData.quadVertexBufferPtr->position = { position.x, position.y + size.y, position.z };
+			renderer2dData.quadVertexBufferPtr->color = quadColor;
+			renderer2dData.quadVertexBufferPtr->textureCoords = { 0.0f, 1.0f };
+			renderer2dData.quadVertexBufferPtr++;
+
+			renderer2dData.quadIndexCount += 6;
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& color) {
@@ -114,11 +161,11 @@ namespace Hart {
 			Texture2D tex(&whiteTextureData, 1, 1);
 			tex.bind();
 
-			s_Data.shader->setUniform("uColor", quadColor);
-			s_Data.shader->setUniform("uModelMatrix", transformationMatrix);
-			s_Data.shader->setUniform("uTexture", tex.getSlot());
-			s_Data.shader->setUniform("uTextureTilingFactor", 1.0f);
-			RenderCommand::DrawIndexed(s_Data.quadVertexArray);
+			renderer2dData.shader->setUniform("uColor", quadColor);
+			renderer2dData.shader->setUniform("uModelMatrix", transformationMatrix);
+			renderer2dData.shader->setUniform("uTexture", tex.getSlot());
+			renderer2dData.shader->setUniform("uTextureTilingFactor", 1.0f);
+			RenderCommand::DrawIndexed(renderer2dData.quadVertexArray);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float textureTilingFactor) {
@@ -130,11 +177,11 @@ namespace Hart {
 			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 
 			texture->bind();
-			s_Data.shader->setUniform("uColor", quadColor);
-			s_Data.shader->setUniform("uModelMatrix", transformationMatrix);
-			s_Data.shader->setUniform("uTexture", texture->getSlot());
-			s_Data.shader->setUniform("uTextureTilingFactor", textureTilingFactor);
-			RenderCommand::DrawIndexed(s_Data.quadVertexArray);
+			renderer2dData.shader->setUniform("uColor", quadColor);
+			renderer2dData.shader->setUniform("uModelMatrix", transformationMatrix);
+			renderer2dData.shader->setUniform("uTexture", texture->getSlot());
+			renderer2dData.shader->setUniform("uTextureTilingFactor", textureTilingFactor);
+			RenderCommand::DrawIndexed(renderer2dData.quadVertexArray);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec2& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float textureTilingFactor) {
@@ -146,21 +193,24 @@ namespace Hart {
 			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 
 			texture->bind();
-			s_Data.shader->setUniform("uColor", quadColor);
-			s_Data.shader->setUniform("uModelMatrix", transformationMatrix);
-			s_Data.shader->setUniform("uTexture", texture->getSlot());
-			s_Data.shader->setUniform("uTextureTilingFactor", textureTilingFactor);
-			RenderCommand::DrawIndexed(s_Data.quadVertexArray);
+			renderer2dData.shader->setUniform("uColor", quadColor);
+			renderer2dData.shader->setUniform("uModelMatrix", transformationMatrix);
+			renderer2dData.shader->setUniform("uTexture", texture->getSlot());
+			renderer2dData.shader->setUniform("uTextureTilingFactor", textureTilingFactor);
+			RenderCommand::DrawIndexed(renderer2dData.quadVertexArray);
 		}
 
-		void Renderer2D::BeginSceneImplementation() {
-			HART_ASSERT_NOT_EQUAL(s_Data.shader, nullptr);
-			HART_ASSERT_NOT_EQUAL(s_Data.quadVertexArray, nullptr);
-			s_Data.shader->bind();
-			s_Data.shader->setUniform("uViewProjectionMatrix", s_Data.viewProjectionMatrix);
+		void Renderer2D::BeginBatch() {
+			renderer2dData.quadVertexBufferPtr = renderer2dData.quadVertexBufferBase;
+			renderer2dData.quadIndexCount = 0;
+		}
 
-			s_Data.quadVertexArray->bind();
-			s_Data.quadVertexArray->getIndexBuffer()->bind();
+		void Renderer2D::Flush() {
+			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(renderer2dData.quadVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(renderer2dData.quadVertexBufferBase));
+			renderer2dData.quadVertexBuffer->setData(renderer2dData.quadVertexBufferBase, dataSize);
+
+			RenderCommand::DrawIndexed(renderer2dData.quadVertexArray, renderer2dData.quadIndexCount);
+			s_NumberOfDrawCalls++;
 		}
 	}
 }
