@@ -32,14 +32,14 @@ namespace Hart {
 			glViewport(x, y, width, height);
 		}
 
-		std::int64_t RenderCommand::getMaxTextureSlotsPerShader() {
+		const std::int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
 			std::int64_t maxNoOfTextureSlotsPerShader;
 			glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &maxNoOfTextureSlotsPerShader);
 
 			return maxNoOfTextureSlotsPerShader;
 		}
 
-		const std::int64_t RenderCommand::getMaxTextureSlotsTotal() {
+		const std::int64_t RenderCommand::GetMaxTextureSlotsTotal() {
 			return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 		}
 

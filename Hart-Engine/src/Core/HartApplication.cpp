@@ -116,13 +116,13 @@ namespace Hart {
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
 
+		initializeShaderLibrary();
+
 		Utils::Timer::Init();
 		Inputs::InputManager::Init();
 		Graphics::Renderer3D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
-
-		initializeShaderLibrary();
 
 		// Setting clear color as black
 		Graphics::RenderCommand::SetClearColor(Graphics::Black);

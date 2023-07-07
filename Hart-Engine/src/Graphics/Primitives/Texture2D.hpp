@@ -40,12 +40,16 @@ namespace Hart {
 			~Texture2D();
 
 			void bind(std::uint32_t slot = 0) const;
-			void unbind(std::uint32_t slot = 0) const;
+			void unbind() const;
 
+			inline const std::uint32_t getId() const { return m_TextureID; }
 			inline const Image& getImage() const { return m_Image; }
 			inline const std::uint32_t getWidth() const { return m_Image.getWidth(); }
 			inline const std::uint32_t getHeight() const { return m_Image.getHeight(); }
 			inline const std::int32_t getSlot() const { return m_Slot; }
+
+			bool operator==(const Texture2D& other) const;
+			friend bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 		private:
 			void init(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY);
 		private:
@@ -53,5 +57,6 @@ namespace Hart {
 			Image m_Image;
 			mutable std::int32_t m_Slot = -1;
 		};
+		bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 	}
 }

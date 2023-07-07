@@ -31,9 +31,12 @@ namespace Hart {
 			m_Slot = slot;
 		}
 
-		void Texture2D::unbind(std::uint32_t slot) const {
-			glBindTextureUnit(slot, 0);
-			m_Slot = slot;
+		void Texture2D::unbind() const {
+			glBindTextureUnit(m_Slot, 0);
+		}
+
+		bool Texture2D::operator==(const Texture2D& other) const {
+			return (m_TextureID == other.m_TextureID);
 		}
 
 		void Texture2D::init(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY) {
@@ -56,6 +59,10 @@ namespace Hart {
 			glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, static_cast<std::int32_t>(repeatY));
 
 			glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Image.getWidth(), m_Image.getHeight(), incomingFormat, GL_UNSIGNED_BYTE, m_Image.getBuffer());
+		}
+
+		bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right) {
+			return ((*left.get()) == (*right.get()));
 		}
 	}
 }

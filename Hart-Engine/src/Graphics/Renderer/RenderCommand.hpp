@@ -16,8 +16,8 @@ namespace Hart {
 			static void SetClearColor(const Maths::Vec4& color);
 			static void Clear();
 			static void SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height);
-			static std::int64_t getMaxTextureSlotsPerShader();
-			static const std::int64_t getMaxTextureSlotsTotal();
+			static const std::int64_t GetMaxTextureSlotsPerShader();
+			static const std::int64_t GetMaxTextureSlotsTotal();
 
 			static void DrawArrays(std::uint32_t vertexCount);
 			// by default uses index count of index buffer in vertex array
