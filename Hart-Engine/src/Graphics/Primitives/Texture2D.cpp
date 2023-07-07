@@ -27,8 +27,8 @@ namespace Hart {
 		}
 
 		void Texture2D::bind(std::uint32_t slot) const {
-			glBindTextureUnit(slot, m_TextureID);
 			m_Slot = slot;
+			glBindTextureUnit(m_Slot, m_TextureID);
 		}
 
 		void Texture2D::unbind() const {

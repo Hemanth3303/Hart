@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
+#include "RenderCommand.hpp"
 #include "../Primitives/VertexBuffer.hpp"
 #include "../Primitives/IndexBuffer.hpp"
 #include "../Primitives/VertexArray.hpp"
@@ -137,7 +138,7 @@ namespace Hart {
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color) {
-			if (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES) {
+			if ((renderer2DData.textureSlotIndex >= 31) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
 				Flush();
 				BeginBatch();
 			}
@@ -237,12 +238,12 @@ namespace Hart {
 		}
 
 		void Renderer2D::Flush() {
-			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(renderer2DData.quadVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(renderer2DData.quadVertexBufferBase));
-			renderer2DData.quadVertexBuffer->setData(renderer2DData.quadVertexBufferBase, dataSize);
-
 			for (std::uint32_t i = 0; i < renderer2DData.textureSlotIndex; i++) {
 				renderer2DData.textureSlots[i]->bind(i);
 			}
+
+			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(renderer2DData.quadVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(renderer2DData.quadVertexBufferBase));
+			renderer2DData.quadVertexBuffer->setData(renderer2DData.quadVertexBufferBase, dataSize);
 
 			RenderCommand::DrawIndexed(renderer2DData.quadVertexArray, renderer2DData.quadIndexCount);
 			s_NumberOfDrawCalls++;

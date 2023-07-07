@@ -21,7 +21,7 @@ namespace Hart {
 
 			static void DrawArrays(std::uint32_t vertexCount);
 			// by default uses index count of index buffer in vertex array
-			// if provided with an indexCount > 0, it uses that indexCount instead
+			// if provided with an indexCount greater than 0, it uses that indexCount instead
 			static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount = 0);
 		};
 	}

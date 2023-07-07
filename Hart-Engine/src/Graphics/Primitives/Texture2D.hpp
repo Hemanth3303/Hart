@@ -54,8 +54,8 @@ namespace Hart {
 			void init(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY);
 		private:
 			std::uint32_t m_TextureID = 0;
+			mutable std::uint32_t m_Slot = 0;
 			Image m_Image;
-			mutable std::int32_t m_Slot = -1;
 		};
 		bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 	}

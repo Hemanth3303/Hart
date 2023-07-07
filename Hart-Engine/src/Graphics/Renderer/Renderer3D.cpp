@@ -1,6 +1,7 @@
 #include "HartPch.hpp"
 #include "Renderer3D.hpp"
 #include "Renderer2D.hpp"
+#include "RenderCommand.hpp"
 
 namespace Hart {
 	namespace Graphics {
