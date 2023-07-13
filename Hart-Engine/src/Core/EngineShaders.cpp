@@ -12,17 +12,19 @@ namespace Hart {
 			layout (location = 2) in vec2 aTextureCoords;
 			layout (location = 3) in float aTextureIndex;
 
-			out vec4 vColor;
-			out vec2 vTextureCoords;
-			out float vTextureIndex;
+			out DATA {
+				vec4 color;
+				vec2 textureCoords;
+				float textureIndex;
+			} vs_out;
 
 			uniform mat4 uViewProjectionMatrix;
 
 			void main() {
 				gl_Position = uViewProjectionMatrix * vec4(aPosition, 1.0);
-				vColor=aColor;
-				vTextureCoords=aTextureCoords;
-				vTextureIndex=aTextureIndex;
+				vs_out.color=aColor;
+				vs_out.textureCoords=aTextureCoords;
+				vs_out.textureIndex=aTextureIndex;
 			}
 		)";
 
@@ -30,16 +32,18 @@ namespace Hart {
 		R"(
 			#version 460 core
 
-			layout (location = 0) out vec4 color;
+			layout (location = 0) out vec4 FragColor;
 
-			in vec4 vColor;
-			in vec2 vTextureCoords;
-			in float vTextureIndex;
+			in DATA {
+				vec4 color;
+				vec2 textureCoords;
+				float textureIndex;
+			} fs_in;
 
 			uniform sampler2D uTextures[32];
 
 			void main() {
-				color = texture(uTextures[int(vTextureIndex)], vTextureCoords) * vColor;
+				FragColor = texture(uTextures[int(fs_in.textureIndex)], fs_in.textureCoords) * fs_in.color;
 			}
 		)";
 
