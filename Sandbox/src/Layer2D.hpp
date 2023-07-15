@@ -53,6 +53,7 @@ public:
 		//		count++;
 		//	}
 		//}
+
 		
 		Renderer2D::DrawQuad(Vec3(100, 100), Vec2(50, 150), Red);
 		Renderer2D::DrawQuad(Vec3(-100, -100), Vec2(150, 50), Blue);

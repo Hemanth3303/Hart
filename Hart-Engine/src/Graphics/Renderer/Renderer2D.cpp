@@ -138,14 +138,16 @@ namespace Hart {
 			s_NumberOfDrawCalls = 1;
 		}
 
-		void Renderer2D::setCustomShader(const std::shared_ptr<Shader>& shader) {
+		void Renderer2D::SetCustomShader(const std::shared_ptr<Shader>& shader) {
 			renderer2DData.shader = shader;
-			shader->bind();
+			renderer2DData.shader->bind();
+			HART_ENGINE_LOG("Switching To Using Custome Shader: (" + renderer2DData.shader->getName() + ")");
 		}
 
-		void Renderer2D::unsetCustomShader() {
+		void Renderer2D::UnsetCustomShader() {
 			renderer2DData.shader = Application::s_Instance->getShader("DefaultShader2D");
 			renderer2DData.shader->bind();
+			HART_ENGINE_LOG("Switching Back To Using The Default Shader (" + renderer2DData.shader->getName() + ")");
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color) {

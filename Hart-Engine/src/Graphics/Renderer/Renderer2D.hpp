@@ -20,9 +20,9 @@ namespace Hart {
 			static void BeginScene(OrthographicCamera& camera);
 			static void EndScene();
 
-			static void setCustomShader(const std::shared_ptr<Shader>& shader);
+			static void SetCustomShader(const std::shared_ptr<Shader>& shader);
 			// removes custom shader and goes back to default shader
-			static void unsetCustomShader();
+			static void UnsetCustomShader();
 
 			// return number of draw call from BeginScene() to EndScene()
 			inline static std::uint32_t GetNumberOfDrawCalls() { return s_NumberOfDrawCalls; }
