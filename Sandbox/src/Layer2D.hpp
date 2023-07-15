@@ -47,9 +47,9 @@ public:
 	void render() override {
 		Renderer2D::BeginScene(m_CameraController.getCamera());
 		//int count = 0;
-		//for (float y = -270; y <= 270; y += 5) {
-		//	for (float x = -480; x <= 480; x += 5) {
-		//		Renderer2D::DrawQuad(Vec3(x, y, -0.1f), Vec2(5, 5), m_GrassTex);
+		//for (float y = -270; y <= 270; y += 30) {
+		//	for (float x = -480; x <= 480; x += 30) {
+		//		Renderer2D::DrawQuad(Vec3(x, y, -0.1f), Vec2(30, 30), m_GrassTex);
 		//		count++;
 		//	}
 		//}
