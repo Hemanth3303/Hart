@@ -46,7 +46,7 @@ namespace Hart {
 			static void BeginBatch();
 			static void Flush();
 
-			static void UpdateVertexBufferPtr(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor);
+			static void UpdateVertexBufferPtr(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor);
 		private:
 			static std::uint32_t s_NumberOfDrawCalls;
 		};

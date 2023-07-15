@@ -15,9 +15,8 @@ using namespace Hart::Utils;
 
 // Use discrete GPU by default.
 #if defined(_WIN32) || defined(_WIN64)
-#include <Windows.h>
 extern "C" {
-	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+	__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
 	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 #endif

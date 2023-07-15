@@ -7,7 +7,7 @@ namespace Hart {
 		R"(
 			#version 460 core
 
-			layout (location = 0) in vec3 aPosition;
+			layout (location = 0) in vec4 aPosition;
 			layout (location = 1) in vec4 aColor;
 			layout (location = 2) in vec2 aTextureCoords;
 			layout (location = 3) in float aTextureIndex;
@@ -23,7 +23,7 @@ namespace Hart {
 			uniform mat4 uViewProjectionMatrix;
 
 			void main() {
-				gl_Position = uViewProjectionMatrix * vec4(aPosition, 1.0);
+				gl_Position = uViewProjectionMatrix * aPosition;
 				vs_out.color=aColor;
 				vs_out.textureCoords=aTextureCoords;
 				vs_out.textureIndex=aTextureIndex;
