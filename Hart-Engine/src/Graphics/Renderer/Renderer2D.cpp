@@ -23,7 +23,7 @@ namespace Hart {
 			const std::uint32_t MAX_QUADS = 10'000;
 			const std::uint32_t MAX_VERTICES = MAX_QUADS * 4;
 			const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
-			static constexpr std::uint32_t MAX_TEXTURE_SLOTS_EXPECTED = 32;
+			static constexpr std::uint32_t MAX_TEXTURE_SLOTS = 16;
 
 			std::shared_ptr<Shader> shader;
 			Maths::Mat4 viewProjectionMatrix;
@@ -37,7 +37,7 @@ namespace Hart {
 
 			std::uint32_t quadIndexCount = 0;
 			
-			std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS_EXPECTED> textureSlots;
+			std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
 			std::uint32_t textureSlotIndex = 1; // slot_0 == white texture
 			
 			static constexpr std::uint32_t VERTICES_PER_QUAD = 4;
@@ -76,6 +76,7 @@ namespace Hart {
 			};
 
 			renderer2DData.shader = Application::s_Instance->getShader("DefaultShader2D");
+			HART_ENGINE_LOG("Using Shader: " + renderer2DData.shader->getName());
 
 			renderer2DData.quadVertexArray = std::make_shared<VertexArray>();
 			renderer2DData.quadVertexArray->bind();
@@ -93,13 +94,8 @@ namespace Hart {
 			renderer2DData.whiteTexture = std::make_shared<Texture2D>(&whiteTextureData, 1, 1);
 			renderer2DData.textureSlots[0] = renderer2DData.whiteTexture;
 
-			std::int32_t samplers[renderer2DData.MAX_TEXTURE_SLOTS_EXPECTED];
-			for (std::int32_t i = 0; i < renderer2DData.MAX_TEXTURE_SLOTS_EXPECTED; i++) {
-				samplers[i] = i;
-			}
-
 			renderer2DData.shader->bind();
-			renderer2DData.shader->setUniform("uTextures", samplers, renderer2DData.MAX_TEXTURE_SLOTS_EXPECTED);
+			renderer2DData.shader->setUniform("uTexture", renderer2DData.textureSlots[0]->getSlot());
 
 			renderer2DData.quadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 			renderer2DData.quadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
@@ -153,17 +149,14 @@ namespace Hart {
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color) {
-			if ((renderer2DData.textureSlotIndex >= 31) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
-				Flush();
-				BeginBatch();
-			}
-			
-			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
-
-			UpdateVertexBufferPtr(position, size, 0.0f, quadColor, 0.0f, 1.0f);
+			DrawQuad(position, size, 0.0f, color);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& color) {
+			if ((renderer2DData.textureSlotIndex >= renderer2DData.MAX_TEXTURE_SLOTS) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
+				Flush();
+				BeginBatch();
+			}
 			
 			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 
@@ -171,31 +164,11 @@ namespace Hart {
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float tilingFactor) {
-			if ((renderer2DData.textureSlotIndex >= 31) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
-				Flush();
-				BeginBatch();
-			}
-
-			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
-			float textureIndex = 0.0f;
-
-			for (std::size_t i = 1; i < renderer2DData.textureSlotIndex; i++) {
-				if (renderer2DData.textureSlots[i] == texture) {
-					textureIndex = static_cast<float>(i);
-					break;
-				}
-			}
-			if (textureIndex == 0.0f) {
-				textureIndex = static_cast<float>(renderer2DData.textureSlotIndex);
-				renderer2DData.textureSlots[renderer2DData.textureSlotIndex]=texture;
-				renderer2DData.textureSlotIndex++;
-			}
-
-			UpdateVertexBufferPtr(position, size, 0.0f, quadColor, textureIndex, tilingFactor);
+			DrawQuad(position, size, 0.0f, texture, textureTint, tilingFactor);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float tilingFactor) {
-			if ((renderer2DData.textureSlotIndex >= 31) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
+			if ((renderer2DData.textureSlotIndex >= renderer2DData.MAX_TEXTURE_SLOTS) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
 				Flush();
 				BeginBatch();
 			}
@@ -226,7 +199,9 @@ namespace Hart {
 
 		void Renderer2D::Flush() {
 			for (std::uint32_t i = 0; i < renderer2DData.textureSlotIndex; i++) {
+				renderer2DData.shader->bind();
 				renderer2DData.textureSlots[i]->bind(i);
+				renderer2DData.shader->setUniform("uTexture" + std::to_string(i), renderer2DData.textureSlots[i]->getSlot());
 			}
 
 			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(renderer2DData.quadVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(renderer2DData.quadVertexBufferBase));
