@@ -57,8 +57,8 @@ public:
 		Renderer2D::DrawQuad(Vec3(100, 100), Vec2(50, 150), Red);
 		Renderer2D::DrawQuad(Vec3(-100, -100), Vec2(150, 50), Blue);
 
-		Renderer2D::DrawQuad(Vec3(130, -50), Vec2(100, 100), m_Tex1);
-		Renderer2D::DrawQuad(Vec3(-280, -100), Vec2(100, 100), m_Tex2);
+		Renderer2D::DrawQuad(Vec3(130, -50), Vec2(100, 100), m_Tex1, White, 5);
+		Renderer2D::DrawQuad(Vec3(-280, -100), Vec2(100, 100), m_Tex2, Red);
 
 		//HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
 		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Renderer2D::GetNumberOfDrawCalls()));

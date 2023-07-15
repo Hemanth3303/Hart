@@ -58,7 +58,9 @@ namespace Hart {
 			glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, static_cast<std::int32_t>(repeatX));
 			glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, static_cast<std::int32_t>(repeatY));
 
+			glTextureStorage2D(m_TextureID, 1, internaFormat, m_Image.getWidth(), m_Image.getHeight());
 			glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Image.getWidth(), m_Image.getHeight(), incomingFormat, GL_UNSIGNED_BYTE, m_Image.getBuffer());
+			glGenerateTextureMipmap(m_TextureID);
 		}
 
 		bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right) {

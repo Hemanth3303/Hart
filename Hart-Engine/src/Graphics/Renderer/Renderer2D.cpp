@@ -15,11 +15,12 @@ namespace Hart {
 			Maths::Vec4 color;
 			Maths::Vec2 textureCoords;
 			float textureIndex = -1.0f; //invalid texture slot
+			float tilingFactor = 1.0f;
 		};
 
 		struct Renderer2DData {
 		public:
-			const std::uint32_t MAX_QUADS = 10000;
+			const std::uint32_t MAX_QUADS = 10'000;
 			const std::uint32_t MAX_VERTICES = MAX_QUADS * 4;
 			const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
 			static constexpr std::uint32_t MAX_TEXTURE_SLOTS_EXPECTED = 32;
@@ -53,11 +54,11 @@ namespace Hart {
 			for (std::size_t i = 0; i < renderer2DData.MAX_INDICES; i += 6) {
 				quadIndices[i + 0] = offset + 0;
 				quadIndices[i + 1] = offset + 1;
-				quadIndices[i + 2] = offset + 3;
+				quadIndices[i + 2] = offset + 2;
 
-				quadIndices[i + 3] = offset + 1;
-				quadIndices[i + 4] = offset + 2;
-				quadIndices[i + 5] = offset + 3;
+				quadIndices[i + 3] = offset + 2;
+				quadIndices[i + 4] = offset + 3;
+				quadIndices[i + 5] = offset + 0;
 
 				offset += 4;
 			}
@@ -66,7 +67,8 @@ namespace Hart {
 				{ ShaderDataType::Float3, "aPosition" },
 				{ ShaderDataType::Float4, "aColor" },
 				{ ShaderDataType::Float2, "aTextureCoords" },
-				{ ShaderDataType::Float, "aTextureIndex" },
+				{ ShaderDataType::Float,  "aTextureIndex" },
+				{ ShaderDataType::Float,  "aTilingFactor" }
 			};
 
 			renderer2DData.shader = Application::s_Instance->getShader("DefaultShader2D");
@@ -146,31 +148,7 @@ namespace Hart {
 			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 			float textureIndex = 0.0f;
 
-			renderer2DData.quadVertexBufferPtr->position = { position.x + size.x, position.y + size.y, position.z };
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 1.0f, 1.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadVertexBufferPtr->position = { position.x + size.x, position.y, position.z };
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 1.0f, 0.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadVertexBufferPtr->position = position;
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 0.0f, 0.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadVertexBufferPtr->position = { position.x, position.y + size.y, position.z };
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 0.0f, 1.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadIndexCount += 6;
+			UpdateVertexBufferPtr(position, size, quadColor, textureIndex, 1.0f);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& color) {
@@ -179,7 +157,7 @@ namespace Hart {
 
 		}
 
-		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint) {
+		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float tilingFactor) {
 			if ((renderer2DData.textureSlotIndex >= 31) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
 				Flush();
 				BeginBatch();
@@ -200,34 +178,10 @@ namespace Hart {
 				renderer2DData.textureSlotIndex++;
 			}
 
-			renderer2DData.quadVertexBufferPtr->position = { position.x + size.x, position.y + size.y, position.z };
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 1.0f, 1.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadVertexBufferPtr->position = { position.x + size.x, position.y, position.z };
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 1.0f, 0.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadVertexBufferPtr->position = position;
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 0.0f, 0.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadVertexBufferPtr->position = { position.x, position.y + size.y, position.z };
-			renderer2DData.quadVertexBufferPtr->color = quadColor;
-			renderer2DData.quadVertexBufferPtr->textureCoords = { 0.0f, 1.0f };
-			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
-			renderer2DData.quadVertexBufferPtr++;
-
-			renderer2DData.quadIndexCount += 6;
+			UpdateVertexBufferPtr(position, size, quadColor, textureIndex, tilingFactor);
 		}
 
-		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint) {
+		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float tilingFactor) {
 			 
 		}
 
@@ -247,6 +201,39 @@ namespace Hart {
 
 			RenderCommand::DrawIndexed(renderer2DData.quadVertexArray, renderer2DData.quadIndexCount);
 			s_NumberOfDrawCalls++;
+		}
+
+		void Renderer2D::UpdateVertexBufferPtr(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor) {
+
+			renderer2DData.quadVertexBufferPtr->position = position;
+			renderer2DData.quadVertexBufferPtr->color = quadColor;
+			renderer2DData.quadVertexBufferPtr->textureCoords = { 0.0f, 0.0f };
+			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
+			renderer2DData.quadVertexBufferPtr->tilingFactor = tiliingFactor;
+			renderer2DData.quadVertexBufferPtr++;
+
+			renderer2DData.quadVertexBufferPtr->position = { position.x + size.x, position.y, position.z };
+			renderer2DData.quadVertexBufferPtr->color = quadColor;
+			renderer2DData.quadVertexBufferPtr->textureCoords = { 1.0f, 0.0f };
+			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
+			renderer2DData.quadVertexBufferPtr->tilingFactor = tiliingFactor;
+			renderer2DData.quadVertexBufferPtr++;
+
+			renderer2DData.quadVertexBufferPtr->position = { position.x + size.x, position.y + size.y, position.z };
+			renderer2DData.quadVertexBufferPtr->color = quadColor;
+			renderer2DData.quadVertexBufferPtr->textureCoords = { 1.0f, 1.0f };
+			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
+			renderer2DData.quadVertexBufferPtr->tilingFactor = tiliingFactor;
+			renderer2DData.quadVertexBufferPtr++;
+
+			renderer2DData.quadVertexBufferPtr->position = { position.x, position.y + size.y, position.z };
+			renderer2DData.quadVertexBufferPtr->color = quadColor;
+			renderer2DData.quadVertexBufferPtr->textureCoords = { 0.0f, 1.0f };
+			renderer2DData.quadVertexBufferPtr->textureIndex = textureIndex;
+			renderer2DData.quadVertexBufferPtr->tilingFactor = tiliingFactor;
+			renderer2DData.quadVertexBufferPtr++;
+
+			renderer2DData.quadIndexCount += 6;
 		}
 	}
 }
