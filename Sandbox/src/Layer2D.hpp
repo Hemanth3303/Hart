@@ -40,36 +40,29 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
 		m_CameraController.update(deltaTime);
 	}
 
 	void render() override {
-		int count = 0;
-		static float angleD = 0;
 		Renderer2D::BeginScene(m_CameraController.getCamera());
-		for (float y = -270; y <= 270; y += 5) {
-			for (float x = -480; x <= 480; x += 5) {
-				Renderer2D::DrawQuad(Vec3(x, y, -0.1f), Vec2(5, 5), m_GrassTex);
-				count++;
-			}
-		}
-		angleD++;
+		//int count = 0;
+		//for (float y = -270; y <= 270; y += 5) {
+		//	for (float x = -480; x <= 480; x += 5) {
+		//		Renderer2D::DrawQuad(Vec3(x, y, -0.1f), Vec2(5, 5), m_GrassTex);
+		//		count++;
+		//	}
+		//}
 		
 		Renderer2D::DrawQuad(Vec3(100, 100), Vec2(50, 150), Red);
 		Renderer2D::DrawQuad(Vec3(-100, -100), Vec2(150, 50), Blue);
 
-		Renderer2D::DrawQuad(Vec3(300, -100), Vec2(50, 150), 45, Orange);
-		Renderer2D::DrawQuad(Vec3(-300, 50), Vec2(150, 50), -75, Cyan);
-
 		Renderer2D::DrawQuad(Vec3(130, -50), Vec2(100, 100), m_GrassTex);
 		Renderer2D::DrawQuad(Vec3(-280, -100), Vec2(100, 100), m_EmojiTex);
 
-		Renderer2D::DrawQuad(Vec3(-130, 50), Vec2(100, 100), -30, m_GrassTex);
-		Renderer2D::DrawQuad(Vec3(280, 100), Vec2(100, 100), 60, m_EmojiTex, Pink, 4.0f);
 
-		HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
-		HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Renderer2D::GetNumberOfDrawCalls()));
+		//HART_CLIENT_TRACE("No of quads: " + std::to_string(count));
+		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Renderer2D::GetNumberOfDrawCalls()));
 		Renderer2D::EndScene();
 	}
 };
