@@ -31,6 +31,10 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
+		double maxPeriod = 1.0f / m_MaxFPS;
+		double currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
+		double deltaTime = 0.0;
+
 		while (m_IsRunning) {
 
 			if (Inputs::InputManager::IsKeyPressed(m_ExitKey)) {
@@ -39,9 +43,8 @@ namespace Hart {
 
 			glfwPollEvents();
 			
-			double maxPeriod = 1.0f / m_MaxFPS;
-			double currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
-			double deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
+			currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
+			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
 			
 			if (deltaTime >= maxPeriod) {
 				m_LastFrameTime = currentFrameTime;
