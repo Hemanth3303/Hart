@@ -33,20 +33,28 @@ namespace Hart {
 		void enableVsync(bool enable = true);
 		// main engine loop
 		void run();
-
+		// sets OpenGL clear color
+		// rgba values in range 0 to 255
+		void setBackgroundColor(const Maths::Vec4& color);
+		
+		//getters
+		
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
+		inline std::shared_ptr<Graphics::Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
+		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
+
+		//setters
+		
 		// sets the maximum frames per second
 		// default value is 60
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
-		inline std::shared_ptr<Graphics::Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
-		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 	protected:
 		void pushLayer(const std::shared_ptr<Layer>& layer);
 		void popLayer(const std::shared_ptr<Layer>& layer);

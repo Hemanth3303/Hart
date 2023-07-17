@@ -66,6 +66,10 @@ namespace Hart {
 		HART_ENGINE_LOG("Exiting main engine loop");
 	}
 
+    void Application::setBackgroundColor(const Maths::Vec4& color) {
+		Graphics::RenderCommand::SetClearColor(color);
+    }
+
 	void Application::enableVsync(bool enable) {
 		if (!enable) {
 			m_IsVsyncEnabled = false;
