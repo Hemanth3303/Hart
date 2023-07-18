@@ -26,10 +26,6 @@ public:
 
 		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
 		pushLayer(m_Layer2D);
-		std::vector<std::uint8_t> data=FileManager::ReadBinaryFile("src/Sandbox.cpp");
-		for (uint8_t x : data) {
-			std::cout << x;
-		}
 	}
 
 	~Sandbox() {
