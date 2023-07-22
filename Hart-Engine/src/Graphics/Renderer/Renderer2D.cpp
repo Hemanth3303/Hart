@@ -141,7 +141,7 @@ namespace Hart {
 		void Renderer2D::SetCustomShader(const std::shared_ptr<Shader>& shader) {
 			renderer2DData.shader = shader;
 			renderer2DData.shader->bind();
-			HART_ENGINE_LOG("Switching To Using Custome Shader: (" + renderer2DData.shader->getName() + ")");
+			HART_ENGINE_LOG("Switching To Using Custom Shader: (" + renderer2DData.shader->getName() + ")");
 		}
 
 		void Renderer2D::UnsetCustomShader() {
