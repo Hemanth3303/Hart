@@ -49,7 +49,11 @@ namespace Hart {
 		void ParticleSystem::emit(const ParticleProps& particleProps) {
 			Particle& particle = m_ParticlePool[m_PoolIndex];
 			particle.active = true;
+
+			// position
 			particle.position = particleProps.position;
+
+			// rotation
 			particle.rotation = m_Random.getRandomFloat(0.0f, 1.0f) * 2.0f * static_cast<float>(Maths::PI);
 
 			// velocity
@@ -61,8 +65,11 @@ namespace Hart {
 			particle.colorBegin = particleProps.colorBegin;
 			particle.colorEnd = particleProps.colorEnd;
 
+			// lifetime
 			particle.lifeTime = particleProps.lifeTime;
 			particle.lifeRemaining = particleProps.lifeTime;
+
+			// size
 			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
 			particle.sizeEnd = particleProps.sizeEnd;
 

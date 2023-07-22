@@ -13,10 +13,10 @@ namespace Hart {
 	namespace Graphics {
 		struct ParticleProps {
 		public:
-			Maths::Vec3 position;
-			Maths::Vec2 velocity, velocityVariation;
-			Maths::Vec4 colorBegin, colorEnd;
-			float sizeBegin, sizeEnd, sizeVariation;
+			Maths::Vec3 position = {};
+			Maths::Vec2 velocity = {}, velocityVariation = {};
+			Maths::Vec4 colorBegin = {}, colorEnd = {};
+			float sizeBegin = 0.0f, sizeEnd = 0.0f, sizeVariation = 0.0f;
 			std::shared_ptr<Texture2D> texture = nullptr;
 			float tilingFactor = 1.0f;
 			// in seconds
@@ -37,7 +37,7 @@ namespace Hart {
 				Maths::Vec2 velocity = {};
 				Maths::Vec4 colorBegin = {}, colorEnd = {};
 				float rotation = 0.0f;
-				float sizeBegin, sizeEnd;
+				float sizeBegin = 0.0f, sizeEnd = 0.0f;
 				std::shared_ptr<Texture2D> texture = nullptr;
 				float tilingFactor = 1.0f;
 				// in seconds

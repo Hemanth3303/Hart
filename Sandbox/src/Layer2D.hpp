@@ -30,7 +30,6 @@ public:
 		m_Particle.velocity = { m_Rd.getRandomFloat(-10, 10), m_Rd.getRandomFloat(-10, 10) };
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-20, 20),  m_Rd.getRandomFloat(-20, 20) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
-		m_Particle.texture = m_GrassTex;
 	}
 
 	~Layer2D() {
@@ -51,7 +50,8 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		
 		auto [x, y] = InputManager::GetMousePosition();
 		std::int32_t width = Application::s_Instance->getWindowWidth();
 		std::int32_t height = Application::s_Instance->getWindowHeight();
@@ -91,9 +91,9 @@ public:
 		m_ParticleSystem.render();
 
 		Renderer2D::EndScene();
-		HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Renderer2D::GetNumberOfDrawCalls()));
-		HART_CLIENT_TRACE("No of quads: " + std::to_string(Renderer2D::GetNumberOfQuads()));
-		HART_CLIENT_TRACE("No of vertices: " + std::to_string(Renderer2D::GetNumberOfVertices()));
-		HART_CLIENT_TRACE("No of indices: " + std::to_string(Renderer2D::GetNumberOfIndices()));
+		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Renderer2D::GetNumberOfDrawCalls()));
+		//HART_CLIENT_TRACE("No of quads: " + std::to_string(Renderer2D::GetNumberOfQuads()));
+		//HART_CLIENT_TRACE("No of vertices: " + std::to_string(Renderer2D::GetNumberOfVertices()));
+		//HART_CLIENT_TRACE("No of indices: " + std::to_string(Renderer2D::GetNumberOfIndices()));
 	}
 };
