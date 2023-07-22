@@ -44,6 +44,13 @@ namespace Hart {
 			return Vec2(vec.x * k, vec.y * k);
 		}
 
+        Vec2 Vec2::lerp(const Vec2& a, const Vec2& b, float t) {
+            return Vec2(
+				static_cast<float>(Maths::lerp(a.x, b.x, t)),
+				static_cast<float>(Maths::lerp(a.y, b.y, t))
+			);
+        }
+
         Vec2& Vec2::add(const Vec2& other) {
 			x += other.x;
 			y += other.y;

@@ -48,6 +48,14 @@ namespace Hart {
 			return Vec3(vec.x * k, vec.y * k, vec.z * k);
 		}
 
+        Vec3 Vec3::lerp(const Vec3& a, const Vec3& b, float t) {
+			return Vec3(
+				static_cast<float>(Maths::lerp(a.x, b.x, t)),
+				static_cast<float>(Maths::lerp(a.y, b.y, t)),
+				static_cast<float>(Maths::lerp(a.z, b.z, t))
+			);
+        }
+
         Vec3& Vec3::add(const Vec3& other) {
 			x += other.x;
 			y += other.y;

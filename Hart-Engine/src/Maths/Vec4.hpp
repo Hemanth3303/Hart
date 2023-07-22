@@ -32,6 +32,8 @@ namespace Hart {
 			static bool equals(const Vec4& left, const Vec4& right);
 			static Vec4 scalarMultiply(const Vec4& vec, float k);
 
+			static Vec4 lerp(const Vec4& a, const Vec4& b, float t);
+
 			// adds value to the current vector
 			Vec4& add(const Vec4& other);
 			// subtracts value from the current vector

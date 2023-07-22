@@ -52,6 +52,15 @@ namespace Hart {
 			return Vec4(vec.x * k, vec.y * k, vec.z * k, vec.w * k);
 		}
 
+        Vec4 Vec4::lerp(const Vec4& a, const Vec4& b, float t) {
+			return Vec4(
+				static_cast<float>(Maths::lerp(a.x, b.x, t)),
+				static_cast<float>(Maths::lerp(a.y, b.y, t)),
+				static_cast<float>(Maths::lerp(a.z, b.z, t)),
+				static_cast<float>(Maths::lerp(a.w, b.w, t))
+			);
+        }
+
         Vec4& Vec4::add(const Vec4& other) {
 			x += other.x;
 			y += other.y;

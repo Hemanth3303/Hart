@@ -27,6 +27,8 @@ namespace Hart {
 			static bool equals(const Vec2& left, const Vec2& right);
 			static Vec2 scalarMultiply(const Vec2& vec, float k);
 
+			static Vec2 lerp(const Vec2& a, const Vec2& b, float t);
+
 			// adds value to the current vector
 			Vec2& add(const Vec2& other);
 			// subtracts value from the current vector
