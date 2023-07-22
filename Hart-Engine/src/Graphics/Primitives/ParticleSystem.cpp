@@ -54,12 +54,12 @@ namespace Hart {
 			particle.position = particleProps.position;
 
 			// rotation
-			particle.rotation = m_Random.getRandomFloat(0.0f, 1.0f) * 2.0f * static_cast<float>(Maths::PI);
+			particle.rotation = m_Random.getRandomFloat(0.0f, 360.0f);
 
 			// velocity
 			particle.velocity = particleProps.velocity;
-			particle.velocity.x += particleProps.velocityVariation.x * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
-			particle.velocity.y += particleProps.velocityVariation.y * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
+			particle.velocity.x += particleProps.velocityVariation.x * m_Random.getRandomFloat(-0.5f, 0.5f);
+			particle.velocity.y += particleProps.velocityVariation.y * m_Random.getRandomFloat(-0.5f, 0.5f);
 
 			// color
 			particle.colorBegin = particleProps.colorBegin;
@@ -70,7 +70,7 @@ namespace Hart {
 			particle.lifeRemaining = particleProps.lifeTime;
 
 			// size
-			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
+			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * m_Random.getRandomFloat(-0.5f, 0.5f);
 			particle.sizeEnd = particleProps.sizeEnd;
 
 			// texture
