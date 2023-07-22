@@ -37,7 +37,12 @@ namespace Hart {
 
 				float size = static_cast<float>(Maths::lerp(particle.sizeEnd, particle.sizeBegin, life));
 
-				Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.rotation, color);
+				if (particle.texture == nullptr) {
+					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.rotation, color);
+				}
+				else {
+					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.rotation, particle.texture, color, particle.tilingFactor);
+				}
 			}
 		}
 		
@@ -52,7 +57,7 @@ namespace Hart {
 			particle.velocity.x += particleProps.velocityVariation.x * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
 			particle.velocity.y += particleProps.velocityVariation.y * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
 
-			// Color
+			// color
 			particle.colorBegin = particleProps.colorBegin;
 			particle.colorEnd = particleProps.colorEnd;
 
@@ -60,6 +65,10 @@ namespace Hart {
 			particle.lifeRemaining = particleProps.lifeTime;
 			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * (m_Random.getRandomFloat(0.0f, 1.0f) - 0.5f);
 			particle.sizeEnd = particleProps.sizeEnd;
+
+			// texture
+			particle.texture = particleProps.texture;
+			particle.tilingFactor = particleProps.tilingFactor;
 
 			m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
 		}

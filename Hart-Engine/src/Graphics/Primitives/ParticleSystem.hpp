@@ -2,7 +2,7 @@
 
 #include "HartPch.hpp"
 
-#include "../Primitives/Shader.hpp"
+#include "../Primitives/Texture2D.hpp"
 #include "../Camera/OrthographicCamera.hpp"
 #include "Maths/Vec2.hpp"
 #include "Maths/Vec3.hpp"
@@ -17,6 +17,8 @@ namespace Hart {
 			Maths::Vec2 velocity, velocityVariation;
 			Maths::Vec4 colorBegin, colorEnd;
 			float sizeBegin, sizeEnd, sizeVariation;
+			std::shared_ptr<Texture2D> texture = nullptr;
+			float tilingFactor = 1.0f;
 			// in seconds
 			float lifeTime = 1.0f;
 		};
@@ -36,7 +38,9 @@ namespace Hart {
 				Maths::Vec4 colorBegin = {}, colorEnd = {};
 				float rotation = 0.0f;
 				float sizeBegin, sizeEnd;
-
+				std::shared_ptr<Texture2D> texture = nullptr;
+				float tilingFactor = 1.0f;
+				// in seconds
 				float lifeTime = 1.0f;
 				float lifeRemaining = 0.0f;
 

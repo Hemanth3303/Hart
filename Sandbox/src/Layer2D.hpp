@@ -30,6 +30,7 @@ public:
 		m_Particle.velocity = { m_Rd.getRandomFloat(-10, 10), m_Rd.getRandomFloat(-10, 10) };
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-20, 20),  m_Rd.getRandomFloat(-20, 20) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
+		m_Particle.texture = m_GrassTex;
 	}
 
 	~Layer2D() {
