@@ -43,11 +43,19 @@ namespace Hart {
 			static constexpr std::uint32_t VERTICES_PER_QUAD = 4;
 			std::array<Maths::Vec4, VERTICES_PER_QUAD> quadVertexPositions;
 			std::array<Maths::Vec2, VERTICES_PER_QUAD> quadTextureCoords;
+
+			struct Stats {
+			public:
+				std::uint32_t numberOfDrawCalls = 0;
+				std::uint32_t numberOfQuads = 0;
+			public:
+				std::uint32_t getVertexCount() const { return numberOfQuads * 4; }
+				std::uint32_t getIndexCount() const { return numberOfQuads * 6; }
+			};
+			Stats stats;
 		};
 
 		Renderer2DData renderer2DData;
-
-		std::uint32_t Renderer2D::s_NumberOfDrawCalls = 0;
 
 		void Renderer2D::Init() {
 			HART_ENGINE_LOG("Initializing Renderer2D");
@@ -135,7 +143,6 @@ namespace Hart {
 
 		void Renderer2D::EndScene() {
 			Flush();
-			s_NumberOfDrawCalls = 1;
 		}
 
 		void Renderer2D::SetCustomShader(const std::shared_ptr<Shader>& shader) {
@@ -193,6 +200,27 @@ namespace Hart {
 			UpdateVertexBufferPtr(position, size, angleD, quadColor, textureIndex, tilingFactor);
 		}
 
+		void Renderer2D::ResetStats() {
+			renderer2DData.stats.numberOfDrawCalls = 0;
+			renderer2DData.stats.numberOfQuads = 0;
+		}
+
+		std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
+			return renderer2DData.stats.numberOfDrawCalls;
+		}
+
+		std::uint32_t Renderer2D::GetNumberOfQuads() {
+			return renderer2DData.stats.numberOfQuads;
+		}
+
+		std::uint32_t Renderer2D::GetNumberOfVertices() {
+			return renderer2DData.stats.getVertexCount();
+		}
+
+		std::uint32_t Renderer2D::GetNumberOfIndices() {
+			return renderer2DData.stats.getIndexCount();
+		}
+
 		void Renderer2D::BeginBatch() {
 			renderer2DData.quadVertexBufferPtr = renderer2DData.quadVertexBufferBase;
 			renderer2DData.quadIndexCount = 0;
@@ -210,7 +238,8 @@ namespace Hart {
 			renderer2DData.quadVertexBuffer->setData(renderer2DData.quadVertexBufferBase, dataSize);
 
 			RenderCommand::DrawIndexed(renderer2DData.quadVertexArray, renderer2DData.quadIndexCount);
-			s_NumberOfDrawCalls++;
+
+			renderer2DData.stats.numberOfDrawCalls++;
 		}
 
 		void Renderer2D::UpdateVertexBufferPtr(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor) {
@@ -227,6 +256,8 @@ namespace Hart {
 			}
 
 			renderer2DData.quadIndexCount += 6;
+
+			renderer2DData.stats.numberOfQuads++;
 		}
 	}
 }

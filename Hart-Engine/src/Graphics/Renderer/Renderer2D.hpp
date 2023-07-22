@@ -24,9 +24,6 @@ namespace Hart {
 			// removes custom shader and goes back to default shader
 			static void UnsetCustomShader();
 
-			// return number of draw call from BeginScene() to EndScene()
-			inline static std::uint32_t GetNumberOfDrawCalls() { return s_NumberOfDrawCalls; }
-
 			// Draws a quad with color
 			// color is in rgba(0 to 255) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const Maths::Vec4& color);
@@ -42,13 +39,18 @@ namespace Hart {
 			// Draws a rotated quad with texture and optional tinting color
 			// color is in rgba(0 to 255) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint = White, float tilingFactor = 1.0f);
+
+			static void ResetStats();
+			static std::uint32_t GetNumberOfDrawCalls();
+			static std::uint32_t GetNumberOfQuads();
+			static std::uint32_t GetNumberOfVertices();
+			static std::uint32_t GetNumberOfIndices();
+
 		private:
 			static void BeginBatch();
 			static void Flush();
 
 			static void UpdateVertexBufferPtr(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor);
-		private:
-			static std::uint32_t s_NumberOfDrawCalls;
 		};
 	}
 }

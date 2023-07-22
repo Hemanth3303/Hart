@@ -15,6 +15,7 @@
 #include "Graphics/Primitives/Image.hpp"
 #include "Graphics/Primitives/Texture2D.hpp"
 #include "Graphics/Primitives/ShaderLibrary.hpp"
+#include "Graphics/Primitives/ParticleSystem.hpp"
 #include "Graphics/Renderer/Colors.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
