@@ -1,6 +1,6 @@
 #pragma once
 
-#define BIT(x) (1 << x)
+#include "HartPch.hpp"
 
 namespace Hart {
 	namespace Events {

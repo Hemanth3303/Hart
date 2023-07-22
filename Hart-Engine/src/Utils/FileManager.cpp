@@ -26,7 +26,7 @@ namespace Hart {
 			return outDataStr;
 		}
 
-		std::vector<std::uint8_t> FileManager::ReadBinaryFile(const std::string& fileName) {
+		std::vector<std::uint8_t> FileManager::ReadBinaryFromFile(const std::string& fileName) {
 			std::ifstream inFile;
 			std::vector<std::uint8_t> outData = {};
 			if (!FileExists(fileName)) {

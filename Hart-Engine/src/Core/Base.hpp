@@ -1,5 +1,9 @@
 #pragma once
 
+// utility macros
+
+#define BIT(x) (1 << x)
+
 // compilation information
 #if defined(HART_ENGINE)
 	// helper macros
