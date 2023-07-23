@@ -12,6 +12,7 @@ namespace Hart {
 
 	void LayerStack::pushLayer(const std::shared_ptr<Layer>& layer) {
 		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
+		m_LayerInsertIndex++;
 		layer->onAttach();
 	}
 

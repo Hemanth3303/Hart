@@ -6,8 +6,15 @@ namespace Hart {
 
 		constexpr float HIDDEN_SPEED_MULTIPLIER = 100.0f;
 
+		OrthographicCameraBounds::OrthographicCameraBounds(float left, float right, float bottom, float top) {
+			this->left = left;
+			this->right = right;
+			this->bottom = bottom;
+			this->top = top;
+		}
+
 		OrthographicCameraController::OrthographicCameraController(float width, float height, bool enableCameraRotation)
-			: m_Width(width), m_Height(height), m_EnableCameraRotation(enableCameraRotation), m_Camera(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f) {
+			: m_Width(width), m_Height(height), m_EnableCameraRotation(enableCameraRotation), m_Bounds(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width* m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height* m_ZoomLevel) / 2.0f), m_Camera(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top) {
 
 		}
 
@@ -50,26 +57,36 @@ namespace Hart {
 			eventDispatcher.dispatch<Events::WindowResizedEvent>(BIND_EVENT_FUNC(OrthographicCameraController::onWindowResized));
 		}
 
-		void OrthographicCameraController::setInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey) {
+		void OrthographicCameraController::setMovementKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey) {
 			m_LeftKey = leftKey;
 			m_RightKey = rightKey;
 			m_UpKey = upKey;
 			m_DownKey = downKey;
+		}
+
+		void OrthographicCameraController::setRotationKeys(Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey) {
 			m_LeftRotateKey = leftRotateKey;
 			m_RightRotateKey = rightRotateKey;
+		}
+
+		void OrthographicCameraController::setAllInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey) {
+			setMovementKeys(leftKey, rightKey, upKey, downKey);
+			setRotationKeys(leftRotateKey, rightKey);
 		}
 
 		bool OrthographicCameraController::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
 			m_ZoomLevel -= e.getYOffset() * 0.05f;
 			m_ZoomLevel = std::max(m_ZoomLevel, 0.05f);
-			m_Camera.setProjection(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f);
+			m_Bounds=OrthographicCameraBounds(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f);
+			m_Camera.setProjection(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top);
 			return true;
 		}
 		
 		bool OrthographicCameraController::onWindowResized(Events::WindowResizedEvent& e) {
 			m_Width = static_cast<float>(e.getWidth());
 			m_Height = static_cast<float>(e.getHeight());
-			m_Camera.setProjection(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f);
+			m_Bounds = OrthographicCameraBounds(-(m_Width * m_ZoomLevel) / 2.0f, (m_Width * m_ZoomLevel) / 2.0f, -(m_Height * m_ZoomLevel) / 2.0f, (m_Height * m_ZoomLevel) / 2.0f);
+			m_Camera.setProjection(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top);
 			return true;
 		}
 	}

@@ -8,7 +8,7 @@
 
 #include <cassert>
 
-	#define HART_ASSERT(expression, ...) assert(expression)
+	#define HART_ASSERT(expression) assert(expression)
 	#define HART_ASSERT_EQUAL(expression, value) assert(expression == value)
 	#define HART_ASSERT_NOT_EQUAL(expression, value) assert(expression != value)
 

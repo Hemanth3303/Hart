@@ -23,27 +23,37 @@ namespace Hart {
 			Vec4(const Vec3& vec3, float p_w = 0);
 
 			// converts the vector to its normalized form
-			Vec4 normalize();
+			const Vec4& normalize();
 			float getMagnitude();
-			void scalarMultiply(float value);
+			const Vec4& scalarMultiply(float value);
 
 			static Vec4 add(const Vec4& left, const Vec4& right);
 			static Vec4 subtract(const Vec4& left, const Vec4& right);
 			static bool equals(const Vec4& left, const Vec4& right);
+			// usefull for colors
+			static Vec4 componentWiseMultiplication(const Vec4& left, const Vec4& right);
 			static Vec4 scalarMultiply(const Vec4& vec, float k);
+
+			static Vec4 lerp(const Vec4& a, const Vec4& b, float t);
 
 			// adds value to the current vector
 			Vec4& add(const Vec4& other);
 			// subtracts value from the current vector
 			Vec4& subtract(const Vec4& other);
 			bool equals(const Vec4& other);
+			// usefull for colors
+			Vec4& componentWiseMultiplication(const Vec4& other);
 
 			friend Vec4 operator+(const Vec4& left, const Vec4& right);
 			friend Vec4 operator-(const Vec4& left, const Vec4& right);
+			// performs component wise multiplication
+			friend Vec4 operator*(const Vec4& left, const Vec4& right);
 			friend bool operator==(const Vec4& left, const Vec4& right);
 
 			Vec4& operator+=(const Vec4& other);
 			Vec4& operator-=(const Vec4& other);
+			// performs component wise multiplication
+			Vec4& operator*=(const Vec4& other);
 			bool operator==(const Vec4& other);
 
 			static float dotProduct(const Vec4& left, const Vec4& right);
@@ -63,8 +73,9 @@ namespace Hart {
 			void initialize(float p_x, float p_y, float p_z, float p_w);
 		};
 		Vec4 operator+(const Vec4& left, const Vec4& right);
-		bool operator==(const Vec4& left, const Vec4& right);
 		Vec4 operator-(const Vec4& left, const Vec4& right);
+		Vec4 operator*(const Vec4& left, const Vec4& right);
+		bool operator==(const Vec4& left, const Vec4& right);
 		std::ostream& operator<<(std::ostream& stream, Vec4 vec);
 	}
 }

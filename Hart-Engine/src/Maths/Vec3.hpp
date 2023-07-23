@@ -21,14 +21,16 @@ namespace Hart {
 			Vec3(const Vec2& vec2, float p_z = 0);
 
 			// converts the vector to its normalized form
-			Vec3 normalize();
+			const Vec3& normalize();
 			float getMagnitude();
-			void scalarMultiply(float value);
+			const Vec3& scalarMultiply(float value);
 
 			static Vec3 add(const Vec3& left, const Vec3& right);
 			static Vec3 subtract(const Vec3& left, const Vec3& right);
 			static bool equals(const Vec3& left, const Vec3& right);
 			static Vec3 scalarMultiply(const Vec3& vec, float k);
+
+			static Vec3 lerp(const Vec3& a, const Vec3& b, float t);
 
 			// adds value to the current vector
 			Vec3& add(const Vec3& other);

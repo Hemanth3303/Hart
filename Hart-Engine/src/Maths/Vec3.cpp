@@ -19,7 +19,7 @@ namespace Hart {
 			initialize(vec2.x, vec2.y, p_z);
 		}
 
-		Vec3 Vec3::normalize() {
+		const Vec3& Vec3::normalize() {
 			*this = getNormal(*this);
 			return *this;
 		}
@@ -28,8 +28,9 @@ namespace Hart {
 			return getMagnitude(*this);
 		}
 
-		void Vec3::scalarMultiply(float value) {
+		const Vec3& Vec3::scalarMultiply(float value) {
 			*this=scalarMultiply(*this, value);
+			return *this;
 		}
 
 		Vec3 Vec3::add(const Vec3& left, const Vec3& right) {
@@ -47,6 +48,14 @@ namespace Hart {
 		Vec3 Vec3::scalarMultiply(const Vec3& vec, float k) {
 			return Vec3(vec.x * k, vec.y * k, vec.z * k);
 		}
+
+        Vec3 Vec3::lerp(const Vec3& a, const Vec3& b, float t) {
+			return Vec3(
+				static_cast<float>(Maths::lerp(a.x, b.x, t)),
+				static_cast<float>(Maths::lerp(a.y, b.y, t)),
+				static_cast<float>(Maths::lerp(a.z, b.z, t))
+			);
+        }
 
         Vec3& Vec3::add(const Vec3& other) {
 			x += other.x;

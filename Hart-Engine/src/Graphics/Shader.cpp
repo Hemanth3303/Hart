@@ -48,7 +48,10 @@ namespace Hart {
 
 		void Shader::setUniform(const std::string& uniformName, std::int32_t value) const {
 			glUniform1i(getUniformLocation(uniformName), value);
+		}
 
+		void Shader::setUniform(const std::string& uniformName, std::int32_t* values, std::uint32_t count) const {
+			glUniform1iv(getUniformLocation(uniformName), count, values);
 		}
 
 		void Shader::setUniform(const std::string& uniformName, float value) const {

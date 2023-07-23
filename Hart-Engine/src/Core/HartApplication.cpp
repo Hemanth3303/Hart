@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "HartApplication.hpp"
+#include "Base.hpp"
 #include "Utils/Timer.hpp"
 #include "Inputs/InputManager.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
@@ -9,8 +10,6 @@
 namespace Hart {
 
 	Application* Application::s_Instance = nullptr;
-
-	int64_t Application::s_MaxNoOfTextureSlotsPerShader;
 
 	extern void initializeShaderLibrary();
 
@@ -32,6 +31,10 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
+		double maxPeriod = 1.0f / m_MaxFPS;
+		double currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
+		double deltaTime = 0.0;
+
 		while (m_IsRunning) {
 
 			if (Inputs::InputManager::IsKeyPressed(m_ExitKey)) {
@@ -40,9 +43,8 @@ namespace Hart {
 
 			glfwPollEvents();
 			
-			double maxPeriod = 1.0f / m_MaxFPS;
-			double currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
-			double deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
+			currentFrameTime = Utils::Timer::getTimeInMilliSeconds();
+			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
 			
 			if (deltaTime >= maxPeriod) {
 				m_LastFrameTime = currentFrameTime;
@@ -63,6 +65,10 @@ namespace Hart {
 		}
 		HART_ENGINE_LOG("Exiting main engine loop");
 	}
+
+    void Application::setBackgroundColor(const Maths::Vec4& color) {
+		Graphics::RenderCommand::SetClearColor(color);
+    }
 
 	void Application::enableVsync(bool enable) {
 		if (!enable) {
@@ -92,7 +98,14 @@ namespace Hart {
 	}
 
 	void Application::init() {
-		HART_ENGINE_LOG("COMPILED ON " __DATE__ " " __TIME__);
+		HART_ENGINE_LOG(
+			"Compilation Information:", 
+			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
+			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
+			"\t\t\t\t\tOn Platform: " HART_PLATFORM
+		);
+
+
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
 		s_Instance = this;
@@ -110,25 +123,13 @@ namespace Hart {
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
 
-		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &s_MaxNoOfTextureSlotsPerShader);
-		HART_ENGINE_LOG(std::string("Maximum texture slots per shader = ") + std::to_string(s_MaxNoOfTextureSlotsPerShader));
-		HART_ENGINE_LOG(std::string("Maximum texture slots combined = ") + std::to_string(s_MAX_TEXURE_SLOTS_COMBINED));
-
-		HART_ENGINE_LOG(
-			"OpenGL Renderer Info:",
-			std::string("\t\t\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
-			std::string("\t\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
-			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
-		);
+		initializeShaderLibrary();
 
 		Utils::Timer::Init();
 		Inputs::InputManager::Init();
 		Graphics::Renderer3D::Init();
-		Graphics::Renderer2D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
-
-		initializeShaderLibrary();
 
 		// Setting clear color as black
 		Graphics::RenderCommand::SetClearColor(Graphics::Black);
@@ -136,7 +137,6 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		Graphics::Renderer2D::DeInit();
 		Graphics::Renderer3D::DeInit();
 		Inputs::InputManager::DeInit();
 		Utils::Timer::DeInit();

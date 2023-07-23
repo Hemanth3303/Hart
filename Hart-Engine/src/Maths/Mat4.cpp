@@ -316,25 +316,25 @@ namespace Hart {
 		Mat4 Mat4::rotate(float angleD, const Vec3& axisVector) {
 			Mat4 result(1.0f);
 
-			float cosX = static_cast<float>(cosD(angleD));
-			float sinX = static_cast<float>(sinD(angleD));
-			float oneMinusCosX = 1.0f - cosX;
+			float cosAngleD = static_cast<float>(cosD(angleD));
+			float sinAngleD = static_cast<float>(sinD(angleD));
+			float oneMinusCosAngleD = 1.0f - cosAngleD;
 
 			float x = axisVector.x;
 			float y = axisVector.y;
 			float z = axisVector.z;
 
-			result.elements[0 + 0 * 4] = x * oneMinusCosX + cosX;
-			result.elements[1 + 0 * 4] = y * x * oneMinusCosX + z * sinX;
-			result.elements[2 + 0 * 4] = x * z * oneMinusCosX - y * sinX;
+			result.elements[0 + 0 * 4] = x * x * oneMinusCosAngleD + cosAngleD;
+			result.elements[1 + 0 * 4] = y * x * oneMinusCosAngleD + z * sinAngleD;
+			result.elements[2 + 0 * 4] = z * x * oneMinusCosAngleD - y * sinAngleD;
 
-			result.elements[0 + 1 * 4] = x * y * oneMinusCosX - z * sinX;
-			result.elements[1 + 1 * 4] = y * oneMinusCosX + cosX;
-			result.elements[2 + 1 * 4] = y * z * oneMinusCosX + x * sinX;
+			result.elements[0 + 1 * 4] = x * y * oneMinusCosAngleD - z * sinAngleD;
+			result.elements[1 + 1 * 4] = y * y * oneMinusCosAngleD + cosAngleD;
+			result.elements[2 + 1 * 4] = z * y * oneMinusCosAngleD + x * sinAngleD;
 
-			result.elements[0 + 2 * 4] = x * z * oneMinusCosX + y * sinX;
-			result.elements[1 + 2 * 4] = y * z * oneMinusCosX - x * sinX;
-			result.elements[2 + 2 * 4] = z * oneMinusCosX + cosX;
+			result.elements[0 + 2 * 4] = x * z * oneMinusCosAngleD + y * sinAngleD;
+			result.elements[1 + 2 * 4] = y * z * oneMinusCosAngleD - x * sinAngleD;
+			result.elements[2 + 2 * 4] = z * z * oneMinusCosAngleD + cosAngleD;
 
 			return result;
 		}

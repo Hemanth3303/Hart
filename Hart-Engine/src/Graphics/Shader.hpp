@@ -42,6 +42,7 @@ namespace Hart {
 
 			void setUniform(const std::string& uniformName, bool value) const;
 			void setUniform(const std::string& uniformName, std::int32_t value) const;
+			void setUniform(const std::string& uniformName, std::int32_t* values, std::uint32_t count) const;
 			void setUniform(const std::string& uniformName, float value) const;
 			void setUniform(const std::string& uniformName, const Maths::Vec2& value) const;
 			void setUniform(const std::string& uniformName, const Maths::Vec3& value) const;

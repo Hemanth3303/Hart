@@ -3,7 +3,6 @@
 */
 
 #include "Hart.hpp"
-#include "Layer3D.hpp"
 #include "Layer2D.hpp"
 
 using namespace Hart;
@@ -15,7 +14,6 @@ using namespace Hart::Utils;
 
 class Sandbox : public Application {
 private:
-	std::shared_ptr<Layer3D> m_Layer3D;
 	std::shared_ptr<Layer2D> m_Layer2D;
 public:
 	Sandbox()
@@ -24,18 +22,14 @@ public:
 		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
-		RenderCommand::SetClearColor(DarkGreenishBlue);
+		setBackgroundColor(DarkGreenishBlue);
 
-		//m_Layer3D = std::make_shared<Layer3D>("TestLayer3D");
-		m_Layer2D = std::make_shared<Layer2D>("TestLayer2D");
-
-		//pushLayer(m_Layer3D);
+		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
 		pushLayer(m_Layer2D);
 	}
 
 	~Sandbox() {
-		//popLayer(m_Layer3D);
-		popLayer(m_Layer2D);
+
 	}
 	
 };

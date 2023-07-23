@@ -17,15 +17,17 @@ namespace Hart {
 			Vec2(float p_x, float p_y);
 
 			// converts the vector to its normalized form
-			Vec2 normalize();
+			const Vec2& normalize();
 			float getMagnitude();
 			// multiplies scalar to current vector
-			void scalarMultiply(float value);
+			const Vec2& scalarMultiply(float value);
 
 			static Vec2 add(const Vec2& left, const Vec2& right);
 			static Vec2 subtract(const Vec2& left, const Vec2& right);
 			static bool equals(const Vec2& left, const Vec2& right);
 			static Vec2 scalarMultiply(const Vec2& vec, float k);
+
+			static Vec2 lerp(const Vec2& a, const Vec2& b, float t);
 
 			// adds value to the current vector
 			Vec2& add(const Vec2& other);

@@ -46,6 +46,7 @@ namespace Hart {
 		// A class representing an OpenGL VertexBuffer 
 		class VertexBuffer {
 		public:
+			VertexBuffer(std::uint32_t size);
 			VertexBuffer(float* vertices, std::uint32_t size);
 			~VertexBuffer();
 
@@ -54,6 +55,7 @@ namespace Hart {
 
 			void bind() const;
 			void unbind() const;
+			void setData(const void* data, std::uint32_t size, std::uint32_t offset = 0);
 		private:
 			std::uint32_t m_ID;
 			BufferLayout m_Layout;

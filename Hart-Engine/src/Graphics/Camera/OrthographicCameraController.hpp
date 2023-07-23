@@ -10,6 +10,15 @@
 
 namespace Hart {
 	namespace Graphics {
+		struct OrthographicCameraBounds {
+		public:
+			float left, right, top, bottom;
+		public:
+			OrthographicCameraBounds(float left, float right, float bottom, float top);
+
+			inline const float getWidth() const { return right - left; }
+			inline const float getHeight() const { return top - bottom; }
+		};
 		// default 2d camera controller
 		class OrthographicCameraController {
 		public:
@@ -18,12 +27,15 @@ namespace Hart {
 
 			void update(const float deltaTime);
 			void onEvent(Events::Event& e);
-			void setInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
+			void setMovementKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey);
+			void setRotationKeys(Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
+			void setAllInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
 
 			inline OrthographicCamera& getCamera() { return m_Camera; }
 			inline const OrthographicCamera& getCamera() const { return m_Camera; }
 			inline const float getRotationSpeed() const { return m_CameraRotationSpeed; }
-			inline const float ZoomLevel() const { return m_ZoomLevel; }
+			inline const float getZoomLevel() const { return m_ZoomLevel; }
+			inline const OrthographicCameraBounds& getBounds() const { return m_Bounds; }
 
 			// default is 45.0f
 			inline void setRotationSpeed(const float rotationSpeed) { m_CameraRotationSpeed = rotationSpeed; }
@@ -36,6 +48,7 @@ namespace Hart {
 			float m_Width, m_Height;
 			float m_ZoomLevel = 1.0f;
 			bool m_EnableCameraRotation;
+			OrthographicCameraBounds m_Bounds;
 			OrthographicCamera m_Camera;
 
 			float m_CameraMovementSpeed = m_ZoomLevel;

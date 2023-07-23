@@ -6,7 +6,7 @@
 #include "Layer.hpp"
 #include "LayerStack.hpp"
 #include "Maths/Vec2.hpp"
-#include "Graphics/Primitives/ShaderLibrary.hpp"
+#include "Graphics/ShaderLibrary.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
 #include "Events/WindowEvents.hpp"
@@ -33,22 +33,30 @@ namespace Hart {
 		void enableVsync(bool enable = true);
 		// main engine loop
 		void run();
-
+		// sets OpenGL clear color
+		// rgba values in range 0 to 255
+		void setBackgroundColor(const Maths::Vec4& color);
+		
+		//getters
+		
+		// returns a non owning reference to a static application instance
+		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
-		inline int64_t getMaxTextureSlotsPerShader() const { return s_MaxNoOfTextureSlotsPerShader; }
-		inline const int64_t getMaxTextureSlotsCombined() const { return s_MAX_TEXURE_SLOTS_COMBINED; }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
+		inline std::shared_ptr<Graphics::Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
+		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
+
+		//setters
+		
 		// sets the maximum frames per second
 		// default value is 60
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
-		inline std::shared_ptr<Graphics::Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
-		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 	protected:
 		void pushLayer(const std::shared_ptr<Layer>& layer);
 		void popLayer(const std::shared_ptr<Layer>& layer);
@@ -83,22 +91,18 @@ namespace Hart {
 		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
 		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
 		// End Event Methods
-	public:
-		static Application* s_Instance;
 	private:
+		static Application* s_Instance;
 		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 		Graphics::ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
-		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Escape;
+		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
 		double m_MaxFPS = 60.0, m_CurrentFPS=0.0;
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
-
-		static int64_t s_MaxNoOfTextureSlotsPerShader;
-		static const int64_t s_MAX_TEXURE_SLOTS_COMBINED = GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 	private:
 		// initializes engine's shader library with some defaul shaders
 		friend void initializeShaderLibrary();

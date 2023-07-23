@@ -2,10 +2,9 @@
 
 #include "HartPch.hpp"
 #include "../Camera/PerspectiveCamera.hpp"
-#include "../Primitives/VertexArray.hpp"
-#include "../Primitives/Shader.hpp"
-#include "../Primitives/Texture2D.hpp"
-#include "RenderCommand.hpp"
+#include "../VertexArray.hpp"
+#include "../Shader.hpp"
+#include "../Texture2D.hpp"
 #include "Colors.hpp"
 
 namespace Hart {

@@ -55,8 +55,6 @@ namespace Hart {
 			indexBuffer->bind();
 			m_IndexBuffer = indexBuffer;
 			indexBuffer->unbind();
-
-			glBindVertexArray(0);
 		}
 	}
 }
