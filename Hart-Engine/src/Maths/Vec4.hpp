@@ -23,9 +23,9 @@ namespace Hart {
 			Vec4(const Vec3& vec3, float p_w = 0);
 
 			// converts the vector to its normalized form
-			Vec4 normalize();
+			const Vec4& normalize();
 			float getMagnitude();
-			void scalarMultiply(float value);
+			const Vec4& scalarMultiply(float value);
 
 			static Vec4 add(const Vec4& left, const Vec4& right);
 			static Vec4 subtract(const Vec4& left, const Vec4& right);

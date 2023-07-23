@@ -23,7 +23,7 @@ namespace Hart {
 			initialize(vec3.x, vec3.y, vec3.z, p_w);
 		}
 
-		Vec4 Vec4::normalize() {
+		const Vec4& Vec4::normalize() {
 			*this = getNormal(*this);
 			return *this;
 		}
@@ -32,8 +32,9 @@ namespace Hart {
 			return getMagnitude(*this);
 		}
 
-		void Vec4::scalarMultiply(float value) {
+		const Vec4& Vec4::scalarMultiply(float value) {
 			*this=scalarMultiply(*this, value);
+			return *this;
 		}
 
 		Vec4 Vec4::add(const Vec4& left, const Vec4& right) {

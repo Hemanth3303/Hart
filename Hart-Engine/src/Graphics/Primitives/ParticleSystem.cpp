@@ -20,8 +20,7 @@ namespace Hart {
 				}
 
 				particle.lifeRemaining -= deltaTime;
-				particle.velocity.scalarMultiply(deltaTime);
-				particle.position += particle.velocity;
+				particle.position += particle.velocity.scalarMultiply(deltaTime);
 				particle.angleD += 0.01f * deltaTime;
 			}
 		}
