@@ -49,7 +49,11 @@ namespace Hart {
 			return (left.x == right.x && left.y == right.y && left.z == right.z && left.w == right.w);
 		}
 
-		Vec4 Vec4::scalarMultiply(const Vec4& vec, float k) {
+        Vec4 Vec4::componentWiseMultiplication(const Vec4& left, const Vec4& right) {
+			return Vec4(left.x * right.x, left.y * right.y, left.z * right.z, left.w * right.w);
+        }
+
+        Vec4 Vec4::scalarMultiply(const Vec4& vec, float k) {
 			return Vec4(vec.x * k, vec.y * k, vec.z * k, vec.w * k);
 		}
 
@@ -84,6 +88,15 @@ namespace Hart {
 			return Vec4::equals(*this, other);
 		}
 
+		Vec4& Vec4::componentWiseMultiplication(const Vec4& other) {
+			x *= other.x;
+			y *= other.y;
+			z *= other.z;
+			w *= other.w;
+
+			return *this;
+		}
+
         Vec4& Vec4::operator+=(const Vec4& other) {
 			return this->add(other);
         }
@@ -91,6 +104,10 @@ namespace Hart {
         Vec4& Vec4::operator-=(const Vec4& other) {
 			return this->subtract(other);
         }
+
+		Vec4& Vec4::operator*=(const Vec4& other) {
+			return this->componentWiseMultiplication(other);
+		}
 
 		bool Vec4::operator==(const Vec4& other) {
 			return this->equals(other);
@@ -138,6 +155,10 @@ namespace Hart {
         Vec4 operator-(const Vec4& left, const Vec4& right) {
             return Vec4::subtract(left, right);
         }
+
+		Vec4 operator*(const Vec4& left, const Vec4& right) {
+			return Vec4::componentWiseMultiplication(left, right);
+		}
 
 		bool operator==(const Vec4& left, const Vec4& right) {
 			return Vec4::equals(left, right);

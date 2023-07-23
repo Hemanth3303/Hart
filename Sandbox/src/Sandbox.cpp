@@ -22,9 +22,7 @@ public:
 		//enableVsync();
 		setExitKey(KeyCode::Escape);
 
-		setBackgroundColor(DarkGreenishBlue			
-		
-);
+		setBackgroundColor(DarkGreenishBlue);
 
 		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
 		pushLayer(m_Layer2D);
