@@ -22,7 +22,7 @@ namespace Hart {
 				particle.lifeRemaining -= deltaTime;
 				particle.velocity.scalarMultiply(deltaTime);
 				particle.position += particle.velocity;
-				particle.rotation += 0.01f * deltaTime;
+				particle.angleD += 0.01f * deltaTime;
 			}
 		}
 
@@ -38,10 +38,10 @@ namespace Hart {
 				float size = static_cast<float>(Maths::lerp(particle.sizeEnd, particle.sizeBegin, life));
 
 				if (particle.texture == nullptr) {
-					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.rotation, color);
+					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.angleD, color);
 				}
 				else {
-					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.rotation, particle.texture, color, particle.tilingFactor);
+					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.angleD, particle.texture, color, particle.tilingFactor);
 				}
 			}
 		}
@@ -54,12 +54,12 @@ namespace Hart {
 			particle.position = particleProps.position;
 
 			// rotation
-			particle.rotation = m_Random.getRandomFloat(0.0f, 360.0f);
+			particle.angleD = m_Random.getRandomFloat(particleProps.minAngleD, particleProps.maxAngleD);
 
 			// velocity
 			particle.velocity = particleProps.velocity;
-			particle.velocity.x += particleProps.velocityVariation.x * m_Random.getRandomFloat(-0.5f, 0.5f);
-			particle.velocity.y += particleProps.velocityVariation.y * m_Random.getRandomFloat(-0.5f, 0.5f);
+			particle.velocity.x += particleProps.velocityVariation.x * m_Random.getRandomFloat(-1.0f, 1.0f);
+			particle.velocity.y += particleProps.velocityVariation.y * m_Random.getRandomFloat(-1.0f, 1.0f);
 
 			// color
 			particle.colorBegin = particleProps.colorBegin;
@@ -70,7 +70,7 @@ namespace Hart {
 			particle.lifeRemaining = particleProps.lifeTime;
 
 			// size
-			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * m_Random.getRandomFloat(-0.5f, 0.5f);
+			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * m_Random.getRandomFloat(-1.0f, 1.0f);
 			particle.sizeEnd = particleProps.sizeEnd;
 
 			// texture

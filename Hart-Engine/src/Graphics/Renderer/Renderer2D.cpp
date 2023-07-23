@@ -109,11 +109,6 @@ namespace Hart {
 			renderer2DData.quadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
 			renderer2DData.quadVertexPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
 			renderer2DData.quadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
-
-			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
-			renderer2DData.quadTextureCoords[1] = { 1.0f, 0.0f };
-			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
-			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
 		}
 
 		void Renderer2D::DeInit() {
@@ -169,6 +164,11 @@ namespace Hart {
 			
 			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 
+			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
+			renderer2DData.quadTextureCoords[1] = { 1.0f, 0.0f };
+			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
+			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
+
 			UpdateVertexBufferPtr(position, size, angleD, quadColor, 0.0f, 1.0f);
 		}
 
@@ -196,6 +196,22 @@ namespace Hart {
 				renderer2DData.textureSlots[renderer2DData.textureSlotIndex] = texture;
 				renderer2DData.textureSlotIndex++;
 			}
+
+			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
+			renderer2DData.quadTextureCoords[1] = { 1.0f, 0.0f };
+			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
+			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
+
+			// temp code
+			//float x = 7, y = 6;
+			//float sheetWidth = texture->getWidth(), sheetHeight = texture->getHeight();
+			//float spriteWidth = 128, spriteHeight = 128;
+
+			//renderer2DData.quadTextureCoords[0] = { (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
+			//renderer2DData.quadTextureCoords[1] = { (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
+			//renderer2DData.quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+			//renderer2DData.quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+			//end temp
 
 			UpdateVertexBufferPtr(position, size, angleD, quadColor, textureIndex, tilingFactor);
 		}

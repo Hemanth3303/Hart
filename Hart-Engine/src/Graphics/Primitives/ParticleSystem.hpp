@@ -16,6 +16,10 @@ namespace Hart {
 			Maths::Vec3 position = {};
 			Maths::Vec2 velocity = {}, velocityVariation = {};
 			Maths::Vec4 colorBegin = {}, colorEnd = {};
+			// minimum rotation angle in degrees of particles, default is 0
+			float minAngleD = 0.0f;
+			// maximum rotation angle  in degrees of particles, default is 360
+			float maxAngleD = 360.0f;
 			float sizeBegin = 0.0f, sizeEnd = 0.0f, sizeVariation = 0.0f;
 			std::shared_ptr<Texture2D> texture = nullptr;
 			float tilingFactor = 1.0f;
@@ -36,7 +40,7 @@ namespace Hart {
 				Maths::Vec3 position = {};
 				Maths::Vec2 velocity = {};
 				Maths::Vec4 colorBegin = {}, colorEnd = {};
-				float rotation = 0.0f;
+				float angleD = 0.0f;
 				float sizeBegin = 0.0f, sizeEnd = 0.0f;
 				std::shared_ptr<Texture2D> texture = nullptr;
 				float tilingFactor = 1.0f;
