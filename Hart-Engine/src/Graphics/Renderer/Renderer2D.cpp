@@ -83,7 +83,7 @@ namespace Hart {
 				{ ShaderDataType::Float,  "aTilingFactor" }
 			};
 
-			renderer2DData.shader = Application::s_Instance->getShader("DefaultShader2D");
+			renderer2DData.shader = Application::Get()->getShader("DefaultShader2D");
 			HART_ENGINE_LOG("Using Shader: " + renderer2DData.shader->getName());
 
 			renderer2DData.quadVertexArray = std::make_shared<VertexArray>();
@@ -147,7 +147,7 @@ namespace Hart {
 		}
 
 		void Renderer2D::UnsetCustomShader() {
-			renderer2DData.shader = Application::s_Instance->getShader("DefaultShader2D");
+			renderer2DData.shader = Application::Get()->getShader("DefaultShader2D");
 			renderer2DData.shader->bind();
 			HART_ENGINE_LOG("Switching Back To Using The Default Shader (" + renderer2DData.shader->getName() + ")");
 		}

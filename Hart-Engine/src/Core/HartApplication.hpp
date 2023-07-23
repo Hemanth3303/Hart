@@ -39,6 +39,7 @@ namespace Hart {
 		
 		//getters
 		
+		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
@@ -89,9 +90,8 @@ namespace Hart {
 		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
 		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
 		// End Event Methods
-	public:
-		static Application* s_Instance;
 	private:
+		static Application* s_Instance;
 		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;

@@ -52,8 +52,8 @@ namespace Hart {
 		}
 
 		void InputManager::SetMousePosition(const Maths::Vec2& position) {
-			HART_ASSERT_NOT_EQUAL(Hart::Application::s_Instance, nullptr);
-			glfwSetCursorPos(Hart::Application::s_Instance->getWindow()->getGLFWwindow(), position.x, position.y);
+			HART_ASSERT_NOT_EQUAL(Hart::Application::Get(), nullptr);
+			glfwSetCursorPos(Hart::Application::Get()->getWindow()->getGLFWwindow(), position.x, position.y);
 		}
 
 		const KeyCode& InputManager::GetCurrentKey() {

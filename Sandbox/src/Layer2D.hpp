@@ -54,19 +54,17 @@ public:
 		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
 		
 		auto [x, y] = InputManager::GetMousePosition();
-		std::int32_t width = Application::s_Instance->getWindowWidth();
-		std::int32_t height = Application::s_Instance->getWindowHeight();
+		std::int32_t width = Application::Get()->getWindowWidth();
+		std::int32_t height = Application::Get()->getWindowHeight();
 
-		auto bounds = m_CameraController.getBounds();
-		auto pos = m_CameraController.getCamera().getPosition();
+		OrthographicCameraBounds bounds = m_CameraController.getBounds();
+		Maths::Vec3 position = m_CameraController.getCamera().getPosition();
 		x = (x / width) * bounds.getWidth() - bounds.getWidth() * 0.5f;
 		y = bounds.getHeight() * 0.5f - (y / height) * bounds.getHeight();
-		m_Particle.position = { x + pos.x, y + pos.y , 1.0f };
+		m_Particle.position = { x + position.x, y + position.y , 1.0f };
 		
 		if (InputManager::IsMouseButtonPressed(MouseCode::Left)) {
-			for (int i = 0; i < 100; i++) {
-				m_ParticleSystem.emit(m_Particle);
-			}
+			m_ParticleSystem.emit(m_Particle);
 		}
 
 		m_CameraController.update(deltaTime);
