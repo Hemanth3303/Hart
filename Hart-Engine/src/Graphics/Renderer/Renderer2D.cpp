@@ -202,18 +202,49 @@ namespace Hart {
 			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
 			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
 
-			// temp code
-			//float x = 7, y = 6;
-			//float sheetWidth = texture->getWidth(), sheetHeight = texture->getHeight();
-			//float spriteWidth = 128, spriteHeight = 128;
-
-			//renderer2DData.quadTextureCoords[0] = { (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
-			//renderer2DData.quadTextureCoords[1] = { (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
-			//renderer2DData.quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
-			//renderer2DData.quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
-			//end temp
-
 			UpdateVertexBufferPtr(position, size, angleD, quadColor, textureIndex, tilingFactor);
+		}
+
+		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint) {
+			DrawQuad(position, size, 0.0f, spriteSheet, subTextureIndex, textureTint);
+		}
+
+		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint) {
+			if ((renderer2DData.textureSlotIndex >= renderer2DData.MAX_TEXTURE_SLOTS) || (renderer2DData.quadIndexCount >= renderer2DData.MAX_INDICES)) {
+				Flush();
+				BeginBatch();
+			}
+
+			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
+			float textureIndex = 0.0f;
+
+			for (std::size_t i = 1; i < renderer2DData.textureSlotIndex; i++) {
+				if (renderer2DData.textureSlots[i] == spriteSheet->getTexture()) {
+					textureIndex = static_cast<float>(i);
+					break;
+				}
+			}
+			if (textureIndex == 0.0f) {
+				textureIndex = static_cast<float>(renderer2DData.textureSlotIndex);
+				renderer2DData.textureSlots[renderer2DData.textureSlotIndex] = spriteSheet->getTexture();
+				renderer2DData.textureSlotIndex++;
+			}
+
+			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
+			renderer2DData.quadTextureCoords[1] = { 1.0f, 0.0f };
+			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
+			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
+
+			const auto& [x, y] = subTextureIndex;
+			const auto& [sheetWidth, sheetHeight] = spriteSheet->getSpriteSheetSize();
+			const auto& [spriteWidth, spriteHeight] = spriteSheet->getSpriteSize();
+
+			renderer2DData.quadTextureCoords[0] = { (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
+			renderer2DData.quadTextureCoords[1] = { (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
+			renderer2DData.quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+			renderer2DData.quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+
+			UpdateVertexBufferPtr(position, size, angleD, quadColor, textureIndex, 1.0f);
 		}
 
 		void Renderer2D::ResetStats() {

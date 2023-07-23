@@ -14,6 +14,7 @@
 #include "Graphics/VertexArray.hpp"
 #include "Graphics/Image.hpp"
 #include "Graphics/Texture2D.hpp"
+#include "Graphics/SpriteSheet.hpp"
 #include "Graphics/ShaderLibrary.hpp"
 #include "Graphics/ParticleSystem.hpp"
 #include "Graphics/Renderer/Colors.hpp"

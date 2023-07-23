@@ -11,7 +11,8 @@ using namespace Hart::Utils;
 
 class Layer2D : public Layer {
 private:
-	std::shared_ptr<Texture2D> m_GrassTex, m_EmojiTex, m_SpriteSheet;
+	std::shared_ptr<Texture2D> m_GrassTex, m_EmojiTex;
+	std::shared_ptr<SpriteSheet> m_SpriteSheet;
 	OrthographicCameraController m_CameraController;
 	Random m_Rd;
 	ParticleProps m_Particle;
@@ -22,7 +23,7 @@ public:
 
 		m_GrassTex = std::make_shared<Texture2D>("res/images/grass_block.png", TextureMagFilter::Nearest);
 		m_EmojiTex = std::make_shared<Texture2D>("res/images/awesomeface.png", TextureMagFilter::Linear);
-		m_SpriteSheet = std::make_shared<Texture2D>("res/images/RPGpack_sheet_2X.png", TextureMagFilter::Nearest);
+		m_SpriteSheet = std::make_shared<SpriteSheet>("res/images/RPGpack_sheet_2X.png", Vec2(128, 128), TextureMagFilter::Nearest);
 
 		m_Particle.colorBegin = FireRed;
 		m_Particle.colorEnd = White;
@@ -81,13 +82,16 @@ public:
 		//	}
 		//}
 
-		//Renderer2D::DrawQuad(Vec3(100, 100), Vec2(50, 150), Red);
-		//Renderer2D::DrawQuad(Vec3(-100, -100), Vec2(150, 50), Blue);
+		Renderer2D::DrawQuad(Vec3(100, 100), Vec2(50, 150), Red);
+		Renderer2D::DrawQuad(Vec3(-100, -100), Vec2(150, 50), Blue);
 
-		//Renderer2D::DrawQuad(Vec3(130, -50), Vec2(100, 100), m_GrassTex);
-		//Renderer2D::DrawQuad(Vec3(-280, -100), Vec2(100, 100), m_EmojiTex);
+		Renderer2D::DrawQuad(Vec3(130, -50), Vec2(100, 100), m_GrassTex);
+		Renderer2D::DrawQuad(Vec3(-280, -100), Vec2(100, 100), m_EmojiTex);
 
-		Renderer2D::DrawQuad({ 0, 0 }, { 300, 300 }, m_SpriteSheet);
+		Renderer2D::DrawQuad({ 100, 230 }, { 100, 100 }, 45, m_SpriteSheet, { 5, 12 });
+		Renderer2D::DrawQuad({ -100, -230 }, { 100, 100 }, m_SpriteSheet, { 5, 12 });
+		Renderer2D::DrawQuad({ 0, 0 }, { 100, 100 }, 45, m_SpriteSheet, { 3, 2 }, Red);
+		Renderer2D::DrawQuad({ 330, -10 }, { 100, 100 }, m_SpriteSheet, { 3, 2 }, Yellow);
 
 		m_ParticleSystem.render();
 
