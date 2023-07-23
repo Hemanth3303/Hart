@@ -1,10 +1,10 @@
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
 #include "RenderCommand.hpp"
-#include "../Primitives/VertexBuffer.hpp"
-#include "../Primitives/IndexBuffer.hpp"
-#include "../Primitives/VertexArray.hpp"
-#include "../Primitives/Shader.hpp"
+#include "../VertexBuffer.hpp"
+#include "../IndexBuffer.hpp"
+#include "../VertexArray.hpp"
+#include "../Shader.hpp"
 #include "Core/HartApplication.hpp"
 
 namespace Hart {

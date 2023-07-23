@@ -5,8 +5,8 @@
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
 #include "Maths/Mat4.hpp"
-#include "../Primitives/Shader.hpp"
-#include "../Primitives/Texture2D.hpp"
+#include "../Shader.hpp"
+#include "../Texture2D.hpp"
 #include "../Camera/OrthographicCamera.hpp"
 #include "Colors.hpp"
 

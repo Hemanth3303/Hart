@@ -6,7 +6,7 @@
 #include "Layer.hpp"
 #include "LayerStack.hpp"
 #include "Maths/Vec2.hpp"
-#include "Graphics/Primitives/ShaderLibrary.hpp"
+#include "Graphics/ShaderLibrary.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
 #include "Events/WindowEvents.hpp"
@@ -39,6 +39,7 @@ namespace Hart {
 		
 		//getters
 		
+		// returns a non owning reference to a static application instance
 		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }

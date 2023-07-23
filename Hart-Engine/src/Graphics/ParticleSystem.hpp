@@ -2,8 +2,8 @@
 
 #include "HartPch.hpp"
 
-#include "../Primitives/Texture2D.hpp"
-#include "../Camera/OrthographicCamera.hpp"
+#include "Texture2D.hpp"
+#include "Camera/OrthographicCamera.hpp"
 #include "Maths/Vec2.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
