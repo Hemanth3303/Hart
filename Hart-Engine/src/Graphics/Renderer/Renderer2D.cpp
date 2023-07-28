@@ -194,7 +194,9 @@ namespace Hart {
 			}
 			if (textureIndex == 0.0f) {
 				textureIndex = static_cast<float>(renderer2DData.textureSlotIndex);
-				renderer2DData.textureSlots[renderer2DData.textureSlotIndex] = texture;
+				if (renderer2DData.textureSlotIndex >= renderer2DData.TEXTURE_SLOT_START && renderer2DData.textureSlotIndex < renderer2DData.MAX_TEXTURE_SLOTS) {
+					renderer2DData.textureSlots[renderer2DData.textureSlotIndex] = texture;
+				}
 				renderer2DData.textureSlotIndex++;
 			}
 
@@ -227,7 +229,9 @@ namespace Hart {
 			}
 			if (textureIndex == 0.0f) {
 				textureIndex = static_cast<float>(renderer2DData.textureSlotIndex);
-				renderer2DData.textureSlots[renderer2DData.textureSlotIndex] = spriteSheet->getTexture();
+				if (renderer2DData.textureSlotIndex >= renderer2DData.TEXTURE_SLOT_START && renderer2DData.textureSlotIndex < renderer2DData.MAX_TEXTURE_SLOTS) {
+					renderer2DData.textureSlots[renderer2DData.textureSlotIndex] = spriteSheet->getTexture();
+				}
 				renderer2DData.textureSlotIndex++;
 			}
 
