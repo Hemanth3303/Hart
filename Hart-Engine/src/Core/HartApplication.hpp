@@ -39,7 +39,7 @@ namespace Hart {
 		
 		//getters
 		
-		// returns a non owning reference to a static application instance
+		// returns a non owning reference to the current static application instance
 		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
@@ -52,7 +52,7 @@ namespace Hart {
 		//setters
 		
 		// sets the maximum frames per second
-		// default value is 60
+		// default value is 1000
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
@@ -99,7 +99,7 @@ namespace Hart {
 		Graphics::ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
-		double m_MaxFPS = 60.0, m_CurrentFPS=0.0;
+		double m_MaxFPS = 1'000, m_CurrentFPS=0.0;
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;

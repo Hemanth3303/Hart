@@ -45,7 +45,7 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(1.0f / deltaTime));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
 		
 		auto [x, y] = Hart::Inputs::InputManager::GetMousePosition();
 		std::int32_t width = Hart::Application::Get()->getWindowWidth();
