@@ -24,6 +24,7 @@ namespace Hart {
 			const std::uint32_t MAX_VERTICES = MAX_QUADS * 4;
 			const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
 			static constexpr std::uint32_t MAX_TEXTURE_SLOTS = 16;
+			const std::uint32_t TEXTURE_SLOT_START = 1;
 
 			std::shared_ptr<Shader> shader;
 			Maths::Mat4 viewProjectionMatrix;
@@ -36,10 +37,10 @@ namespace Hart {
 			QuadVertex* quadVertexBufferPtr = nullptr;
 
 			std::uint32_t quadIndexCount = 0;
-			
+
 			std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
-			std::uint32_t textureSlotIndex = 1; // slot_0 == white texture
-			
+			std::uint32_t textureSlotIndex = TEXTURE_SLOT_START; // slot_0 == white texture
+
 			static constexpr std::uint32_t VERTICES_PER_QUAD = 4;
 			std::array<Maths::Vec4, VERTICES_PER_QUAD> quadVertexPositions;
 			std::array<Maths::Vec2, VERTICES_PER_QUAD> quadTextureCoords;
@@ -89,7 +90,7 @@ namespace Hart {
 			renderer2DData.quadVertexArray = std::make_shared<VertexArray>();
 			renderer2DData.quadVertexArray->bind();
 
-			renderer2DData.quadVertexBuffer = std::make_shared<VertexBuffer>(renderer2DData.MAX_VERTICES * static_cast < std::uint32_t>(sizeof(QuadVertex)));
+			renderer2DData.quadVertexBuffer = std::make_shared<VertexBuffer>(renderer2DData.MAX_VERTICES * static_cast <std::uint32_t>(sizeof(QuadVertex)));
 			renderer2DData.quadVertexBuffer->setLayout(layout);
 			renderer2DData.quadVertexArray->addVertexBuffer(renderer2DData.quadVertexBuffer);
 
@@ -161,7 +162,7 @@ namespace Hart {
 				Flush();
 				BeginBatch();
 			}
-			
+
 			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
 
 			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
@@ -185,7 +186,7 @@ namespace Hart {
 			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 			float textureIndex = 0.0f;
 
-			for (std::size_t i = 1; i < renderer2DData.textureSlotIndex; i++) {
+			for (std::size_t i = renderer2DData.TEXTURE_SLOT_START; i < renderer2DData.textureSlotIndex; i++) {
 				if (renderer2DData.textureSlots[i] == texture) {
 					textureIndex = static_cast<float>(i);
 					break;
@@ -218,7 +219,7 @@ namespace Hart {
 			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 			float textureIndex = 0.0f;
 
-			for (std::size_t i = 1; i < renderer2DData.textureSlotIndex; i++) {
+			for (std::size_t i = renderer2DData.TEXTURE_SLOT_START; i < renderer2DData.textureSlotIndex; i++) {
 				if (renderer2DData.textureSlots[i] == spriteSheet->getTexture()) {
 					textureIndex = static_cast<float>(i);
 					break;
@@ -271,7 +272,7 @@ namespace Hart {
 		void Renderer2D::BeginBatch() {
 			renderer2DData.quadVertexBufferPtr = renderer2DData.quadVertexBufferBase;
 			renderer2DData.quadIndexCount = 0;
-			renderer2DData.textureSlotIndex = 1;
+			renderer2DData.textureSlotIndex = renderer2DData.TEXTURE_SLOT_START;
 		}
 
 		void Renderer2D::Flush() {
