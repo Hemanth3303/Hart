@@ -11,6 +11,7 @@ namespace Hart {
 	}
 
 	Window::~Window() {
+		deinit();
 		HART_ENGINE_LOG("DeInitializing Window");
 	}
 
@@ -50,6 +51,10 @@ namespace Hart {
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
 		m_WindowData.m_Position.x = static_cast<float>(x);
 		m_WindowData.m_Position.y = static_cast<float>(y);
+	}
+
+	void Window::deinit() {
+		glfwDestroyWindow(m_GLFWwindow);
 	}
 
 	void Window::setEventCallback(const EventCallBackFunction callbackFn) {
