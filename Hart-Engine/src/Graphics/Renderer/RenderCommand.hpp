@@ -18,6 +18,8 @@ namespace Hart {
 			static void SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height);
 			static const std::int64_t GetMaxTextureSlotsPerShader();
 			static const std::int64_t GetMaxTextureSlotsTotal();
+			static void EnableWireFrameMode();
+			static void DisableWireFrameMode();
 
 			static void DrawArrays(std::uint32_t vertexCount);
 			// by default uses index count of index buffer in vertex array

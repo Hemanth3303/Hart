@@ -43,6 +43,14 @@ namespace Hart {
 			return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 		}
 
+        void RenderCommand::EnableWireFrameMode() {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+
+        void RenderCommand::DisableWireFrameMode() {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+
 		void RenderCommand::DrawArrays(std::uint32_t vertexCount) {
 			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 		}
