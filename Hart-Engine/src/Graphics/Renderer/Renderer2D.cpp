@@ -96,8 +96,8 @@ namespace Hart {
 
 			renderer2DData.quadVertexBufferBase = new QuadVertex[renderer2DData.MAX_VERTICES];
 
-			std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), renderer2DData.MAX_INDICES);
-			renderer2DData.quadVertexArray->setIndexBuffer(indexBuffer);
+			std::shared_ptr<IndexBuffer> quadIndexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), renderer2DData.MAX_INDICES);
+			renderer2DData.quadVertexArray->setIndexBuffer(quadIndexBuffer);
 
 			std::uint32_t whiteTextureData = 0xffffffff;
 			renderer2DData.whiteTexture = std::make_shared<Texture2D>(&whiteTextureData, 1, 1);
