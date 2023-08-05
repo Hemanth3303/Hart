@@ -1,3 +1,3 @@
-export PREMAKE_PATH="./premake/.premake/"
+export PREMAKE_PATH="./vendor/premake/.premake/"
 
-./premake/premake5 $1 $2
+./vendor/premake/premake5 $1 $2

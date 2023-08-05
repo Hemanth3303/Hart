@@ -1,6 +1,6 @@
 [submodule "vendor/glfw"]
 	path = vendor/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "premake/.premake/cmake"]
-	path = premake/.premake/cmake
+[submodule "vendor/premake/.premake/cmake"]
+	path = vendor/premake/.premake/cmake
 	url = https://github.com/Enhex/premake-cmake.git
