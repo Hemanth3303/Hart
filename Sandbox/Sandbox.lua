@@ -60,6 +60,9 @@ project "Sandbox"
 			"NOMINMAX", 
 			"WIN32_LEAN_AND_MEAN"
 		}
+		postbuildcommands {
+			"xcopy %{prj.location}\\res %{wks.location}\\bin\\" ..outputdir.. "\\%{prj.name}\\res /E /H /C /I /Y"
+		}
 
 	filter { "system:windows", "action:not vs*" }
 		links { "glfw", "glad", "stb" }
