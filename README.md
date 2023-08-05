@@ -6,7 +6,7 @@ I'm making this engine as a learning exercise. As such I probably won't be accep
 (That is if someone somehow finds this repository lol)
 
 ## Dependencies
-[glfw](https://www.glfw.org/): for Windowing, Creating OpenGL context, Input handling, etc<br>
+[glfw](https://www.glfw.org/): for Windowing, Creating OpenGL Context, Input handling, etc<br>
 [glad](https://glad.dav1d.de/): for accessing OpenGL functions<br>
 [stb](https://github.com/nothings/stb): specifically [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for loading images<br>
 [premake-cmake](https://github.com/Enhex/premake-cmake): cmake generator for premake
