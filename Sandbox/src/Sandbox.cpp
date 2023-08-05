@@ -23,6 +23,7 @@ public:
 		m_Layer3D = std::make_shared<Layer3D>("Layer3D");
 
 		pushLayer(m_Layer2D);
+		HART_CLIENT_ERROR(Hart::Maths::clamp(4.2, 2.3, 3.1));
 		//pushLayer(m_Layer3D);
 	}
 
