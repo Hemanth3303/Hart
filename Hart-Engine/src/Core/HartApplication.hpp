@@ -34,7 +34,7 @@ namespace Hart {
 		// main engine loop
 		void run();
 		// sets OpenGL clear color
-		// rgba values in range 0 to 255
+		// rgba values in range 0 to 1
 		void setBackgroundColor(const Maths::Vec4& color);
 		
 		//getters

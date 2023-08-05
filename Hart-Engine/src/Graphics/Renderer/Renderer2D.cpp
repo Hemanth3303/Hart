@@ -163,14 +163,12 @@ namespace Hart {
 				BeginBatch();
 			}
 
-			Maths::Vec4 quadColor = Maths::Vec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
-
 			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
 			renderer2DData.quadTextureCoords[1] = { 1.0f, 0.0f };
 			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
 			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
 
-			UpdateVertexBufferPtr(position, size, angleD, quadColor, 0.0f, 1.0f);
+			UpdateVertexBufferPtr(position, size, angleD, color, 0.0f, 1.0f);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float tilingFactor) {
@@ -183,7 +181,6 @@ namespace Hart {
 				BeginBatch();
 			}
 
-			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 			float textureIndex = 0.0f;
 
 			for (std::size_t i = renderer2DData.TEXTURE_SLOT_START; i < renderer2DData.textureSlotIndex; i++) {
@@ -205,7 +202,7 @@ namespace Hart {
 			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
 			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
 
-			UpdateVertexBufferPtr(position, size, angleD, quadColor, textureIndex, tilingFactor);
+			UpdateVertexBufferPtr(position, size, angleD, textureTint, textureIndex, tilingFactor);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint) {
@@ -218,7 +215,6 @@ namespace Hart {
 				BeginBatch();
 			}
 
-			Maths::Vec4 quadColor = Maths::Vec4(textureTint.x / 255.0f, textureTint.y / 255.0f, textureTint.z / 255.0f, textureTint.w / 255.0f);
 			float textureIndex = 0.0f;
 
 			for (std::size_t i = renderer2DData.TEXTURE_SLOT_START; i < renderer2DData.textureSlotIndex; i++) {
@@ -249,7 +245,7 @@ namespace Hart {
 			renderer2DData.quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
 			renderer2DData.quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
 
-			UpdateVertexBufferPtr(position, size, angleD, quadColor, textureIndex, 1.0f);
+			UpdateVertexBufferPtr(position, size, angleD, textureTint, textureIndex, 1.0f);
 		}
 
 		void Renderer2D::ResetStats() {

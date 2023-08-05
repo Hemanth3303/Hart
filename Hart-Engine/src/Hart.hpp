@@ -9,13 +9,9 @@
 #include "Core/LayerStack.hpp"
 
 #include "Graphics/Shader.hpp"
-#include "Graphics/VertexBuffer.hpp"
-#include "Graphics/IndexBuffer.hpp"
-#include "Graphics/VertexArray.hpp"
 #include "Graphics/Image.hpp"
 #include "Graphics/Texture2D.hpp"
 #include "Graphics/SpriteSheet.hpp"
-#include "Graphics/ShaderLibrary.hpp"
 #include "Graphics/ParticleSystem.hpp"
 #include "Graphics/Renderer/Colors.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
@@ -31,11 +27,7 @@
 #include "Maths/Vec4.hpp"
 #include "Maths/Mat4.hpp"
 
-#include "Events/EventCategory.hpp"
 #include "Events/Event.hpp"
-#include "Events/WindowEvents.hpp"
-#include "Events/WindowEvents.hpp"
-#include "Events/MouseEvents.hpp"
 
 #include "Inputs/KeyCodes.hpp"
 #include "Inputs/MouseCodes.hpp"

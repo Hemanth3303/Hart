@@ -4,9 +4,8 @@
 namespace Hart {
 	namespace Graphics {
         void RenderCommand::Init() {
-			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			EnableDepthTest();
+			EnableBlending();
 
 			HART_ENGINE_LOG("Initializing OpenGL Renderer");
 			HART_ENGINE_LOG(
@@ -20,7 +19,7 @@ namespace Hart {
 			HART_ENGINE_LOG("DeInitializing OpenGL Renderer");
         }
         void RenderCommand::SetClearColor(const Maths::Vec4& color) {
-			glClearColor(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
+			glClearColor(color.x, color.y, color.z, color.w);
 		}
 
 		void RenderCommand::Clear() {
@@ -41,6 +40,23 @@ namespace Hart {
 
 		const std::int64_t RenderCommand::GetMaxTextureSlotsTotal() {
 			return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
+		}
+
+		void RenderCommand::EnableDepthTest() {
+			glEnable(GL_DEPTH_TEST);
+		}
+
+		void RenderCommand::DisableDepthTest() {
+			glDisable(GL_DEPTH_TEST);
+		}
+
+		void RenderCommand::EnableBlending() {
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+
+		void RenderCommand::DisableBlending() {
+			glDisable(GL_BLEND);
 		}
 
         void RenderCommand::EnableWireFrameMode() {
