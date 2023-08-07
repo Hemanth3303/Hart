@@ -18,6 +18,7 @@
 #include "Graphics/Renderer/Renderer2D.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"
 #include "Graphics/Camera/OrthographicCameraController.hpp"
+#include "Graphics/Camera/DefaultOrthographicCameraController.hpp"
 #include "Graphics/Camera/PerspectiveCamera.hpp"
 
 #include "Maths/MathConstants.hpp"
