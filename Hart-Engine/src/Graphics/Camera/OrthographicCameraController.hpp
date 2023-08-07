@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HartPch.hpp"
+
 #include "OrthographicCamera.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
@@ -19,43 +20,31 @@ namespace Hart {
 			inline const float getWidth() const { return right - left; }
 			inline const float getHeight() const { return top - bottom; }
 		};
-		// default 2d camera controller
+
+		// Base class for OrthographicCameraControllers
 		class OrthographicCameraController {
 		public:
 			OrthographicCameraController(float width, float height, bool enableCameraRotation = false);
-			~OrthographicCameraController();
+			virtual ~OrthographicCameraController();
 
-			void update(const float deltaTime);
-			void onEvent(Events::Event& e);
+			virtual void update(float deltaTime) = 0;
+			virtual void onEvent(Events::Event& e) = 0;
+
 			void setMovementKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey);
 			void setRotationKeys(Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
 			void setAllInputKeys(Inputs::KeyCode leftKey, Inputs::KeyCode rightKey, Inputs::KeyCode upKey, Inputs::KeyCode downKey, Inputs::KeyCode leftRotateKey, Inputs::KeyCode rightRotateKey);
 
 			inline OrthographicCamera& getCamera() { return m_Camera; }
 			inline const OrthographicCamera& getCamera() const { return m_Camera; }
-			inline const float getRotationSpeed() const { return m_CameraRotationSpeed; }
 			inline const float getZoomLevel() const { return m_ZoomLevel; }
 			inline const OrthographicCameraBounds& getBounds() const { return m_Bounds; }
-
-			// default is 45.0f
-			inline void setRotationSpeed(const float rotationSpeed) { m_CameraRotationSpeed = rotationSpeed; }
-			// default is 10.0f
-			inline void setMovementSpeed(const float movementSpeed) { m_SpeedMultiplier = movementSpeed; }
-		private:
-			bool onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e);
-			bool onWindowResized(Events::WindowResizedEvent& e);
-		private:
+		protected:
 			float m_Width, m_Height;
+			float m_AspectRatio;
 			float m_ZoomLevel = 1.0f;
 			bool m_EnableCameraRotation;
 			OrthographicCameraBounds m_Bounds;
 			OrthographicCamera m_Camera;
-
-			float m_CameraMovementSpeed = m_ZoomLevel;
-			float m_SpeedMultiplier = 10.0f;
-			float m_CameraRotationSpeed = 45.0f;
-			Maths::Vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
-			float m_CameraRotation = 0.0f;
 
 			Inputs::KeyCode m_LeftKey = Inputs::KeyCode::ArrowLeft;
 			Inputs::KeyCode m_RightKey = Inputs::KeyCode::ArrowRight;
