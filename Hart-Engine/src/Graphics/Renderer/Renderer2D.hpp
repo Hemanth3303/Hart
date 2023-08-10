@@ -43,11 +43,13 @@ namespace Hart {
 
 			// Draws a quad with texture and optional tinting color
 			// The texture is a part of the provided spritesheet, indexed using a Maths::Vec2
+			// The top left is considered as (0, 0) and bottom right is (n-1, n-1), where n is number of sprites in spritesheet
 			// color is in rgba(0 to 1) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint = White);
 
 			// Draws a rotated quad with texture and optional tinting color
 			// The texture is a part of the provided spritesheet, indexed using a Maths::Vec2
+			// The top left is considered as (0, 0) and bottom right is (n-1, n-1), where n is number of sprites in spritesheet
 			// color is in rgba(0 to 1) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint = White);
 

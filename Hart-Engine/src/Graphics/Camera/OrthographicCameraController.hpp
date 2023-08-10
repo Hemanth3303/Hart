@@ -36,6 +36,7 @@ namespace Hart {
 
 			inline OrthographicCamera& getCamera() { return m_Camera; }
 			inline const OrthographicCamera& getCamera() const { return m_Camera; }
+			inline const float getAspectRatio() const { return m_AspectRatio; }
 			inline const float getZoomLevel() const { return m_ZoomLevel; }
 			inline const OrthographicCameraBounds& getBounds() const { return m_Bounds; }
 		protected:

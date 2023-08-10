@@ -230,15 +230,13 @@ namespace Hart {
 				}
 				renderer2DData.textureSlotIndex++;
 			}
-
-			renderer2DData.quadTextureCoords[0] = { 0.0f, 0.0f };
-			renderer2DData.quadTextureCoords[1] = { 1.0f, 0.0f };
-			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
-			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
-
-			const auto& [x, y] = subTextureIndex;
+			
 			const auto& [sheetWidth, sheetHeight] = spriteSheet->getSpriteSheetSize();
 			const auto& [spriteWidth, spriteHeight] = spriteSheet->getSpriteSize();
+
+			float numberOfRows = (sheetHeight / spriteHeight);
+			float x = subTextureIndex.x;
+			float y = numberOfRows - subTextureIndex.y - 1.0f;
 
 			renderer2DData.quadTextureCoords[0] = { (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
 			renderer2DData.quadTextureCoords[1] = { (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };

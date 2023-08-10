@@ -71,22 +71,7 @@ public:
 		Hart::Graphics::Renderer2D::ResetStats();
 		Hart::Graphics::Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		//for (float y = -270; y <= 270; y += 30) {
-		//	for (float x = -480; x <= 480; x += 30) {
-		//		Hart::Graphics::Renderer2D::DrawQuad({ x, y, -0.1f }, { 30, 30 }, m_GrassTex);
-		//	}
-		//}
-
-		Hart::Graphics::Renderer2D::DrawQuad({ 0.5f, 0.5f }, { 0.3f, 0.25f }, Hart::Graphics::Red);
-		Hart::Graphics::Renderer2D::DrawQuad({ -0.5f, -0.5f }, { 0.25f, 0.3f }, Hart::Graphics::Blue);
-
-		Hart::Graphics::Renderer2D::DrawQuad({ 0.3f, -0.7f }, { 0.5f, 0.5f }, m_GrassTex);
-
-		Hart::Graphics::Renderer2D::DrawQuad({ 0.5f, 0.3f }, { 0.5f, 0.5f }, 45, m_SpriteSheet, { 5, 12 });
-		Hart::Graphics::Renderer2D::DrawQuad({ -0.5f, -0.2f }, { 0.5f, 0.5f }, m_SpriteSheet, { 5, 12 });
-		Hart::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, 45, m_SpriteSheet, { 3, 2 }, Hart::Graphics::Red);
-		Hart::Graphics::Renderer2D::DrawQuad({ 0.2f, -0.3f }, { 0.5f, 0.5f }, m_SpriteSheet, { 3, 2 }, Hart::Graphics::Yellow);
-		Hart::Graphics::Renderer2D::DrawQuad({ -0.6f, -0.5f }, { 0.5f, 0.5f }, m_EmojiTex);
+		Hart::Graphics::Renderer2D::DrawQuad({ 0,0,0 }, { 0.5f, 0.5f }, m_SpriteSheet, { 2, 2 });
 
 		m_ParticleSystem.render();
 
