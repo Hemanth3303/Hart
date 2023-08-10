@@ -97,7 +97,6 @@ public:
 		shader->setUniform("uView", view);
 		shader->setUniform("uModel", model);
 
-		vao->getIndexBuffer()->bind();
 		Hart::Graphics::RenderCommand::DrawIndexed(vao);
 	}
 };

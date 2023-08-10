@@ -71,6 +71,14 @@ public:
 		Hart::Graphics::Renderer2D::ResetStats();
 		Hart::Graphics::Renderer2D::BeginScene(m_CameraController->getCamera());
 
+		float yBound = m_CameraController->getZoomLevel();
+		float xBound = m_CameraController->getAspectRatio() * m_CameraController->getZoomLevel();
+		//for (float y = -yBound; y < yBound; y += 0.01f) {
+		//	for (float x = -xBound; x < xBound; x += 0.01f) {
+		//		Hart::Graphics::Renderer2D::DrawQuad({ x, y, -0.5f }, { 0.01f, 0.01f }, { m_Rd.getRandomFloat(0, 1),m_Rd.getRandomFloat(0, 1),m_Rd.getRandomFloat(0, 1), 1 });
+		//	}
+		//}
+
 		Hart::Graphics::Renderer2D::DrawQuad({ 0,0,0 }, { 0.5f, 0.5f }, m_SpriteSheet, { 2, 2 });
 
 		m_ParticleSystem.render();

@@ -79,6 +79,7 @@ namespace Hart {
 				std::uint32_t count = indexCount;
 			}*/
 			vertexArray->bind();
+			vertexArray->getIndexBuffer()->bind();
 			std::uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
 
 			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
