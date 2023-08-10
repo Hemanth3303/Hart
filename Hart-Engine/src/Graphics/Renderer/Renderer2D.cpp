@@ -168,7 +168,7 @@ namespace Hart {
 			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
 			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
 
-			UpdateVertexBufferPtr(position, size, angleD, color, 0.0f, 1.0f);
+			AddNewQuadVertex(position, size, angleD, color, 0.0f, 1.0f);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<Texture2D>& texture, const Maths::Vec4& textureTint, float tilingFactor) {
@@ -202,7 +202,7 @@ namespace Hart {
 			renderer2DData.quadTextureCoords[2] = { 1.0f, 1.0f };
 			renderer2DData.quadTextureCoords[3] = { 0.0f, 1.0f };
 
-			UpdateVertexBufferPtr(position, size, angleD, textureTint, textureIndex, tilingFactor);
+			AddNewQuadVertex(position, size, angleD, textureTint, textureIndex, tilingFactor);
 		}
 
 		void Renderer2D::DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint) {
@@ -230,7 +230,7 @@ namespace Hart {
 				}
 				renderer2DData.textureSlotIndex++;
 			}
-			
+
 			const auto& [sheetWidth, sheetHeight] = spriteSheet->getSpriteSheetSize();
 			const auto& [spriteWidth, spriteHeight] = spriteSheet->getSpriteSize();
 
@@ -243,7 +243,7 @@ namespace Hart {
 			renderer2DData.quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
 			renderer2DData.quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
 
-			UpdateVertexBufferPtr(position, size, angleD, textureTint, textureIndex, 1.0f);
+			AddNewQuadVertex(position, size, angleD, textureTint, textureIndex, 1.0f);
 		}
 
 		void Renderer2D::ResetStats() {
@@ -288,7 +288,7 @@ namespace Hart {
 			renderer2DData.stats.numberOfDrawCalls++;
 		}
 
-		void Renderer2D::UpdateVertexBufferPtr(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor) {
+		void Renderer2D::AddNewQuadVertex(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor) {
 
 			Maths::Mat4 transform = Maths::Mat4::translate(position) * Maths::Mat4::rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Maths::Mat4::scale({ size.x, size.y, 1.0f });
 
