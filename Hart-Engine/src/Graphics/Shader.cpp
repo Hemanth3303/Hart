@@ -156,6 +156,8 @@ namespace Hart {
 			glLinkProgram(m_ShaderID);
 			checkCompileErrors(m_ShaderID, ShaderType::Program);
 
+			glDetachShader(m_ShaderID, vertexShader);
+			glDetachShader(m_ShaderID, fragmentShader);
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
 		}
