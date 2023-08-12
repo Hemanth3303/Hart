@@ -13,6 +13,9 @@ namespace Hart {
 
 	extern void initializeShaderLibrary();
 
+	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
+	void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter);
+
 	Application::Application() 
 		:m_WindowData() {
 		init();
@@ -117,11 +120,23 @@ namespace Hart {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		
+	#if defined(HART_DEBUG) || defined(HART_RELEASE)
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
+
+
 		glfwSwapInterval(0);
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
 		m_Window = std::make_unique<Window>(m_WindowData);
 		m_IsRunning = true;
+
+	#if defined(HART_DEBUG) || defined(HART_RELEASE)
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(OpenGLDebugMessageCallback, nullptr);
+	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
 
 		initializeShaderLibrary();
 
@@ -242,5 +257,133 @@ namespace Hart {
 	bool Application::onMouseButtonReleased(Events::MouseButtonReleasedEvent& e) {
 		Inputs::InputManager::SetMouseButtonReleased(e.getMouseButton());
 		return false;
+	}
+
+	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
+	void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter) {
+		const char* debugSource;
+		const char* debugType;
+		const char* debugSeverity;
+
+		switch (source) {
+			case GL_DEBUG_SOURCE_API:
+				debugSource = "API";
+				break;
+
+			case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+				debugSource = "WINDOW SYSTEM";
+				break;
+
+			case GL_DEBUG_SOURCE_SHADER_COMPILER:
+				debugSource = "SHADER COMPILER";
+				break;
+
+			case GL_DEBUG_SOURCE_THIRD_PARTY:
+				debugSource = "THIRD PARTY";
+				break;
+
+			case GL_DEBUG_SOURCE_APPLICATION:
+				debugSource = "APPLICATION";
+				break;
+
+			case GL_DEBUG_SOURCE_OTHER:
+				debugSource = "UNKNOWN";
+				break;
+
+			default:
+				debugSource = "UNKNOWN";
+				break;
+		}
+
+		switch (type) {
+			case GL_DEBUG_TYPE_ERROR:
+				debugType = "ERROR";
+				break;
+
+			case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+				debugType = "DEPRECATED BEHAVIOR";
+				break;
+
+			case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+				debugType = "UDEFINED BEHAVIOR";
+				break;
+
+			case GL_DEBUG_TYPE_PORTABILITY:
+				debugType = "PORTABILITY";
+				break;
+
+			case GL_DEBUG_TYPE_PERFORMANCE:
+				debugType = "PERFORMANCE";
+				break;
+
+			case GL_DEBUG_TYPE_OTHER:
+				debugType = "OTHER";
+				break;
+
+			case GL_DEBUG_TYPE_MARKER:
+				debugType = "MARKER";
+				break;
+
+			default:
+				debugType = "UNKNOWN";
+				break;
+		}
+
+		switch (severity) {
+			case GL_DEBUG_SEVERITY_HIGH:
+				debugSeverity = "HIGH";
+				HART_ENGINE_FATAL(
+					"OpenGL Error: ",
+					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
+					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
+					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
+					);
+				break;
+
+			case GL_DEBUG_SEVERITY_MEDIUM:
+				debugSeverity = "MEDIUM";
+				HART_ENGINE_ERROR(
+					"OpenGL Error: ",
+					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
+					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
+					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
+				);
+				break;
+
+			case GL_DEBUG_SEVERITY_LOW:
+				debugSeverity = "LOW";
+				HART_ENGINE_WARNING(
+					"OpenGL Error: ",
+					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
+					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
+					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
+					);
+				break;
+
+			case GL_DEBUG_SEVERITY_NOTIFICATION:
+				debugSeverity = "NOTIFICATION";
+				HART_ENGINE_LOG(
+					"OpenGL Error: ",
+					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
+					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
+					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
+					);
+				break;
+
+			default:
+				debugSeverity = "UNKNOWN";
+				HART_ENGINE_ERROR(
+					"OpenGL Error: ",
+					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
+					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
+					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
+					);
+				break;
+		}
 	}
 }

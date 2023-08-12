@@ -106,6 +106,8 @@ namespace Hart {
 	private:
 		// initializes engine's shader library with some defaul shaders
 		friend void initializeShaderLibrary();
+		// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
+		friend void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter);
 	};
 
 	// User must define this function
