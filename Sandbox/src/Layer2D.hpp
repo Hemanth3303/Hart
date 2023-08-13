@@ -18,7 +18,7 @@ public:
 		m_EmojiTex = std::make_shared<Hart::Graphics::Texture2D>("res/images/awesomeface.png", Hart::Graphics::TextureMagFilter::Linear);
 		m_SpriteSheet = std::make_shared<Hart::Graphics::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Maths::Vec2(128, 128), Hart::Graphics::TextureMagFilter::Nearest);
 
-		m_CameraController = std::make_shared<Hart::Graphics::DefaultOrthographicCameraController>(960.0f, 540.0f);
+		m_CameraController = std::make_shared<Hart::Graphics::DefaultOrthographicCameraController>(960.0f, 540.0f, true);
 
 		m_Particle.colorBegin = Hart::Graphics::FireRed;
 		m_Particle.colorEnd = Hart::Graphics::White;

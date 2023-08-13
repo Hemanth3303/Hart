@@ -4,8 +4,6 @@
 namespace Hart {
 	namespace Graphics {
 
-		constexpr float HIDDEN_SPEED_MULTIPLIER = 100.0f;
-
 		DefaultOrthographicCameraController::DefaultOrthographicCameraController(float width, float height, bool enableCameraRotation)
 			: OrthographicCameraController(width, height, enableCameraRotation) {
 
@@ -40,7 +38,7 @@ namespace Hart {
 			}
 
 			m_Camera.setPosition(m_CameraPosition);
-			m_CameraMovementSpeed = m_ZoomLevel * m_SpeedMultiplier * HIDDEN_SPEED_MULTIPLIER;
+			m_CameraMovementSpeed = m_ZoomLevel * m_SpeedMultiplier;
 		}
 
 		void DefaultOrthographicCameraController::onEvent(Events::Event& e) {
