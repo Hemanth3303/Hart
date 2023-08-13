@@ -36,19 +36,19 @@ public:
 	void onAttach() override {
 		HART_CLIENT_LOG(std::string("Attached layer: ") + getName());
 	}
-	
+
 	void onDetach() override {
 		HART_CLIENT_LOG(std::string("Detached layer: ") + getName());
 	}
 
-	void onEvent(Hart::Events::Event & e) override {
+	void onEvent(Hart::Events::Event& e) override {
 		//HART_CLIENT_LOG(e);
 		m_CameraController->onEvent(e);
 	}
 
 	void update(const float deltaTime) override {
 		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
-		
+
 		auto [x, y] = Hart::Inputs::InputManager::GetMousePosition();
 		std::int32_t width = Hart::Application::Get()->getWindowWidth();
 		std::int32_t height = Hart::Application::Get()->getWindowHeight();
@@ -58,18 +58,13 @@ public:
 		x = (x / width) * bounds.getWidth() - bounds.getWidth() * 0.5f;
 		y = bounds.getHeight() * 0.5f - (y / height) * bounds.getHeight();
 		m_Particle.position = { x + position.x, y + position.y , 1.0f };
-		
+
 		if (Hart::Inputs::InputManager::IsMouseButtonPressed(Hart::Inputs::MouseCode::Left)) {
 			m_ParticleSystem.emit(m_Particle);
 		}
 
 		m_CameraController->update(deltaTime);
 		m_ParticleSystem.update(deltaTime);
-
-		HART_CLIENT_LOG(m_Rd.getRandomVec2(0.0f, 5.0f));
-		HART_CLIENT_LOG(m_Rd.getRandomVec3(0.0f, 5.0f));
-		HART_CLIENT_LOG(m_Rd.getRandomVec4(0.0f, 5.0f));
-		std::cin.get();
 	}
 
 	void render() override {
@@ -79,11 +74,10 @@ public:
 		Renderer2D::ResetStats();
 		Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		Renderer2D::DrawLine({ 0, 0 }, { 0.5, 0 }, Red);
-		Renderer2D::DrawLine({ 0.5, 0 }, { 0.5, 0.5 }, Blue);
+		Renderer2D::DrawLine({ -0.5f, -0.5f }, {  0.5f, -0.5f }, Red);
+		Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Red);
+		Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Red);
 
-		Renderer2D::DrawLine({ -0.5, 0 }, { 0.5, -0.5 }, Magenta);
-		
 		m_ParticleSystem.render();
 
 		Hart::Graphics::Renderer2D::EndScene();
