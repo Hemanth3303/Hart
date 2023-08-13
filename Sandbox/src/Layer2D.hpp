@@ -18,7 +18,7 @@ public:
 		m_EmojiTex = std::make_shared<Hart::Graphics::Texture2D>("res/images/awesomeface.png", Hart::Graphics::TextureMagFilter::Linear);
 		m_SpriteSheet = std::make_shared<Hart::Graphics::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Maths::Vec2(128, 128), Hart::Graphics::TextureMagFilter::Nearest);
 
-		m_CameraController = std::make_shared<Hart::Graphics::DefaultOrthographicCameraController>(960.0f, 540.0f, true);
+		m_CameraController = std::make_shared<Hart::Graphics::DefaultOrthographicCameraController>(960.0f, 540.0f);
 
 		m_Particle.colorBegin = Hart::Graphics::FireRed;
 		m_Particle.colorEnd = Hart::Graphics::White;
@@ -47,7 +47,7 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
+		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
 		
 		auto [x, y] = Hart::Inputs::InputManager::GetMousePosition();
 		std::int32_t width = Hart::Application::Get()->getWindowWidth();
@@ -74,18 +74,21 @@ public:
 		Renderer2D::ResetStats();
 		Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		Renderer2D::DrawQuad({ 0.4f, 0.3f }, { 0.3f, 0.3f }, m_EmojiTex);
-
-		Renderer2D::DrawLine(Vec3(0.0f, 0.0f, 1.0f), Vec3(0.5f, 0.5f, 1.0f), White);
-		Renderer2D::DrawLine(Vec3(0.0f, 0.0f, 1.0f), Vec3(-0.5f, -0.5f, 1.0f), Black);
-		Renderer2D::DrawLine(Vec3(0.0f, 0.0f, 1.0f), Vec3(1.0f, 1.0f, 1.0f), Blue);
+		for (float y = -1.0f; y < 1.0f; y += 0.01f) {
+			for (float x = -1.0f; x < 1.0f; x += 0.01f) {
+				auto r = m_Rd.getRandomFloat(0, 1);
+				auto g = m_Rd.getRandomFloat(0, 1);
+				auto b = m_Rd.getRandomFloat(0, 1);
+				Renderer2D::DrawLine({ 0, 0 }, Vec2::getNormal({ x, y }), Vec4(r, g, b, 1));
+			}
+		}
 
 		m_ParticleSystem.render();
 
 		Hart::Graphics::Renderer2D::EndScene();
-		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfDrawCalls()));
-		//HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuads()));
-		//HART_CLIENT_TRACE("No of vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfVertices()));
-		//HART_CLIENT_TRACE("No of indices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfIndices()));
+		HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfDrawCalls()));
+		HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuads()));
+		HART_CLIENT_TRACE("No of vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfVertices()));
+		HART_CLIENT_TRACE("No of indices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfIndices()));
 	}
 };
