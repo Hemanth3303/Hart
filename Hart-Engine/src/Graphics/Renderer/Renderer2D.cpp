@@ -65,9 +65,12 @@ namespace Hart {
 			public:
 				std::uint32_t numberOfDrawCalls = 0;
 				std::uint32_t numberOfQuads = 0;
+				std::uint32_t numberOfLines = 0;
 			public:
-				std::uint32_t getVertexCount() const { return numberOfQuads * 4; }
-				std::uint32_t getIndexCount() const { return numberOfQuads * 6; }
+				std::uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
+				std::uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
+
+				std::uint32_t getLineVertexCount() const { return numberOfLines * 2; }
 			};
 			Stats stats;
 		};
@@ -287,6 +290,7 @@ namespace Hart {
 		void Renderer2D::ResetStats() {
 			renderer2DData.stats.numberOfDrawCalls = 0;
 			renderer2DData.stats.numberOfQuads = 0;
+			renderer2DData.stats.numberOfLines = 0;
 		}
 
 		std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
@@ -297,12 +301,20 @@ namespace Hart {
 			return renderer2DData.stats.numberOfQuads;
 		}
 
-		std::uint32_t Renderer2D::GetNumberOfVertices() {
-			return renderer2DData.stats.getVertexCount();
+		std::uint32_t Renderer2D::GetNumberOfQuadVertices() {
+			return renderer2DData.stats.getQuadVertexCount();
 		}
 
-		std::uint32_t Renderer2D::GetNumberOfIndices() {
-			return renderer2DData.stats.getIndexCount();
+		std::uint32_t Renderer2D::GetNumberOfQuadIndices() {
+			return renderer2DData.stats.getQuadIndexCount();
+		}
+
+		std::uint32_t Renderer2D::GetNumberOfLines() {
+			return renderer2DData.stats.numberOfLines;
+		}
+
+		std::uint32_t Renderer2D::GetNumberOfLineVertices() {
+			return renderer2DData.stats.getLineVertexCount();
 		}
 
 		void Renderer2D::BeginBatch() {
@@ -378,7 +390,7 @@ namespace Hart {
 
 			renderer2DData.lineVertexCount += 2;
 
-			renderer2DData.stats.numberOfQuads++;
+			renderer2DData.stats.numberOfLines++;
 		}
 	}
 }

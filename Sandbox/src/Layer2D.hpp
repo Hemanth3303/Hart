@@ -74,21 +74,19 @@ public:
 		Renderer2D::ResetStats();
 		Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		for (float y = -1.0f; y < 1.0f; y += 0.01f) {
-			for (float x = -1.0f; x < 1.0f; x += 0.01f) {
-				auto r = m_Rd.getRandomFloat(0, 1);
-				auto g = m_Rd.getRandomFloat(0, 1);
-				auto b = m_Rd.getRandomFloat(0, 1);
-				Renderer2D::DrawLine({ 0, 0 }, Vec2::getNormal({ x, y }), Vec4(r, g, b, 1));
-			}
-		}
+		Renderer2D::DrawLine({ 0, 0 }, { 0.5, 0 }, Red);
+		Renderer2D::DrawLine({ 0.5, 0 }, { 0.5, 0.5 }, Blue);
 
+		Renderer2D::DrawLine({ -0.5, 0 }, { 0.5, -0.5 }, Magenta);
+		
 		m_ParticleSystem.render();
 
 		Hart::Graphics::Renderer2D::EndScene();
 		HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfDrawCalls()));
 		HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuads()));
-		HART_CLIENT_TRACE("No of vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfVertices()));
-		HART_CLIENT_TRACE("No of indices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfIndices()));
+		HART_CLIENT_TRACE("No of quad vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuadVertices()));
+		HART_CLIENT_TRACE("No of quad indices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuadIndices()));
+		HART_CLIENT_TRACE("No of lines: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfLines()));
+		HART_CLIENT_TRACE("No of line vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfLineVertices()));
 	}
 };

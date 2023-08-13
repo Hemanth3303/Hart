@@ -61,9 +61,10 @@ namespace Hart {
 			static void ResetStats();
 			static std::uint32_t GetNumberOfDrawCalls();
 			static std::uint32_t GetNumberOfQuads();
-			static std::uint32_t GetNumberOfVertices();
-			static std::uint32_t GetNumberOfIndices();
-
+			static std::uint32_t GetNumberOfQuadVertices();
+			static std::uint32_t GetNumberOfQuadIndices();
+			static std::uint32_t GetNumberOfLines();
+			static std::uint32_t GetNumberOfLineVertices();
 		private:
 			static void BeginBatch();
 			static void Flush();
