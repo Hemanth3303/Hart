@@ -47,7 +47,7 @@ public:
 	}
 
 	void update(const float deltaTime) override {
-		HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
+		//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
 		
 		auto [x, y] = Hart::Inputs::InputManager::GetMousePosition();
 		std::int32_t width = Hart::Application::Get()->getWindowWidth();
@@ -65,6 +65,11 @@ public:
 
 		m_CameraController->update(deltaTime);
 		m_ParticleSystem.update(deltaTime);
+
+		HART_CLIENT_LOG(m_Rd.getRandomVec2(0.0f, 5.0f));
+		HART_CLIENT_LOG(m_Rd.getRandomVec3(0.0f, 5.0f));
+		HART_CLIENT_LOG(m_Rd.getRandomVec4(0.0f, 5.0f));
+		std::cin.get();
 	}
 
 	void render() override {
@@ -82,11 +87,11 @@ public:
 		m_ParticleSystem.render();
 
 		Hart::Graphics::Renderer2D::EndScene();
-		HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfDrawCalls()));
-		HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuads()));
-		HART_CLIENT_TRACE("No of quad vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuadVertices()));
-		HART_CLIENT_TRACE("No of quad indices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuadIndices()));
-		HART_CLIENT_TRACE("No of lines: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfLines()));
-		HART_CLIENT_TRACE("No of line vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfLineVertices()));
+		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfDrawCalls()));
+		//HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuads()));
+		//HART_CLIENT_TRACE("No of quad vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuadVertices()));
+		//HART_CLIENT_TRACE("No of quad indices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfQuadIndices()));
+		//HART_CLIENT_TRACE("No of lines: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfLines()));
+		//HART_CLIENT_TRACE("No of line vertices: " + std::to_string(Hart::Graphics::Renderer2D::GetNumberOfLineVertices()));
 	}
 };

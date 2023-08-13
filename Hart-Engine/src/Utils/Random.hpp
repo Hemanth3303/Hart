@@ -16,6 +16,10 @@ namespace Hart {
 			float getRandomFloat(float begin, float end) const;
 			double getRandomDouble(double begin, double end) const;
 
+			Maths::Vec2 getRandomVec2(float begin, float end) const;
+			Maths::Vec3 getRandomVec3(float begin, float end) const;
+			Maths::Vec4 getRandomVec4(float begin, float end) const;
+
 		private:
 			std::unique_ptr<std::mt19937> m_MT19937;
 		};
