@@ -31,6 +31,10 @@ namespace Hart {
 			glViewport(x, y, width, height);
 		}
 
+        void RenderCommand::SetLineWidth(float width) {
+			glLineWidth(width);
+        }
+
 		const std::int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
 			std::int64_t maxNoOfTextureSlotsPerShader;
 			glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &maxNoOfTextureSlotsPerShader);
@@ -67,17 +71,17 @@ namespace Hart {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
-		void RenderCommand::DrawArrays(std::uint32_t vertexCount) {
+		void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+			vertexArray->bind();
+			glDrawArrays(GL_LINES, 0, vertexCount);
+		}
+
+		void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+			vertexArray->bind();
 			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 		}
 
 		void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount) {
-			/*if (indexCount > 0) {
-				std::uint32_t count = vertexArray->getIndexBuffer()->getIndexCount();
-			}
-			else {
-				std::uint32_t count = indexCount;
-			}*/
 			vertexArray->bind();
 			vertexArray->getIndexBuffer()->bind();
 			std::uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);

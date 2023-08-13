@@ -21,9 +21,7 @@ namespace Hart {
 			static void BeginScene(OrthographicCamera& camera);
 			static void EndScene();
 
-			static void SetCustomShader(const std::shared_ptr<Shader>& shader);
-			// removes custom shader and goes back to default shader
-			static void UnsetCustomShader();
+			// Quads
 
 			// Draws a quad with color
 			// color is in rgba(0 to 1) format
@@ -53,6 +51,13 @@ namespace Hart {
 			// color is in rgba(0 to 1) format
 			static void DrawQuad(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const std::shared_ptr<SpriteSheet>& spriteSheet, const Maths::Vec2& subTextureIndex, const Maths::Vec4& textureTint = White);
 
+			// Lines
+
+			// changes the width of every line in a a scene
+			static void SetLineWidth(float width);
+
+			static void DrawLine(const Maths::Vec3& startPosition, const Maths::Vec3& endPosition, const Maths::Vec4& color = White);
+
 			static void ResetStats();
 			static std::uint32_t GetNumberOfDrawCalls();
 			static std::uint32_t GetNumberOfQuads();
@@ -64,6 +69,7 @@ namespace Hart {
 			static void Flush();
 
 			static void AddNewQuadVertex(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor);
+			static void AddNewLineVertex(const Maths::Vec3& startPosition, const Maths::Vec3& endPosition, const Maths::Vec4& color);
 		};
 	}
 }

@@ -68,18 +68,17 @@ public:
 	}
 
 	void render() override {
-		Hart::Graphics::Renderer2D::ResetStats();
-		Hart::Graphics::Renderer2D::BeginScene(m_CameraController->getCamera());
+		using namespace Hart::Maths;
+		using namespace Hart::Graphics;
 
-		//float yBound = m_CameraController->getZoomLevel();
-		//float xBound = m_CameraController->getAspectRatio() * m_CameraController->getZoomLevel();
-		//for (float y = -yBound; y < yBound; y += 0.01f) {
-		//	for (float x = -xBound; x < xBound; x += 0.01f) {
-		//		Hart::Graphics::Renderer2D::DrawQuad({ x, y, -0.5f }, { 0.01f, 0.01f }, { m_Rd.getRandomFloat(0, 1),m_Rd.getRandomFloat(0, 1),m_Rd.getRandomFloat(0, 1), 1 });
-		//	}
-		//}
+		Renderer2D::ResetStats();
+		Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		Hart::Graphics::Renderer2D::DrawQuad({ 0,0,0 }, { 0.5f, 0.5f }, m_SpriteSheet, { 2, 2 });
+		Renderer2D::DrawQuad({ 0.4f, 0.3f }, { 0.3f, 0.3f }, m_EmojiTex);
+
+		Renderer2D::DrawLine(Vec3(0.0f, 0.0f, 1.0f), Vec3(0.5f, 0.5f, 1.0f), White);
+		Renderer2D::DrawLine(Vec3(0.0f, 0.0f, 1.0f), Vec3(-0.5f, -0.5f, 1.0f), Black);
+		Renderer2D::DrawLine(Vec3(0.0f, 0.0f, 1.0f), Vec3(1.0f, 1.0f, 1.0f), Blue);
 
 		m_ParticleSystem.render();
 
