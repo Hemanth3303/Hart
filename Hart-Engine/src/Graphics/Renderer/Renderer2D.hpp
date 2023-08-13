@@ -55,8 +55,11 @@ namespace Hart {
 
 			// changes the width of every line in a a scene
 			static void SetLineWidth(float width);
-
 			static void DrawLine(const Maths::Vec3& startPosition, const Maths::Vec3& endPosition, const Maths::Vec4& color = White);
+
+			// Text
+
+			static void DrawText(const std::string& text, const Maths::Vec3& position);
 
 			static void ResetStats();
 			static std::uint32_t GetNumberOfDrawCalls();
@@ -71,6 +74,7 @@ namespace Hart {
 
 			static void AddNewQuadVertex(const Maths::Vec3& position, const Maths::Vec2& size, float angleD, const Maths::Vec4& quadColor, float textureIndex, float tiliingFactor);
 			static void AddNewLineVertex(const Maths::Vec3& startPosition, const Maths::Vec3& endPosition, const Maths::Vec4& color);
+			static void AddNewTextVertex();
 		};
 	}
 }

@@ -287,6 +287,10 @@ namespace Hart {
 			AddNewLineVertex(startPosition, endPosition, color);
 		}
 
+		void Renderer2D::DrawText(const std::string& text, const Maths::Vec3& position) {
+
+		}
+
 		void Renderer2D::ResetStats() {
 			renderer2DData.stats.numberOfDrawCalls = 0;
 			renderer2DData.stats.numberOfQuads = 0;

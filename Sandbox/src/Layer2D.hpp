@@ -75,8 +75,10 @@ public:
 		Renderer2D::BeginScene(m_CameraController->getCamera());
 
 		Renderer2D::DrawLine({ -0.5f, -0.5f }, {  0.5f, -0.5f }, Red);
-		Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Red);
-		Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Red);
+		Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Blue);
+		Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Green);
+
+		Renderer2D::DrawText("Hello, world", { 0, 0, 1 });
 
 		m_ParticleSystem.render();
 
