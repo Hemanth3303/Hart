@@ -26,5 +26,6 @@ namespace Hart {
 		// the background color used in learnopengl.com tutorials
 		inline const Maths::Vec4 DarkGreenishBlue = { 0.2f, 0.3f, 0.3f, 1.0f };
 		inline const Maths::Vec4 FireRed = { 0.96f, 0.21f, 0.09f, 1.0f };
+		inline const Maths::Vec4 JetBlack = { 0.07f, 0.07f, 0.07f, 1.0f };
 	}
 }
