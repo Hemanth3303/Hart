@@ -50,7 +50,7 @@ namespace Hart {
 
 		bool DefaultOrthographicCameraController::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
 			m_ZoomLevel -= e.getYOffset() * 0.05f;
-			m_ZoomLevel = std::max(m_ZoomLevel, 0.05f);
+			m_ZoomLevel = std::clamp(m_ZoomLevel, 0.05f, 5.0f);
 			m_Bounds=OrthographicCameraBounds(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 			m_Camera.setProjection(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top);
 			return true;
