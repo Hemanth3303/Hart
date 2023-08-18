@@ -11,10 +11,10 @@ namespace Hart {
 	namespace Utils {
 		class Timer {
 		public:
-			static double getTimeInSeconds();
-			static double getTimeInMilliSeconds();
-			static double getTimeInMicroSeconds();
-			static double getTimeInNanoSeconds();
+			static double GetTimeInSeconds();
+			static double GetTimeInMilliSeconds();
+			static double GetTimeInMicroSeconds();
+			static double GetTimeInNanoSeconds();
 			static std::string_view GetCurrentTimeStamp();
 		private:
 			// Should be initialized only once during lifetime of Hart::Application

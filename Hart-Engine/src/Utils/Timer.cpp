@@ -22,26 +22,26 @@ namespace Hart {
 			HART_ENGINE_LOG("DeInitializing Timer");
 		}
 
-		double Timer::getTimeInSeconds() {
+		double Timer::GetTimeInSeconds() {
 			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 			std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 			return static_cast<double>(std::chrono::duration_cast<std::chrono::seconds>(elapsedTime).count());
 
 		}
 
-		double Timer::getTimeInMilliSeconds() {
+		double Timer::GetTimeInMilliSeconds() {
 			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 			std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 			return static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime).count());
 		}
 
-		double Timer::getTimeInMicroSeconds() {
+		double Timer::GetTimeInMicroSeconds() {
 			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 			std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 			return static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(elapsedTime).count());
 		}
 
-		double Timer::getTimeInNanoSeconds() {
+		double Timer::GetTimeInNanoSeconds() {
 			std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 			std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 			return static_cast<double>(std::chrono::duration_cast<std::chrono::nanoseconds>(elapsedTime).count());

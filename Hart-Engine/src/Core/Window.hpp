@@ -39,6 +39,7 @@ namespace Hart {
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
 	private:
 		void init();
+		void deinit();
 		inline void setWindowSize(std::int32_t width, std::int32_t height) { m_WindowData.m_Width = width, m_WindowData.m_Height = height; }
 		inline void setWindowPosition(float xpos, float ypos) { m_WindowData.m_Position.x = xpos, m_WindowData.m_Position.y = ypos; }
 		void setEventCallback(const EventCallBackFunction callbackFn);

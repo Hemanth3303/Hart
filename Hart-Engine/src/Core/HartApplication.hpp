@@ -34,12 +34,12 @@ namespace Hart {
 		// main engine loop
 		void run();
 		// sets OpenGL clear color
-		// rgba values in range 0 to 255
+		// rgba values in range 0 to 1
 		void setBackgroundColor(const Maths::Vec4& color);
 		
 		//getters
 		
-		// returns a non owning reference to a static application instance
+		// returns a non owning reference to the current static application instance
 		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
@@ -52,7 +52,7 @@ namespace Hart {
 		//setters
 		
 		// sets the maximum frames per second
-		// default value is 60
+		// default value is 1000
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
@@ -99,13 +99,15 @@ namespace Hart {
 		Graphics::ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
 		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
-		double m_MaxFPS = 60.0, m_CurrentFPS=0.0;
+		double m_MaxFPS = 1'000, m_CurrentFPS=0.0;
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
 	private:
 		// initializes engine's shader library with some defaul shaders
 		friend void initializeShaderLibrary();
+		// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
+		friend void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter);
 	};
 
 	// User must define this function

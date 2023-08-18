@@ -4,28 +4,25 @@
 
 #include "Hart.hpp"
 #include "Layer2D.hpp"
+#include "Layer3D.hpp"
 
-using namespace Hart;
-using namespace Hart::Graphics;
-using namespace Hart::Maths;
-using namespace Hart::Events;
-using namespace Hart::Inputs;
-using namespace Hart::Utils;
-
-class Sandbox : public Application {
+class Sandbox : public Hart::Application {
 private:
 	std::shared_ptr<Layer2D> m_Layer2D;
+	std::shared_ptr<Layer3D> m_Layer3D;
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
 		setMaxFPS(144);
 		//enableVsync();
-		setExitKey(KeyCode::Escape);
-
-		setBackgroundColor(DarkGreenishBlue);
+		setExitKey(Hart::Inputs::KeyCode::Escape);
+		setBackgroundColor(Hart::Graphics::DarkGreenishBlue);
 
 		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
+		m_Layer3D = std::make_shared<Layer3D>("Layer3D");
+
 		pushLayer(m_Layer2D);
+		//pushLayer(m_Layer3D);
 	}
 
 	~Sandbox() {

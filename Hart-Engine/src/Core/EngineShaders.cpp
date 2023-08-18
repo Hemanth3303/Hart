@@ -3,7 +3,7 @@
 
 // initializes engine's shader library with some defaul shaders
 namespace Hart {
-	std::string defaultShader2DVertexSource = // vertex shader
+	std::string quadShader2DVertexSource = // vertex shader
 		R"(
 			#version 460 core
 
@@ -24,14 +24,14 @@ namespace Hart {
 
 			void main() {
 				gl_Position = uViewProjectionMatrix * aPosition;
-				vs_out.color=aColor;
-				vs_out.textureCoords=aTextureCoords;
-				vs_out.textureIndex=aTextureIndex;
-				vs_out.tilingFactor=aTilingFactor;
+				vs_out.color = aColor;
+				vs_out.textureCoords = aTextureCoords;
+				vs_out.textureIndex = aTextureIndex;
+				vs_out.tilingFactor = aTilingFactor;
 			}
 		)";
 
-	std::string defaultShader2DFragmentSource = // fragment shader
+	std::string quadShader2DFragmentSource = // fragment shader
 		R"(
 			#version 460 core
 
@@ -122,7 +122,78 @@ namespace Hart {
 			}
 		)";
 
+	std::string lineShader2DVertexSource = // vertex shader
+		R"(
+			#version 460 core
+
+			layout (location = 0) in vec4 aPosition;
+			layout (location = 1) in vec4 aColor;
+
+			out DATA {
+				vec4 color;
+			} vs_out;
+
+			uniform mat4 uViewProjectionMatrix;
+
+			void main() {
+				gl_Position = uViewProjectionMatrix * aPosition;
+				vs_out.color = aColor;
+			}
+		)";
+
+	std::string lineShader2DFragmentSource = // fragment shader
+		R"(
+			#version 460 core
+
+			layout (location = 0) out vec4 color;
+
+			in DATA {
+				vec4 color;
+			} fs_in;
+
+			void main() {
+				color = fs_in.color;
+			}
+		)";
+
+	std::string defaultShader3DVertexSource =  // vertex shader
+		R"(
+			#version 460 core
+			
+			layout (location = 0) in vec3 aPosition;
+			layout (location = 1) in vec4 aColor;
+
+			out vec4 vColor;
+
+			uniform mat4 uProjection;
+			uniform mat4 uView = mat4(1.0);
+			uniform mat4 uModel = mat4(1.0);
+			
+			void main() {
+				gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
+				vColor=aColor;
+			}
+		)";
+
+	std::string defaultShader3DFragmentSource =  // fragment shader
+		R"(
+			#version 460 core
+			
+			layout (location = 0) out vec4 color;
+
+			in vec4 vColor;
+
+			void main() {
+				color =  vColor;
+			}
+		)";
+
 	void initializeShaderLibrary() {
-		Application::s_Instance->m_ShaderLibrary.loadShaderFromString("DefaultShader2D", defaultShader2DVertexSource.c_str(), defaultShader2DFragmentSource.c_str());
+		Application::Get()->m_ShaderLibrary.loadShaderFromString("QuadShader2D", quadShader2DVertexSource.c_str(), quadShader2DFragmentSource.c_str());
+
+		Application::Get()->m_ShaderLibrary.loadShaderFromString("LineShader2D", lineShader2DVertexSource.c_str(), lineShader2DFragmentSource.c_str());
+
+		Application::Get()->m_ShaderLibrary.loadShaderFromString("DefaultShader3D", defaultShader3DVertexSource.c_str(), defaultShader3DFragmentSource.c_str());
+
 	}
 }

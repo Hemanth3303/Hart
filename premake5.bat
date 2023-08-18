@@ -1,7 +1,7 @@
 @echo off
 
-set PREMAKE_PATH=.\premake\.premake\
+set PREMAKE_PATH=.\vendor\premake\.premake\
 
-.\premake\premake5.exe %1 %2
+.\vendor\premake\premake5.exe %1 %2
 
 @echo on

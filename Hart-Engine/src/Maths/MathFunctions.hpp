@@ -61,5 +61,6 @@ namespace Hart {
 		inline double cubeRoot(double value) { return power(value, (1.0 / 3.0)); }
 		inline double absoluteValue(double value) { return std::abs(value); }
 		inline double lerp(double a, double b, double t) { return std::lerp(a, b, t); }
+		inline auto clamp(auto value, auto min, auto max) { return std::clamp(value, min, max); }
 	}
 }

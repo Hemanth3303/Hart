@@ -7,8 +7,8 @@
 namespace Hart {
 	namespace Graphics {
 		// each sprite in the spritesheet must be of the same size
-		// sprites are indexed from left to right, bottom to top
-		// ie, sprite at (0, 0) is at bottom left
+		// sprites are indexed from left to right, top to bottom
+		// ie, sprite at (0, 0) is at top left
 		class SpriteSheet {
 		public:
 			// sprite size is the size of one sprite in the spritesheet

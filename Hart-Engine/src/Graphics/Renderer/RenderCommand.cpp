@@ -4,9 +4,8 @@
 namespace Hart {
 	namespace Graphics {
         void RenderCommand::Init() {
-			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			EnableDepthTest();
+			EnableBlending();
 
 			HART_ENGINE_LOG("Initializing OpenGL Renderer");
 			HART_ENGINE_LOG(
@@ -20,7 +19,7 @@ namespace Hart {
 			HART_ENGINE_LOG("DeInitializing OpenGL Renderer");
         }
         void RenderCommand::SetClearColor(const Maths::Vec4& color) {
-			glClearColor(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f);
+			glClearColor(color.x, color.y, color.z, color.w);
 		}
 
 		void RenderCommand::Clear() {
@@ -31,6 +30,10 @@ namespace Hart {
 		void RenderCommand::SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height) {
 			glViewport(x, y, width, height);
 		}
+
+        void RenderCommand::SetLineWidth(float width) {
+			glLineWidth(width);
+        }
 
 		const std::int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
 			std::int64_t maxNoOfTextureSlotsPerShader;
@@ -43,17 +46,44 @@ namespace Hart {
 			return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 		}
 
-		void RenderCommand::DrawArrays(std::uint32_t vertexCount) {
+		void RenderCommand::EnableDepthTest() {
+			glEnable(GL_DEPTH_TEST);
+		}
+
+		void RenderCommand::DisableDepthTest() {
+			glDisable(GL_DEPTH_TEST);
+		}
+
+		void RenderCommand::EnableBlending() {
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+
+		void RenderCommand::DisableBlending() {
+			glDisable(GL_BLEND);
+		}
+
+        void RenderCommand::EnableWireFrameMode() {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+
+        void RenderCommand::DisableWireFrameMode() {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+
+		void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+			vertexArray->bind();
+			glDrawArrays(GL_LINES, 0, vertexCount);
+		}
+
+		void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+			vertexArray->bind();
 			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 		}
 
 		void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount) {
-			/*if (indexCount > 0) {
-				std::uint32_t count = vertexArray->getIndexBuffer()->getIndexCount();
-			}
-			else {
-				std::uint32_t count = indexCount;
-			}*/
+			vertexArray->bind();
+			vertexArray->getIndexBuffer()->bind();
 			std::uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
 
 			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
