@@ -20,8 +20,19 @@ workspace "Hart"
 	filter "platforms:x64"
 		architecture "x86_64"
 
+filter " "
+
+group "Hart-Core"
 include "Hart-Engine"
+
+group "Misc"
 include "Sandbox"
+
+group "Hart-Vendor"
+include "vendor/glfw"
+include "vendor/glad"
+include "vendor/stb"
+
 --when using the cmake generator module for premake
 require "cmake"
 
