@@ -1,4 +1,3 @@
-group "Misc"
 project "Sandbox"
 	language "C++"
 	cppdialect "C++20"

@@ -1,9 +1,3 @@
-group "Hart-Vendor"
-include "vendor/glfw"
-include "vendor/glad"
-include "vendor/stb"
-
-group "Hart-Core"
 project "Hart-Engine"
 	language "C++"
 	cppdialect "C++20"
