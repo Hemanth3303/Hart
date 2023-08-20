@@ -1,24 +1,13 @@
-project "Hart-Engine"
-	location "%{wks.location}/Hart-Engine"
+group "Misc"
+project "Sandbox"
 	language "C++"
 	cppdialect "C++20"
 	cdialect "C17"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
 	staticruntime "on"
-	kind "StaticLib"
 	systemversion "latest"
 	targetname "%{prj.name}"
-
-	defines {
-		"HART_ENGINE",
-	}
-
-	filter { "action:not cmake" }
-		pchheader "HartPch.hpp"
-		pchsource "%{prj.location}/src/HartPch.cpp"
-
-	filter {  }
 
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
@@ -33,50 +22,63 @@ project "Hart-Engine"
 		"%{prj.location}/**.glsl",
 		"%{prj.location}/**.vert",
 		"%{prj.location}/**.frag",
-		"%{prj.location}/Hart-Engine.lua",
-		"%{wks.location}/premake5.lua",
+		"%{prj.location}/**.png",
+		"%{prj.location}/**.jpg",
+		"%{prj.location}/**.jpeg",
+		"%{prj.location}/premake5.lua",
 	}
 
 	includedirs {
-		".",
 		"%{prj.location}/src",
+		"%{wks.location}/Hart-Engine/src",
 		"%{wks.location}/vendor/glfw/include",
 		"%{wks.location}/vendor/glad/include",
 		"%{wks.location}/vendor/stb/include",
 	}
 
-	-- remember to add dependencies to Client App/Game's links{} section if compiler!=MSVC (action: not vs*)
-	links { "glfw", "glad", "stb" }
+	links { "Hart-Engine" }
 
-	filter "configurations:Debug"
+	filter "configurations:Debug*"
 		runtime "Debug"
 		symbols "On"
+		kind "ConsoleApp"
 
-	filter "configurations:Release"
+	filter "configurations:Release*"
 		runtime "Release"
 		optimize "On"
+		kind "ConsoleApp"
 
-	filter "configurations:Dist"
+	filter "configurations:Dist*"
 		runtime "Release"
 		optimize "On"
+		kind "WindowedApp"
+		entrypoint "mainCRTStartup"
 
-	filter { "system:windows", "action:not vs*" }
-		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
+	filter { "system:windows" }
 		defines { 
-			"HART_WINDOWS", 
+			"_CRT_SECURE_NO_WARNINGS", 
 			"NOMINMAX", 
-			"_CRT_SECURE_NO_WARNINGS",
-			"WIN32_LEAN_AND_MEAN",
+			"WIN32_LEAN_AND_MEAN"
+		}
+		postbuildcommands {
+			"xcopy %{prj.location}\\res %{wks.location}\\bin\\" ..outputdir.. "\\%{prj.name}\\res /E /H /C /I /Y"
 		}
 
-	filter "system:linux"
+	filter { "system:linux" }
+		postbuildcommands {
+			"cp -r %{prj.location}/res %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/res"
+		}
+
+	filter { "system:windows", "action:not vs*" }
+		links { "glfw", "glad", "stb" }
+		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
+
+	filter { "system:linux" }
+		links { "glfw", "glad", "stb" }
 		links { "pthread", "GL", "m", "dl", "rt", "X11" }
-		defines "HART_LINUX"
 
 	filter { "system:windows", "action:vs*" }
 		defines { 
-			"HART_WINDOWS", 
-			"NOMINMAX", 
 			"STRICT",
 			"_CRT_SECURE_NO_WARNINGS",
 			"WIN32_LEAN_AND_MEAN",
