@@ -64,6 +64,11 @@ project "Sandbox"
 			"xcopy %{prj.location}\\res %{wks.location}\\bin\\" ..outputdir.. "\\%{prj.name}\\res /E /H /C /I /Y"
 		}
 
+	filter { "system:linux" }
+		postbuildcommands {
+			"cp -r %{prj.location}/res %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/res"
+		}
+
 	filter { "system:windows", "action:not vs*" }
 		links { "glfw", "glad", "stb" }
 		links { "opengl32", "gdi32", "kernel32", "winmm", "shell32", "user32" }
