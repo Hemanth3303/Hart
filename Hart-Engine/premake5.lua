@@ -39,9 +39,9 @@ project "Hart-Engine"
 	includedirs {
 		".",
 		"%{prj.location}/src",
-		"%{wks.location}/vendor/glfw/include",
-		"%{wks.location}/vendor/glad/include",
-		"%{wks.location}/vendor/stb/include",
+		"%{prj.location}/../vendor/glfw/include",
+		"%{prj.location}/../vendor/glad/include",
+		"%{prj.location}/../vendor/stb/include",
 	}
 
 	-- remember to add dependencies to Client App/Game's links{} section if compiler!=MSVC (action: not vs*)
