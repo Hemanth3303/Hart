@@ -6,8 +6,8 @@
 
 class Layer3D : public Hart::Layer {
 private:
-	std::shared_ptr<Hart::Graphics::VertexArray> vao;
-	std::shared_ptr<Hart::Graphics::Shader> shader;
+	std::shared_ptr<Hart::VertexArray> vao;
+	std::shared_ptr<Hart::Shader> shader;
 	float angle = 0.0f;
 public:
 	Layer3D(const std::string& name = "Layer3D")
@@ -49,15 +49,15 @@ public:
 			4, 5, 7
 		};
 
-		vao = std::make_shared<Hart::Graphics::VertexArray>();
-		Hart::Graphics::BufferLayout layout = {
-			{ Hart::Graphics::ShaderDataType::Float3, "aPosition" },
-			{ Hart::Graphics::ShaderDataType::Float4, "aColor" },
+		vao = std::make_shared<Hart::VertexArray>();
+		Hart::BufferLayout layout = {
+			{ Hart::ShaderDataType::Float3, "aPosition" },
+			{ Hart::ShaderDataType::Float4, "aColor" },
 		};
-		std::shared_ptr <Hart::Graphics::VertexBuffer> vbo=std::make_shared<Hart::Graphics::VertexBuffer>(vertices, (uint32_t)sizeof(vertices));
+		std::shared_ptr <Hart::VertexBuffer> vbo=std::make_shared<Hart::VertexBuffer>(vertices, (uint32_t)sizeof(vertices));
 		vbo->setLayout(layout);
 		vao->addVertexBuffer(vbo);
-		std::shared_ptr<Hart::Graphics::IndexBuffer> ibo = std::make_shared<Hart::Graphics::IndexBuffer>(indices, (uint32_t)(sizeof(indices) / sizeof(uint32_t)));
+		std::shared_ptr<Hart::IndexBuffer> ibo = std::make_shared<Hart::IndexBuffer>(indices, (uint32_t)(sizeof(indices) / sizeof(uint32_t)));
 		ibo->bind();
 		vao->setIndexBuffer(ibo);
 		shader = Hart::Application::Get()->getShader("DefaultShader3D");
@@ -77,7 +77,7 @@ public:
 		HART_CLIENT_LOG(std::string("Detached layer: ") + getName());
 	}
 
-	void onEvent(Hart::Events::Event& e) override {
+	void onEvent(Hart::Event& e) override {
 		//HART_CLIENT_LOG(e);
 	}
 
@@ -89,14 +89,14 @@ public:
 	void render() override {
 		shader->bind();
 		auto aspectRatio = Hart::Application::Get()->getWindowWidth() / (float)Hart::Application::Get()->getWindowHeight();
-		auto persp = Hart::Maths::Mat4::perspective(45.0f, aspectRatio, 0.1f, 100.0f);
-		auto view = Hart::Maths::Mat4::translate({ 0.0f, 0.0f, -3.0f });
-		auto axis = Hart::Maths::Vec3::getNormal({ 1, 1, 1 });
-		auto model = Hart::Maths::Mat4::rotate(angle, axis);
+		auto persp = Hart::Mat4::perspective(45.0f, aspectRatio, 0.1f, 100.0f);
+		auto view = Hart::Mat4::translate({ 0.0f, 0.0f, -3.0f });
+		auto axis = Hart::Vec3::getNormal({ 1, 1, 1 });
+		auto model = Hart::Mat4::rotate(angle, axis);
 		shader->setUniform("uProjection", persp);
 		shader->setUniform("uView", view);
 		shader->setUniform("uModel", model);
 
-		Hart::Graphics::RenderCommand::DrawIndexed(vao);
+		Hart::RenderCommand::DrawIndexed(vao);
 	}
 };

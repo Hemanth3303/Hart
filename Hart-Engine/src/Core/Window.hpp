@@ -15,7 +15,7 @@
 namespace Hart {
 	// Class representing the GUI Window
 	class Window {
-		using EventCallBackFunction = std::function<void(Events::Event&)>;
+		using EventCallBackFunction = std::function<void(Event&)>;
 	public:
 		Window(const WindowData& windowData);
 		~Window();
@@ -26,7 +26,7 @@ namespace Hart {
 		inline const std::int32_t& getHeight() const { return m_WindowData.m_Height; }
 		// returns a non ownning reference to the GLFWwindow object
 		inline GLFWwindow* const& getGLFWwindow() const { return m_GLFWwindow; }
-		inline const Maths::Vec2& getPosition() const { return m_WindowData.m_Position; }
+		inline const Vec2& getPosition() const { return m_WindowData.m_Position; }
 
 		friend void windowSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height);
 		friend void windowCloseCallback(GLFWwindow* glfwWindow);

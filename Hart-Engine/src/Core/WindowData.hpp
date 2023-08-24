@@ -17,6 +17,6 @@ namespace Hart {
 		std::int32_t m_Width, m_Height;
 		std::string m_Title;
 		bool m_Resizable;
-		Maths::Vec2 m_Position;
+		Vec2 m_Position;
 	};
 }

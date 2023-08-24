@@ -5,25 +5,23 @@
 #include "Maths/Vec2.hpp"
 
 namespace Hart {
-	namespace Graphics {
-		// each sprite in the spritesheet must be of the same size
-		// sprites are indexed from left to right, top to bottom
-		// ie, sprite at (0, 0) is at top left
-		class SpriteSheet {
-		public:
-			// sprite size is the size of one sprite in the spritesheet
-			SpriteSheet(const Image& image, const Maths::Vec2& spriteSize, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear);
-			// sprite size is the size of one sprite in the spritesheet
-			SpriteSheet(const std::string& filePath, const Maths::Vec2& spriteSize, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear);
-			~SpriteSheet();
+	// each sprite in the spritesheet must be of the same size
+	// sprites are indexed from left to right, top to bottom
+	// ie, sprite at (0, 0) is at top left
+	class SpriteSheet {
+	public:
+		// sprite size is the size of one sprite in the spritesheet
+		SpriteSheet(const Image& image, const Vec2& spriteSize, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear);
+		// sprite size is the size of one sprite in the spritesheet
+		SpriteSheet(const std::string& filePath, const Vec2& spriteSize, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear);
+		~SpriteSheet();
 
-			inline std::shared_ptr<Texture2D> getTexture() const { return m_Texture; }
-			inline const Maths::Vec2& getSpriteSize() const { return m_SpriteSize; }
-			inline const Maths::Vec2& getSpriteSheetSize() const { return m_SpriteSheetSize; }
-		private:
-			std::shared_ptr<Texture2D> m_Texture;
-			Maths::Vec2 m_SpriteSize;
-			Maths::Vec2 m_SpriteSheetSize;
-		};
-	}
+		inline std::shared_ptr<Texture2D> getTexture() const { return m_Texture; }
+		inline const Vec2& getSpriteSize() const { return m_SpriteSize; }
+		inline const Vec2& getSpriteSheetSize() const { return m_SpriteSheetSize; }
+	private:
+		std::shared_ptr<Texture2D> m_Texture;
+		Vec2 m_SpriteSize;
+		Vec2 m_SpriteSheetSize;
+	};
 }

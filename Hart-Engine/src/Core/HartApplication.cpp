@@ -35,18 +35,18 @@ namespace Hart {
 		HART_ENGINE_LOG("Entering main engine loop");
 
 		double maxPeriod = 1.0f / m_MaxFPS;
-		double currentFrameTime = Utils::Timer::GetTimeInMilliSeconds();
+		double currentFrameTime = Timer::GetTimeInMilliSeconds();
 		double deltaTime = 0.0;
 
 		while (m_IsRunning) {
 
-			if (Inputs::InputManager::IsKeyPressed(m_ExitKey)) {
+			if (InputManager::IsKeyPressed(m_ExitKey)) {
 				m_IsRunning = false;
 			}
 
 			glfwPollEvents();
 			
-			currentFrameTime = Utils::Timer::GetTimeInMilliSeconds();
+			currentFrameTime = Timer::GetTimeInMilliSeconds();
 			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
 			
 			if (deltaTime >= maxPeriod) {
@@ -59,7 +59,7 @@ namespace Hart {
 				}
 
 				//render
-				Graphics::RenderCommand::Clear();
+				RenderCommand::Clear();
 				for (const auto& layer : m_LayerStack) {
 					layer->render();
 				}
@@ -69,8 +69,8 @@ namespace Hart {
 		HART_ENGINE_LOG("Exiting main engine loop");
 	}
 
-    void Application::setBackgroundColor(const Maths::Vec4& color) {
-		Graphics::RenderCommand::SetClearColor(color);
+    void Application::setBackgroundColor(const Vec4& color) {
+		RenderCommand::SetClearColor(color);
     }
 
 	void Application::enableVsync(bool enable) {
@@ -140,47 +140,47 @@ namespace Hart {
 
 		initializeShaderLibrary();
 
-		Utils::Timer::Init();
-		Inputs::InputManager::Init();
-		Graphics::Renderer3D::Init();
+		Timer::Init();
+		InputManager::Init();
+		Renderer3D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 
 		// Setting clear color as black
-		Graphics::RenderCommand::SetClearColor(Graphics::Black);
+		RenderCommand::SetClearColor(Black);
 	}
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		Graphics::Renderer3D::DeInit();
-		Inputs::InputManager::DeInit();
-		Utils::Timer::DeInit();
+		Renderer3D::DeInit();
+		InputManager::DeInit();
+		Timer::DeInit();
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
 		HART_ENGINE_LOG("DeInitilizing GLFW");
 		glfwTerminate();
 	}
-	void Application::eventHandler(Events::Event& e) {
+	void Application::eventHandler(Event& e) {
 
-		Events::EventDispatcher eventDispatcher(e);
+		EventDispatcher eventDispatcher(e);
 		// window events
-		eventDispatcher.dispatch<Events::WindowResizedEvent>(BIND_EVENT_FUNC(Application::onWindowResized));
-		eventDispatcher.dispatch<Events::WindowClosedEvent>(BIND_EVENT_FUNC(Application::onWindowClosed));
-		eventDispatcher.dispatch<Events::WindowMovedEvent>(BIND_EVENT_FUNC(Application::onWindowMoved));
-		eventDispatcher.dispatch<Events::WindowFocusGainedEvent>(BIND_EVENT_FUNC(Application::onWindowFocusGained));
-		eventDispatcher.dispatch<Events::WindowFocusLostEvent>(BIND_EVENT_FUNC(Application::onWindowFocusLost));
+		eventDispatcher.dispatch<WindowResizedEvent>(BIND_EVENT_FUNC(Application::onWindowResized));
+		eventDispatcher.dispatch<WindowClosedEvent>(BIND_EVENT_FUNC(Application::onWindowClosed));
+		eventDispatcher.dispatch<WindowMovedEvent>(BIND_EVENT_FUNC(Application::onWindowMoved));
+		eventDispatcher.dispatch<WindowFocusGainedEvent>(BIND_EVENT_FUNC(Application::onWindowFocusGained));
+		eventDispatcher.dispatch<WindowFocusLostEvent>(BIND_EVENT_FUNC(Application::onWindowFocusLost));
 
 		// key events
-		eventDispatcher.dispatch<Events::KeyPressedEvent>(BIND_EVENT_FUNC(Application::onKeyPressed));
-		eventDispatcher.dispatch<Events::KeyReleasedEvent>(BIND_EVENT_FUNC(Application::onKeyReleased));
-		eventDispatcher.dispatch<Events::KeyRepeatEvent>(BIND_EVENT_FUNC(Application::onKeyRepeat));
+		eventDispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FUNC(Application::onKeyPressed));
+		eventDispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FUNC(Application::onKeyReleased));
+		eventDispatcher.dispatch<KeyRepeatEvent>(BIND_EVENT_FUNC(Application::onKeyRepeat));
 
 		// mouse events
-		eventDispatcher.dispatch<Events::MouseMovedEvent>(BIND_EVENT_FUNC(Application::onMouseMoved));
-		eventDispatcher.dispatch<Events::MouseWheelScrolledEvent>(BIND_EVENT_FUNC(Application::onMouseWheelScrolled));
-		eventDispatcher.dispatch<Events::MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
-		eventDispatcher.dispatch<Events::MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
+		eventDispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FUNC(Application::onMouseMoved));
+		eventDispatcher.dispatch<MouseWheelScrolledEvent>(BIND_EVENT_FUNC(Application::onMouseWheelScrolled));
+		eventDispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
+		eventDispatcher.dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
 
 		//pass events to layers
 		for (auto itr = m_LayerStack.rbegin(); itr != m_LayerStack.rend(); itr++) {
@@ -191,7 +191,7 @@ namespace Hart {
 		}
 	}
 	
-	bool Application::onWindowResized(Events::WindowResizedEvent& e) {
+	bool Application::onWindowResized(WindowResizedEvent& e) {
 
 		if (e.getWidth() == 0 || e.getHeight() == 0) {
 			m_IsWindowMinimized = true;
@@ -204,58 +204,58 @@ namespace Hart {
 		return false;
 	}
 
-	bool Application::onWindowClosed(Events::WindowClosedEvent& e) {
+	bool Application::onWindowClosed(WindowClosedEvent& e) {
 		m_IsRunning = false;
 		return true;
 	}
 
-	bool Application::onWindowMoved(Events::WindowMovedEvent& e) {
+	bool Application::onWindowMoved(WindowMovedEvent& e) {
 		m_Window->setWindowPosition(e.getXpos(), e.getYpos());
 		return true;
 	}
 
-	bool Application::onWindowFocusGained(Events::WindowFocusGainedEvent& e) {
+	bool Application::onWindowFocusGained(WindowFocusGainedEvent& e) {
 		// TODO
 		return false;
 	}
 
-	bool Application::onWindowFocusLost(Events::WindowFocusLostEvent& e) {
+	bool Application::onWindowFocusLost(WindowFocusLostEvent& e) {
 		// TODO
 		return false;
 	}
 
-	bool Application::onKeyPressed(Events::KeyPressedEvent& e) {
-		Inputs::InputManager::SetKeyPressed(e.getKeyCode());
+	bool Application::onKeyPressed(KeyPressedEvent& e) {
+		InputManager::SetKeyPressed(e.getKeyCode());
 		return false;
 	}
 
-	bool Application::onKeyReleased(Events::KeyReleasedEvent& e) {
-		Inputs::InputManager::SetKeyReleased(e.getKeyCode());
+	bool Application::onKeyReleased(KeyReleasedEvent& e) {
+		InputManager::SetKeyReleased(e.getKeyCode());
 		return false;
 	}
 
-	bool Application::onKeyRepeat(Events::KeyRepeatEvent& e) {
-		Inputs::InputManager::SetKeyPressed(e.getKeyCode());
+	bool Application::onKeyRepeat(KeyRepeatEvent& e) {
+		InputManager::SetKeyPressed(e.getKeyCode());
 		return false;
 	}
 
-	bool Application::onMouseMoved(Events::MouseMovedEvent& e) {
-		Inputs::InputManager::UpdateMousePosition(Maths::Vec2(e.getXPos(), e.getYPos()));
+	bool Application::onMouseMoved(MouseMovedEvent& e) {
+		InputManager::UpdateMousePosition(Vec2(e.getXPos(), e.getYPos()));
 		return false;
 	}
 
-	bool Application::onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e) {
+	bool Application::onMouseWheelScrolled(MouseWheelScrolledEvent& e) {
 		// TODO
 		return false;
 	}
 
-	bool Application::onMouseButtonPressed(Events::MouseButtonPressedEvent& e) {
-		Inputs::InputManager::SetMouseButtonPressed(e.getMouseButton());
+	bool Application::onMouseButtonPressed(MouseButtonPressedEvent& e) {
+		InputManager::SetMouseButtonPressed(e.getMouseButton());
 		return false;
 	}
 
-	bool Application::onMouseButtonReleased(Events::MouseButtonReleasedEvent& e) {
-		Inputs::InputManager::SetMouseButtonReleased(e.getMouseButton());
+	bool Application::onMouseButtonReleased(MouseButtonReleasedEvent& e) {
+		InputManager::SetMouseButtonReleased(e.getMouseButton());
 		return false;
 	}
 

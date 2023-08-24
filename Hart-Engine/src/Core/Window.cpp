@@ -45,7 +45,7 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(success, -1);
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
-		Graphics::RenderCommand::SetViewPort(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
+		RenderCommand::SetViewPort(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
 
 		std::int32_t x, y;
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
@@ -67,21 +67,21 @@ namespace Hart {
 		engineWindow->m_WindowData.m_Width = width;
 		engineWindow->m_WindowData.m_Height = height;
 
-		Events::WindowResizedEvent e(width, height);
+		WindowResizedEvent e(width, height);
 		engineWindow->m_EventCallbackFn(e);
 	}
 
 	void windowCloseCallback(GLFWwindow* glfwWindow) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		Events::WindowClosedEvent e;
+		WindowClosedEvent e;
 		engineWindow->m_EventCallbackFn(e);
 	}
 
 	void windowPositionCallback(GLFWwindow* glfwWindow, std::int32_t xpos, std::int32_t ypos) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		Events::WindowMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
+		WindowMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
 		engineWindow->m_EventCallbackFn(e);
 	}
 
@@ -89,11 +89,11 @@ namespace Hart {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
 		if (focused == GLFW_TRUE) {
-			Events::WindowFocusGainedEvent e;
+			WindowFocusGainedEvent e;
 			engineWindow->m_EventCallbackFn(e);
 		}
 		else {
-			Events::WindowFocusLostEvent e;
+			WindowFocusLostEvent e;
 			engineWindow->m_EventCallbackFn(e);
 		}
 	}
@@ -104,7 +104,7 @@ namespace Hart {
 		engineWindow->m_WindowData.m_Width = width;
 		engineWindow->m_WindowData.m_Height = height;
 
-		Graphics::RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
+		RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
 	}
 
 	void keyCallback(GLFWwindow* glfwWindow, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
@@ -116,12 +116,12 @@ namespace Hart {
 			case GLFW_PRESS: {
 				repeatCount = 0;
 				previousKey = key;
-				Events::KeyPressedEvent e(static_cast<Inputs::KeyCode>(key));
+				KeyPressedEvent e(static_cast<KeyCode>(key));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
 			case GLFW_RELEASE: {
-				Events::KeyReleasedEvent e(static_cast<Inputs::KeyCode>(key));
+				KeyReleasedEvent e(static_cast<KeyCode>(key));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -133,7 +133,7 @@ namespace Hart {
 					repeatCount = 0;
 				}
 				previousKey = key;
-				Events::KeyRepeatEvent e(static_cast<Inputs::KeyCode>(key), repeatCount);
+				KeyRepeatEvent e(static_cast<KeyCode>(key), repeatCount);
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -146,12 +146,12 @@ namespace Hart {
 		
 		switch (action) {
 			case GLFW_PRESS: {
-				Events::MouseButtonPressedEvent e(static_cast<Inputs::MouseCode>(button));
+				MouseButtonPressedEvent e(static_cast<MouseCode>(button));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
 			case GLFW_RELEASE: {
-				Events::MouseButtonReleasedEvent e(static_cast<Inputs::MouseCode>(button));
+				MouseButtonReleasedEvent e(static_cast<MouseCode>(button));
 				engineWindow->m_EventCallbackFn(e);
 				break;
 			}
@@ -161,14 +161,14 @@ namespace Hart {
 	void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		Events::MouseWheelScrolledEvent e(static_cast<float>(xoffset), static_cast<float>(yoffset));
+		MouseWheelScrolledEvent e(static_cast<float>(xoffset), static_cast<float>(yoffset));
 		engineWindow->m_EventCallbackFn(e);
 	}
 
 	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		Events::MouseMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
+		MouseMovedEvent e(static_cast<float>(xpos), static_cast<float>(ypos));
 		engineWindow->m_EventCallbackFn(e);
 	}
 }
