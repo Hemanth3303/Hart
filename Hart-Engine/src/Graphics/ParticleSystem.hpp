@@ -31,7 +31,7 @@ namespace Hart {
 		ParticleSystem(std::uint32_t maxParticles = 10000);
 
 		void update(const float deltaTime);
-		// must be called within a Hart::Graphics::Renderer2D::BeginScene(Camera) and Hart::Graphics::Renderer2D::EndScene()
+		// must be called within a Hart::Renderer2D::BeginScene(Camera) and Hart::Renderer2D::EndScene()
 		void render();
 
 		void emit(const ParticleProps& particleProps);
