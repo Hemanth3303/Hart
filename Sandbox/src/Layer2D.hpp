@@ -68,14 +68,12 @@ public:
 	}
 
 	void render() override {
-		using namespace Hart;
+		Hart::Renderer2D::ResetStats();
+		Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		Renderer2D::ResetStats();
-		Renderer2D::BeginScene(m_CameraController->getCamera());
-
-		Renderer2D::DrawLine({ -0.5f, -0.5f }, {  0.5f, -0.5f }, Red);
-		Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Blue);
-		Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Green);
+		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, {  0.5f, -0.5f }, Hart::Red);
+		Hart::Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Hart::Blue);
+		Hart::Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
 
 		m_ParticleSystem.render();
 
