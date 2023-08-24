@@ -16,7 +16,7 @@ namespace Hart {
 		void bind() const;
 		void unbind() const;
 	private:
-		std::uint32_t m_ID;
+		std::uint32_t m_ID = 0;
 		std::uint32_t m_IndexCount;
 	};
 }

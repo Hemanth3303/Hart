@@ -56,7 +56,7 @@ namespace Hart {
 		void unbind() const;
 		void setData(const void* data, std::uint32_t size, std::uint32_t offset = 0);
 	private:
-		std::uint32_t m_ID;
+		std::uint32_t m_ID = 0;
 		BufferLayout m_Layout;
 	};
 }
