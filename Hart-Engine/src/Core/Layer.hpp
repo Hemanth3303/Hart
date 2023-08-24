@@ -12,7 +12,7 @@ namespace Hart {
 
 		virtual void onAttach() {}
 		virtual void onDetach() {}
-		virtual void onEvent(Events::Event& e) {}
+		virtual void onEvent(Event& e) {}
 		virtual void update(const float deltaTime) {}
 		virtual void render() {}
 

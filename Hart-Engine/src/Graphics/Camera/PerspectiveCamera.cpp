@@ -2,6 +2,4 @@
 #include "PerspectiveCamera.hpp"
 
 namespace Hart {
-	namespace Graphics {
-	}
 }

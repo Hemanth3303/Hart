@@ -15,8 +15,8 @@ public:
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
 		setMaxFPS(144);
 		//enableVsync();
-		setExitKey(Hart::Inputs::KeyCode::Escape);
-		setBackgroundColor(Hart::Graphics::DarkGreenishBlue);
+		setExitKey(Hart::KeyCode::Escape);
+		setBackgroundColor(Hart::DarkGreenishBlue);
 
 		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
 		m_Layer3D = std::make_shared<Layer3D>("Layer3D");

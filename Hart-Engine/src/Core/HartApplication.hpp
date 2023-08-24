@@ -19,7 +19,7 @@ namespace Hart {
 	// Base class representing an application/game made using Hart.
 	// The user must extend from this class and override some methods to make an app/game
 	// Methods available to override:
-	//		void onEvent(const Events::Event& e): optional
+	//		void onEvent(const Event& e): optional
 	//		void update(const double deltaTime): compulsory
 	//		void render(): compulsory
 	class Application {
@@ -35,7 +35,7 @@ namespace Hart {
 		void run();
 		// sets OpenGL clear color
 		// rgba values in range 0 to 1
-		void setBackgroundColor(const Maths::Vec4& color);
+		void setBackgroundColor(const Vec4& color);
 		
 		//getters
 		
@@ -46,7 +46,7 @@ namespace Hart {
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
-		inline std::shared_ptr<Graphics::Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
+		inline std::shared_ptr<Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
 		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 
 		//setters
@@ -54,7 +54,7 @@ namespace Hart {
 		// sets the maximum frames per second
 		// default value is 1000
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
-		inline void setExitKey(const Inputs::KeyCode& exitKey) { m_ExitKey = exitKey; }
+		inline void setExitKey(const KeyCode& exitKey) { m_ExitKey = exitKey; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
 	protected:
@@ -69,36 +69,36 @@ namespace Hart {
 		void deinit();
 
 		// Event managers
-		void eventHandler(Events::Event& e);
+		void eventHandler(Event& e);
 		// Begin Event Methods
 		// The methods below return true if the event is processed and no need to propogate further, else they return false
 
 		// window
-		bool onWindowResized(Events::WindowResizedEvent& e);
-		bool onWindowClosed(Events::WindowClosedEvent& e);
-		bool onWindowMoved(Events::WindowMovedEvent& e);
-		bool onWindowFocusGained(Events::WindowFocusGainedEvent& e);
-		bool onWindowFocusLost(Events::WindowFocusLostEvent& e);
+		bool onWindowResized(WindowResizedEvent& e);
+		bool onWindowClosed(WindowClosedEvent& e);
+		bool onWindowMoved(WindowMovedEvent& e);
+		bool onWindowFocusGained(WindowFocusGainedEvent& e);
+		bool onWindowFocusLost(WindowFocusLostEvent& e);
 
 		// keyboard
-		bool onKeyPressed(Events::KeyPressedEvent& e);
-		bool onKeyReleased(Events::KeyReleasedEvent& e);
-		bool onKeyRepeat(Events::KeyRepeatEvent& e);
+		bool onKeyPressed(KeyPressedEvent& e);
+		bool onKeyReleased(KeyReleasedEvent& e);
+		bool onKeyRepeat(KeyRepeatEvent& e);
 
 		// mouse
-		bool onMouseMoved(Events::MouseMovedEvent& e);
-		bool onMouseWheelScrolled(Events::MouseWheelScrolledEvent& e);
-		bool onMouseButtonPressed(Events::MouseButtonPressedEvent& e);
-		bool onMouseButtonReleased(Events::MouseButtonReleasedEvent& e);
+		bool onMouseMoved(MouseMovedEvent& e);
+		bool onMouseWheelScrolled(MouseWheelScrolledEvent& e);
+		bool onMouseButtonPressed(MouseButtonPressedEvent& e);
+		bool onMouseButtonReleased(MouseButtonReleasedEvent& e);
 		// End Event Methods
 	private:
 		static Application* s_Instance;
 		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
-		Graphics::ShaderLibrary m_ShaderLibrary;
+		ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
-		Inputs::KeyCode m_ExitKey = Inputs::KeyCode::Unknown;
+		KeyCode m_ExitKey = KeyCode::Unknown;
 		double m_MaxFPS = 1'000, m_CurrentFPS=0.0;
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;

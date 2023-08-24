@@ -3,80 +3,78 @@
 #include "Renderer/Renderer2D.hpp"
 
 namespace Hart {
-	namespace Graphics {
-		ParticleSystem::ParticleSystem(std::uint32_t maxParticles)
-			: m_PoolIndex(maxParticles-1) {
-			m_ParticlePool.resize(maxParticles);
+	ParticleSystem::ParticleSystem(std::uint32_t maxParticles)
+		: m_PoolIndex(maxParticles - 1) {
+		m_ParticlePool.resize(maxParticles);
+	}
+
+	void ParticleSystem::update(const float deltaTime) {
+		for (auto& particle : m_ParticlePool) {
+			if (!particle.active)
+				continue;
+
+			if (particle.lifeRemaining <= 0.0f) {
+				particle.active = false;
+				continue;
+			}
+
+			particle.lifeRemaining -= deltaTime;
+			particle.position += particle.velocity.scalarMultiply(deltaTime);
+			particle.angleD += 0.01f * deltaTime;
 		}
+	}
 
-		void ParticleSystem::update(const float deltaTime) {
-			for (auto& particle : m_ParticlePool) {
-				if (!particle.active)
-					continue;
+	void ParticleSystem::render() {
+		for (auto& particle : m_ParticlePool) {
+			if (!particle.active)
+				continue;
 
-				if (particle.lifeRemaining <= 0.0f) {
-					particle.active = false;
-					continue;
-				}
+			// Fade away particles
+			float life = particle.lifeRemaining / particle.lifeTime;
+			Vec4 color = Vec4::lerp(particle.colorEnd, particle.colorBegin, life);
 
-				particle.lifeRemaining -= deltaTime;
-				particle.position += particle.velocity.scalarMultiply(deltaTime);
-				particle.angleD += 0.01f * deltaTime;
+			float size = static_cast<float>(lerp(particle.sizeEnd, particle.sizeBegin, life));
+
+			if (particle.texture == nullptr) {
+				Renderer2D::DrawQuad(particle.position, Vec2(size, size), particle.angleD, color);
+			}
+			else {
+				Renderer2D::DrawQuad(particle.position, Vec2(size, size), particle.angleD, particle.texture, color, particle.tilingFactor);
 			}
 		}
+	}
 
-		void ParticleSystem::render() {
-			for (auto& particle : m_ParticlePool) {
-				if (!particle.active)
-					continue;
+	void ParticleSystem::emit(const ParticleProps& particleProps) {
+		Particle& particle = m_ParticlePool[m_PoolIndex];
+		particle.active = true;
 
-				// Fade away particles
-				float life = particle.lifeRemaining / particle.lifeTime;
-				Maths::Vec4 color = Maths::Vec4::lerp(particle.colorEnd, particle.colorBegin, life);
+		// position
+		particle.position = particleProps.position;
 
-				float size = static_cast<float>(Maths::lerp(particle.sizeEnd, particle.sizeBegin, life));
+		// rotation
+		particle.angleD = m_Random.getRandomFloat(particleProps.minAngleD, particleProps.maxAngleD);
 
-				if (particle.texture == nullptr) {
-					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.angleD, color);
-				}
-				else {
-					Renderer2D::DrawQuad(particle.position, Maths::Vec2(size, size), particle.angleD, particle.texture, color, particle.tilingFactor);
-				}
-			}
-		}
-		
-		void ParticleSystem::emit(const ParticleProps& particleProps) {
-			Particle& particle = m_ParticlePool[m_PoolIndex];
-			particle.active = true;
+		// velocity
+		particle.velocity = particleProps.velocity;
+		particle.velocity.x += particleProps.velocityVariation.x * m_Random.getRandomFloat(-1.0f, 1.0f);
+		particle.velocity.y += particleProps.velocityVariation.y * m_Random.getRandomFloat(-1.0f, 1.0f);
 
-			// position
-			particle.position = particleProps.position;
+		// color
+		particle.colorBegin = particleProps.colorBegin;
+		particle.colorEnd = particleProps.colorEnd;
 
-			// rotation
-			particle.angleD = m_Random.getRandomFloat(particleProps.minAngleD, particleProps.maxAngleD);
+		// lifetime
+		particle.lifeTime = particleProps.lifeTime;
+		particle.lifeRemaining = particleProps.lifeTime;
 
-			// velocity
-			particle.velocity = particleProps.velocity;
-			particle.velocity.x += particleProps.velocityVariation.x * m_Random.getRandomFloat(-1.0f, 1.0f);
-			particle.velocity.y += particleProps.velocityVariation.y * m_Random.getRandomFloat(-1.0f, 1.0f);
+		// size
+		particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * m_Random.getRandomFloat(-1.0f, 1.0f);
+		particle.sizeEnd = particleProps.sizeEnd;
 
-			// color
-			particle.colorBegin = particleProps.colorBegin;
-			particle.colorEnd = particleProps.colorEnd;
+		// texture
+		particle.texture = particleProps.texture;
+		particle.tilingFactor = particleProps.tilingFactor;
 
-			// lifetime
-			particle.lifeTime = particleProps.lifeTime;
-			particle.lifeRemaining = particleProps.lifeTime;
-
-			// size
-			particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * m_Random.getRandomFloat(-1.0f, 1.0f);
-			particle.sizeEnd = particleProps.sizeEnd;
-
-			// texture
-			particle.texture = particleProps.texture;
-			particle.tilingFactor = particleProps.tilingFactor;
-
-			m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
-		}
+		m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
 	}
 }
