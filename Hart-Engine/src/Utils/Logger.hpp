@@ -39,25 +39,6 @@ namespace Hart {
 	};
 }
 
-#ifdef HART_ENGINE
-
-	#if !defined(HART_WINDOWS)
-			
-		#define UNIX_TEXT_WHITE "\033[0m"
-		#define UNIX_TEXT_RED "\033[31m"
-		#define UNIX_TEXT_YELLOW "\033[33m"
-		#define UNIX_TEXT_GREEN "\033[32m"
-
-		#else
-			
-		#define UNIX_TEXT_WHITE ""
-		#define UNIX_TEXT_RED ""
-		#define UNIX_TEXT_YELLOW ""
-		#define UNIX_TEXT_GREEN ""
-
-	#endif //check OS is not windows
-#endif // HART_ENGINE
-
 #if defined(HART_DEBUG) || defined(HART_RELEASE)
 
 	#ifdef HART_ENGINE

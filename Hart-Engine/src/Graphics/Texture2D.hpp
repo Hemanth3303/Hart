@@ -30,12 +30,21 @@ namespace Hart {
 		ClampToBorder = 0x812D,
 	};
 
+	struct Texture2DSpecification {
+	public:
+		TextureMagFilter magFilter = TextureMagFilter::Linear;
+		TextureMinFilter minFilter = TextureMinFilter::LinearLinear;
+		TextureRepeatFilter repeatX = TextureRepeatFilter::Repeat;
+		TextureRepeatFilter repeatY = TextureRepeatFilter::Repeat;
+		bool generateMipMaps = true;
+	};
+
 	// OpenGL Textures
 	class Texture2D {
 	public:
-		Texture2D(const Image& image, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear, TextureRepeatFilter repeatX = TextureRepeatFilter::Repeat, TextureRepeatFilter repeatY = TextureRepeatFilter::Repeat);
-		Texture2D(const std::string& filePath, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear, TextureRepeatFilter repeatX = TextureRepeatFilter::Repeat, TextureRepeatFilter repeatY = TextureRepeatFilter::Repeat);
-		Texture2D(std::uint32_t* buffer, std::uint32_t width, std::uint32_t height, std::uint32_t channels = 4, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear, TextureRepeatFilter repeatX = TextureRepeatFilter::Repeat, TextureRepeatFilter repeatY = TextureRepeatFilter::Repeat);
+		Texture2D(const Image& image, const Texture2DSpecification& texture2DSpecs = {});
+		Texture2D(const std::string& filePath, const Texture2DSpecification& texture2DSpecs = {});
+		Texture2D(std::uint32_t* buffer, std::uint32_t width, std::uint32_t height, std::uint32_t channels = 4, const Texture2DSpecification& texture2DSpecs = {});
 		~Texture2D();
 
 		void bind(std::uint32_t slot = 0) const;
@@ -50,11 +59,12 @@ namespace Hart {
 		bool operator==(const Texture2D& other) const;
 		friend bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 	private:
-		void init(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureRepeatFilter repeatX, TextureRepeatFilter repeatY);
+		void init();
 	private:
 		std::uint32_t m_TextureID = 0;
 		mutable std::uint32_t m_Slot = 0;
 		Image m_Image;
+		Texture2DSpecification m_TextureSpec;
 	};
 	bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 }

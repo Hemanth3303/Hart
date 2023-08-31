@@ -16,14 +16,19 @@ namespace Hart {
 	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
 	void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter);
 
-	Application::Application() 
-		:m_WindowData() {
-		init();
+	Application::Application() {
+		WindowProps windowProps;
+		init(windowProps);
 	}
 
-	Application::Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) 
-		:m_WindowData(windowWidth, windowHeight, windowTitle, isWindowResizable) {
-		init();
+	Application::Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
+		WindowProps windowProps;
+		windowProps.width = windowWidth;
+		windowProps.height = windowHeight;
+		windowProps.title = windowTitle;
+		windowProps.resizable = isWindowResizable;
+
+		init(windowProps);
 	}
 
 	Application::~Application() {
@@ -100,14 +105,13 @@ namespace Hart {
 		m_LayerStack.popOverlay(overlay);
 	}
 
-	void Application::init() {
+	void Application::init(const WindowProps& windowProps) {
 		HART_ENGINE_LOG(
 			"Compilation Information:", 
 			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
 			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
 			"\t\t\t\t\tOn Platform: " HART_PLATFORM
 		);
-
 
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
@@ -125,11 +129,10 @@ namespace Hart {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
 
-
 		glfwSwapInterval(0);
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
-		m_Window = std::make_unique<Window>(m_WindowData);
+		m_Window = std::make_unique<Window>(windowProps);
 		m_IsRunning = true;
 
 	#if defined(HART_DEBUG) || defined(HART_RELEASE)

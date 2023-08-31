@@ -3,8 +3,8 @@
 #include "Graphics/Renderer/RenderCommand.hpp"
 
 namespace Hart {
-	Window::Window(const WindowData& windowData)
-		:m_WindowData(windowData) {
+	Window::Window(const WindowProps& windowProps)
+		: m_WindowProps(windowProps) {
 		init();
 
 		HART_ASSERT_NOT_EQUAL(m_GLFWwindow, nullptr);
@@ -20,9 +20,9 @@ namespace Hart {
     }
 
 	void Window::init() {
-		glfwWindowHint(GLFW_RESIZABLE, m_WindowData.m_Resizable);
+		glfwWindowHint(GLFW_RESIZABLE, m_WindowProps.resizable);
 		HART_ENGINE_LOG("Initializing Window");
-		m_GLFWwindow = glfwCreateWindow(m_WindowData.m_Width, m_WindowData.m_Height, m_WindowData.m_Title.c_str(), nullptr, nullptr);
+		m_GLFWwindow = glfwCreateWindow(m_WindowProps.width, m_WindowProps.height, m_WindowProps.title.c_str(), nullptr, nullptr);
 		HART_ASSERT_NOT_EQUAL(m_GLFWwindow, nullptr);
 		HART_ENGINE_LOG("Window initialized successfully");
 		glfwMakeContextCurrent(m_GLFWwindow);
@@ -45,12 +45,12 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(success, -1);
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
-		RenderCommand::SetViewPort(0, 0, m_WindowData.m_Width, m_WindowData.m_Height);
+		RenderCommand::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);
 
 		std::int32_t x, y;
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
-		m_WindowData.m_Position.x = static_cast<float>(x);
-		m_WindowData.m_Position.y = static_cast<float>(y);
+		m_WindowProps.position.x = static_cast<float>(x);
+		m_WindowProps.position.y = static_cast<float>(y);
 	}
 
 	void Window::deinit() {
@@ -64,8 +64,8 @@ namespace Hart {
 	void windowSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		engineWindow->m_WindowData.m_Width = width;
-		engineWindow->m_WindowData.m_Height = height;
+		engineWindow->m_WindowProps.width = width;
+		engineWindow->m_WindowProps.height = height;
 
 		WindowResizedEvent e(width, height);
 		engineWindow->m_EventCallbackFn(e);
@@ -101,10 +101,10 @@ namespace Hart {
 	void framebufferSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		engineWindow->m_WindowData.m_Width = width;
-		engineWindow->m_WindowData.m_Height = height;
+		engineWindow->m_WindowProps.width = width;
+		engineWindow->m_WindowProps.height = height;
 
-		RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowData.m_Width, engineWindow->m_WindowData.m_Height);
+		RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowProps.width, engineWindow->m_WindowProps.height);
 	}
 
 	void keyCallback(GLFWwindow* glfwWindow, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {

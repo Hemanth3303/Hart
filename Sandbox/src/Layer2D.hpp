@@ -14,9 +14,12 @@ public:
 	Layer2D(const std::string& name = "Layer2D")
 		:Layer(name), m_ParticleSystem(1'000'000) {
 
-		m_GrassTex = std::make_shared<Hart::Texture2D>("res/images/grass_block.png", Hart::TextureMagFilter::Nearest);
-		m_EmojiTex = std::make_shared<Hart::Texture2D>("res/images/awesomeface.png", Hart::TextureMagFilter::Linear);
-		m_SpriteSheet = std::make_shared<Hart::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Vec2(128, 128), Hart::TextureMagFilter::Nearest);
+		Hart::Texture2DSpecification pixelArtTextureSpec;
+		pixelArtTextureSpec.magFilter = Hart::TextureMagFilter::Nearest;
+
+		m_GrassTex = std::make_shared<Hart::Texture2D>("res/images/grass_block.png", pixelArtTextureSpec);
+		m_EmojiTex = std::make_shared<Hart::Texture2D>("res/images/awesomeface.png");
+		m_SpriteSheet = std::make_shared<Hart::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Vec2(128, 128), pixelArtTextureSpec);
 
 		m_CameraController = std::make_shared<Hart::DefaultOrthographicCameraController>(960.0f, 540.0f);
 
@@ -74,6 +77,10 @@ public:
 		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, {  0.5f, -0.5f }, Hart::Red);
 		Hart::Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Hart::Blue);
 		Hart::Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
+
+		Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
+		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
+		Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
 
 		m_ParticleSystem.render();
 

@@ -7,25 +7,45 @@
 #endif // HART_WINDOWS
 
 namespace Hart {
-	#if defined(HART_WINDOWS)
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	#ifdef HART_ENGINE
 
-		#define WINDOWS_TEXT_WHITE (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
-		#define WINDOWS_TEXT_GREEN (FOREGROUND_GREEN)
-		#define WINDOWS_TEXT_YELLOW (FOREGROUND_RED | FOREGROUND_GREEN)
-		#define WINDOWS_TEXT_RED (FOREGROUND_RED)
+		#if defined(HART_WINDOWS)
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-		#define SET_TEXT_COLOR(color) SetConsoleTextAttribute(hConsole, color)
+			#define WINDOWS_TEXT_WHITE (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
+			#define WINDOWS_TEXT_GREEN (FOREGROUND_GREEN)
+			#define WINDOWS_TEXT_YELLOW (FOREGROUND_RED | FOREGROUND_GREEN)
+			#define WINDOWS_TEXT_RED (FOREGROUND_RED)
 
-	#else
-		#define WINDOWS_TEXT_WHITE 
-		#define WINDOWS_TEXT_GREEN 
-		#define WINDOWS_TEXT_YELLOW 
-		#define WINDOWS_TEXT_RED 
+			#define SET_TEXT_COLOR(color) SetConsoleTextAttribute(hConsole, color)
 
-		#define SET_TEXT_COLOR(color) 
+		#else
+			#define WINDOWS_TEXT_WHITE 
+			#define WINDOWS_TEXT_GREEN 
+			#define WINDOWS_TEXT_YELLOW 
+			#define WINDOWS_TEXT_RED 
 
-	#endif // HART_WINDOWS
+			#define SET_TEXT_COLOR(color) 
+
+		#endif // HART_WINDOWS
+
+		#if !defined(HART_WINDOWS)
+
+			#define UNIX_TEXT_WHITE "\033[0m"
+			#define UNIX_TEXT_RED "\033[31m"
+			#define UNIX_TEXT_YELLOW "\033[33m"
+			#define UNIX_TEXT_GREEN "\033[32m"
+
+			#else
+
+			#define UNIX_TEXT_WHITE ""
+			#define UNIX_TEXT_RED ""
+			#define UNIX_TEXT_YELLOW ""
+			#define UNIX_TEXT_GREEN ""
+
+		#endif //check OS is not windows
+
+	#endif // HART_ENGINE
 
 	void Logger::LogMessageList(std::initializer_list<Loggable> LogMessageList, const LogSeverity& logSeverity, bool fromEngine) {
 		switch (logSeverity) {

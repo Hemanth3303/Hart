@@ -1,7 +1,6 @@
 #pragma once
 
 #include "HartPch.hpp"
-#include "WindowData.hpp"
 #include "Maths/Vec2.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
@@ -13,20 +12,30 @@
 #include "GLFW/glfw3.h"
 
 namespace Hart {
+	struct WindowProps {
+	public:
+		std::int32_t width = 640, height = 480;
+		std::string title = "Hart Application";
+		bool resizable = false;
+	private:
+		Vec2 position = { 0.0f, 0.0f };
+		friend class Window;
+	};
 	// Class representing the GUI Window
 	class Window {
 		using EventCallBackFunction = std::function<void(Event&)>;
 	public:
-		Window(const WindowData& windowData);
+		Window(const WindowProps& windowProps);
 		~Window();
 
 		void swapBuffers();
 
-		inline const std::int32_t& getWidth() const { return m_WindowData.m_Width; }
-		inline const std::int32_t& getHeight() const { return m_WindowData.m_Height; }
+		inline const std::int32_t& getWidth() const { return m_WindowProps.width;
+		}
+		inline const std::int32_t& getHeight() const { return m_WindowProps.height; }
 		// returns a non ownning reference to the GLFWwindow object
 		inline GLFWwindow* const& getGLFWwindow() const { return m_GLFWwindow; }
-		inline const Vec2& getPosition() const { return m_WindowData.m_Position; }
+		inline const Vec2& getPosition() const { return m_WindowProps.position; }
 
 		friend void windowSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height);
 		friend void windowCloseCallback(GLFWwindow* glfwWindow);
@@ -40,11 +49,11 @@ namespace Hart {
 	private:
 		void init();
 		void deinit();
-		inline void setWindowSize(std::int32_t width, std::int32_t height) { m_WindowData.m_Width = width, m_WindowData.m_Height = height; }
-		inline void setWindowPosition(float xpos, float ypos) { m_WindowData.m_Position.x = xpos, m_WindowData.m_Position.y = ypos; }
+		inline void setWindowSize(std::int32_t width, std::int32_t height) { m_WindowProps.width = width, m_WindowProps.height = height; }
+		inline void setWindowPosition(float xpos, float ypos) { m_WindowProps.position.x = xpos, m_WindowProps.position.y = ypos; }
 		void setEventCallback(const EventCallBackFunction callbackFn);
 	private:
-		WindowData m_WindowData;
+		WindowProps m_WindowProps;
 		GLFWwindow* m_GLFWwindow = nullptr;
 		EventCallBackFunction m_EventCallbackFn;
 

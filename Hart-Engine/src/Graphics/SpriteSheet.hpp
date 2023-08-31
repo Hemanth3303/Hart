@@ -11,9 +11,9 @@ namespace Hart {
 	class SpriteSheet {
 	public:
 		// sprite size is the size of one sprite in the spritesheet
-		SpriteSheet(const Image& image, const Vec2& spriteSize, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear);
+		SpriteSheet(const Image& image, const Vec2& spriteSize, const Texture2DSpecification& texture2DSpecs = {});
 		// sprite size is the size of one sprite in the spritesheet
-		SpriteSheet(const std::string& filePath, const Vec2& spriteSize, TextureMagFilter magFilter = TextureMagFilter::Linear, TextureMinFilter minFiler = TextureMinFilter::LinearLinear);
+		SpriteSheet(const std::string& filePath, const Vec2& spriteSize, const Texture2DSpecification& texture2DSpecs = {});
 		~SpriteSheet();
 
 		inline std::shared_ptr<Texture2D> getTexture() const { return m_Texture; }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "HartPch.hpp"
-#include "WindowData.hpp"
 #include "Window.hpp"
 #include "Layer.hpp"
 #include "LayerStack.hpp"
@@ -64,7 +63,7 @@ namespace Hart {
 		void popOverlay(const std::shared_ptr<Layer>& overlay);
 	private:
 		// initializes application
-		void init();
+		void init(const WindowProps& windowProps);
 		// deinitializes application
 		void deinit();
 
@@ -93,7 +92,6 @@ namespace Hart {
 		// End Event Methods
 	private:
 		static Application* s_Instance;
-		WindowData m_WindowData;
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 		ShaderLibrary m_ShaderLibrary;
@@ -113,5 +111,4 @@ namespace Hart {
 	// User must define this function
 	// Return a std::unique_ptr to Derived using the syntax std::make_unique<Derived>(args_if_they_exist), where Derived is a class derived from Hart::Application
 	std::unique_ptr<Application> CreateApplication();
-
 }
