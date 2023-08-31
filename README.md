@@ -11,5 +11,5 @@ I'm making this engine as a learning exercise. As such I probably won't be accep
 [stb](https://github.com/nothings/stb): Specifically [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for loading images.<br>
 [premake-cmake](https://github.com/Enhex/premake-cmake): CMake generator for premake.<br>
 
-### Note
+## Note
 Heavily inspired by the The Cherno's Sparky game engine series and Hazel game engine series <br>
