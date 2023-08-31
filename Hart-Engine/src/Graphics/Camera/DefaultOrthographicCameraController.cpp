@@ -5,6 +5,8 @@ namespace Hart {
 	DefaultOrthographicCameraController::DefaultOrthographicCameraController(float width, float height, bool enableCameraRotation)
 		: OrthographicCameraController(width, height, enableCameraRotation) {
 
+		m_Bounds = OrthographicCameraBounds(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		m_Camera.setProjection(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top);
 	}
 
 	DefaultOrthographicCameraController::~DefaultOrthographicCameraController() {
