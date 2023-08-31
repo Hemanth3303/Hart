@@ -3,7 +3,7 @@
 
 namespace Hart {
 	IndexBuffer::IndexBuffer(std::uint32_t* indices, std::uint32_t indexCount)
-		:m_IndexCount(indexCount) {
+		: m_IndexCount(indexCount) {
 
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);

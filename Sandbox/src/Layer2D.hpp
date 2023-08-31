@@ -12,7 +12,7 @@ private:
 	Hart::ParticleSystem m_ParticleSystem;
 public:
 	Layer2D(const std::string& name = "Layer2D")
-		:Layer(name), m_ParticleSystem(1'000'000) {
+		: Layer(name), m_ParticleSystem(1'000'000) {
 
 		Hart::Texture2DSpecification pixelArtTextureSpec;
 		pixelArtTextureSpec.magFilter = Hart::TextureMagFilter::Nearest;
@@ -74,9 +74,9 @@ public:
 		Hart::Renderer2D::ResetStats();
 		Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, {  0.5f, -0.5f }, Hart::Red);
-		Hart::Renderer2D::DrawLine({  0.5f, -0.5f }, {  0.0f,  0.5f }, Hart::Blue);
-		Hart::Renderer2D::DrawLine({  0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
+		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
+		Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
+		Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
 
 		Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
 		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
