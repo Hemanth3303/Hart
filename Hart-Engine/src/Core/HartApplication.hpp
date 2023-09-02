@@ -45,6 +45,8 @@ namespace Hart {
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
+		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
+		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
 		inline std::shared_ptr<Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
 		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 
@@ -54,8 +56,6 @@ namespace Hart {
 		// default value is 1000
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const KeyCode& exitKey) { m_ExitKey = exitKey; }
-		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
-		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
 	protected:
 		void pushLayer(const std::shared_ptr<Layer>& layer);
 		void popLayer(const std::shared_ptr<Layer>& layer);

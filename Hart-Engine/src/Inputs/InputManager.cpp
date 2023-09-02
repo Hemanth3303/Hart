@@ -63,6 +63,14 @@ namespace Hart {
 		return s_CurrentMouseButton;
 	}
 
+    void InputManager::EnableMouse() {
+		glfwSetInputMode(Hart::Application::Get()->getWindow()->getGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    void InputManager::DisableMouse() {
+		glfwSetInputMode(Hart::Application::Get()->getWindow()->getGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
+
 	void InputManager::Init() {
 		HART_ENGINE_LOG("Initializing Input Manager");
 		for (bool& key : s_Keys) {

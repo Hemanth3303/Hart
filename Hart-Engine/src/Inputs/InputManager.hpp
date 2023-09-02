@@ -20,6 +20,8 @@ namespace Hart {
 		static void SetMousePosition(const Vec2& position);
 		static const KeyCode& GetCurrentKey();
 		static const MouseCode& GetCurrentMouseButton();
+		static void EnableMouse();
+		static void DisableMouse();
 	private:
 		static void Init();
 		static void DeInit();

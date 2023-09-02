@@ -40,7 +40,7 @@ namespace Hart {
 		float getElementAt(std::int32_t i, std::int32_t j) const;
 
 		// creates a new 4x4 identity matrix
-		static Mat4 indentity();
+		static Mat4 identity();
 
 		// converts a matrix to a string for printing
 		std::string toString() const;
