@@ -22,7 +22,7 @@ public:
 		m_Layer3D = std::make_shared<Layer3D>("Layer3D");
 
 		pushLayer(m_Layer2D);
-		//pushLayer(m_Layer3D);
+		pushLayer(m_Layer3D);
 	}
 
 	~Sandbox() {

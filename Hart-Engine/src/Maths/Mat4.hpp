@@ -68,29 +68,29 @@ namespace Hart {
 		Mat4& inverse();
 
 		// orthographic projection matrix
-		static Mat4 orthographic(float left, float right, float bottom, float top, float near, float far);
+		static Mat4 Orthographic(float left, float right, float bottom, float top, float near, float far);
 		// perspective projection matrix(angle in degrees)
-		static Mat4 perspective(float fovD, float aspectRatio, float near, float far);
+		static Mat4 Perspective(float fovD, float aspectRatio, float near, float far);
 
 		// returns the transpose of given matrix
-		static Mat4 transpose(const Mat4& matrix);
+		static Mat4 Transpose(const Mat4& matrix);
 		// returns the determinant of the given matrix
-		static const float determinant(const Mat4& matrix);
+		static const float Determinant(const Mat4& matrix);
 		// returns the adjoint(adjugate) of the the given matrix without modifiying it
-		static Mat4 adjoint(const Mat4& matrix);
+		static Mat4 Adjoint(const Mat4& matrix);
 		// returns the inverse of given matrix
-		static Mat4 inverse(const Mat4& matrix);
+		static Mat4 Inverse(const Mat4& matrix);
 
 		// transformation operations
 
-		static Mat4 translate(const Vec3& translationVector);
-		static Mat4 rotate(float angleD, const Vec3& axisVector);
-		static Mat4 scale(const Vec3& scaleVector);
+		static Mat4 Translate(const Vec3& translationVector);
+		static Mat4 Rotate(float angleD, const Vec3& axisVector);
+		static Mat4 Scale(const Vec3& scaleVector);
 
 		// camera utils
 
 		// returns a view matrix
-		static Mat4 lookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp);
+		static Mat4 LookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp);
 
 		friend std::ostream& operator<<(std::ostream& stream, const Mat4& matrix);
 	};

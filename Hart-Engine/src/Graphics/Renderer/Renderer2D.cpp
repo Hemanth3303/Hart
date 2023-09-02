@@ -362,7 +362,7 @@ namespace Hart {
 
 	void Renderer2D::AddNewQuadVertex(const Vec3& position, const Vec2& size, float angleD, const Vec4& quadColor, float textureIndex, float tiliingFactor) {
 
-		Mat4 transform = Mat4::translate(position) * Mat4::rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::scale({ size.x, size.y, 1.0f });
+		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size.x, size.y, 1.0f });
 
 		for (std::size_t i = 0; i < renderer2DData.VERTICES_PER_QUAD; i++) {
 			renderer2DData.quadVertexBufferPtr->position = transform * renderer2DData.quadVertexPositions[i];

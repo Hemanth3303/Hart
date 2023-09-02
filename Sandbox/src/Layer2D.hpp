@@ -10,6 +10,7 @@ private:
 	Hart::Random m_Rd;
 	Hart::ParticleProps m_Particle;
 	Hart::ParticleSystem m_ParticleSystem;
+	Hart::Vec3 m_MousePos = { 0.0f, 0.0f, 1.0f };
 public:
 	Layer2D(const std::string& name = "Layer2D")
 		: Layer(name), m_ParticleSystem(1'000'000) {
@@ -62,6 +63,9 @@ public:
 		y = bounds.getHeight() * 0.5f - (y / height) * bounds.getHeight();
 		m_Particle.position = { x + position.x, y + position.y , 1.0f };
 
+		m_MousePos.x = x;
+		m_MousePos.y = y;
+
 		if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Left)) {
 			m_ParticleSystem.emit(m_Particle);
 		}
@@ -77,6 +81,8 @@ public:
 		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
 		Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
 		Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
+
+		Hart::Renderer2D::DrawLine({ 0.0f, 0.0f, 1.0f }, m_MousePos, Hart::Cyan);
 
 		Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
 		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);

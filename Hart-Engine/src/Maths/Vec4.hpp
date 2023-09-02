@@ -26,14 +26,14 @@ namespace Hart {
 		float getMagnitude();
 		const Vec4& scalarMultiply(float value);
 
-		static Vec4 add(const Vec4& left, const Vec4& right);
-		static Vec4 subtract(const Vec4& left, const Vec4& right);
-		static bool equals(const Vec4& left, const Vec4& right);
+		static Vec4 Add(const Vec4& left, const Vec4& right);
+		static Vec4 Subtract(const Vec4& left, const Vec4& right);
+		static bool Equals(const Vec4& left, const Vec4& right);
 		// usefull for colors
-		static Vec4 componentWiseMultiplication(const Vec4& left, const Vec4& right);
-		static Vec4 scalarMultiply(const Vec4& vec, float k);
+		static Vec4 ComponentWiseMultiplication(const Vec4& left, const Vec4& right);
+		static Vec4 ScalarMultiply(const Vec4& vec, float k);
 
-		static Vec4 lerp(const Vec4& a, const Vec4& b, float t);
+		static Vec4 Lerp(const Vec4& a, const Vec4& b, float t);
 
 		// adds value to the current vector
 		Vec4& add(const Vec4& other);
@@ -55,14 +55,14 @@ namespace Hart {
 		Vec4& operator*=(const Vec4& other);
 		bool operator==(const Vec4& other);
 
-		static float dotProduct(const Vec4& left, const Vec4& right);
+		static float DotProduct(const Vec4& left, const Vec4& right);
 		// returns the normal of given vector without affecting the original vector
-		static Vec4 getNormal(const Vec4& vec);
+		static Vec4 GetNormal(const Vec4& vec);
 		// returns the angle between two vectors in radians
-		static float getAngleRBetween(const Vec4& left, const Vec4& right);
+		static float GetAngleRBetween(const Vec4& left, const Vec4& right);
 		// returns the angle between two vectors in degrees
-		static float getAngleDBetween(const Vec4& left, const Vec4& right);
-		static float getMagnitude(const Vec4& vec);
+		static float GetAngleDBetween(const Vec4& left, const Vec4& right);
+		static float GetMagnitude(const Vec4& vec);
 
 		friend std::ostream& operator<<(std::ostream&, Vec4 vec);
 

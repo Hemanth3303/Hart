@@ -89,10 +89,10 @@ public:
 	void render() override {
 		shader->bind();
 		auto aspectRatio = Hart::Application::Get()->getWindowWidth() / (float)Hart::Application::Get()->getWindowHeight();
-		auto persp = Hart::Mat4::perspective(45.0f, aspectRatio, 0.1f, 100.0f);
-		auto view = Hart::Mat4::translate({ 0.0f, 0.0f, -3.0f });
-		auto axis = Hart::Vec3::getNormal({ 1, 1, 1 });
-		auto model = Hart::Mat4::rotate(angle, axis);
+		auto persp = Hart::Mat4::Perspective(45.0f, aspectRatio, 0.1f, 100.0f);
+		auto view = Hart::Mat4::Translate({ 0.0f, 0.0f, -3.0f });
+		auto axis = Hart::Vec3::GetNormal({ 1, 1, 1 });
+		auto model = Hart::Mat4::Rotate(angle, axis);
 		shader->setUniform("uProjection", persp);
 		shader->setUniform("uView", view);
 		shader->setUniform("uModel", model);

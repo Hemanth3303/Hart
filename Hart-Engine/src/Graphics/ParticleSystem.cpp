@@ -31,7 +31,7 @@ namespace Hart {
 
 			// Fade away particles
 			float life = particle.lifeRemaining / particle.lifeTime;
-			Vec4 color = Vec4::lerp(particle.colorEnd, particle.colorBegin, life);
+			Vec4 color = Vec4::Lerp(particle.colorEnd, particle.colorBegin, life);
 
 			float size = static_cast<float>(lerp(particle.sizeEnd, particle.sizeBegin, life));
 

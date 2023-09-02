@@ -23,40 +23,40 @@ namespace Hart {
 	}
 
 	const Vec4& Vec4::normalize() {
-		*this = getNormal(*this);
+		*this = GetNormal(*this);
 		return *this;
 	}
 
 	float Vec4::getMagnitude() {
-		return getMagnitude(*this);
+		return GetMagnitude(*this);
 	}
 
 	const Vec4& Vec4::scalarMultiply(float value) {
-		*this = scalarMultiply(*this, value);
+		*this = ScalarMultiply(*this, value);
 		return *this;
 	}
 
-	Vec4 Vec4::add(const Vec4& left, const Vec4& right) {
+	Vec4 Vec4::Add(const Vec4& left, const Vec4& right) {
 		return Vec4(left.x + right.x, left.y + right.y, left.z + right.z, left.w + right.w);
 	}
 
-	Vec4 Vec4::subtract(const Vec4& left, const Vec4& right) {
+	Vec4 Vec4::Subtract(const Vec4& left, const Vec4& right) {
 		return Vec4(left.x - right.x, left.y - right.y, left.z - right.z, left.w - right.w);
 	}
 
-	bool Vec4::equals(const Vec4& left, const Vec4& right) {
+	bool Vec4::Equals(const Vec4& left, const Vec4& right) {
 		return (left.x == right.x && left.y == right.y && left.z == right.z && left.w == right.w);
 	}
 
-	Vec4 Vec4::componentWiseMultiplication(const Vec4& left, const Vec4& right) {
+	Vec4 Vec4::ComponentWiseMultiplication(const Vec4& left, const Vec4& right) {
 		return Vec4(left.x * right.x, left.y * right.y, left.z * right.z, left.w * right.w);
 	}
 
-	Vec4 Vec4::scalarMultiply(const Vec4& vec, float k) {
+	Vec4 Vec4::ScalarMultiply(const Vec4& vec, float k) {
 		return Vec4(vec.x * k, vec.y * k, vec.z * k, vec.w * k);
 	}
 
-	Vec4 Vec4::lerp(const Vec4& a, const Vec4& b, float t) {
+	Vec4 Vec4::Lerp(const Vec4& a, const Vec4& b, float t) {
 		return Vec4(
 			static_cast<float>(Hart::lerp(a.x, b.x, t)),
 			static_cast<float>(Hart::lerp(a.y, b.y, t)),
@@ -84,7 +84,7 @@ namespace Hart {
 	}
 
 	bool Vec4::equals(const Vec4& other) {
-		return Vec4::equals(*this, other);
+		return Vec4::Equals(*this, other);
 	}
 
 	Vec4& Vec4::componentWiseMultiplication(const Vec4& other) {
@@ -112,25 +112,25 @@ namespace Hart {
 		return this->equals(other);
 	}
 
-	float Vec4::dotProduct(const Vec4& left, const Vec4& right) {
+	float Vec4::DotProduct(const Vec4& left, const Vec4& right) {
 		return ((left.x * right.x) + (left.y * right.y) + (left.z * right.z) + (left.w * right.w));
 	}
 
-	Vec4 Vec4::getNormal(const Vec4& vec) {
-		float magnitude = getMagnitude(vec);
+	Vec4 Vec4::GetNormal(const Vec4& vec) {
+		float magnitude = GetMagnitude(vec);
 		return Vec4(vec.x / magnitude, vec.y / magnitude, vec.z / magnitude, vec.w / magnitude);
 	}
 
-	float Vec4::getAngleRBetween(const Vec4& left, const Vec4& right) {
+	float Vec4::GetAngleRBetween(const Vec4& left, const Vec4& right) {
 		// angle = acos(a.b / (|a|*|b|) )
-		return static_cast<float>(arcCosR(dotProduct(left, right) / (getMagnitude(left) * getMagnitude(right))));
+		return static_cast<float>(arcCosR(DotProduct(left, right) / (GetMagnitude(left) * GetMagnitude(right))));
 	}
 
-	float Vec4::getAngleDBetween(const Vec4& left, const Vec4& right) {
-		return static_cast<float>(radianToDegrees(getAngleRBetween(left, right)));
+	float Vec4::GetAngleDBetween(const Vec4& left, const Vec4& right) {
+		return static_cast<float>(radianToDegrees(GetAngleRBetween(left, right)));
 	}
 
-	float Vec4::getMagnitude(const Vec4& vec) {
+	float Vec4::GetMagnitude(const Vec4& vec) {
 		// sqrt(x^2+y^2+z^2+w^2)
 		return static_cast<float>(squareRoot(power(vec.x, 2) + power(vec.y, 2) + power(vec.z, 2) + power(vec.w, 2)));
 	}
@@ -148,19 +148,19 @@ namespace Hart {
 	}
 
 	Vec4 operator+(const Vec4& left, const Vec4& right) {
-		return Vec4::add(left, right);
+		return Vec4::Add(left, right);
 	}
 
 	Vec4 operator-(const Vec4& left, const Vec4& right) {
-		return Vec4::subtract(left, right);
+		return Vec4::Subtract(left, right);
 	}
 
 	Vec4 operator*(const Vec4& left, const Vec4& right) {
-		return Vec4::componentWiseMultiplication(left, right);
+		return Vec4::ComponentWiseMultiplication(left, right);
 	}
 
 	bool operator==(const Vec4& left, const Vec4& right) {
-		return Vec4::equals(left, right);
+		return Vec4::Equals(left, right);
 	}
 
 	std::ostream& operator<<(std::ostream& stream, Vec4 vec) {

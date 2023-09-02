@@ -21,12 +21,12 @@ namespace Hart {
 		// multiplies scalar to current vector
 		const Vec2& scalarMultiply(float value);
 
-		static Vec2 add(const Vec2& left, const Vec2& right);
-		static Vec2 subtract(const Vec2& left, const Vec2& right);
-		static bool equals(const Vec2& left, const Vec2& right);
-		static Vec2 scalarMultiply(const Vec2& vec, float k);
+		static Vec2 Add(const Vec2& left, const Vec2& right);
+		static Vec2 Subtract(const Vec2& left, const Vec2& right);
+		static bool Equals(const Vec2& left, const Vec2& right);
+		static Vec2 ScalarMultiply(const Vec2& vec, float k);
 
-		static Vec2 lerp(const Vec2& a, const Vec2& b, float t);
+		static Vec2 Lerp(const Vec2& a, const Vec2& b, float t);
 
 		// adds value to the current vector
 		Vec2& add(const Vec2& other);
@@ -42,14 +42,14 @@ namespace Hart {
 		Vec2& operator-=(const Vec2& other);
 		bool operator==(const Vec2& other);
 
-		static float dotProduct(const Vec2& left, const Vec2& right);
+		static float DotProduct(const Vec2& left, const Vec2& right);
 		// returns the normal of given vector without affecting the original vector
-		static Vec2 getNormal(const Vec2& vec);
+		static Vec2 GetNormal(const Vec2& vec);
 		// returns the angle between two vectors in radians
-		static float getAngleRBetween(const Vec2& left, const Vec2& right);
+		static float GetAngleRBetween(const Vec2& left, const Vec2& right);
 		// returns the angle between two vectors in degrees
-		static float getAngleDBetween(const Vec2& left, const Vec2& right);
-		static float getMagnitude(const Vec2& vec);
+		static float GetAngleDBetween(const Vec2& left, const Vec2& right);
+		static float GetMagnitude(const Vec2& vec);
 
 		friend std::ostream& operator<<(std::ostream&, Vec2 vec);
 

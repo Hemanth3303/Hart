@@ -110,21 +110,21 @@ namespace Hart {
 	}
 
 	Mat4& Mat4::transpose() {
-		*this = transpose(*this);
+		*this = Transpose(*this);
 		return *this;
 	}
 
 	const float Mat4::determinant() {
-		return determinant(*this);
+		return Determinant(*this);
 	}
 
 	Mat4& Mat4::adjoint() {
-		*this = adjoint(*this);
+		*this = Adjoint(*this);
 		return *this;
 	}
 
 	Mat4& Mat4::inverse() {
-		*this = inverse(*this);
+		*this = Inverse(*this);
 		return *this;
 	}
 
@@ -132,7 +132,7 @@ namespace Hart {
 		return left.multiply(right);
 	}
 
-	Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float near, float far) {
+	Mat4 Mat4::Orthographic(float left, float right, float bottom, float top, float near, float far) {
 		Mat4 result(1.0f);
 
 		result.elements[0 + 0 * 4] = 2.0f / (right - left);
@@ -146,7 +146,7 @@ namespace Hart {
 		return result;
 	}
 
-	Mat4 Mat4::perspective(float fovD, float aspectRatio, float near, float far) {
+	Mat4 Mat4::Perspective(float fovD, float aspectRatio, float near, float far) {
 		Mat4 result(1.0f);
 
 		float q = 1.0f / static_cast<float>(tanD(0.5 * static_cast<double>(fovD)));
@@ -163,7 +163,7 @@ namespace Hart {
 		return result;
 	}
 
-	Mat4 Mat4::transpose(const Mat4& matrix) {
+	Mat4 Mat4::Transpose(const Mat4& matrix) {
 		Mat4 result;
 		for (std::int32_t y = 0; y < 4; y++) {
 			for (std::int32_t x = 0; x < 4; x++) {
@@ -173,7 +173,7 @@ namespace Hart {
 		return result;
 	}
 
-	const float Mat4::determinant(const Mat4& matrix) {
+	const float Mat4::Determinant(const Mat4& matrix) {
 		const float* e = matrix.elements;
 
 		float cofactor0 =
@@ -200,7 +200,7 @@ namespace Hart {
 		return (e[0] * cofactor0 - e[1] * cofactor1 + e[2] * cofactor2 - e[3] * cofactor3);
 	}
 
-	Mat4 Mat4::adjoint(const Mat4& matrix) {
+	Mat4 Mat4::Adjoint(const Mat4& matrix) {
 		Mat4 adjointMatrix;
 
 		adjointMatrix.elements[0] =
@@ -286,15 +286,15 @@ namespace Hart {
 		return adjointMatrix;
 	}
 
-	Mat4 Mat4::inverse(const Mat4& matrix) {
-		const float deter = determinant(matrix);
+	Mat4 Mat4::Inverse(const Mat4& matrix) {
+		const float deter = Determinant(matrix);
 		HART_ASSERT_NOT_EQUAL(deter, 0);
 		if (deter == 0.0f) {
 			HART_ENGINE_ERROR("The given matrix is not invertible, returning itself");
 			return matrix;
 		}
 
-		Mat4 inverseMat = adjoint(matrix);
+		Mat4 inverseMat = Adjoint(matrix);
 		for (std::int32_t i = 0; i < 4 * 4; i++) {
 			inverseMat.elements[i] /= deter;
 		}
@@ -302,7 +302,7 @@ namespace Hart {
 		return inverseMat;
 	}
 
-	Mat4 Mat4::translate(const Vec3& translationVector) {
+	Mat4 Mat4::Translate(const Vec3& translationVector) {
 		Mat4 result(1.0f);
 
 		result.elements[0 + 3 * 4] = translationVector.x;
@@ -312,7 +312,7 @@ namespace Hart {
 		return result;
 	}
 
-	Mat4 Mat4::rotate(float angleD, const Vec3& axisVector) {
+	Mat4 Mat4::Rotate(float angleD, const Vec3& axisVector) {
 		Mat4 result(1.0f);
 
 		float cosAngleD = static_cast<float>(cosD(angleD));
@@ -338,7 +338,7 @@ namespace Hart {
 		return result;
 	}
 
-	Mat4 Mat4::scale(const Vec3& scaleVector) {
+	Mat4 Mat4::Scale(const Vec3& scaleVector) {
 		Mat4 result(1.0f);
 
 		result.elements[0 + 0 * 4] = scaleVector.x;
@@ -348,13 +348,13 @@ namespace Hart {
 		return result;
 	}
 
-	Mat4 Mat4::lookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp) {
+	Mat4 Mat4::LookAt(const Vec3& position, const Vec3& target, const Vec3& worldUp) {
 		// calculate cameraDirection
-		Vec3 zAxis = Vec3::getNormal(position - target);
+		Vec3 zAxis = Vec3::GetNormal(position - target);
 		// get position of right axiz vector
-		Vec3 xAxis = Vec3::getNormal(Vec3::crossProduct(Vec3::getNormal(worldUp), zAxis));
+		Vec3 xAxis = Vec3::GetNormal(Vec3::CrossProduct(Vec3::GetNormal(worldUp), zAxis));
 		// calculate camera up vector
-		Vec3 yAxis = Vec3::crossProduct(zAxis, xAxis);
+		Vec3 yAxis = Vec3::CrossProduct(zAxis, xAxis);
 
 		// create translation and rotation matrix
 		Mat4 translation = Mat4::indentity();

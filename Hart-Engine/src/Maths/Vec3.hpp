@@ -24,12 +24,12 @@ namespace Hart {
 		float getMagnitude();
 		const Vec3& scalarMultiply(float value);
 
-		static Vec3 add(const Vec3& left, const Vec3& right);
-		static Vec3 subtract(const Vec3& left, const Vec3& right);
-		static bool equals(const Vec3& left, const Vec3& right);
-		static Vec3 scalarMultiply(const Vec3& vec, float k);
+		static Vec3 Add(const Vec3& left, const Vec3& right);
+		static Vec3 Subtract(const Vec3& left, const Vec3& right);
+		static bool Equals(const Vec3& left, const Vec3& right);
+		static Vec3 ScalarMultiply(const Vec3& vec, float k);
 
-		static Vec3 lerp(const Vec3& a, const Vec3& b, float t);
+		static Vec3 Lerp(const Vec3& a, const Vec3& b, float t);
 
 		// adds value to the current vector
 		Vec3& add(const Vec3& other);
@@ -45,15 +45,15 @@ namespace Hart {
 		Vec3& operator-=(const Vec3& other);
 		bool operator==(const Vec3& other);
 
-		static float dotProduct(const Vec3& left, const Vec3& right);
-		static Vec3 crossProduct(const Vec3& left, const Vec3& right);
+		static float DotProduct(const Vec3& left, const Vec3& right);
+		static Vec3 CrossProduct(const Vec3& left, const Vec3& right);
 		// returns the normal of given vector without affecting the original vector
-		static Vec3 getNormal(const Vec3& vec);
+		static Vec3 GetNormal(const Vec3& vec);
 		// returns the angle between two vectors in radians
-		static float getAngleRBetween(const Vec3& left, const Vec3& right);
+		static float GetAngleRBetween(const Vec3& left, const Vec3& right);
 		// returns the angle between two vectors in degrees
-		static float getAngleDBetween(const Vec3& left, const Vec3& right);
-		static float getMagnitude(const Vec3& vec);
+		static float GetAngleDBetween(const Vec3& left, const Vec3& right);
+		static float GetMagnitude(const Vec3& vec);
 
 		friend std::ostream& operator<<(std::ostream&, Vec3 vec);
 
