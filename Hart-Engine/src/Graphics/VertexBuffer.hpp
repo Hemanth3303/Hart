@@ -12,6 +12,7 @@ namespace Hart {
 		ShaderDataType type;
 		std::string name;
 		std::uint32_t size;
+		// offset of element in one vertex
 		uint64_t offset;
 		bool normalized;
 	public:
@@ -39,6 +40,7 @@ namespace Hart {
 		void calculateOffsetAndStride();
 	private:
 		std::vector<BufferElement> m_Elements;
+		// stride of entire vertex
 		std::uint32_t m_Stride = 0;
 	};
 

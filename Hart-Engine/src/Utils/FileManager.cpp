@@ -14,7 +14,7 @@ namespace Hart {
 			HART_ENGINE_LOG("Opening file " + fileName);
 			inFile.open(fileName, std::ios::in);
 
-			HART_ASSERT(inFile);
+			HART_ASSERT(inFile, "Reason: Couldn't open file");
 
 			dataStream << inFile.rdbuf();
 
@@ -34,14 +34,14 @@ namespace Hart {
 		else {
 			HART_ENGINE_LOG("Opening file " + fileName);
 			inFile.open(fileName, std::ios::binary);
+			HART_ASSERT(inFile, "Reason: Couldn't open file");
+
 			// copies all data into buffer
 			outData.assign(std::istreambuf_iterator<char>(inFile), std::istreambuf_iterator<char>());
 		}
 
 		return outData;
 	}
-
-
 
 	void FileManager::WriteStringToFile(const std::string& data, const std::string& fileName, const std::string& directory) {
 		std::fstream outFile;
@@ -65,4 +65,39 @@ namespace Hart {
 	bool FileManager::FileExists(const std::string& fileName) {
 		return std::filesystem::exists(fileName);
 	}
+
+	std::string FileManager::GetFileName(const std::string& filePath) {
+		std::size_t lastSlash = filePath.find_last_of("/\\");
+		if (lastSlash == std::string::npos) {
+			lastSlash = 0;
+		}
+		else {
+			lastSlash += 1;
+		}
+
+		std::size_t lastDot = filePath.rfind('.');
+		if (lastDot == std::string::npos) {
+			lastDot = filePath.size() - lastSlash;
+		}
+		else {
+			lastDot -= lastSlash;
+		}
+
+		return filePath.substr(lastSlash, lastDot);
+	}
+
+	std::string FileManager::GetFileNameWithExtension(const std::string& filePath) {
+        std::size_t lastSlash = filePath.find_last_of("/\\");
+		if (lastSlash == std::string::npos) {
+			lastSlash = 0;
+		}
+		else {
+			lastSlash += 1;
+		}
+
+		std::size_t end = filePath.length();
+		end -= lastSlash;
+
+		return filePath.substr(lastSlash, end);
+    }
 }

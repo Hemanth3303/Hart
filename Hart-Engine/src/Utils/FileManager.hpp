@@ -17,5 +17,12 @@ namespace Hart {
 		static void WriteStringToFile(const std::string& data, const std::string& fileName, const std::string& directory = "./");
 
 		static bool FileExists(const std::string& fileName);
+
+		// Returns file name without the filepath or extension
+		// example: assets/images/grass.png will return grass
+		static std::string GetFileName(const std::string& filePath);
+		// Returns file name without the filepath but extension is retained
+		// example: assets/images/grass.png will return grass.png
+		static std::string GetFileNameWithExtension(const std::string& filePath);
 	};
 }

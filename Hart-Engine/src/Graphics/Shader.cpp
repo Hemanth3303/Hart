@@ -11,7 +11,7 @@ namespace Hart {
 		std::string vertexShaderString = FileManager::ReadStringFromFile(vertexShaderPath);
 		std::string fragmentShaderString = FileManager::ReadStringFromFile(fragmentShaderPath);
 
-		m_Name = getNameFromFile(vertexShaderPath);
+		m_Name = FileManager::GetFileName(vertexShaderPath);
 		init(vertexShaderString.c_str(), fragmentShaderString.c_str());
 	}
 
@@ -195,26 +195,5 @@ namespace Hart {
 				HART_ENGINE_ERROR("Shader Program Link Error", infoLog);
 			}
 		}
-	}
-	std::string Shader::getNameFromFile(const std::string& filePath) {
-
-		//get name from filepath
-		std::size_t lastSlash = filePath.find_last_of("/\\");
-		if (lastSlash == std::string::npos) {
-			lastSlash = 0;
-		}
-		else {
-			lastSlash += 1;
-		}
-
-		std::size_t lastDot = filePath.rfind('.');
-		if (lastDot == std::string::npos) {
-			lastDot = filePath.size() - lastSlash;
-		}
-		else {
-			lastDot -= lastSlash;
-		}
-
-		return filePath.substr(lastSlash, lastDot);
 	}
 }

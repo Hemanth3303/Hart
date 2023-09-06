@@ -31,10 +31,8 @@ public:
 		m_Particle.velocity = { m_Rd.getRandomFloat(-1.0f, 1.0f), m_Rd.getRandomFloat(-1.0f, 1.0f) };
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
+		
 
-		HART_ASSERT(false, "Reason: I don't like this game");
-		HART_ASSERT_EQUAL(1 , 2, "1==2?", "no?", "yes");
-		HART_ASSERT_NOT_EQUAL(1, 1, "1!=1?", "yes?", "no?");
 	}
 
 	~Layer2D() {

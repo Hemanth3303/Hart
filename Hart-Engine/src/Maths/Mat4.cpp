@@ -19,7 +19,7 @@ namespace Hart {
 	}
 
 	Mat4::Mat4(const std::initializer_list<float>& values) {
-		HART_ASSERT_EQUAL(values.size(), 16);
+		HART_ASSERT_EQUAL(values.size(), 16, "Reason: Must provide exactly 16 elements to the constructor method Mat4(const std::initializer_list<float>& values)");
 		const float* itr = values.begin();
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
@@ -47,7 +47,7 @@ namespace Hart {
 		return elements[i + j * 4];
 	}
 
-	Mat4 Mat4::identity() {
+	Mat4 Mat4::Identity() {
 		return Mat4(1.0f);
 	}
 
@@ -288,9 +288,9 @@ namespace Hart {
 
 	Mat4 Mat4::Inverse(const Mat4& matrix) {
 		const float deter = Determinant(matrix);
-		HART_ASSERT_NOT_EQUAL(deter, 0);
+		HART_ASSERT_NOT_EQUAL(deter, 0, "Reason: The given matrix is not invertible, as determinant==0");
+
 		if (deter == 0.0f) {
-			HART_ENGINE_ERROR("The given matrix is not invertible, returning itself");
 			return matrix;
 		}
 
@@ -357,11 +357,11 @@ namespace Hart {
 		Vec3 yAxis = Vec3::CrossProduct(zAxis, xAxis);
 
 		// Create translation and rotation matrix
-		Mat4 translation = Mat4::identity();
+		Mat4 translation = Mat4::Identity();
 		translation.elements[0 + 3 * 4] = -position.x;
 		translation.elements[1 + 3 * 4] = -position.y;
 		translation.elements[2 + 3 * 4] = -position.z;
-		Mat4 rotation = Mat4::identity();
+		Mat4 rotation = Mat4::Identity();
 		rotation.elements[0 + 0 * 4] = xAxis.x;
 		rotation.elements[1 + 0 * 4] = xAxis.y;
 		rotation.elements[2 + 0 * 4] = xAxis.z;

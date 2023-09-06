@@ -116,11 +116,11 @@ namespace Hart {
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
 		s_Instance = this;
-		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr);
+		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr, "Reason: Failed to initialize Hart Engine");
 
 		HART_ENGINE_LOG("Initializing GLFW");
 		std::int32_t success = glfwInit();
-		HART_ASSERT_EQUAL(success, GLFW_TRUE);
+		HART_ASSERT_EQUAL(success, GLFW_TRUE, "Reason: Failed to initialize GLFW");
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

@@ -55,7 +55,6 @@ namespace Hart {
 		void init(const char* vsSource, const char* fsSource);
 		std::int32_t getUniformLocation(const std::string& uniformName) const;
 		void checkCompileErrors(std::uint32_t shader, const ShaderType& type) const;
-		std::string getNameFromFile(const std::string& filePath);
 	private:
 		std::uint32_t m_ShaderID = 0;
 		std::string m_Name;

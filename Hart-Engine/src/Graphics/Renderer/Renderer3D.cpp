@@ -4,7 +4,11 @@
 #include "RenderCommand.hpp"
 
 namespace Hart {
-	std::unique_ptr<Scene3DData> Renderer3D::s_SceneData = std::make_unique<Scene3DData>();
+	struct Renderer3DData {
+		Mat4 viewProjectionMatrix;
+	};
+
+	static std::unique_ptr<Renderer3DData> s_Data = std::make_unique<Renderer3DData>();
 
 	void Renderer3D::Init() {
 		RenderCommand::Init();
@@ -19,7 +23,7 @@ namespace Hart {
 	}
 
 	void Renderer3D::BeginScene(PerspectiveCamera& camera) {
-		// s_SceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
+		// s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
 	}
 
 	void Renderer3D::EndScene() {
@@ -27,10 +31,9 @@ namespace Hart {
 	}
 
 	void Renderer3D::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Mat4& transformationMatrix) {
-		HART_ASSERT_NOT_EQUAL(vertexArray->getIndexBuffer(), nullptr);
 
 		shader->bind();
-		shader->setUniform("uViewProjectionMatrix", s_SceneData->viewProjectionMatrix);
+		shader->setUniform("uViewProjectionMatrix", s_Data->viewProjectionMatrix);
 		shader->setUniform("uModelMatrix", transformationMatrix);
 
 		vertexArray->bind();

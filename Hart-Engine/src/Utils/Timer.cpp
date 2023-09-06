@@ -7,11 +7,7 @@ namespace Hart {
 	std::string Timer::s_CurrentTimeStamp = std::string("TTT");
 
 	void Timer::Init() {
-		if (s_IsInitialized) {
-			HART_ENGINE_FATAL("Timer already initialized once. Do not initialize timer more than once");
-			HART_ASSERT_NOT_EQUAL(s_IsInitialized, true);
-			return;
-		}
+		HART_ASSERT_NOT_EQUAL(s_IsInitialized, true, "Reason: Timer already initialized once. Do not initialize timer more than once");
 		s_TimePoint = std::chrono::high_resolution_clock::now();
 		s_IsInitialized = true;
 		HART_ENGINE_LOG("Initializing Timer");
@@ -22,6 +18,7 @@ namespace Hart {
 	}
 
 	double Timer::GetTimeInSeconds() {
+		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 		return static_cast<double>(std::chrono::duration_cast<std::chrono::seconds>(elapsedTime).count());

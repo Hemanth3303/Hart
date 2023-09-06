@@ -81,6 +81,9 @@ namespace Hart {
 	}
 
 	void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount) {
+		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
+		HART_ASSERT_NOT_EQUAL(vertexArray->getIndexBuffer(), nullptr, "Reason: IndexBuffer is null");
+
 		vertexArray->bind();
 		vertexArray->getIndexBuffer()->bind();
 		std::uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);

@@ -11,13 +11,9 @@ namespace Hart {
 	}
 
 	void ShaderLibrary::addShader(const std::shared_ptr<Shader>& shader) {
-		if (exists(shader->getName())) {
-			HART_ENGINE_ERROR("Shader with name " + shader->getName() + " already exists");
-			HART_ASSERT(false);
-		}
-		else {
-			m_Shaders[shader->getName()] = shader;
-		}
+		HART_ASSERT_NOT_EQUAL(exists(shader->getName()), true, "Reason: Shader with name " + shader->getName() + " already exists");
+
+		m_Shaders[shader->getName()] = shader;
 	}
 
 	std::shared_ptr<Shader> ShaderLibrary::loadShaderFromDisk(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
@@ -39,14 +35,8 @@ namespace Hart {
 	}
 
 	std::shared_ptr<Shader> ShaderLibrary::getShader(const std::string& name) {
-		if (!exists(name)) {
-			HART_ENGINE_ERROR("Shader named " + name + " doesn't exist");
-			HART_ASSERT(false);
-			return nullptr;
-		}
-		else {
-			return m_Shaders[name];
-		}
+		HART_ASSERT_EQUAL(exists(name), true, "Reason: Shader named " + name + " doesn't exist");
+		return m_Shaders[name];
 	}
 
 	std::vector<std::string_view> ShaderLibrary::getAllShaderNames() {
