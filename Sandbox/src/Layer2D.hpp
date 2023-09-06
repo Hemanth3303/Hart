@@ -4,8 +4,7 @@
 
 class Layer2D : public Hart::Layer {
 private:
-	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex, m_BufTex;
-	std::shared_ptr<Hart::Image> m_BufImg;
+	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex;
 	std::shared_ptr<Hart::SpriteSheet> m_SpriteSheet;
 	std::shared_ptr<Hart::OrthographicCameraController> m_CameraController;
 	Hart::Random m_Rd;
@@ -33,22 +32,9 @@ public:
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
 
-		std::uint32_t* buff = new std::uint32_t[32 * 32];
-		for (int y = 0; y < 32; y++) {
-			for (int x = 0; x < 32; x++) {
-				buff[x + y * 32] = 0xffff0000;
-			}
-		}
-		m_BufImg = std::make_shared<Hart::Image>(buff, 32, 32, 4);
-		m_BufTex = std::make_shared<Hart::Texture2D>(*m_BufImg.get(), pixelArtTextureSpec);
-
-		for (int y = 0; y < 32; y++) {
-			for (int x = 0; x < 32; x++) {
-				buff[x + y * 32] = 0xff00ff00;
-			}
-		}
-		m_BufTex->setBuffer(buff);
-		delete[] buff;
+		HART_ASSERT(false, "Reason: I don't like this game");
+		HART_ASSERT_EQUAL(1 , 2, "1==2?", "no?", "yes");
+		HART_ASSERT_NOT_EQUAL(1, 1, "1!=1?", "yes?", "no?");
 	}
 
 	~Layer2D() {
@@ -105,8 +91,6 @@ public:
 		Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
 		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
 		Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
-
-		Hart::Renderer2D::DrawQuad({ -1.25f, 0.5f }, { 0.4f, 0.4f }, m_BufTex);
 
 		m_ParticleSystem.render();
 

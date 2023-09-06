@@ -24,6 +24,7 @@
 #include <climits>
 #include <numbers>
 #include <cmath>
+#include <cassert>
 
 // from engine
 #include "Core/Base.hpp"
