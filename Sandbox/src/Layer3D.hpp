@@ -82,9 +82,6 @@ public:
 
 	void onAttach() override {
 		HART_CLIENT_LOG(std::string("Attached layer: ") + getName());
-
-		Hart::InputManager::DisableMouse();
-
 	}
 
 	void onDetach() override {
@@ -103,8 +100,6 @@ public:
 	bool onMouseMoved(Hart::MouseMovedEvent& e) {
 		float xpos = e.getXPos();
 		float ypos = e.getYPos();
-
-		HART_CLIENT_WARNING(e);
 
 		if (firstMouse) {
 			lastX = xpos;

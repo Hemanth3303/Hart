@@ -49,6 +49,8 @@ namespace Hart {
 
 		void bind(std::uint32_t slot = 0) const;
 		void unbind() const;
+		
+		void setBuffer(std::uint32_t* buffer);
 
 		inline const std::uint32_t getId() const { return m_TextureID; }
 		inline const Image& getImage() const { return m_Image; }
@@ -60,11 +62,14 @@ namespace Hart {
 		friend bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 	private:
 		void init();
+		void uploadBuffer();
 	private:
 		std::uint32_t m_TextureID = 0;
 		mutable std::uint32_t m_Slot = 0;
 		Image m_Image;
 		Texture2DSpecification m_TextureSpec;
+		std::uint32_t m_InternalFormat = 0;
+		std::uint32_t m_IncomingFormat = 0;
 	};
 	bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
 }
