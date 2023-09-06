@@ -16,6 +16,7 @@ namespace Hart {
 		inline void setPosition(const Vec3& position) { m_Position = position; recalculateViewMatrix(); }
 		inline void setFront(const Vec3& front) { m_Front = front; recalculateViewMatrix(); }
 		inline void setWorldUp(const Vec3& worldUp) { m_WorldUp = worldUp; recalculateViewMatrix(); }
+		// sets the yaw, pitch and roll (that order)
 		inline void setRotation(const Vec3& rotation) { m_Rotation = rotation; recalculateViewMatrix(); }
 
 		inline const Vec3& getPosition() const { return m_Position; }
@@ -36,6 +37,7 @@ namespace Hart {
 		Vec3 m_Front = { 0.0f, 0.0f, 0.0f };
 		Vec3 m_WorldUp = { 0.0f, 1.0f, 0.0f };
 
+		// yaw, pitch, roll
 		Vec3 m_Rotation = { -90.0f, 0.0f, 0.0f };
 	};
 }

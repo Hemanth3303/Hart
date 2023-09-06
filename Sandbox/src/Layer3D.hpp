@@ -7,6 +7,7 @@ private:
 	std::shared_ptr<Hart::VertexArray> m_Vao;
 	std::shared_ptr<Hart::Shader> m_Shader;
 	std::shared_ptr<Hart::PerspectiveCamera> m_Camera;
+	std::shared_ptr<Hart::Texture2D> m_GrassTex;
 
 	float angle = 0.0f;
 	bool firstMouse = true;
@@ -19,16 +20,19 @@ public:
 	Layer3D(const std::string& name = "Layer3D")
 		: Layer(name) {
 
+		using namespace Hart;
 		float vertices[7 * 8] = {
-			-0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f, 0.75f, //0
-			 0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.75f, //1
-			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.75f, //2
-			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f, 0.75f, //3
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 0.75f, //4
-			 0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f, 0.75f, //5
-			-0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f, 0.75f, //6
-			 0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 0.75f, //7
+			// Positions          // Colors
+			-0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f, 0.75f, //0
+			 0.5f, -0.5f,  0.5f,   0.0f, 1.0f, 0.0f, 0.75f, //1
+			-0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f, 0.75f, //2
+			 0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f, 0.75f, //3
+			-0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f, 0.75f, //4
+			 0.5f, -0.5f, -0.5f,   0.0f, 0.0f, 1.0f, 0.75f, //5
+			-0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f, 0.75f, //6
+			 0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f, 0.75f, //7
 		};
+
 		uint32_t indices[] = {
 			//Top
 			2, 6, 7,
@@ -66,9 +70,14 @@ public:
 		std::shared_ptr<Hart::IndexBuffer> ibo = std::make_shared<Hart::IndexBuffer>(indices, (uint32_t)(sizeof(indices) / sizeof(uint32_t)));
 		ibo->bind();
 		m_Vao->setIndexBuffer(ibo);
-		m_Shader = Hart::Application::Get()->getShader("DefaultShader3D");
+		m_Shader = Hart::Application::Get()->getShader("CubeShader3D");
 		m_Shader->bind();
 
+		Hart::Texture2DSpecification pixelArtSpec;
+		pixelArtSpec.magFilter = Hart::TextureMagFilter::Nearest;
+
+		m_GrassTex = std::make_shared<Hart::Texture2D>("res/images/grass_block.png", pixelArtSpec);
+		m_GrassTex->bind(0);
 	}
 
 	~Layer3D() {
