@@ -8,6 +8,10 @@ namespace Hart {
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
+    OrthographicCamera::~OrthographicCamera() {
+
+    }
+
 	void OrthographicCamera::setProjection(float left, float right, float bottom, float top, float near, float far) {
 		m_ProjectionMatrix = Mat4::Orthographic(left, right, bottom, top, near, far);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;

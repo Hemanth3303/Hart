@@ -23,7 +23,7 @@ namespace Hart {
 	}
 
 	void Renderer3D::BeginScene(PerspectiveCamera& camera) {
-		// s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
+		 s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
 	}
 
 	void Renderer3D::EndScene() {
@@ -33,16 +33,10 @@ namespace Hart {
 	void Renderer3D::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const Mat4& transformationMatrix) {
 
 		shader->bind();
-		shader->setUniform("uViewProjectionMatrix", s_Data->viewProjectionMatrix);
+		shader->setUniform("uViewProjectionMatrix3D", s_Data->viewProjectionMatrix);
 		shader->setUniform("uModelMatrix", transformationMatrix);
 
-		vertexArray->bind();
-		vertexArray->getIndexBuffer()->bind();
-
 		RenderCommand::DrawIndexed(vertexArray);
-
-		vertexArray->getIndexBuffer()->unbind();
-		vertexArray->unbind();
 
 		shader->unbind();
 	}

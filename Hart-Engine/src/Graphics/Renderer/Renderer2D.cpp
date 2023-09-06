@@ -174,10 +174,10 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Data->lineVertexArray, nullptr, "Reason: lineShader is not initialized");
 
 		s_Data->quadShader->bind();
-		s_Data->quadShader->setUniform("uViewProjectionMatrix", s_Data->viewProjectionMatrix);
+		s_Data->quadShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
 
 		s_Data->lineShader->bind();
-		s_Data->lineShader->setUniform("uViewProjectionMatrix", s_Data->viewProjectionMatrix);
+		s_Data->lineShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
 
 		BeginBatch();
 	}

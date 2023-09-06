@@ -20,10 +20,10 @@ namespace Hart {
 				float tilingFactor;
 			} vs_out;
 
-			uniform mat4 uViewProjectionMatrix;
+			uniform mat4 uViewProjectionMatrix2D;
 
 			void main() {
-				gl_Position = uViewProjectionMatrix * aPosition;
+				gl_Position = uViewProjectionMatrix2D * aPosition;
 				vs_out.color = aColor;
 				vs_out.textureCoords = aTextureCoords;
 				vs_out.textureIndex = aTextureIndex;
@@ -133,10 +133,10 @@ namespace Hart {
 				vec4 color;
 			} vs_out;
 
-			uniform mat4 uViewProjectionMatrix;
+			uniform mat4 uViewProjectionMatrix2D;
 
 			void main() {
-				gl_Position = uViewProjectionMatrix * aPosition;
+				gl_Position = uViewProjectionMatrix2D * aPosition;
 				vs_out.color = aColor;
 			}
 		)";
@@ -165,12 +165,11 @@ namespace Hart {
 
 			out vec4 vColor;
 
-			uniform mat4 uProjection;
-			uniform mat4 uView = mat4(1.0);
-			uniform mat4 uModel = mat4(1.0);
+			uniform mat4 uViewProjectionMatrix3D;
+			uniform mat4 uModelMatrix = mat4(1.0);
 			
 			void main() {
-				gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
+				gl_Position = uViewProjectionMatrix3D * uModelMatrix * vec4(aPosition, 1.0);
 				vColor=aColor;
 			}
 		)";
@@ -194,6 +193,5 @@ namespace Hart {
 		Application::Get()->m_ShaderLibrary.loadShaderFromString("LineShader2D", lineShader2DVertexSource.c_str(), lineShader2DFragmentSource.c_str());
 
 		Application::Get()->m_ShaderLibrary.loadShaderFromString("DefaultShader3D", defaultShader3DVertexSource.c_str(), defaultShader3DFragmentSource.c_str());
-
 	}
 }

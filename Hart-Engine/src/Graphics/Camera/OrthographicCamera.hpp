@@ -9,6 +9,7 @@ namespace Hart {
 	class OrthographicCamera {
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);
+		~OrthographicCamera();
 
 		void setProjection(float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);
 
