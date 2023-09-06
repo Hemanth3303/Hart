@@ -12,4 +12,4 @@ I'm making this engine as a learning exercise. As such I probably won't be accep
 [premake-cmake](https://github.com/Enhex/premake-cmake): CMake generator for premake.<br>
 
 ## Note
-Heavily inspired by the The [Cherno's](https://www.youtube.com/@TheCherno) [Sparky game engine series](https://youtube.com/playlist?list=PLlrATfBNZ98fqE45g3jZA_hLGUrD4bo6_&si=7wCTJJ7dkz3_YiHU) and [Hazel game engine](https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&si=DDBFTAqIOJZEUX0i) series <br>
+Heavily inspired by the [TheCherno](https://www.youtube.com/@TheCherno)'s [Sparky Engine series](https://youtube.com/playlist?list=PLlrATfBNZ98fqE45g3jZA_hLGUrD4bo6_&si=7wCTJJ7dkz3_YiHU) and [Hazel Game Engine](https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&si=DDBFTAqIOJZEUX0i) series <br>
