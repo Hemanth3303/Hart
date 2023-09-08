@@ -1,13 +1,10 @@
 #include "HartPch.hpp"
 #include "Renderer3D.hpp"
+#include "Renderer3DData.hpp"
 #include "Renderer2D.hpp"
 #include "RenderCommand.hpp"
 
 namespace Hart {
-	struct Renderer3DData {
-		Mat4 viewProjectionMatrix;
-	};
-
 	static std::unique_ptr<Renderer3DData> s_Data = std::make_unique<Renderer3DData>();
 
 	void Renderer3D::Init() {

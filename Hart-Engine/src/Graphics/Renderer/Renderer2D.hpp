@@ -1,11 +1,8 @@
 #pragma once
 
 #include "HartPch.hpp"
-#include "Maths/Vec2.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
-#include "Maths/Mat4.hpp"
-#include "../Shader.hpp"
 #include "../Texture2D.hpp"
 #include "../SpriteSheet.hpp"
 #include "../Camera/OrthographicCamera.hpp"
