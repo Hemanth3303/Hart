@@ -71,11 +71,13 @@ namespace Hart {
 	}
 
 	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 		vertexArray->bind();
 		glDrawArrays(GL_LINES, 0, vertexCount);
 	}
 
 	void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 		vertexArray->bind();
 		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	}
