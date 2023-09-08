@@ -10,7 +10,7 @@ namespace Hart {
 	class FileManager {
 	public:
 		static std::string ReadStringFromFile(const std::string& fileName);
-		static std::vector<std::uint8_t> ReadBinaryFromFile(const std::string& fileName);
+		static std::vector<void*> ReadBinaryFromFile(const std::string& fileName);
 
 		// Writes 'data' to 'fileName', creating the file and/or directories if they don't exist.
 		// Also adds a newline character at the end of 'data'

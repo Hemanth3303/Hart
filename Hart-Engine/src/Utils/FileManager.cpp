@@ -25,9 +25,10 @@ namespace Hart {
 		return outDataStr;
 	}
 
-	std::vector<std::uint8_t> FileManager::ReadBinaryFromFile(const std::string& fileName) {
+	std::vector<void*> FileManager::ReadBinaryFromFile(const std::string& fileName) {
 		std::ifstream inFile;
-		std::vector<std::uint8_t> outData = {};
+		std::streampos fileSize;
+		std::vector<void*> outData = {};
 		if (!FileExists(fileName)) {
 			HART_ENGINE_ERROR("Could not find file named " + fileName, "\t\t\tIs the file name and/or file path correct?");
 		}
@@ -36,8 +37,12 @@ namespace Hart {
 			inFile.open(fileName, std::ios::binary);
 			HART_ASSERT(inFile, "Reason: Couldn't open file");
 
-			// copies all data into buffer
-			outData.assign(std::istreambuf_iterator<char>(inFile), std::istreambuf_iterator<char>());
+			inFile.seekg(0, std::ios::end);
+			fileSize = inFile.tellg();
+			inFile.seekg(0, std::ios::beg);
+
+			outData.resize(fileSize);
+			inFile.read(reinterpret_cast<char*>(&outData[0]), fileSize);
 		}
 
 		return outData;
