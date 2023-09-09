@@ -3,6 +3,17 @@
 #include "Graphics/Renderer/RenderCommand.hpp"
 
 namespace Hart {
+	
+	void windowSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height);
+	void windowCloseCallback(GLFWwindow* glfwWindow);
+	void windowPositionCallback(GLFWwindow* glfwWindow, std::int32_t xpos, std::int32_t ypos);
+	void windowFocusCallback(GLFWwindow* glfwWindow, std::int32_t focused);
+	void framebufferSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height);
+	void keyCallback(GLFWwindow* glfwWindow, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods);
+	void mouseButtonCallback(GLFWwindow* glfwWindow, std::int32_t button, std::int32_t action, std::int32_t mods);
+	void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
+	void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
+
 	Window::Window(const WindowProps& windowProps)
 		: m_WindowProps(windowProps) {
 		init();
