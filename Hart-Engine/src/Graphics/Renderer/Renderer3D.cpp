@@ -33,7 +33,7 @@ namespace Hart {
 		shader->setUniform("uViewProjectionMatrix3D", s_Data->viewProjectionMatrix);
 		shader->setUniform("uModelMatrix", transformationMatrix);
 
-		RenderCommand::DrawIndexed(vertexArray);
+		RenderCommand::DrawArrays(vertexArray);
 
 		shader->unbind();
 	}

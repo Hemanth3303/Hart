@@ -28,7 +28,9 @@ namespace Hart {
 
 		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount);
 
-		static void DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount);
+		// by default uses vertex count of vertex array
+		// if provided with a vertexCount greater than 0, it uses that vertexCount instead
+		static void DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount = 0);
 		// by default uses index count of index buffer in vertex array
 		// if provided with an indexCount greater than 0, it uses that indexCount instead
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount = 0);

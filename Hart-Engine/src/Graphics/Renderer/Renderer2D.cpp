@@ -45,7 +45,7 @@ namespace Hart {
 
 		s_Data->quadVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast <std::uint32_t>(sizeof(QuadVertex)));
 		s_Data->quadVertexBuffer->setLayout(quadBufferLayout);
-		s_Data->quadVertexArray->addVertexBuffer(s_Data->quadVertexBuffer);
+		s_Data->quadVertexArray->setVertexBuffer(s_Data->quadVertexBuffer);
 
 		s_Data->quadVertexBufferBase = new QuadVertex[s_Data->MAX_VERTICES];
 
@@ -69,7 +69,7 @@ namespace Hart {
 
 		s_Data->lineVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast <std::uint32_t>(sizeof(LineVertex)));
 		s_Data->lineVertexBuffer->setLayout(lineBufferLayout);
-		s_Data->lineVertexArray->addVertexBuffer(s_Data->lineVertexBuffer);
+		s_Data->lineVertexArray->setVertexBuffer(s_Data->lineVertexBuffer);
 		s_Data->lineVertexBufferBase = new LineVertex[s_Data->MAX_VERTICES];
 
 		// Textures

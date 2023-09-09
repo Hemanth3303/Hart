@@ -78,8 +78,10 @@ namespace Hart {
 
 	void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
 		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
+
 		vertexArray->bind();
-		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+		std::uint32_t count = (vertexCount == 0 ? vertexArray->getVertexCount() : vertexCount);
+		glDrawArrays(GL_TRIANGLES, 0, count);
 	}
 
 	void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount) {

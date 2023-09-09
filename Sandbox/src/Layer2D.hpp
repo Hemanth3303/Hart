@@ -31,8 +31,6 @@ public:
 		m_Particle.velocity = { m_Rd.getRandomFloat(-1.0f, 1.0f), m_Rd.getRandomFloat(-1.0f, 1.0f) };
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
-		
-
 	}
 
 	~Layer2D() {

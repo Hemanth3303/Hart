@@ -62,17 +62,19 @@ namespace Hart {
 		}
 	}
 
-	VertexBuffer::VertexBuffer(std::uint32_t size) {
+	VertexBuffer::VertexBuffer(std::uint32_t size) 
+		: m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
-		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, m_Size, nullptr, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	VertexBuffer::VertexBuffer(float* vertices, std::uint32_t size) {
+	VertexBuffer::VertexBuffer(float* vertices, std::uint32_t size) 
+		: m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
-		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, m_Size, vertices, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -89,8 +91,9 @@ namespace Hart {
 	}
 
 	void VertexBuffer::setData(const void* data, std::uint32_t size, std::uint32_t offset) {
+		m_Size = size;
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
-		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, m_Size, data);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }

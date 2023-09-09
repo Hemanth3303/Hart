@@ -18,14 +18,14 @@ namespace Hart {
 	void VertexArray::unbind() const {
 		glBindVertexArray(0);
 	}
-	// Adds a vertexbuffer to the vertexarray
-	// Note: Only add a vertexbuffer after settings its layout
-	void VertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
+
+	void VertexArray::setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
 		glBindVertexArray(m_ID);
 
 		HART_ASSERT_NOT_EQUAL(vertexBuffer->getLayout().isEmpty(), true, "Attempting to add a VertexBuffer with an empty layout to VertexArray");
 		vertexBuffer->bind();
 		std::uint32_t index = 0;
+		std::uint32_t itemsPerVertex = 0;
 		for (const auto& element : vertexBuffer->getLayout()) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(
@@ -37,9 +37,13 @@ namespace Hart {
 				reinterpret_cast<const void*>(element.offset)
 			);
 			index++;
+			itemsPerVertex += element.getComponentCount();
 		}
+		std::uint32_t numberOfVerticesVertexBuffer = vertexBuffer->getNumberOfItems() / itemsPerVertex;
+		m_VertexCount += numberOfVerticesVertexBuffer;
+
 		vertexBuffer->unbind();
-		m_vertexBuffers.push_back(vertexBuffer);
+		m_vertexBuffer = vertexBuffer;
 
 		glBindVertexArray(0);
 	}

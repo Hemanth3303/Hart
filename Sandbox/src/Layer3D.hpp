@@ -21,42 +21,49 @@ public:
 		: Layer(name) {
 
 		using namespace Hart;
-		float vertices[7 * 8] = {
-			// Positions          // Colors
-			-0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f, 0.75f, //0
-			 0.5f, -0.5f,  0.5f,   0.0f, 1.0f, 0.0f, 0.75f, //1
-			-0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f, 0.75f, //2
-			 0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f, 0.75f, //3
-			-0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f, 0.75f, //4
-			 0.5f, -0.5f, -0.5f,   0.0f, 0.0f, 1.0f, 0.75f, //5
-			-0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f, 0.75f, //6
-			 0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f, 0.75f, //7
-		};
-
-		uint32_t indices[] = {
-			//Top
-			2, 6, 7,
-			2, 3, 7,
-
-			//Bottom
-			0, 4, 5,
-			0, 1, 5,
-
-			//Left
-			0, 2, 6,
-			0, 4, 6,
-
-			//Right
-			1, 3, 7,
-			1, 5, 7,
-
-			//Front
-			0, 2, 3,
-			0, 1, 3,
-
-			//Back
-			4, 6, 7,
-			4, 5, 7
+		float vertices[] = {
+			// Positions            // colors
+			-0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 0.0f, 0.75f,
+			 0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 0.0f, 0.75f,
+			 0.5f,  0.5f, -0.5f,    1.0f, 0.0f, 0.0f, 0.75f,
+			 0.5f,  0.5f, -0.5f,    1.0f, 0.0f, 0.0f, 0.75f,
+			-0.5f,  0.5f, -0.5f,    1.0f, 0.0f, 0.0f, 0.75f,
+			-0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 0.0f, 0.75f,
+								    
+			-0.5f, -0.5f,  0.5f,    0.0f, 1.0f, 0.0f, 0.75f,
+			 0.5f, -0.5f,  0.5f,    0.0f, 1.0f, 0.0f, 0.75f,
+			 0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 0.0f, 0.75f,
+			 0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 0.0f, 0.75f,
+			-0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 0.0f, 0.75f,
+			-0.5f, -0.5f,  0.5f,    0.0f, 1.0f, 0.0f, 0.75f,
+								    
+			-0.5f,  0.5f,  0.5f,    0.0f, 0.0f, 1.0f, 0.75f,
+			-0.5f,  0.5f, -0.5f,    0.0f, 0.0f, 1.0f, 0.75f,
+			-0.5f, -0.5f, -0.5f,    0.0f, 0.0f, 1.0f, 0.75f,
+			-0.5f, -0.5f, -0.5f,    0.0f, 0.0f, 1.0f, 0.75f,
+			-0.5f, -0.5f,  0.5f,    0.0f, 0.0f, 1.0f, 0.75f,
+			-0.5f,  0.5f,  0.5f,    0.0f, 0.0f, 1.0f, 0.75f,
+								    
+			 0.5f,  0.5f,  0.5f,    1.0f, 0.0f, 1.0f, 0.75f,
+			 0.5f,  0.5f, -0.5f,    1.0f, 0.0f, 1.0f, 0.75f,
+			 0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 1.0f, 0.75f,
+			 0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 1.0f, 0.75f,
+			 0.5f, -0.5f,  0.5f,    1.0f, 0.0f, 1.0f, 0.75f,
+			 0.5f,  0.5f,  0.5f,    1.0f, 0.0f, 1.0f, 0.75f,
+								    
+			-0.5f, -0.5f, -0.5f,    1.0f, 1.0f, 0.0f, 0.75f,
+			 0.5f, -0.5f, -0.5f,    1.0f, 1.0f, 0.0f, 0.75f,
+			 0.5f, -0.5f,  0.5f,    1.0f, 1.0f, 0.0f, 0.75f,
+			 0.5f, -0.5f,  0.5f,    1.0f, 1.0f, 0.0f, 0.75f,
+			-0.5f, -0.5f,  0.5f,    1.0f, 1.0f, 0.0f, 0.75f,
+			-0.5f, -0.5f, -0.5f,    1.0f, 1.0f, 0.0f, 0.75f,
+								    
+			-0.5f,  0.5f, -0.5f,    0.0f, 1.0f, 1.0f, 0.75f,
+			 0.5f,  0.5f, -0.5f,    0.0f, 1.0f, 1.0f, 0.75f,
+			 0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 1.0f, 0.75f,
+			 0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 1.0f, 0.75f,
+			-0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 1.0f, 0.75f,
+			-0.5f,  0.5f, -0.5f,    0.0f, 1.0f, 1.0f, 0.75f,
 		};
 
 		m_Vao = std::make_shared<Hart::VertexArray>();
@@ -66,10 +73,7 @@ public:
 		};
 		std::shared_ptr <Hart::VertexBuffer> vbo=std::make_shared<Hart::VertexBuffer>(vertices, (uint32_t)sizeof(vertices));
 		vbo->setLayout(layout);
-		m_Vao->addVertexBuffer(vbo);
-		std::shared_ptr<Hart::IndexBuffer> ibo = std::make_shared<Hart::IndexBuffer>(indices, (uint32_t)(sizeof(indices) / sizeof(uint32_t)));
-		ibo->bind();
-		m_Vao->setIndexBuffer(ibo);
+		m_Vao->setVertexBuffer(vbo);
 		m_Shader = Hart::Application::Get()->getShader("CubeShader3D");
 		m_Shader->bind();
 

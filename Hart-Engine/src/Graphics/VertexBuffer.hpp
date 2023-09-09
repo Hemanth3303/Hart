@@ -51,14 +51,23 @@ namespace Hart {
 		VertexBuffer(float* vertices, std::uint32_t size);
 		~VertexBuffer();
 
-		inline const BufferLayout& getLayout() const { return m_Layout; }
-		inline void setLayout(const BufferLayout& layout) { m_Layout = layout; }
-
 		void bind() const;
 		void unbind() const;
 		void setData(const void* data, std::uint32_t size, std::uint32_t offset = 0);
+
+		inline const BufferLayout& getLayout() const { return m_Layout; }
+		// returns size in bytes of buffer passed in
+		inline const std::uint32_t getSize() const { return m_Size; }
+		// returns how many bytes one item in buffer is
+		// note: since this class only accepts float* as buffers, this function returns the size of one float
+		inline const std::uint32_t getSizeOfOneItemInBuffer() const { return static_cast<std::uint32_t>(sizeof(float)); }
+		// returns how many items in the buffer, as in how many array values, not how many vertexAttributes
+		// this function basically returns getSize() / getSizeOfOneItemInBuffer()
+		inline const std::uint32_t getNumberOfItems() const { return getSize() / getSizeOfOneItemInBuffer(); }
+		inline void setLayout(const BufferLayout& layout) { m_Layout = layout; }
 	private:
 		std::uint32_t m_ID = 0;
+		std::uint32_t m_Size;
 		BufferLayout m_Layout;
 	};
 }
