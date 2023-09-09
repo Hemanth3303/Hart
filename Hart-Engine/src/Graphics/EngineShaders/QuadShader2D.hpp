@@ -1,9 +1,9 @@
-#include "HartPch.hpp"
-#include "HartApplication.hpp"
+#pragma once
 
-// initializes engine's shader library with some defaul shaders
+#include "HartPch.hpp"
+
 namespace Hart {
-	std::string quadShader2DVertexSource = // vertex shader
+	inline const std::string QuadShader2DVertexSource = // vertex shader
 		R"(
 			#version 460 core
 
@@ -31,7 +31,7 @@ namespace Hart {
 			}
 		)";
 
-	std::string quadShader2DFragmentSource = // fragment shader
+	inline const std::string QuadShader2DFragmentSource = // fragment shader
 		R"(
 			#version 460 core
 
@@ -121,81 +121,4 @@ namespace Hart {
 				}
 			}
 		)";
-
-	std::string lineShader2DVertexSource = // vertex shader
-		R"(
-			#version 460 core
-
-			layout (location = 0) in vec4 aPosition;
-			layout (location = 1) in vec4 aColor;
-
-			out DATA {
-				vec4 color;
-			} vs_out;
-
-			uniform mat4 uViewProjectionMatrix2D;
-
-			void main() {
-				gl_Position = uViewProjectionMatrix2D * aPosition;
-				vs_out.color = aColor;
-			}
-		)";
-
-	std::string lineShader2DFragmentSource = // fragment shader
-		R"(
-			#version 460 core
-
-			layout (location = 0) out vec4 color;
-
-			in DATA {
-				vec4 color;
-			} fs_in;
-
-			void main() {
-				color = fs_in.color;
-			}
-		)";
-
-	std::string cubeShader3DVertexSource =  // vertex shader
-		R"(
-			#version 460 core
-			
-			layout (location = 0) in vec3 aPosition;
-			layout (location = 1) in vec4 aColor;
-
-			out DATA {
-				vec4 color;
-			} vs_out;
-
-			uniform mat4 uViewProjectionMatrix3D;
-			uniform mat4 uModelMatrix = mat4(1.0);
-			
-			void main() {
-				gl_Position = uViewProjectionMatrix3D * uModelMatrix * vec4(aPosition, 1.0);
-				vs_out.color = aColor;
-			}
-		)";
-
-	std::string cubeShader3DFragmentSource =  // fragment shader
-		R"(
-			#version 460 core
-			
-			layout (location = 0) out vec4 color;
-
-			in DATA {
-				vec4 color;
-			} fs_in;
-
-			void main() {
-				color = fs_in.color;
-			}
-		)";
-
-	void initializeShaderLibrary() {
-		Application::Get()->m_ShaderLibrary.loadShaderFromString("QuadShader2D", quadShader2DVertexSource.c_str(), quadShader2DFragmentSource.c_str());
-
-		Application::Get()->m_ShaderLibrary.loadShaderFromString("LineShader2D", lineShader2DVertexSource.c_str(), lineShader2DFragmentSource.c_str());
-
-		Application::Get()->m_ShaderLibrary.loadShaderFromString("CubeShader3D", cubeShader3DVertexSource.c_str(), cubeShader3DFragmentSource.c_str());
-	}
 }
