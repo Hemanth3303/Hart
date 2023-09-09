@@ -44,6 +44,7 @@ namespace Hart {
 		inline const Window* getWindow() const { return m_Window.get(); }
 		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
+		inline const Vec2 getWindowDimensions() const { return m_Window->getDimensions(); }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }

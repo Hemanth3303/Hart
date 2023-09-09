@@ -33,6 +33,8 @@ namespace Hart {
 		inline const std::int32_t& getWidth() const { return m_WindowProps.width;
 		}
 		inline const std::int32_t& getHeight() const { return m_WindowProps.height; }
+
+		inline const Vec2 getDimensions() const { return Vec2(static_cast<float>(m_WindowProps.width), static_cast<float>(m_WindowProps.height)); }
 		// returns a non ownning reference to the GLFWwindow object
 		inline GLFWwindow* const& getGLFWwindow() const { return m_GLFWwindow; }
 		inline const Vec2& getPosition() const { return m_WindowProps.position; }
