@@ -58,6 +58,7 @@ namespace Hart {
 		s_Data->quadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
 		// Lines
+		RenderCommand::EnableSmoothLines();
 		s_Data->lineShader = Application::Get()->getShader("LineShader2D");
 		s_Data->lineVertexArray = std::make_shared<VertexArray>();
 		s_Data->lineVertexArray->bind();

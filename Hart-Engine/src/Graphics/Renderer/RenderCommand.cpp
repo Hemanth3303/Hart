@@ -70,6 +70,14 @@ namespace Hart {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
+    void RenderCommand::EnableSmoothLines() {
+		glEnable(GL_LINE_SMOOTH);
+	}
+
+    void RenderCommand::DisableSmoothLines() {
+		glDisable(GL_LINE_SMOOTH);
+	}
+
 	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
 		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 		vertexArray->bind();

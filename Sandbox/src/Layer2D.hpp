@@ -14,6 +14,14 @@ private:
 public:
 	Layer2D(const std::string& name = "Layer2D")
 		: Layer(name), m_ParticleSystem(1'000'000) {
+	}
+
+	~Layer2D() {
+
+	}
+
+	void onAttach() override {
+		HART_CLIENT_LOG(std::string("Attached layer: ") + getName());
 
 		Hart::Texture2DSpecification pixelArtTextureSpec;
 		pixelArtTextureSpec.magFilter = Hart::TextureMagFilter::Nearest;
@@ -31,14 +39,7 @@ public:
 		m_Particle.velocity = { m_Rd.getRandomFloat(-1.0f, 1.0f), m_Rd.getRandomFloat(-1.0f, 1.0f) };
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
-	}
 
-	~Layer2D() {
-
-	}
-
-	void onAttach() override {
-		HART_CLIENT_LOG(std::string("Attached layer: ") + getName());
 	}
 
 	void onDetach() override {

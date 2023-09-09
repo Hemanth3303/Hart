@@ -24,7 +24,8 @@ namespace Hart {
 		static void DisableBlending();
 		static void EnableWireFrameMode();
 		static void DisableWireFrameMode();
-
+		static void EnableSmoothLines();
+		static void DisableSmoothLines();
 
 		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount);
 
