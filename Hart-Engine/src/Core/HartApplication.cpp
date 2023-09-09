@@ -196,7 +196,7 @@ namespace Hart {
 	
 	bool Application::onWindowResized(WindowResizedEvent& e) {
 
-		if (e.getWidth() == 0 || e.getHeight() == 0) {
+		if (e.getWidth() == 0 && e.getHeight() == 0) {
 			m_IsWindowMinimized = true;
 		}
 		else {
