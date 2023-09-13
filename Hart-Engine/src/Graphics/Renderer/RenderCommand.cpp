@@ -88,7 +88,7 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 
 		vertexArray->bind();
-		std::uint32_t count = (vertexCount == 0 ? vertexArray->getVertexCount() : vertexCount);
+		std::uint32_t count = (vertexCount == 0 ? vertexArray->getVertexBuffer()->getVertexCount() : vertexCount);
 		glDrawArrays(GL_TRIANGLES, 0, count);
 	}
 

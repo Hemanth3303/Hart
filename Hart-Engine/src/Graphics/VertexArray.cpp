@@ -25,7 +25,6 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(vertexBuffer->getLayout().isEmpty(), true, "Attempting to add a VertexBuffer with an empty layout to VertexArray");
 		vertexBuffer->bind();
 		std::uint32_t index = 0;
-		std::uint32_t itemsPerVertex = 0;
 		for (const auto& element : vertexBuffer->getLayout()) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(
@@ -37,11 +36,7 @@ namespace Hart {
 				reinterpret_cast<const void*>(element.offset)
 			);
 			index++;
-			itemsPerVertex += element.getComponentCount();
 		}
-		std::uint32_t numberOfVerticesVertexBuffer = vertexBuffer->getNumberOfItems() / itemsPerVertex;
-		m_VertexCount += numberOfVerticesVertexBuffer;
-
 		vertexBuffer->unbind();
 		m_vertexBuffer = vertexBuffer;
 

@@ -145,7 +145,7 @@ public:
 			pitch = -89.0f;
 		}
 
-		m_Camera->setRotation({ yaw, pitch, 0.0f });
+		m_Camera->setRotation({ yaw, pitch, roll });
 
 		return false;
 	}
@@ -216,7 +216,7 @@ public:
 		auto axis = Hart::Vec3::GetNormal({ 1, 1, 1 });
 		auto model = Hart::Mat4::Rotate(angle, axis);
 
-		Hart::Renderer3D::Submit(m_Vao, m_Shader, model);
+		Hart::Renderer3D::Submit(m_Vao, m_Shader);
 
 		Hart::Renderer3D::EndScene();
 	}

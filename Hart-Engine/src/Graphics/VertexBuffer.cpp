@@ -96,4 +96,14 @@ namespace Hart {
 		glBufferSubData(GL_ARRAY_BUFFER, offset, m_Size, data);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+	void VertexBuffer::setLayout(const BufferLayout& layout) {
+		std::uint32_t itemsPerVertex = 0;
+		for (const auto& element : layout.getElements()) {
+			itemsPerVertex += element.getComponentCount();
+		}
+		std::uint32_t numberOfVerticesVertexBuffer = getNumberOfItems() / itemsPerVertex;
+		m_VertexCount += numberOfVerticesVertexBuffer;
+
+		m_Layout = layout;
+	}
 }
