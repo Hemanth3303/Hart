@@ -9,7 +9,6 @@
 #include "Core/LayerStack.hpp"
 
 #include "Graphics/Shader.hpp"
-#include "Graphics/Image.hpp"
 #include "Graphics/Texture2D.hpp"
 #include "Graphics/SpriteSheet.hpp"
 #include "Graphics/ParticleSystem.hpp"

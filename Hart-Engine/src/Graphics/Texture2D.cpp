@@ -1,27 +1,41 @@
 #include "HartPch.hpp"
 #include "Texture2D.hpp"
 #include "glad/glad.h"
+#include "stb_image.h"
 
 namespace Hart {
-	Texture2D::Texture2D(const Image& image, const Texture2DSpecification& texture2DSpecs)
-		: m_Image(image), m_TextureSpec(texture2DSpecs) {
-
-		init();
-	}
-
 	Texture2D::Texture2D(const std::string& filePath, const Texture2DSpecification& texture2DSpecs)
-		: m_Image(filePath), m_TextureSpec(texture2DSpecs) {
+		: m_loadedFromStbi(true), m_TextureSpec(texture2DSpecs) {
+		
+		if (!FileManager::FileExists(filePath)) {
+			HART_ENGINE_ERROR("File " + filePath + " does not exits", "Is the name and/or path correct?");
+		}
+		else {
+			int32_t width, height, channels;
+
+			stbi_set_flip_vertically_on_load(true);
+			m_Buffer = reinterpret_cast<std::uint32_t*>(stbi_load(filePath.c_str(), &width, &height, &channels, 0));
+			stbi_set_flip_vertically_on_load(false);
+
+			m_TextureSpec.width = width;
+			m_TextureSpec.height = height;
+			m_TextureSpec.numberOfChannels = channels;
+		}
 
 		init();
 	}
 
-	Texture2D::Texture2D(std::uint32_t* buffer, std::uint32_t width, std::uint32_t height, std::uint32_t channels, const Texture2DSpecification& texture2DSpecs)
-		: m_Image(buffer, width, height, channels), m_TextureSpec(texture2DSpecs) {
+	Texture2D::Texture2D(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs)
+		: m_Buffer(buffer), m_loadedFromStbi(false), m_TextureSpec(texture2DSpecs) {
 
 		init();
 	}
 
 	Texture2D::~Texture2D() {
+		if (m_loadedFromStbi == true) {
+			stbi_image_free(reinterpret_cast<void*>(m_Buffer));
+		}
+
 		glDeleteTextures(1, &m_TextureID);
 	}
 
@@ -35,9 +49,15 @@ namespace Hart {
 	}
 
     void Texture2D::setBuffer(std::uint32_t* buffer) {
-		m_Image.setBuffer(buffer);
+		m_Buffer = buffer;
 		uploadBuffer();
     }
+
+	void Texture2D::setBuffer(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs) {
+		m_TextureSpec = texture2DSpecs;
+		m_Buffer = buffer;
+		uploadBuffer();
+	}
 
 	bool Texture2D::operator==(const Texture2D& other) const {
 		return (m_TextureID == other.m_TextureID);
@@ -49,16 +69,20 @@ namespace Hart {
 		m_InternalFormat = GL_RGB8;
 		m_IncomingFormat = GL_RGB;
 
-		if (m_Image.getChannels() == 3) {
+		if (m_TextureSpec.numberOfChannels == 3) {
 			m_InternalFormat = GL_RGB8;
 			m_IncomingFormat = GL_RGB;
 		}
-		else if (m_Image.getChannels() == 4) {
+		else if (m_TextureSpec.numberOfChannels == 4) {
 			m_InternalFormat = GL_RGBA8;
 			m_IncomingFormat = GL_RGBA;
 		}
+		else if (m_TextureSpec.numberOfChannels == 1) {
+			m_InternalFormat = GL_R8;
+			m_IncomingFormat = GL_RED;
+		}
 
-		glTextureStorage2D(m_TextureID, 1, m_InternalFormat, m_Image.getWidth(), m_Image.getHeight());
+		glTextureStorage2D(m_TextureID, 1, m_InternalFormat, m_TextureSpec.width, m_TextureSpec.height);
 
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, static_cast<std::int32_t>(m_TextureSpec.magFilter));
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, static_cast<std::int32_t>(m_TextureSpec.minFilter));
@@ -73,7 +97,7 @@ namespace Hart {
 	}
 
 	void Texture2D::uploadBuffer() {
-		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Image.getWidth(), m_Image.getHeight(), m_IncomingFormat, GL_UNSIGNED_BYTE, m_Image.getBuffer());
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_TextureSpec.width, m_TextureSpec.height, m_IncomingFormat, GL_UNSIGNED_BYTE, m_Buffer);
 	}
 
 	bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right) {

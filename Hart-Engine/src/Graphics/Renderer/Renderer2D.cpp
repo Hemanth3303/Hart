@@ -75,7 +75,11 @@ namespace Hart {
 
 		// Textures
 		std::uint32_t whiteTextureData = 0xffffffff;
-		s_Data->whiteTexture = std::make_shared<Texture2D>(&whiteTextureData, 1, 1);
+		Texture2DSpecification whiteTextureSpec;
+		whiteTextureSpec.width = 1;
+		whiteTextureSpec.height = 1;
+		whiteTextureSpec.numberOfChannels = 4;
+		s_Data->whiteTexture = std::make_shared<Texture2D>(&whiteTextureData, whiteTextureSpec);
 		s_Data->textureSlots[0] = s_Data->whiteTexture;
 
 		s_Data->quadShader->bind();
@@ -222,6 +226,10 @@ namespace Hart {
 		}
 
 		AddNewLineVertex(startPosition, endPosition, color);
+	}
+
+	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
+		
 	}
 
 	void Renderer2D::ResetStats() {
