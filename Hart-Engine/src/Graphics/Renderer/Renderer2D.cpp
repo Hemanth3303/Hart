@@ -3,6 +3,7 @@
 #include "Renderer2DData.hpp"
 #include "RenderCommand.hpp"
 #include "Core/HartApplication.hpp"
+#include "stb_truetype.h"
 
 namespace Hart {
 	static std::unique_ptr<Renderer2DData> s_Data;

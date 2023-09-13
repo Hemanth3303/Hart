@@ -53,6 +53,10 @@ namespace Hart {
 		static void SetLineWidth(float width);
 		static void DrawLine(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color = White);
 
+		// Text
+
+		static void DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color = White);
+
 		static void ResetStats();
 		static std::uint32_t GetNumberOfDrawCalls();
 		static std::uint32_t GetNumberOfQuads();

@@ -3,6 +3,7 @@ project "stb"
 	language "C"
 	cdialect "C17"
 	cppdialect "C++20"
+	warnings "Off"
 	targetdir("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
 	staticruntime "on"

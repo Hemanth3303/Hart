@@ -79,17 +79,19 @@ public:
 		Hart::Renderer2D::ResetStats();
 		Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
 
-		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
-		Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
-		Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
+		//Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
+		//Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
+		//Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
 
-		Hart::Renderer2D::DrawLine({ 0.0f, 0.0f, 1.0f }, m_MousePos, Hart::Cyan);
+		//Hart::Renderer2D::DrawLine({ 0.0f, 0.0f, 1.0f }, m_MousePos, Hart::Cyan);
 
-		Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
-		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
-		Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
+		//Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
+		//Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
+		//Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
 
-		m_ParticleSystem.render();
+		//m_ParticleSystem.render();
+
+		Hart::Renderer2D::DrawText("Hello, World", { 0.0f, 0.0f, 1.0f }, 0.05f, Hart::Red);
 
 		Hart::Renderer2D::EndScene();
 		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Renderer2D::GetNumberOfDrawCalls()));
