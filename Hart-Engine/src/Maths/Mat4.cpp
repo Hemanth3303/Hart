@@ -324,15 +324,15 @@ namespace Hart {
 		float z = axisVector.z;
 
 		result.elements[0 + 0 * 4] = x * x * oneMinusCosAngleD + cosAngleD;
-		result.elements[1 + 0 * 4] = y * x * oneMinusCosAngleD + z * sinAngleD;
-		result.elements[2 + 0 * 4] = z * x * oneMinusCosAngleD - y * sinAngleD;
+		result.elements[0 + 1 * 4] = y * x * oneMinusCosAngleD + z * sinAngleD;
+		result.elements[0 + 2 * 4] = z * x * oneMinusCosAngleD - y * sinAngleD;
 
-		result.elements[0 + 1 * 4] = x * y * oneMinusCosAngleD - z * sinAngleD;
+		result.elements[1 + 0 * 4] = x * y * oneMinusCosAngleD - z * sinAngleD;
 		result.elements[1 + 1 * 4] = y * y * oneMinusCosAngleD + cosAngleD;
-		result.elements[2 + 1 * 4] = z * y * oneMinusCosAngleD + x * sinAngleD;
+		result.elements[1 + 2 * 4] = z * y * oneMinusCosAngleD + x * sinAngleD;
 
-		result.elements[0 + 2 * 4] = x * z * oneMinusCosAngleD + y * sinAngleD;
-		result.elements[1 + 2 * 4] = y * z * oneMinusCosAngleD - x * sinAngleD;
+		result.elements[2 + 0 * 4] = x * z * oneMinusCosAngleD + y * sinAngleD;
+		result.elements[2 + 1 * 4] = y * z * oneMinusCosAngleD - x * sinAngleD;
 		result.elements[2 + 2 * 4] = z * z * oneMinusCosAngleD + cosAngleD;
 
 		return result;
@@ -357,19 +357,19 @@ namespace Hart {
 		Vec3 yAxis = Vec3::CrossProduct(zAxis, xAxis);
 
 		// Create translation and rotation matrix
-		Mat4 translation = Mat4::Identity();
-		translation.elements[0 + 3 * 4] = -position.x;
-		translation.elements[1 + 3 * 4] = -position.y;
-		translation.elements[2 + 3 * 4] = -position.z;
+		Mat4 translation = Mat4::Translate({ -position.x, -position.y, -position.z });
+
 		Mat4 rotation = Mat4::Identity();
 		rotation.elements[0 + 0 * 4] = xAxis.x;
-		rotation.elements[1 + 0 * 4] = xAxis.y;
-		rotation.elements[2 + 0 * 4] = xAxis.z;
-		rotation.elements[0 + 1 * 4] = yAxis.x;
+		rotation.elements[0 + 1 * 4] = xAxis.y;
+		rotation.elements[0 + 2 * 4] = xAxis.z;
+
+		rotation.elements[1 + 0 * 4] = yAxis.x;
 		rotation.elements[1 + 1 * 4] = yAxis.y;
-		rotation.elements[2 + 1 * 4] = yAxis.z;
-		rotation.elements[0 + 2 * 4] = -zAxis.x;
-		rotation.elements[1 + 2 * 4] = -zAxis.y;
+		rotation.elements[1 + 2 * 4] = yAxis.z;
+
+		rotation.elements[2 + 0 * 4] = -zAxis.x;
+		rotation.elements[2 + 1 * 4] = -zAxis.y;
 		rotation.elements[2 + 2 * 4] = -zAxis.z;
 
 		return (rotation * translation);
