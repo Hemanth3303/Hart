@@ -91,7 +91,8 @@ public:
 
 		//m_ParticleSystem.render();
 
-		Hart::Renderer2D::DrawText("Hello, World", { 0.0f, 0.0f, 1.0f }, 0.05f, Hart::Red);
+		Hart::Renderer2D::DrawText("Hello, World!", { 0.0f, 0.0f, 1.0f }, 0.5f, Hart::Red);
+		Hart::Renderer2D::DrawText("Hart Engine!!!!!", { 0.5f, 0.5f, 1.0f }, 0.5f, Hart::Blue);
 
 		Hart::Renderer2D::EndScene();
 		//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Renderer2D::GetNumberOfDrawCalls()));

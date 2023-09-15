@@ -44,7 +44,7 @@ namespace Hart {
 		s_Data->quadVertexArray = std::make_shared<VertexArray>();
 		s_Data->quadVertexArray->bind();
 
-		s_Data->quadVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast <std::uint32_t>(sizeof(QuadVertex)));
+		s_Data->quadVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(QuadVertex)));
 		s_Data->quadVertexBuffer->setLayout(quadBufferLayout);
 		s_Data->quadVertexArray->setVertexBuffer(s_Data->quadVertexBuffer);
 
@@ -69,12 +69,46 @@ namespace Hart {
 			{ ShaderDataType::Float4, "aColor" }
 		};
 
-		s_Data->lineVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast <std::uint32_t>(sizeof(LineVertex)));
+		s_Data->lineVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(LineVertex)));
 		s_Data->lineVertexBuffer->setLayout(lineBufferLayout);
 		s_Data->lineVertexArray->setVertexBuffer(s_Data->lineVertexBuffer);
 		s_Data->lineVertexBufferBase = new LineVertex[s_Data->MAX_VERTICES];
 
-		// Textures
+		// Text
+		BufferLayout textBufferLayout = {
+			{ ShaderDataType::Float4, "aPosition" },
+			{ ShaderDataType::Float4, "aColor" },
+			{ ShaderDataType::Float2, "aTextureCoords" },
+		};
+
+		s_Data->textShader = Application::Get()->getShader("TextShader2D");
+
+		s_Data->textVertexArray = std::make_shared<VertexArray>();
+		s_Data->textVertexArray->bind();
+
+		s_Data->textVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(TextVertex)));
+		s_Data->textVertexBuffer->setLayout(textBufferLayout);
+		s_Data->textVertexArray->setVertexBuffer(s_Data->textVertexBuffer);
+
+		s_Data->textVertexBufferBase = new TextVertex[s_Data->MAX_VERTICES];
+
+		std::shared_ptr<IndexBuffer> textIndexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), s_Data->MAX_INDICES);
+		s_Data->textVertexArray->setIndexBuffer(textIndexBuffer);
+
+		s_Data->fontBuffer = FileManager::ReadBinaryFromFile("C:\\Windows\\Fonts\\Arial.ttf");
+		stbtt_InitFont(&s_Data->fontInfo, (const unsigned char*)s_Data->fontBuffer.data(), 0);
+
+		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
+		s_Data->textTextureCoords[0] = { 0.0f, 0.0f };
+		s_Data->textTextureCoords[1] = { 1.0f, 0.0f };
+		s_Data->textTextureCoords[2] = { 1.0f, 1.0f };
+		s_Data->textTextureCoords[3] = { 0.0f, 1.0f };
+
+		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
 		Texture2DSpecification whiteTextureSpec;
 		whiteTextureSpec.width = 1;
@@ -84,7 +118,18 @@ namespace Hart {
 		s_Data->textureSlots[0] = s_Data->whiteTexture;
 
 		s_Data->quadShader->bind();
-		s_Data->quadShader->setUniform("uTexture", s_Data->textureSlots[0]->getSlot());
+		s_Data->quadShader->setUniform("uTexture0", s_Data->textureSlots[0]->getSlot());
+
+		Texture2DSpecification spec;
+		spec.width = 512;
+		spec.height = 512;
+		spec.numberOfChannels = 1;
+		spec.generateMipMaps = false;
+		s_Data->textTexture = std::make_shared<Texture2D>(nullptr, spec);
+		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
+
+		s_Data->textShader->bind();
+		s_Data->textShader->setUniform("uTexture16", s_Data->textTexture->getSlot());
 	}
 
 	void Renderer2D::DeInit() {
@@ -92,6 +137,7 @@ namespace Hart {
 
 		delete s_Data->quadVertexBufferBase;
 		delete s_Data->lineVertexBufferBase;
+		delete s_Data->textVertexBufferBase;
 
 		s_Data->quadVertexArray->getIndexBuffer()->unbind();
 		s_Data->quadVertexArray->unbind();
@@ -99,6 +145,10 @@ namespace Hart {
 
 		s_Data->lineVertexArray->unbind();
 		s_Data->lineShader->unbind();
+
+		s_Data->textVertexArray->getIndexBuffer()->unbind();
+		s_Data->textVertexArray->unbind();
+		s_Data->textShader->unbind();
 	}
 
 	void Renderer2D::BeginScene(OrthographicCamera& camera) {
@@ -110,11 +160,17 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Data->lineShader, nullptr, "Reason: lineShader is not initialized");
 		HART_ASSERT_NOT_EQUAL(s_Data->lineVertexArray, nullptr, "Reason: lineShader is not initialized");
 
+		HART_ASSERT_NOT_EQUAL(s_Data->textShader, nullptr, "Reason: textShader is not initialized");
+		HART_ASSERT_NOT_EQUAL(s_Data->textVertexArray, nullptr, "Reason: textShader is not initialized");
+
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
 
 		s_Data->lineShader->bind();
 		s_Data->lineShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
+
+		s_Data->textShader->bind();
+		s_Data->textShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
 
 		BeginBatch();
 	}
@@ -237,6 +293,7 @@ namespace Hart {
 		s_Data->stats.numberOfDrawCalls = 0;
 		s_Data->stats.numberOfQuads = 0;
 		s_Data->stats.numberOfLines = 0;
+		s_Data->stats.numberOfTextQuads = 0;
 	}
 
 	std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
@@ -272,6 +329,10 @@ namespace Hart {
 		s_Data->lineVertexBufferPtr = s_Data->lineVertexBufferBase;
 		s_Data->lineVertexCount = 0;
 
+		// Text
+		s_Data->textVertexBufferPtr = s_Data->textVertexBufferBase;
+		s_Data->textIndexCount = 0;
+
 		// Textures
 		s_Data->textureSlotIndex = s_Data->TEXTURE_SLOT_START;
 	}
@@ -302,6 +363,18 @@ namespace Hart {
 			s_Data->lineShader->bind();
 			RenderCommand::SetLineWidth(s_Data->lineWidth);
 			RenderCommand::DrawLines(s_Data->lineVertexArray, s_Data->lineVertexCount);
+
+			s_Data->stats.numberOfDrawCalls++;
+		}
+
+		// Text
+		if (s_Data->textIndexCount != 0) {
+			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(s_Data->textVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(s_Data->textVertexBufferBase));
+			s_Data->textVertexBuffer->setData(s_Data->textVertexBufferBase, dataSize);
+
+			s_Data->textShader->bind();
+			s_Data->textShader->setUniform("uTexture16", s_Data->textTexture->getSlot());
+			RenderCommand::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
 
 			s_Data->stats.numberOfDrawCalls++;
 		}

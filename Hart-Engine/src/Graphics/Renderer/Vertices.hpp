@@ -16,4 +16,11 @@ namespace Hart {
 		Vec4 position;
 		Vec4 color;
 	};
+
+	struct TextVertex {
+	public:
+		Vec4 position;
+		Vec4 color;
+		Vec2 textureCoords;
+	};
 }

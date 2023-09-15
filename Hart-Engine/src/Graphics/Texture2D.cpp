@@ -32,11 +32,7 @@ namespace Hart {
 	}
 
 	Texture2D::~Texture2D() {
-		if (m_loadedFromStbi == true) {
-			stbi_image_free(reinterpret_cast<void*>(m_Buffer));
-		}
-
-		glDeleteTextures(1, &m_TextureID);
+		deinit();
 	}
 
 	void Texture2D::bind(std::uint32_t slot) const {
@@ -49,14 +45,16 @@ namespace Hart {
 	}
 
     void Texture2D::setBuffer(std::uint32_t* buffer) {
+		deinit();
 		m_Buffer = buffer;
-		uploadBuffer();
+		init();
     }
 
 	void Texture2D::setBuffer(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs) {
+		deinit();
 		m_TextureSpec = texture2DSpecs;
 		m_Buffer = buffer;
-		uploadBuffer();
+		init();
 	}
 
 	bool Texture2D::operator==(const Texture2D& other) const {
@@ -89,15 +87,19 @@ namespace Hart {
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, static_cast<std::int32_t>(m_TextureSpec.repeatX));
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, static_cast<std::int32_t>(m_TextureSpec.repeatY));
 
-		uploadBuffer();
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_TextureSpec.width, m_TextureSpec.height, m_IncomingFormat, GL_UNSIGNED_BYTE, m_Buffer);
 
 		if (m_TextureSpec.generateMipMaps == true) {
 			glGenerateTextureMipmap(m_TextureID);
 		}
 	}
 
-	void Texture2D::uploadBuffer() {
-		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_TextureSpec.width, m_TextureSpec.height, m_IncomingFormat, GL_UNSIGNED_BYTE, m_Buffer);
+	void Texture2D::deinit() {
+		if (m_loadedFromStbi == true) {
+			stbi_image_free(reinterpret_cast<void*>(m_Buffer));
+		}
+
+		glDeleteTextures(1, &m_TextureID);
 	}
 
 	bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right) {
