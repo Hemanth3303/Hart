@@ -54,6 +54,8 @@ namespace Hart {
 
 		std::vector<void*> fontBuffer;
 		stbtt_fontinfo fontInfo;
+		uint32_t* bitmap = nullptr;
+		uint32_t bitmapWidth = 512, bitmapHeight = 512;
 
 		std::uint32_t textIndexCount = 0;
 		TextVertex* textVertexBufferBase = nullptr;

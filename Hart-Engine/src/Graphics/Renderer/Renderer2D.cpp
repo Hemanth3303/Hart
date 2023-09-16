@@ -92,15 +92,18 @@ namespace Hart {
 
 		s_Data->textVertexBufferBase = new TextVertex[s_Data->MAX_VERTICES];
 
+		// reusing quad indices
 		std::shared_ptr<IndexBuffer> textIndexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), s_Data->MAX_INDICES);
 		s_Data->textVertexArray->setIndexBuffer(textIndexBuffer);
 
 		s_Data->fontBuffer = FileManager::ReadBinaryFromFile("C:\\Windows\\Fonts\\Arial.ttf");
-		stbtt_InitFont(&s_Data->fontInfo, (const unsigned char*)s_Data->fontBuffer.data(), 0);
+
+		std::int32_t result = stbtt_InitFont(&s_Data->fontInfo, reinterpret_cast<const unsigned char*>(s_Data->fontBuffer.data()), 0);
+		HART_ASSERT_NOT_EQUAL(result, 0, "Reason: Failed to initialize font");
 
 		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
 		s_Data->textVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
 		s_Data->textTextureCoords[0] = { 0.0f, 0.0f };
@@ -121,14 +124,14 @@ namespace Hart {
 		s_Data->quadShader->setUniform("uTexture0", s_Data->textureSlots[0]->getSlot());
 
 		Texture2DSpecification spec;
-		spec.width = 512;
-		spec.height = 512;
+		spec.width = s_Data->bitmapWidth;
+		spec.height = s_Data->bitmapHeight;
 		spec.numberOfChannels = 1;
 		spec.generateMipMaps = false;
 		s_Data->textTexture = std::make_shared<Texture2D>(nullptr, spec);
-		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
 
 		s_Data->textShader->bind();
+		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
 		s_Data->textShader->setUniform("uTexture16", s_Data->textTexture->getSlot());
 	}
 
@@ -155,13 +158,13 @@ namespace Hart {
 		s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
 
 		HART_ASSERT_NOT_EQUAL(s_Data->quadShader, nullptr, "Reason: quadShader is not initialized");
-		HART_ASSERT_NOT_EQUAL(s_Data->quadVertexArray, nullptr, "Reason: quadShader is not initialized");
+		HART_ASSERT_NOT_EQUAL(s_Data->quadVertexArray, nullptr, "Reason: quadVertexArray is not initialized");
 
 		HART_ASSERT_NOT_EQUAL(s_Data->lineShader, nullptr, "Reason: lineShader is not initialized");
-		HART_ASSERT_NOT_EQUAL(s_Data->lineVertexArray, nullptr, "Reason: lineShader is not initialized");
+		HART_ASSERT_NOT_EQUAL(s_Data->lineVertexArray, nullptr, "Reason: lineVertexArray is not initialized");
 
 		HART_ASSERT_NOT_EQUAL(s_Data->textShader, nullptr, "Reason: textShader is not initialized");
-		HART_ASSERT_NOT_EQUAL(s_Data->textVertexArray, nullptr, "Reason: textShader is not initialized");
+		HART_ASSERT_NOT_EQUAL(s_Data->textVertexArray, nullptr, "Reason: textVertexArray is not initialized");
 
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
@@ -286,7 +289,57 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
-		
+
+		s_Data->bitmap = new uint32_t[s_Data->bitmapWidth * s_Data->bitmapHeight];
+		HART_ASSERT_NOT_EQUAL(s_Data->bitmap, nullptr, "Reason: Failed to initialize font bitmap");
+
+		std::int32_t x = 0;
+		float lineHeight = 64;
+		std::int32_t ascent, descent, lineGap;
+
+		float scale = stbtt_ScaleForPixelHeight(&s_Data->fontInfo, lineHeight);
+
+		stbtt_GetFontVMetrics(&s_Data->fontInfo, &ascent, &descent, &lineGap);
+
+		ascent = static_cast<int32_t>(std::roundf(ascent * scale));
+		descent = static_cast<int32_t>(std::roundf(descent * scale));
+
+		for (std::size_t i = 0; i < text.size(); i++) {
+			std::int32_t ax, lsb;
+			stbtt_GetCodepointHMetrics(&s_Data->fontInfo, text[i], &ax, &lsb);
+
+			std::int32_t x1, y1, x2, y2;
+			stbtt_GetCodepointBitmapBox(&s_Data->fontInfo, text[i], scale, scale, &x1, &y1, &x2, &y2);
+
+			std::int32_t y = ascent + y1;
+
+			std::int32_t byteOffset = x + static_cast<int32_t>(std::roundf(lsb * scale) + (y * s_Data->bitmapWidth));
+
+			stbtt_MakeCodepointBitmap(&s_Data->fontInfo, reinterpret_cast<unsigned char*>(s_Data->bitmap + byteOffset), x2 - x1, y2 - y1, s_Data->bitmapWidth, scale, scale, text[i]);
+
+			x += static_cast<std::int32_t>(std::roundf(ax * scale));
+
+			if (i < text.length() - 1) {
+				std::int32_t kern = stbtt_GetCodepointKernAdvance(&s_Data->fontInfo, text[i], text[i + 1]);
+				x += static_cast<std::int32_t>(std::roundf(kern * scale));
+			}
+		}
+		s_Data->textTexture->setBuffer(s_Data->bitmap);
+
+		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(0, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ 1.0f, 1.0f, 1.0f });
+
+		for (std::size_t i = 0; i < s_Data->VERTICES_PER_TEXT_QUAD; i++) {
+			s_Data->textVertexBufferPtr->position = transform * s_Data->textVertexPositions[i];
+			s_Data->textVertexBufferPtr->color = White;
+			s_Data->textVertexBufferPtr->textureCoords = s_Data->textTextureCoords[i];
+			s_Data->quadVertexBufferPtr++;
+		}
+
+		s_Data->textIndexCount += 6;
+
+		s_Data->stats.numberOfTextQuads++;
+
+		delete[] s_Data->bitmap;
 	}
 
 	void Renderer2D::ResetStats() {
@@ -373,6 +426,7 @@ namespace Hart {
 			s_Data->textVertexBuffer->setData(s_Data->textVertexBufferBase, dataSize);
 
 			s_Data->textShader->bind();
+			s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
 			s_Data->textShader->setUniform("uTexture16", s_Data->textTexture->getSlot());
 			RenderCommand::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
 
