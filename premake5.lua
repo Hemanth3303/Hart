@@ -29,7 +29,7 @@ group "Misc"
 include "Sandbox"
 
 group "Hart-Vendor"
-include "vendor/glfw"
+include "vendor/glfw.lua"
 include "vendor/glad"
 include "vendor/stb"
 
