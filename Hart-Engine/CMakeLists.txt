@@ -32,6 +32,10 @@ target_compile_definitions(Hart-Engine PRIVATE
 	HART_ENGINE
 )
 
+target_precompile_headers(Hart-Engine PRIVATE 
+	src/HartPch.hpp
+)
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	target_compile_definitions(Hart-Engine PRIVATE
 		NOMINMAX
