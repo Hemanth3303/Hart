@@ -68,12 +68,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 		target_link_options(Sandbox PRIVATE
 			-static
 		)
-		if(CMAKE_BUILD_TYPE STREQUAL Dist)
-			target_link_options(Sandbox PRIVATE
-				"/SUBSYSTEM:WINDOWS"
-				"/ENTRY:mainCRTStartup"
-			)
-		endif()
 	endif()
 endif()
 
