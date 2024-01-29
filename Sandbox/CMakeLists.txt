@@ -41,6 +41,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 		target_compile_options(Sandbox PRIVATE
 			/Zc:__cplusplus
 		)
+		if(CMAKE_BUILD_TYPE STREQUAL Dist)
+			target_link_options(Sandbox PRIVATE
+				"/SUBSYSTEM:WINDOWS"
+				"/ENTRY:mainCRTStartup"
+			)
+		endif()
 	elseif (MINGW)
 		target_link_libraries(Sandbox PRIVATE
 			m
@@ -50,6 +56,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			-static-libgcc
 			-static-libstdc++
 		)
+		if(CMAKE_BUILD_TYPE STREQUAL Dist)
+			target_compile_options(Sandbox PRIVATE
+				-mwindows
+			)
+		endif()
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(Sandbox PRIVATE
 			# clang stuff
@@ -57,6 +68,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 		target_link_options(Sandbox PRIVATE
 			-static
 		)
+		if(CMAKE_BUILD_TYPE STREQUAL Dist)
+			target_link_options(Sandbox PRIVATE
+				"/SUBSYSTEM:WINDOWS"
+				"/ENTRY:mainCRTStartup"
+			)
+		endif()
 	endif()
 endif()
 
