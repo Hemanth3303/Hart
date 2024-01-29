@@ -1,5 +1,2 @@
-*.lua linguist-vendored=true
-*.bat linguist-vendored=true
-*.sh linguist-vendored=true
-Makefile linguist-vendored=true
-makefile linguist-vendored=true
+CMakeLists.txt linguist-vendored=true
+*.cmake linguist-vendored=true
