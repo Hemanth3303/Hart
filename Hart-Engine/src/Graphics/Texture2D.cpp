@@ -9,6 +9,7 @@ namespace Hart {
 		
 		if (!FileManager::FileExists(filePath)) {
 			HART_ENGINE_ERROR("File " + filePath + " does not exits", "Is the name and/or path correct?");
+			m_loadedFromStbi = false;
 		}
 		else {
 			int32_t width, height, channels;
