@@ -29,7 +29,6 @@ endif()
 
 print(CMAKE_BUILD_TYPE)
 
-
 # Use the generator expression $<0:> so that the specified folder is used directly, without any configuration-dependent suffix.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/$<0:>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/$<0:>")
