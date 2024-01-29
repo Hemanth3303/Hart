@@ -8,7 +8,6 @@
 #include "../VertexArray.hpp"
 #include "../Shader.hpp"
 #include "../Texture2D.hpp"
-#include "stb_truetype.h"
 
 namespace Hart {
 	struct Renderer2DData {
@@ -47,24 +46,6 @@ namespace Hart {
 		LineVertex* lineVertexBufferBase = nullptr;
 		LineVertex* lineVertexBufferPtr = nullptr;
 
-		// Text
-		std::shared_ptr<Shader> textShader;
-		std::shared_ptr<VertexArray> textVertexArray;
-		std::shared_ptr<VertexBuffer> textVertexBuffer;
-
-		std::vector<void*> fontBuffer;
-		stbtt_fontinfo fontInfo;
-		uint32_t* bitmap = nullptr;
-		uint32_t bitmapWidth = 512, bitmapHeight = 512;
-
-		std::uint32_t textIndexCount = 0;
-		TextVertex* textVertexBufferBase = nullptr;
-		TextVertex* textVertexBufferPtr = nullptr;
-
-		static constexpr std::uint32_t VERTICES_PER_TEXT_QUAD = 4;
-		std::array<Vec4, VERTICES_PER_TEXT_QUAD> textVertexPositions;
-		std::array<Vec2, VERTICES_PER_TEXT_QUAD> textTextureCoords;
-
 		// Textures
 		std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
 		std::uint32_t textureSlotIndex = TEXTURE_SLOT_START; // slot_0 == white texture
@@ -74,15 +55,11 @@ namespace Hart {
 			std::uint32_t numberOfDrawCalls = 0;
 			std::uint32_t numberOfQuads = 0;
 			std::uint32_t numberOfLines = 0;
-			std::uint32_t numberOfTextQuads = 0;
 		public:
 			std::uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
 			std::uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
 
 			std::uint32_t getLineVertexCount() const { return numberOfLines * 2; }
-
-			std::uint32_t getTextQuadVertexCount() const { return numberOfTextQuads * 4; }
-			std::uint32_t getTextQuadIndexCount() const { return numberOfTextQuads * 6; }
 		};
 		Stats stats;
 	};
