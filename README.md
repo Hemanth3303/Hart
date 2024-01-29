@@ -9,7 +9,7 @@ I'm making this engine as a learning exercise. As such I probably won't be accep
 CMake
 
 ## Dependencies
-[glfw](https://www.glfw.org/): For Windowing, Creating OpenGL Context, Input handling, etc.
+[glfw](https://www.glfw.org/): For Windowing, Creating OpenGL Context, Input handling, etc.<br>
 [glad](https://glad.dav1d.de/): For accessing OpenGL functions.<br>
 [stb](https://github.com/nothings/stb): Specifically [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for loading images.<br>
 
