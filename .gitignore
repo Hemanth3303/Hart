@@ -1,6 +1,7 @@
 bin
 bin-int
 build
+out
 *.exe
 *.dll
 *.lib
@@ -26,6 +27,7 @@ _ReSharper*
 *.vcxproj*
 *.sln
 .vs
+.out
 CMakeSettings.json
 Win32
 x64
@@ -56,5 +58,3 @@ CMakeDoxyfile.in
 CMakeDoxygenDefaults.cmake
 cmake_install.cmake
 cmake_uninstall.cmake
-*cmake
-CMakeLists.txt
