@@ -13,6 +13,7 @@ private:
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
+		HART_CLIENT_LOG("Initialising Sandbox");
 		setMaxFPS(144);
 		//enableVsync();
 		setExitKey(Hart::KeyCode::Escape);
@@ -26,7 +27,7 @@ public:
 	}
 
 	~Sandbox() {
-
+		HART_CLIENT_LOG("Deinitialising Sandbox");
 	}
 	
 };

@@ -39,9 +39,9 @@ namespace Hart {
 	};
 }
 
-#if defined(HART_DEBUG) || defined(HART_RELEASE)
+#if defined(HART_DEBUG) || defined(HART_RELEASE) || defined(HART_CLIENT_DEBUG) || defined(HART_CLIENT_RELEASE)
 
-	#ifdef HART_ENGINE
+	#if defined(HART_ENGINE)
 		
 		#define HART_ENGINE_TRACE(message, ...)\
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Trace, true)
@@ -54,9 +54,8 @@ namespace Hart {
 		#define HART_ENGINE_FATAL(message, ...)\
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Fatal, true)
 
-	#endif // HART_ENGINE
+	#elif defined(HART_CLIENT)
 
-	
 	#define HART_CLIENT_TRACE(message, ...)\
 		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Trace, false)
 	#define HART_CLIENT_LOG(message, ...)\
@@ -68,7 +67,10 @@ namespace Hart {
 	#define HART_CLIENT_FATAL(message, ...)\
 		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Fatal, false)
 
-#elif defined(HART_DIST)
+	#endif // HART_ENGINE
+
+
+#elif defined(HART_DIST) || defined(HART_CLIENT_DIST)
 
 	#define HART_ENGINE_TRACE(message, ...) 
 	#define HART_ENGINE_LOG(message, ...)  
@@ -80,6 +82,6 @@ namespace Hart {
 	#define HART_CLIENT_LOG(message, ...)  
 	#define HART_CLIENT_WARNING(message, ...) 
 	#define HART_CLIENT_ERROR(message, ...) 
-	#define HART_CLIENT_FATAL(message, ...) 
+	#define HART_CLIENT_FATAL(message, ...)
 
 #endif // Check build mode

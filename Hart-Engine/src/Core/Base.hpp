@@ -16,7 +16,7 @@
 	// platform information
 	#if defined(_WIN32)
 		#if defined(_WIN64)
-			#define HART_PLATFORM "Windows x86_64"
+			#define HART_PLATFORM "Windows x86-64"
 		#else
 			#define HART_PLATFORM "Windows x86"
 		#endif

@@ -28,6 +28,7 @@ target_link_libraries(Sandbox PUBLIC
 
 target_compile_definitions(Sandbox PRIVATE
 	SANDBOX
+	HART_CLIENT
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -108,7 +109,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_DEBUG}" CACHE STRING "Linker flags" FORCE)
 	target_compile_definitions(Sandbox PRIVATE
 		SANDBOX_DEBUG
-		HART_DEBUG
+		HART_CLIENT_DEBUG
 		DEBUG
 	)
 endif()
@@ -119,7 +120,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
 	target_compile_definitions(Sandbox PRIVATE
 		SANDBOX_RELEASE
-		HART_RELEASE
+		HART_CLIENT_RELEASE
 		NDEBUG
 	)
 endif()
@@ -132,7 +133,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Dist)
 
 	target_compile_definitions(Sandbox PRIVATE
 		SANDBOX_DIST
-		HART_DIST
+		HART_CLIENT_DIST
 		NDEBUG
 	)
 endif()
