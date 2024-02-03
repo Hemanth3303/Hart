@@ -11,6 +11,7 @@ namespace Hart {
 		~DefaultOrthographicCameraController();
 
 		void update(const float deltaTime) override;
+		void resize(const float width, const float height);
 		void onEvent(Event& e) override;
 
 		// default is 45.0f

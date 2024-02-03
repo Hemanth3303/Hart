@@ -125,5 +125,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Dist)
 
 	target_compile_definitions(Hart-Engine PRIVATE
 		HART_DIST
+		NDEBUG
 	)
 endif()
