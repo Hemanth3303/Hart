@@ -3,8 +3,6 @@
 #include "HartPch.hpp"
 #include "../VertexArray.hpp"
 
-#include "glad/glad.h"
-
 namespace Hart {
 	class RenderCommand {
 	public:
@@ -26,6 +24,8 @@ namespace Hart {
 		static void DisableWireFrameMode();
 		static void EnableSmoothLines();
 		static void DisableSmoothLines();
+		static void SetPixelPackAlignment(std::int32_t alignmentNumber);
+		static void SetPixelUnpackAlignment(std::int32_t alignmentNumber);
 
 		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount);
 

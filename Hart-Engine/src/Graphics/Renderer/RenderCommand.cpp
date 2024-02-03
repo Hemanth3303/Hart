@@ -1,10 +1,14 @@
 #include "HartPch.hpp"
 #include "RenderCommand.hpp"
 
+#include "glad/glad.h"
+
 namespace Hart {
 	void RenderCommand::Init() {
 		EnableDepthTest();
 		EnableBlending();
+		SetPixelPackAlignment(4);
+		SetPixelUnpackAlignment(4);
 
 		HART_ENGINE_LOG("Initializing OpenGL Renderer");
 		HART_ENGINE_LOG(
@@ -76,6 +80,14 @@ namespace Hart {
 
     void RenderCommand::DisableSmoothLines() {
 		glDisable(GL_LINE_SMOOTH);
+	}
+
+    void RenderCommand::SetPixelPackAlignment(std::int32_t alignmentNumber) {
+		glPixelStorei(GL_PACK_ALIGNMENT, alignmentNumber);
+    }
+
+	void RenderCommand::SetPixelUnpackAlignment(std::int32_t alignmentNumber) {
+		glPixelStorei(GL_UNPACK_ALIGNMENT, alignmentNumber);
 	}
 
 	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
