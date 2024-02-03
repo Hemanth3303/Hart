@@ -127,17 +127,9 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawQuad(const Vec3& position, const Vec2& size, float angleD, const Vec4& color) {
-		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
-			Flush();
-			BeginBatch();
-		}
+		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size.x, size.y, 1.0f });
 
-		s_Data->quadTextureCoords[0] = { 0.0f, 0.0f };
-		s_Data->quadTextureCoords[1] = { 1.0f, 0.0f };
-		s_Data->quadTextureCoords[2] = { 1.0f, 1.0f };
-		s_Data->quadTextureCoords[3] = { 0.0f, 1.0f };
-
-		AddNewQuadVertex(position, size, angleD, color, 0.0f, 1.0f);
+		DrawQuad(transform, color);
 	}
 
 	void Renderer2D::DrawQuad(const Vec3& position, const Vec2& size, const std::shared_ptr<Texture2D>& texture, const Vec4& textureTint, float tilingFactor) {
@@ -145,33 +137,9 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawQuad(const Vec3& position, const Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Vec4& textureTint, float tilingFactor) {
-		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
-			Flush();
-			BeginBatch();
-		}
-
-		float textureIndex = 0.0f;
-
-		for (std::size_t i = s_Data->TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
-			if (s_Data->textureSlots[i] == texture) {
-				textureIndex = static_cast<float>(i);
-				break;
-			}
-		}
-		if (textureIndex == 0.0f) {
-			textureIndex = static_cast<float>(s_Data->textureSlotIndex);
-			if (s_Data->textureSlotIndex >= s_Data->TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_TEXTURE_SLOTS) {
-				s_Data->textureSlots[s_Data->textureSlotIndex] = texture;
-			}
-			s_Data->textureSlotIndex++;
-		}
-
-		s_Data->quadTextureCoords[0] = { 0.0f, 0.0f };
-		s_Data->quadTextureCoords[1] = { 1.0f, 0.0f };
-		s_Data->quadTextureCoords[2] = { 1.0f, 1.0f };
-		s_Data->quadTextureCoords[3] = { 0.0f, 1.0f };
-
-		AddNewQuadVertex(position, size, angleD, textureTint, textureIndex, tilingFactor);
+		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size.x, size.y, 1.0f });
+		
+		DrawQuad(transform, texture, textureTint, tilingFactor);
 	}
 
 	void Renderer2D::DrawQuad(const Vec3& position, const Vec2& size, const std::shared_ptr<SpriteSheet>& spriteSheet, const Vec2& subTextureIndex, const Vec4& textureTint) {
@@ -179,26 +147,48 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawQuad(const Vec3& position, const Vec2& size, float angleD, const std::shared_ptr<SpriteSheet>& spriteSheet, const Vec2& subTextureIndex, const Vec4& textureTint) {
+		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size.x, size.y, 1.0f });
+
+		DrawQuad(transform, spriteSheet, subTextureIndex, textureTint);
+	}
+
+	void Renderer2D::DrawQuad(const Mat4& transform, const Vec4& color) {
 		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
 		}
 
-		float textureIndex = 0.0f;
+		s_Data->quadTextureCoords[0] = { 0.0f, 0.0f };
+		s_Data->quadTextureCoords[1] = { 1.0f, 0.0f };
+		s_Data->quadTextureCoords[2] = { 1.0f, 1.0f };
+		s_Data->quadTextureCoords[3] = { 0.0f, 1.0f };
 
-		for (std::size_t i = s_Data->TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
-			if (s_Data->textureSlots[i] == spriteSheet->getTexture()) {
-				textureIndex = static_cast<float>(i);
-				break;
-			}
+		AddNewQuadVertex(transform, color, 0.0f, 1.0f);
+	}
+
+	void Renderer2D::DrawQuad(const Mat4& transform, const std::shared_ptr<Texture2D>& texture, const Vec4& textureTint, float tilingFactor) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+			Flush();
+			BeginBatch();
 		}
-		if (textureIndex == 0.0f) {
-			textureIndex = static_cast<float>(s_Data->textureSlotIndex);
-			if (s_Data->textureSlotIndex >= s_Data->TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_TEXTURE_SLOTS) {
-				s_Data->textureSlots[s_Data->textureSlotIndex] = spriteSheet->getTexture();
-			}
-			s_Data->textureSlotIndex++;
+
+		float textureIndex = CalculateTextureIndex(texture);
+
+		s_Data->quadTextureCoords[0] = { 0.0f, 0.0f };
+		s_Data->quadTextureCoords[1] = { 1.0f, 0.0f };
+		s_Data->quadTextureCoords[2] = { 1.0f, 1.0f };
+		s_Data->quadTextureCoords[3] = { 0.0f, 1.0f };
+
+		AddNewQuadVertex(transform, textureTint, textureIndex, tilingFactor);
+	}
+
+	void Renderer2D::DrawQuad(const Mat4& transform, const std::shared_ptr<SpriteSheet>& spriteSheet, const Vec2& subTextureIndex, const Vec4& textureTint) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+			Flush();
+			BeginBatch();
 		}
+
+		float textureIndex = CalculateTextureIndex(spriteSheet->getTexture());
 
 		const auto& [sheetWidth, sheetHeight] = spriteSheet->getSpriteSheetSize();
 		const auto& [spriteWidth, spriteHeight] = spriteSheet->getSpriteSize();
@@ -212,7 +202,7 @@ namespace Hart {
 		s_Data->quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
 		s_Data->quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
 
-		AddNewQuadVertex(position, size, angleD, textureTint, textureIndex, 1.0f);
+		AddNewQuadVertex(transform, textureTint, textureIndex, 1.0f);
 	}
 
 	void Renderer2D::SetLineWidth(float width) {
@@ -229,7 +219,20 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
-		
+		DrawText(text, position, size, 0.0f, color);
+	}
+
+	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, float angleD, const Vec4& color) {
+		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size, size, 1.0f });
+
+		DrawText(text, transform, color);
+	}
+
+	void Renderer2D::DrawText(const std::string& text, const Mat4& transform, const Vec4& color) {
+		// if some conditions
+		//	Flush();
+		//	BeginBatch();
+		// AddNewTextVertex(params);
 	}
 
 	void Renderer2D::ResetStats() {
@@ -284,7 +287,10 @@ namespace Hart {
 
 		// Quads
 		if (s_Data->quadIndexCount != 0) {
-			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferBase));
+			std::uint8_t* quadVertBase = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferBase);
+			std::uint8_t* quadVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferPtr);
+			std::uint32_t dataSize = static_cast<std::uint32_t>(quadVertPtr-quadVertBase);
+
 			s_Data->quadVertexBuffer->setData(s_Data->quadVertexBufferBase, dataSize);
 
 			s_Data->quadShader->bind();
@@ -295,7 +301,10 @@ namespace Hart {
 
 		// Lines
 		if (s_Data->lineVertexCount != 0) {
-			std::uint32_t dataSize = static_cast<std::uint32_t>(reinterpret_cast<std::uint8_t*>(s_Data->lineVertexBufferPtr) - reinterpret_cast<std::uint8_t*>(s_Data->lineVertexBufferBase));
+			std::uint8_t* lineVertBase = reinterpret_cast<std::uint8_t*>(s_Data->lineVertexBufferBase);
+			std::uint8_t* lineVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->lineVertexBufferPtr);
+			std::uint32_t dataSize = static_cast<std::uint32_t>(lineVertPtr - lineVertBase);
+
 			s_Data->lineVertexBuffer->setData(s_Data->lineVertexBufferBase, dataSize);
 
 			s_Data->lineShader->bind();
@@ -306,13 +315,35 @@ namespace Hart {
 		}
 	}
 
-	void Renderer2D::AddNewQuadVertex(const Vec3& position, const Vec2& size, float angleD, const Vec4& quadColor, float textureIndex, float tiliingFactor) {
+	const float Renderer2D::CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+			Flush();
+			BeginBatch();
+		}
 
-		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size.x, size.y, 1.0f });
+		float textureIndex = 0.0f;
 
+		for (std::size_t i = s_Data->TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
+			if (s_Data->textureSlots[i] == texture) {
+				textureIndex = static_cast<float>(i);
+				break;
+			}
+		}
+		if (textureIndex == 0.0f) {
+			textureIndex = static_cast<float>(s_Data->textureSlotIndex);
+			if (s_Data->textureSlotIndex >= s_Data->TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_TEXTURE_SLOTS) {
+				s_Data->textureSlots[s_Data->textureSlotIndex] = texture;
+			}
+			s_Data->textureSlotIndex++;
+		}
+
+		return textureIndex;
+	}
+
+	void Renderer2D::AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor) {
 		for (std::size_t i = 0; i < s_Data->VERTICES_PER_QUAD; i++) {
 			s_Data->quadVertexBufferPtr->position = transform * s_Data->quadVertexPositions[i];
-			s_Data->quadVertexBufferPtr->color = quadColor;
+			s_Data->quadVertexBufferPtr->color = color;
 			s_Data->quadVertexBufferPtr->textureCoords = s_Data->quadTextureCoords[i];
 			s_Data->quadVertexBufferPtr->textureIndex = textureIndex;
 			s_Data->quadVertexBufferPtr->tilingFactor = tiliingFactor;

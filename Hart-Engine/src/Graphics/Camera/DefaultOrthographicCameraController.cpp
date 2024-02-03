@@ -41,6 +41,12 @@ namespace Hart {
 		m_CameraMovementSpeed = m_ZoomLevel * m_SpeedMultiplier;
 	}
 
+	void DefaultOrthographicCameraController::resize(const float width, const float height) {
+		m_Width = width;
+		m_Height = height;
+		m_AspectRatio = (width / height);
+	}
+
 	void DefaultOrthographicCameraController::onEvent(Event& e) {
 		EventDispatcher eventDispatcher(e);
 
@@ -57,8 +63,7 @@ namespace Hart {
 	}
 
 	bool DefaultOrthographicCameraController::onWindowResized(WindowResizedEvent& e) {
-		m_Width = static_cast<float>(e.getWidth());
-		m_Height = static_cast<float>(e.getHeight());
+		resize(static_cast<float>(e.getWidth()), static_cast<float>(e.getHeight()));
 		m_Bounds = OrthographicCameraBounds(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		m_Camera.setProjection(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top);
 		return true;

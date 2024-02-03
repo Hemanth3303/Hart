@@ -21,7 +21,6 @@ namespace Hart {
 
 		Mat4 viewProjectionMatrix;
 		std::shared_ptr<Texture2D> whiteTexture;
-		std::shared_ptr<Texture2D> textTexture;
 
 		// Quads
 		std::shared_ptr<Shader> quadShader;

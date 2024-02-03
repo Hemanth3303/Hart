@@ -16,6 +16,19 @@ private:
 	float fovD = 45.0f;
 	float m_AspectRatio = 0.0f;
 
+	std::vector<Hart::Vec3> cubePositions = {
+		Hart::Vec3(0.0f,  0.0f,  0.0f),
+		Hart::Vec3(2.0f,  3.0f, -1.0f),
+		Hart::Vec3(-1.5f, -2.2f, -2.5f),
+		Hart::Vec3(-3.8f, -2.0f, -12.3f),
+		Hart::Vec3(2.4f, -0.4f, -3.5f),
+		Hart::Vec3(-1.7f,  3.0f, -7.5f),
+		Hart::Vec3(1.3f, -2.0f, -2.5f),
+		Hart::Vec3(1.5f,  2.0f, -2.5f),
+		Hart::Vec3(1.5f,  0.2f, -1.5f),
+		Hart::Vec3(-1.3f,  1.0f, -1.5f)
+	};
+
 public:
 	Layer3D(const std::string& name = "Layer3D")
 		: Layer(name) {
@@ -213,10 +226,12 @@ public:
 	void render() override {
 		Hart::Renderer3D::BeginScene(*m_Camera.get());
 
-		auto axis = Hart::Vec3::GetNormal({ 1, 1, 1 });
-		auto model = Hart::Mat4::Rotate(angle, axis);
+		for (size_t i = 0; i < cubePositions.size(); i++) {
+			angle = 20.0f * i;
+			Hart::Mat4 model = Hart::Mat4::Translate(cubePositions[i]) * Hart::Mat4::Rotate(angle, { 0.0f, 0.0f, 1.0f });
 
-		Hart::Renderer3D::Submit(m_Vao, m_Shader);
+			Hart::Renderer3D::Submit(m_Vao, m_Shader, model);
+		}
 
 		Hart::Renderer3D::EndScene();
 	}
