@@ -21,9 +21,9 @@ namespace Hart {
 	Mat4::Mat4(const std::initializer_list<float>& values) {
 		HART_ASSERT_EQUAL(values.size(), 16, "Reason: Must provide exactly 16 elements to the constructor method Mat4(const std::initializer_list<float>& values)");
 		const float* itr = values.begin();
-		for (int i = 0; i < 4; ++i) {
-			for (int j = 0; j < 4; ++j) {
-				elements[j * 4 + i] = *itr;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				elements[i + j * 4] = *itr;
 				itr++;
 			}
 		}
@@ -66,16 +66,17 @@ namespace Hart {
 
 	Mat4& Mat4::multiply(const Mat4& other) {
 		float data[4 * 4]{};
-		for (std::int32_t y = 0; y < 4; y++) {
-			for (std::int32_t x = 0; x < 4; x++) {
+		for (std::int32_t x = 0; x < 4; x++) {
+			for (std::int32_t y = 0; y < 4; y++) {
 				float sum = 0.0f;
-				for (std::int32_t e = 0; e < 4; e++) {
-					sum += elements[x + e * 4] * other.elements[e + y * 4];
+				for (std::int32_t k = 0; k < 4; k++) {
+					sum += elements[x + k * 4] * other.elements[k + y * 4];
 				}
 				data[x + y * 4] = sum;
 			}
 		}
-		std::memcpy(elements, data, static_cast<std::size_t>(4) * 4 * sizeof(float));
+		std::size_t matrixSize = static_cast<std::size_t>(4 * 4) * sizeof(float);
+		std::memcpy(elements, data, matrixSize);
 
 		return *this;
 	}
@@ -165,9 +166,9 @@ namespace Hart {
 
 	Mat4 Mat4::Transpose(const Mat4& matrix) {
 		Mat4 result;
-		for (std::int32_t y = 0; y < 4; y++) {
-			for (std::int32_t x = 0; x < 4; x++) {
-				result.elements[x * 4 + y] = matrix.elements[x + y * 4];
+		for (std::int32_t x = 0; x < 4; x++) {
+			for (std::int32_t y = 0; y < 4; y++) {
+				result.elements[x + y * 4] = matrix.elements[x * 4 + y];
 			}
 		}
 		return result;

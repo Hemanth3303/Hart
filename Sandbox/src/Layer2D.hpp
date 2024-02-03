@@ -89,6 +89,10 @@ public:
 		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
 		Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
 
+		Hart::Mat4 transform = Hart::Mat4::Translate({ 0.9f, 0.6f }) * Hart::Mat4::Rotate(67.0f, { 0.0f, 0.0f, 1.0f }) * Hart::Mat4::Scale({ 0.25, 0.45 });
+
+		Hart::Renderer2D::DrawQuad(transform, Hart::Gold);
+
 		m_ParticleSystem.render();
 
 		Hart::Renderer2D::EndScene();
