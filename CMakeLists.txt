@@ -19,6 +19,13 @@ set(USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "" FORCE)
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+set(HART_IS_SUBMODULE FALSE)
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+	set(HART_IS_SUBMODULE FALSE)
+else()
+	set(HART_IS_SUBMODULE TRUE)
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type" FORCE)
 endif()
@@ -38,8 +45,13 @@ print(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
 print(CMAKE_LIBRARY_OUTPUT_DIRECTORY)
 print(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 
+print(HART_IS_SUBMODULE)
+
 add_subdirectory("vendor/glad")
 add_subdirectory("vendor/glfw")
 add_subdirectory("vendor/stb")
 add_subdirectory("Hart-Engine")
-add_subdirectory("Sandbox")
+
+if(NOT HART_IS_SUBMODULE)
+	add_subdirectory("Sandbox")
+endif(NOT HART_IS_SUBMODULE)
