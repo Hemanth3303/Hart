@@ -5,8 +5,6 @@ project("Hart" LANGUAGES CXX C)
 # Set the available build configurations
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Dist" CACHE STRING "Limited Configs" FORCE)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
-
 include(cmake/print.cmake)
 
 find_package(OpenGL REQUIRED)
@@ -54,4 +52,5 @@ add_subdirectory("Hart-Engine")
 
 if(NOT HART_IS_SUBMODULE)
 	add_subdirectory("Sandbox")
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
 endif(NOT HART_IS_SUBMODULE)
