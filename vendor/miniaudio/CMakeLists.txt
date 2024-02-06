@@ -1,10 +1,9 @@
-file(GLOB_RECURSE HartEngineSrc CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
-
-add_library(Hart-Engine STATIC
-	${HartEngineSrc}
+add_library(miniaudio STATIC
+	"src/miniaudio.c"
+	"include/miniaudio.h"
 )
 
-set_target_properties(Hart-Engine PROPERTIES
+set_target_properties(miniaudio PROPERTIES
 	CXX_STANDARD 20
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS OFF
@@ -12,90 +11,71 @@ set_target_properties(Hart-Engine PROPERTIES
 	C_STANDARD_REQUIRED ON
 	C_EXTENSIONS OFF
 	POSITION_INDEPENDENT_CODE ON
-	OUTPUT_NAME Hart-Engine
+	OUTPUT_NAME miniaudio
 )
 
-target_include_directories(Hart-Engine PUBLIC
-	${PROJECT_SOURCE_DIR}/Hart-Engine/src
-	${PROJECT_SOURCE_DIR}/vendor/glfw/include
-	${PROJECT_SOURCE_DIR}/vendor/glad/include
-	${PROJECT_SOURCE_DIR}/vendor/stb/include
+target_include_directories(miniaudio PUBLIC
 	${PROJECT_SOURCE_DIR}/vendor/miniaudio/include
 )
 
-target_link_libraries(Hart-Engine PUBLIC 
-	glfw
-	glad
-	stb
-	miniaudio
-)
-
-target_compile_definitions(Hart-Engine PRIVATE
-	HART_ENGINE
-)
-
-target_precompile_headers(Hart-Engine PRIVATE 
-	src/HartPch.hpp
+target_compile_definitions(miniaudio PRIVATE
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions(Hart-Engine PRIVATE
+	target_compile_definitions(miniaudio PRIVATE
 		NOMINMAX
 		_CRT_SECURE_NO_WARNINGS
 		WIN32_LEAN_AND_MEAN
-		HART_WINDOWS
 	)
 	if (MSVC)
-		target_compile_options(Hart-Engine PRIVATE
+		target_compile_options(miniaudio PRIVATE
 			/Zc:__cplusplus
 		)
 	elseif (MINGW)
-		target_link_libraries(Hart-Engine PRIVATE
+		target_link_libraries(miniaudio PRIVATE
 			m
 		)
-		target_link_options(Hart-Engine PRIVATE
+		target_link_options(miniaudio PRIVATE
 			-static
 			-static-libgcc
 			-static-libstdc++
 		)
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Hart-Engine PRIVATE
+		target_link_libraries(miniaudio PRIVATE
 			# clang stuff
 		)
-		target_link_options(Hart-Engine PRIVATE
+		target_link_options(miniaudio PRIVATE
 			-static
 		)
 	endif()
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_LINUX
+	target_compile_definitions(miniaudio PRIVATE
 	)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(Hart-Engine PRIVATE
+		target_link_libraries(miniaudio PRIVATE
 			dl
 			m
   			pthread
 		)
-		target_link_options(Hart-Engine PRIVATE
+		target_link_options(miniaudio PRIVATE
 			-static
 			-static-libgcc
 			-static-libstdc++
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Hart-Engine PRIVATE
+		target_link_libraries(miniaudio PRIVATE
 			# clang stuff
 		)
-		target_link_options(Hart-Engine PRIVATE
+		target_link_options(miniaudio PRIVATE
 			-static
 		)
 	endif()
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_OSX
+	target_compile_definitions(miniaudio PRIVATE
 	)
 endif()
 
@@ -103,8 +83,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "CXX flags" FORCE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_DEBUG}" CACHE STRING "C flags" FORCE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_DEBUG}" CACHE STRING "Linker flags" FORCE)
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_DEBUG
+	target_compile_definitions(miniaudio PRIVATE
 		DEBUG
 	)
 endif()
@@ -113,20 +92,17 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXX flags" FORCE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C flags" FORCE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_RELEASE
+	target_compile_definitions(miniaudio PRIVATE
 		NDEBUG
 	)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL Dist)
-	remove_definitions(-DHART_RELEASE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXX flags" FORCE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C flags" FORCE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
 
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_DIST
+	target_compile_definitions(miniaudio PRIVATE
 		NDEBUG
 	)
 endif()

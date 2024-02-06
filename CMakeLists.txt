@@ -48,6 +48,7 @@ print(HART_IS_SUBMODULE)
 add_subdirectory("vendor/glad")
 add_subdirectory("vendor/glfw")
 add_subdirectory("vendor/stb")
+add_subdirectory("vendor/miniaudio")
 add_subdirectory("Hart-Engine")
 
 if(NOT HART_IS_SUBMODULE)
