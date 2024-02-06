@@ -7,6 +7,8 @@ private:
 	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex;
 	std::shared_ptr<Hart::SpriteSheet> m_SpriteSheet;
 	std::shared_ptr<Hart::OrthographicCameraController> m_CameraController;
+	std::shared_ptr<Hart::Sound> pickupSound;
+	std::shared_ptr<Hart::Music> criticalTheme;
 	Hart::Random m_Rd;
 	Hart::ParticleProps m_Particle;
 	Hart::ParticleSystem m_ParticleSystem;
@@ -40,6 +42,9 @@ public:
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
 
+		pickupSound = std::make_shared<Hart::Sound>("res/sfx/pickup.wav");
+
+		Hart::AudioManager::PlaySound(pickupSound);
 	}
 
 	void onDetach() override {
