@@ -43,8 +43,9 @@ public:
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
 
 		pickupSound = std::make_shared<Hart::Sound>("res/sfx/pickup.wav");
-
-		Hart::AudioManager::PlaySound(pickupSound);
+		criticalTheme = std::make_shared<Hart::Music>("res/music/CriticalTheme.wav");
+		
+		Hart::AudioManager::PlayMusic(criticalTheme);
 	}
 
 	void onDetach() override {
@@ -74,6 +75,7 @@ public:
 
 		if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Left)) {
 			m_ParticleSystem.emit(m_Particle);
+			Hart::AudioManager::PlaySound(pickupSound);
 		}
 
 		m_CameraController->update(deltaTime);

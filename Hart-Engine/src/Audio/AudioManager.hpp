@@ -4,8 +4,6 @@
 #include "Sound.hpp"
 #include "Music.hpp"
 
-#include "miniaudio.h"
-
 namespace Hart {
 	class AudioManager {
 	public:
@@ -14,10 +12,11 @@ namespace Hart {
 
 		static void PlaySound(const std::shared_ptr<Sound>& sound);
 		static void PlayMusic(const std::shared_ptr<Music>& music);
-		static void StopAllMusic();
+		static void StopAllAudio();
 
 	private:
-		static ma_device s_Device;
-		static ma_device_config s_Config;
+		friend void dataCallback(ma_device* device, void* output, const void* input, std::uint32_t frameCount);
+		friend std::uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, std::uint32_t frameCount);
+		static bool AreAllDecodersAtEnd();
 	};
 }
