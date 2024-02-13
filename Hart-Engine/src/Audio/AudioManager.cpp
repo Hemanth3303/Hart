@@ -90,7 +90,6 @@ namespace Hart {
 				break;
 			}
 		}
-		HART_ENGINE_LOG("Audio sources", s_Data->audioDecoders.size());
 	}
 
 	void dataCallback(ma_device* device, void* output, const void* input, std::uint32_t frameCount) {
