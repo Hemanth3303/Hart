@@ -113,13 +113,13 @@ namespace Hart {
 		ma_result result;
 		std::vector<float> temp;
 		temp.resize(4096);
-		std::uint32_t tempCapInFrames = temp.size() / s_Data->CHANNEL_COUNT;
-		std::uint32_t totalFramesRead = 0;
+		ma_uint32 tempCapInFrames = temp.size() / s_Data->CHANNEL_COUNT;
+		ma_uint32 totalFramesRead = 0;
 		
-		std::uint64_t framesReadThisIteration;
+		ma_uint64 framesReadThisIteration;
 		while (totalFramesRead < frameCount) {
-			std::uint32_t totalFramesRemaining = frameCount - totalFramesRead;
-			std::uint32_t framesToReadThisIteration = tempCapInFrames;
+			ma_uint32 totalFramesRemaining = frameCount - totalFramesRead;
+			ma_uint32 framesToReadThisIteration = tempCapInFrames;
 
 			if (framesToReadThisIteration > totalFramesRemaining) {
 				framesToReadThisIteration = totalFramesRemaining;
@@ -132,12 +132,12 @@ namespace Hart {
 				break;
 			}
 
-			for (std::uint64_t i = 0; i < framesReadThisIteration * s_Data->CHANNEL_COUNT; i++) {
-				outputF32[static_cast<std::uint64_t>(totalFramesRead) * s_Data->CHANNEL_COUNT + i] += temp[i];
+			for (ma_uint64 i = 0; i < framesReadThisIteration * s_Data->CHANNEL_COUNT; i++) {
+				outputF32[static_cast<ma_uint64>(totalFramesRead) * s_Data->CHANNEL_COUNT + i] += temp[i];
 			}
-			totalFramesRead += static_cast<std::uint32_t>(framesReadThisIteration);
+			totalFramesRead += static_cast<ma_uint32>(framesReadThisIteration);
 
-			if (static_cast<std::uint32_t>(framesReadThisIteration) < framesToReadThisIteration) {
+			if (static_cast<ma_uint32>(framesReadThisIteration) < framesToReadThisIteration) {
 				break; //EOF
 			}
 		}
