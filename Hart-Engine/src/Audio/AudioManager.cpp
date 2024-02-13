@@ -1,7 +1,6 @@
+#include "HartPch.hpp"
 #include "AudioManager.hpp"
 #include "AudioManagerData.hpp"
-
-#include <thread>
 
 namespace Hart {
 	static std::unique_ptr<AudioManagerData> s_Data;
@@ -31,12 +30,11 @@ namespace Hart {
 
 	void AudioManager::Deinit() {
 		HART_ENGINE_LOG("Deinitializing Audio Manager");
-		StopAllAudio();
-
 		for (auto& audioDecoder : s_Data->audioDecoders) {
 			delete audioDecoder.decoder;
 		}
-
+		s_Data->audioDecoders.clear();
+		ma_device_stop(&s_Data->device);
 		ma_device_uninit(&s_Data->device);
 	}
 
@@ -66,9 +64,14 @@ namespace Hart {
 		s_Data->audioDecoders.emplace_back(decoder, MA_FALSE);
 	}
 
-	void AudioManager::StopAllAudio() {
+	void AudioManager::PuaseAllAudio() {
 		ma_device_stop(&s_Data->device);
 	}
+
+	void AudioManager::ResumeAlludio() {
+		ma_device_start(&s_Data->device);
+	}
+
 
 	bool AudioManager::AreAllDecodersAtEnd() {
 		for (auto& audioDecoder: s_Data->audioDecoders) {
@@ -77,6 +80,17 @@ namespace Hart {
 			}
 		}
 		return true;
+	}
+
+	void AudioManager::ClearDoneDecoders() {
+		for (std::size_t i = 0; i < s_Data->audioDecoders.size(); i++) {
+			if (s_Data->audioDecoders[i].isAtEnd) {
+				delete s_Data->audioDecoders[i].decoder;
+				s_Data->audioDecoders.erase(s_Data->audioDecoders.begin() + i);
+				break;
+			}
+		}
+		HART_ENGINE_LOG("Audio sources", s_Data->audioDecoders.size());
 	}
 
 	void dataCallback(ma_device* device, void* output, const void* input, std::uint32_t frameCount) {
@@ -112,6 +126,7 @@ namespace Hart {
 				framesToReadThisIteration = totalFramesRemaining;
 			}
 
+			// this function also checks if ma_data_source_set_looping() was set to true
 			result = ma_data_source_read_pcm_frames(decoder, temp.data(), framesToReadThisIteration, &framesReadThisIteration);
 
 			if (result != MA_SUCCESS || framesReadThisIteration == 0) {

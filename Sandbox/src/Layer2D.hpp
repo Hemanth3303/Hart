@@ -77,6 +77,10 @@ public:
 		if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Left)) {
 			m_ParticleSystem.emit(m_Particle);
 			Hart::AudioManager::PlaySound(pickupSound);
+			Hart::AudioManager::PuaseAllAudio();
+		}
+		if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Right)) {
+			Hart::AudioManager::ResumeAlludio();
 		}
 
 		m_CameraController->update(deltaTime);

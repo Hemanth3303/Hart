@@ -64,6 +64,8 @@ namespace Hart {
 					layer->update(static_cast<float>(deltaTime));
 				}
 
+				AudioManager::ClearDoneDecoders();
+
 				//render
 				RenderCommand::Clear();
 				for (const auto& layer : m_LayerStack) {
