@@ -6,6 +6,7 @@
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
+#include "Audio/AudioManager.hpp"
 
 namespace Hart {
 
@@ -62,6 +63,8 @@ namespace Hart {
 				for (const auto& layer : m_LayerStack) {
 					layer->update(static_cast<float>(deltaTime));
 				}
+
+				AudioManager::ClearDoneDecoders();
 
 				//render
 				RenderCommand::Clear();
@@ -146,6 +149,7 @@ namespace Hart {
 		Timer::Init();
 		InputManager::Init();
 		Renderer3D::Init();
+		AudioManager::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 
@@ -155,6 +159,7 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
+		AudioManager::Deinit();
 		Renderer3D::DeInit();
 		InputManager::DeInit();
 		Timer::DeInit();

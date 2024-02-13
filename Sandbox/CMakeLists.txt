@@ -20,6 +20,7 @@ target_include_directories(Sandbox PUBLIC
 	${PROJECT_SOURCE_DIR}/vendor/glfw/include
 	${PROJECT_SOURCE_DIR}/vendor/glad/include
 	${PROJECT_SOURCE_DIR}/vendor/stb/include
+	${PROJECT_SOURCE_DIR}/vendor/miniaudio/include
 )
 
 target_link_libraries(Sandbox PUBLIC

@@ -20,6 +20,8 @@
 #include "Graphics/Camera/DefaultOrthographicCameraController.hpp"
 #include "Graphics/Camera/PerspectiveCamera.hpp"
 
+#include "Audio/AudioManager.hpp"
+
 #include "Maths/MathConstants.hpp"
 #include "Maths/MathFunctions.hpp"
 #include "Maths/Vec2.hpp"

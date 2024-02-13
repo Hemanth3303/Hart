@@ -20,12 +20,14 @@ target_include_directories(Hart-Engine PUBLIC
 	${PROJECT_SOURCE_DIR}/vendor/glfw/include
 	${PROJECT_SOURCE_DIR}/vendor/glad/include
 	${PROJECT_SOURCE_DIR}/vendor/stb/include
+	${PROJECT_SOURCE_DIR}/vendor/miniaudio/include
 )
 
 target_link_libraries(Hart-Engine PUBLIC 
 	glfw
 	glad
 	stb
+	miniaudio
 )
 
 target_compile_definitions(Hart-Engine PRIVATE

@@ -7,6 +7,8 @@ private:
 	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex;
 	std::shared_ptr<Hart::SpriteSheet> m_SpriteSheet;
 	std::shared_ptr<Hart::OrthographicCameraController> m_CameraController;
+	std::shared_ptr<Hart::Sound> pickupSound;
+	std::shared_ptr<Hart::Music> criticalTheme;
 	Hart::Random m_Rd;
 	Hart::ParticleProps m_Particle;
 	Hart::ParticleSystem m_ParticleSystem;
@@ -40,6 +42,11 @@ public:
 		m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
 		m_Particle.position = { 0.0f, 0.0f, 1.0f };
 
+		pickupSound = std::make_shared<Hart::Sound>("res/sfx/pickup.wav");
+		criticalTheme = std::make_shared<Hart::Music>("res/music/CriticalTheme.wav");
+		
+		Hart::AudioManager::PlaySound(pickupSound);
+		Hart::AudioManager::PlayMusic(criticalTheme);
 	}
 
 	void onDetach() override {
@@ -69,6 +76,11 @@ public:
 
 		if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Left)) {
 			m_ParticleSystem.emit(m_Particle);
+			Hart::AudioManager::PlaySound(pickupSound);
+			Hart::AudioManager::PuaseAllAudio();
+		}
+		if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Right)) {
+			Hart::AudioManager::ResumeAlludio();
 		}
 
 		m_CameraController->update(deltaTime);
