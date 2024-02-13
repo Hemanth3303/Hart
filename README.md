@@ -14,5 +14,9 @@ CMake
 * [stb](https://github.com/nothings/stb): Specifically [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for loading images.<br>
 * [miniaudio](https://miniaud.io/): For audio
 
+## Credits for Assets used in Sandbox
+* SpriteSheet: [RPG_Base](https://www.kenney.nl/assets/rpg-base)
+* Music: [CriticalTheme](https://not-jam.itch.io/not-jam-music-pack)
+
 ## Note
 Heavily inspired by the [TheCherno](https://www.youtube.com/@TheCherno)'s [Sparky Engine series](https://youtube.com/playlist?list=PLlrATfBNZ98fqE45g3jZA_hLGUrD4bo6_&si=7wCTJJ7dkz3_YiHU) and [Hazel Game Engine](https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&si=DDBFTAqIOJZEUX0i) series <br>
