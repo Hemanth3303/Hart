@@ -14,11 +14,6 @@ namespace Hart {
 
 		s_Data = std::make_unique<AudioManagerData>();
 
-		for (std::uint32_t i = 0; i < s_Data->MAX_AUDIO_DECODERS; i++) {
-			s_Data->decoders[i] = nullptr;
-			s_Data->decodersAtEnd[i] = MA_TRUE;
-		}
-
 		s_Data->deviceConfig = ma_device_config_init(ma_device_type_playback);
 		s_Data->deviceConfig.playback.format = s_Data->SAMPLE_FORMAT;
 		s_Data->deviceConfig.playback.channels = s_Data->CHANNEL_COUNT;
@@ -37,19 +32,38 @@ namespace Hart {
 	void AudioManager::Deinit() {
 		HART_ENGINE_LOG("Deinitializing Audio Manager");
 		StopAllAudio();
+
+		for (auto& audioDecoder : s_Data->audioDecoders) {
+			delete audioDecoder.decoder;
+		}
+
 		ma_device_uninit(&s_Data->device);
 	}
 
 	void AudioManager::PlaySound(const std::shared_ptr<Sound>& sound) {
-		s_Data->decoders[s_Data->decoderIndex] = &sound->decoder;
-		s_Data->decodersAtEnd[s_Data->decoderIndex] = MA_FALSE;
-		s_Data->decoderIndex++;
+		ma_decoder_config config = ma_decoder_config_init(s_Data->SAMPLE_FORMAT, s_Data->CHANNEL_COUNT, s_Data->SAMPLE_RATE);
+
+		ma_decoder* decoder = new ma_decoder;
+
+		std::string filePath = sound->getFilePath();
+		ma_result result = ma_decoder_init_file(filePath.c_str(), &config, decoder);
+		HART_ASSERT_EQUAL(result, MA_SUCCESS, "failed to create sound decoder");
+
+		ma_data_source_set_looping(decoder, sound->isLooping());
+		s_Data->audioDecoders.emplace_back(decoder, MA_FALSE);
 	}
 
 	void AudioManager::PlayMusic(const std::shared_ptr<Music>& music) {
-		s_Data->decoders[s_Data->decoderIndex] = &music->decoder;
-		s_Data->decodersAtEnd[s_Data->decoderIndex] = MA_FALSE;
-		s_Data->decoderIndex++;
+		ma_decoder_config config = ma_decoder_config_init(s_Data->SAMPLE_FORMAT, s_Data->CHANNEL_COUNT, s_Data->SAMPLE_RATE);
+
+		ma_decoder* decoder = new ma_decoder;
+
+		std::string filePath = music->getFilePath();
+		ma_result result = ma_decoder_init_file(filePath.c_str(), &config, decoder);
+		HART_ASSERT_EQUAL(result, MA_SUCCESS, "failed to create music decoder");
+
+		ma_data_source_set_looping(decoder, music->isLooping());
+		s_Data->audioDecoders.emplace_back(decoder, MA_FALSE);
 	}
 
 	void AudioManager::StopAllAudio() {
@@ -57,8 +71,8 @@ namespace Hart {
 	}
 
 	bool AudioManager::AreAllDecodersAtEnd() {
-		for (std::uint32_t i = 0; i < s_Data->decoderIndex; i++) {
-			if (s_Data->decodersAtEnd[i] == MA_FALSE) {
+		for (auto& audioDecoder: s_Data->audioDecoders) {
+			if (audioDecoder.isAtEnd == MA_FALSE) {
 				return false;
 			}
 		}
@@ -70,11 +84,11 @@ namespace Hart {
 
 		HART_ASSERT_EQUAL(s_Data->device.playback.format, s_Data->SAMPLE_FORMAT);
 
-		for (std::uint32_t i = 0; i < s_Data->decoderIndex; i++) {
-			if(!s_Data->decodersAtEnd[i]) {
-				std::uint32_t framesRead = readAndMixPCMFramesF32(s_Data->decoders[i], outputF32, frameCount);
+		for (auto& audioDecoder : s_Data->audioDecoders) {
+			if(!audioDecoder.isAtEnd) {
+				std::uint32_t framesRead = readAndMixPCMFramesF32(audioDecoder.decoder, outputF32, frameCount);
 				if (framesRead < frameCount) {
-					s_Data->decodersAtEnd[i] = MA_TRUE;
+					audioDecoder.isAtEnd = MA_TRUE;
 ;				}
 			}
 		}
@@ -98,7 +112,7 @@ namespace Hart {
 				framesToReadThisIteration = totalFramesRemaining;
 			}
 
-			result = ma_decoder_read_pcm_frames(decoder, temp.data(), framesToReadThisIteration, &framesReadThisIteration);
+			result = ma_data_source_read_pcm_frames(decoder, temp.data(), framesToReadThisIteration, &framesReadThisIteration);
 
 			if (result != MA_SUCCESS || framesReadThisIteration == 0) {
 				break;

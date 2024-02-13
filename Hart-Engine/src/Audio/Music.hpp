@@ -4,15 +4,17 @@
 
 #include "HartPch.hpp"
 
-#include "miniaudio.h"
-
 namespace Hart {
-	struct Music {
+	class Music {
 	public:
-		Music(const std::string filePath);
+		Music(const std::string filePath, bool looping = true, std::uint32_t volume = 100);
 		~Music();
 
-	public:
-		ma_decoder decoder;
+		inline const std::string& getFilePath() const { return m_FilePath; }
+		inline const bool isLooping() const { return m_Looping; }
+	private:
+		std::string m_FilePath;
+		bool m_Looping;
+		std::uint32_t m_Volume;
 	};
 }

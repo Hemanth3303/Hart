@@ -4,6 +4,8 @@
 #include "Sound.hpp"
 #include "Music.hpp"
 
+#include "miniaudio.h"
+
 namespace Hart {
 	class AudioManager {
 	public:

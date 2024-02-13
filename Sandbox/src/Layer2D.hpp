@@ -45,6 +45,7 @@ public:
 		pickupSound = std::make_shared<Hart::Sound>("res/sfx/pickup.wav");
 		criticalTheme = std::make_shared<Hart::Music>("res/music/CriticalTheme.wav");
 		
+		Hart::AudioManager::PlaySound(pickupSound);
 		Hart::AudioManager::PlayMusic(criticalTheme);
 	}
 
