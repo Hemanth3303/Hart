@@ -1,7 +1,7 @@
-file(GLOB_RECURSE HartEngineSrc CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
+file(GLOB_RECURSE HART_ENGINE_SRC CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
 
 add_library(Hart-Engine STATIC
-	${HartEngineSrc}
+	${HART_ENGINE_SRC}
 )
 
 set_target_properties(Hart-Engine PROPERTIES

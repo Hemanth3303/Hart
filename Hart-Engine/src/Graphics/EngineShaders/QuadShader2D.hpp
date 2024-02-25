@@ -44,10 +44,6 @@ namespace Hart {
 				float tilingFactor;
 			} fs_in;
 			
-			// It used to be a single "uniform sampler2D uTextuers[32];".
-			// And it worked on my laptop's Nvidia 1650 dGPU and intel uhd iGPU on my family pc.
-			// But for some reason, it causes weird white artifacts in my laptop's AMD iGPU.
-			// So we are left with this mess
 			uniform sampler2D uTexture0;
 			uniform sampler2D uTexture1;
 			uniform sampler2D uTexture2;

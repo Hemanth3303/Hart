@@ -1,5 +1,5 @@
 #include "HartPch.hpp"
-#include "../../Core/HartApplication.hpp"
+#include "../../Core/Application.hpp"
 
 #include "QuadShader2D.hpp"
 #include "LineShader2D.hpp"

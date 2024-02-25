@@ -1,5 +1,5 @@
 #include "HartPch.hpp"
-#include "HartApplication.hpp"
+#include "Application.hpp"
 #include "Base.hpp"
 #include "Utils/Timer.hpp"
 #include "Inputs/InputManager.hpp"

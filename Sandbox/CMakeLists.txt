@@ -1,7 +1,7 @@
-file(GLOB_RECURSE Sandbox CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
+file(GLOB_RECURSE SANDBOX_SRC CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
 
 add_executable(Sandbox
-	${Sandbox}
+	${SANDBOX_SRC}
 )
 set_target_properties(Sandbox PROPERTIES
 	CXX_STANDARD 20

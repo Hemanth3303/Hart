@@ -2,6 +2,7 @@
 * A Game/App made using Hart-Engine, currently used for testing purposes
 */
 
+#include "Core/EntryPoint.hpp"
 #include "Hart.hpp"
 #include "Layer2D.hpp"
 #include "Layer3D.hpp"
@@ -22,8 +23,8 @@ public:
 		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
 		m_Layer3D = std::make_shared<Layer3D>("Layer3D");
 
-		pushLayer(m_Layer2D);
-		//pushLayer(m_Layer3D);
+		//pushLayer(m_Layer2D);
+		pushLayer(m_Layer3D);
 	}
 
 	~Sandbox() {

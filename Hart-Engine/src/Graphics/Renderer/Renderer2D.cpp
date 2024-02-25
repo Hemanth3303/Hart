@@ -2,7 +2,7 @@
 #include "Renderer2D.hpp"
 #include "Renderer2DData.hpp"
 #include "RenderCommand.hpp"
-#include "Core/HartApplication.hpp"
+#include "Core/Application.hpp"
 
 namespace Hart {
 	static std::unique_ptr<Renderer2DData> s_Data;

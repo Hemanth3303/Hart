@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Core/EntryPoint.hpp"
-
-#include "Core/HartApplication.hpp"
+#include "Core/Application.hpp"
 #include "Core/Assert.hpp"
 #include "Core/Window.hpp"
 #include "Core/Layer.hpp"
