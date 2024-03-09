@@ -14,6 +14,34 @@ CMake
 * [stb](https://github.com/nothings/stb): Specifically [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for loading images.<br>
 * [miniaudio](https://miniaud.io/): For audio
 
+## Build Instructions
+First clone the repo using the command
+```
+git clone --recursive https://github.com/Hemanth3303/Hart.git
+```
+Then cd to that directory
+```
+cd Hart
+```
+
+Then follow the instructions for your os
+
+* Windows
+```
+cmake -S . -B build
+cmake --build build -j6
+cd .\build\Debug
+.\Sandbox.exe
+```
+
+* Linux
+```
+cmake -S . -B build
+cmake --build build -j6
+cd ./build/Debug
+./Sandbox
+```
+
 ## Credits for Assets used in Sandbox
 * SpriteSheet: [RPG_Base](https://www.kenney.nl/assets/rpg-base)
 * Music: [CriticalTheme](https://not-jam.itch.io/not-jam-music-pack)
