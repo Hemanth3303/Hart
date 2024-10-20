@@ -42,6 +42,8 @@ cd ./build/Debug
 ./Sandbox
 ```
 
+You can also use any of the predefined cmake presets, `use cmake --list-presets` to view them.
+
 ## Credits for Assets used in Sandbox
 * SpriteSheet: [RPG_Base](https://www.kenney.nl/assets/rpg-base)
 * Music: [CriticalTheme](https://not-jam.itch.io/not-jam-music-pack)
