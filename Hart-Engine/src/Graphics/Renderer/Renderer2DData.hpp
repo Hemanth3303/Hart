@@ -36,7 +36,7 @@ namespace Hart {
 		std::array<Vec2, VERTICES_PER_QUAD> quadTextureCoords;
 
 		// Lines
-		float lineWidth = 2.0f;
+		float lineWidth = 1.0f;
 		std::shared_ptr<Shader> lineShader;
 		std::shared_ptr<VertexArray> lineVertexArray;
 		std::shared_ptr<VertexBuffer> lineVertexBuffer;
