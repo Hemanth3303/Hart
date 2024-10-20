@@ -36,14 +36,7 @@ namespace Hart {
 		std::array<Vec2, VERTICES_PER_QUAD> quadTextureCoords;
 
 		// Lines
-		float lineWidth = 1.0f;
-		std::shared_ptr<Shader> lineShader;
-		std::shared_ptr<VertexArray> lineVertexArray;
-		std::shared_ptr<VertexBuffer> lineVertexBuffer;
-
-		std::uint32_t lineVertexCount = 0;
-		LineVertex* lineVertexBufferBase = nullptr;
-		LineVertex* lineVertexBufferPtr = nullptr;
+		static constexpr float LINE_THICKNESS_SCALE_FACTOR = 0.005f;
 
 		// Textures
 		std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
@@ -53,12 +46,9 @@ namespace Hart {
 		public:
 			std::uint32_t numberOfDrawCalls = 0;
 			std::uint32_t numberOfQuads = 0;
-			std::uint32_t numberOfLines = 0;
 		public:
 			std::uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
 			std::uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
-
-			std::uint32_t getLineVertexCount() const { return numberOfLines * 2; }
 		};
 		Stats stats;
 	};
