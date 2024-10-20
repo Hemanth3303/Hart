@@ -83,11 +83,15 @@ namespace Hart {
 	}
 
 	void AudioManager::ClearDoneDecoders() {
-		for (std::size_t i = 0; i < s_Data->audioDecoders.size(); i++) {
-			if (s_Data->audioDecoders[i].isAtEnd) {
-				delete s_Data->audioDecoders[i].decoder;
-				s_Data->audioDecoders.erase(s_Data->audioDecoders.begin() + i);
-				break;
+		auto itr = s_Data->audioDecoders.begin();
+
+		while (itr != s_Data->audioDecoders.end()) {
+			if (itr->isAtEnd) {
+				delete itr->decoder;
+				itr = s_Data->audioDecoders.erase(itr);
+			}
+			else {
+				itr++;
 			}
 		}
 	}
