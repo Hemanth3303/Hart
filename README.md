@@ -8,6 +8,9 @@ I'm making this engine as a learning exercise. As such I probably won't be accep
 ## Build System
 CMake
 
+## Template for making games with this engine
+[Hart-Game-Template](https://github.com/Hemanth3303/Hart-Game-Template)
+
 ## Dependencies
 * [glfw](https://www.glfw.org/): For Windowing, Creating OpenGL Context, Input handling, etc.
 * [glad](https://glad.dav1d.de/): For accessing OpenGL functions.
