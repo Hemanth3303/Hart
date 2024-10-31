@@ -63,9 +63,7 @@ namespace Hart {
 
 		// Lines
 
-		// changes the width of every line in a a scene
-		static void SetLineWidth(float width);
-		static void DrawLine(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color = White);
+		static void DrawLine(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color = White, const float thickness = 1.0f);
 
 		// Text
 
@@ -80,8 +78,6 @@ namespace Hart {
 		static std::uint32_t GetNumberOfQuads();
 		static std::uint32_t GetNumberOfQuadVertices();
 		static std::uint32_t GetNumberOfQuadIndices();
-		static std::uint32_t GetNumberOfLines();
-		static std::uint32_t GetNumberOfLineVertices();
 	private:
 		static void BeginBatch();
 		static void Flush();
@@ -89,6 +85,5 @@ namespace Hart {
 		static const float CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture);
 
 		static void AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor);
-		static void AddNewLineVertex(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color);
 	};
 }

@@ -62,6 +62,11 @@ namespace Hart {
 		void popLayer(const std::shared_ptr<Layer>& layer);
 		void pushOverlay(const std::shared_ptr<Layer>& overlay);
 		void popOverlay(const std::shared_ptr<Layer>& overlay);
+		
+		inline bool layerExists(const std::string& layerName) { return m_LayerStack.layerExits(layerName); }
+		inline bool overlayExists(const std::string& overlayName) { return m_LayerStack.overlayExits(overlayName); }
+		inline const std::shared_ptr<Layer> getLayer(const std::string& layerName) { return m_LayerStack.getLayer(layerName); }
+		inline const std::shared_ptr<Layer> getOverlay(const std::string& overlayName) { return m_LayerStack.getOverlay(overlayName); }
 	private:
 		// initializes application
 		void init(const WindowProps& windowProps);

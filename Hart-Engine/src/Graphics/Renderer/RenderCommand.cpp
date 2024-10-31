@@ -34,10 +34,6 @@ namespace Hart {
 		glViewport(x, y, width, height);
 	}
 
-	void RenderCommand::SetLineWidth(float width) {
-		glLineWidth(width);
-	}
-
 	const std::int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
 		std::int64_t maxNoOfTextureSlotsPerShader;
 		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &maxNoOfTextureSlotsPerShader);
@@ -72,14 +68,6 @@ namespace Hart {
 
 	void RenderCommand::DisableWireFrameMode() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-
-    void RenderCommand::EnableSmoothLines() {
-		glEnable(GL_LINE_SMOOTH);
-	}
-
-    void RenderCommand::DisableSmoothLines() {
-		glDisable(GL_LINE_SMOOTH);
 	}
 
     void RenderCommand::SetPixelPackAlignment(std::int32_t alignmentNumber) {

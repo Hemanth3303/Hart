@@ -57,22 +57,6 @@ namespace Hart {
 		s_Data->quadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
-		// Lines
-		RenderCommand::EnableSmoothLines();
-		s_Data->lineShader = Application::Get()->getShader("LineShader2D");
-		s_Data->lineVertexArray = std::make_shared<VertexArray>();
-		s_Data->lineVertexArray->bind();
-
-		BufferLayout lineBufferLayout = {
-			{ ShaderDataType::Float4, "aPosition" },
-			{ ShaderDataType::Float4, "aColor" }
-		};
-
-		s_Data->lineVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(LineVertex)));
-		s_Data->lineVertexBuffer->setLayout(lineBufferLayout);
-		s_Data->lineVertexArray->setVertexBuffer(s_Data->lineVertexBuffer);
-		s_Data->lineVertexBufferBase = new LineVertex[s_Data->MAX_VERTICES];
-
 		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
 		Texture2DSpecification whiteTextureSpec;
@@ -90,14 +74,11 @@ namespace Hart {
 		HART_ENGINE_LOG("DeInitializing Renderer2D");
 
 		delete s_Data->quadVertexBufferBase;
-		delete s_Data->lineVertexBufferBase;
 
 		s_Data->quadVertexArray->getIndexBuffer()->unbind();
 		s_Data->quadVertexArray->unbind();
 		s_Data->quadShader->unbind();
 
-		s_Data->lineVertexArray->unbind();
-		s_Data->lineShader->unbind();
 	}
 
 	void Renderer2D::BeginScene(OrthographicCamera& camera) {
@@ -106,14 +87,8 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Data->quadShader, nullptr, "Reason: quadShader is not initialized");
 		HART_ASSERT_NOT_EQUAL(s_Data->quadVertexArray, nullptr, "Reason: quadVertexArray is not initialized");
 
-		HART_ASSERT_NOT_EQUAL(s_Data->lineShader, nullptr, "Reason: lineShader is not initialized");
-		HART_ASSERT_NOT_EQUAL(s_Data->lineVertexArray, nullptr, "Reason: lineVertexArray is not initialized");
-
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
-
-		s_Data->lineShader->bind();
-		s_Data->lineShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
 
 		BeginBatch();
 	}
@@ -205,18 +180,16 @@ namespace Hart {
 		AddNewQuadVertex(transform, textureTint, textureIndex, 1.0f);
 	}
 
-	void Renderer2D::SetLineWidth(float width) {
-		s_Data->lineWidth = width;
+	void Renderer2D::DrawLine(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color, const float thickness) {
+		Vec3 midpoint = { (startPosition.x + endPosition.x) / 2.0f, (startPosition.y + endPosition.y) / 2.0f };
+		Vec3 direction = endPosition - startPosition;
+		float length = direction.getMagnitude();
+		Vec2 size = { length,  thickness * s_Data->LINE_THICKNESS_SCALE_FACTOR };
+		float angleD = arcTan2D(-direction.y, direction.x);
+
+		DrawQuad(midpoint, size, angleD, color);
 	}
 
-	void Renderer2D::DrawLine(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color) {
-		if (s_Data->lineVertexCount >= s_Data->MAX_VERTICES) {
-			Flush();
-			BeginBatch();
-		}
-
-		AddNewLineVertex(startPosition, endPosition, color);
-	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
 		DrawText(text, position, size, 0.0f, color);
@@ -238,7 +211,6 @@ namespace Hart {
 	void Renderer2D::ResetStats() {
 		s_Data->stats.numberOfDrawCalls = 0;
 		s_Data->stats.numberOfQuads = 0;
-		s_Data->stats.numberOfLines = 0;
 	}
 
 	std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
@@ -257,22 +229,11 @@ namespace Hart {
 		return s_Data->stats.getQuadIndexCount();
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfLines() {
-		return s_Data->stats.numberOfLines;
-	}
-
-	std::uint32_t Renderer2D::GetNumberOfLineVertices() {
-		return s_Data->stats.getLineVertexCount();
-	}
 
 	void Renderer2D::BeginBatch() {
 		// Quads
 		s_Data->quadVertexBufferPtr = s_Data->quadVertexBufferBase;
 		s_Data->quadIndexCount = 0;
-
-		// Lines
-		s_Data->lineVertexBufferPtr = s_Data->lineVertexBufferBase;
-		s_Data->lineVertexCount = 0;
 
 		// Textures
 		s_Data->textureSlotIndex = s_Data->TEXTURE_SLOT_START;
@@ -295,21 +256,6 @@ namespace Hart {
 
 			s_Data->quadShader->bind();
 			RenderCommand::DrawIndexed(s_Data->quadVertexArray, s_Data->quadIndexCount);
-
-			s_Data->stats.numberOfDrawCalls++;
-		}
-
-		// Lines
-		if (s_Data->lineVertexCount != 0) {
-			std::uint8_t* lineVertBase = reinterpret_cast<std::uint8_t*>(s_Data->lineVertexBufferBase);
-			std::uint8_t* lineVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->lineVertexBufferPtr);
-			std::uint32_t dataSize = static_cast<std::uint32_t>(lineVertPtr - lineVertBase);
-
-			s_Data->lineVertexBuffer->setData(s_Data->lineVertexBufferBase, dataSize);
-
-			s_Data->lineShader->bind();
-			RenderCommand::SetLineWidth(s_Data->lineWidth);
-			RenderCommand::DrawLines(s_Data->lineVertexArray, s_Data->lineVertexCount);
 
 			s_Data->stats.numberOfDrawCalls++;
 		}
@@ -353,19 +299,5 @@ namespace Hart {
 		s_Data->quadIndexCount += 6;
 
 		s_Data->stats.numberOfQuads++;
-	}
-
-	void Renderer2D::AddNewLineVertex(const Vec3& startPosition, const Vec3& endPosition, const Vec4& color) {
-		s_Data->lineVertexBufferPtr->position = Vec4(startPosition, 1.0f);
-		s_Data->lineVertexBufferPtr->color = color;
-		s_Data->lineVertexBufferPtr++;
-
-		s_Data->lineVertexBufferPtr->position = Vec4(endPosition, 1.0f);
-		s_Data->lineVertexBufferPtr->color = color;
-		s_Data->lineVertexBufferPtr++;
-
-		s_Data->lineVertexCount += 2;
-
-		s_Data->stats.numberOfLines++;
 	}
 }

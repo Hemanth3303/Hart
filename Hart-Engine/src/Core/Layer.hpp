@@ -7,7 +7,8 @@ namespace Hart {
 	// Base Layer class
 	class Layer {
 	public:
-		Layer(const std::string& name = "Layer");
+		Layer();
+		Layer(const std::string& name);
 		virtual ~Layer();
 
 		virtual void onAttach() {}
@@ -19,5 +20,6 @@ namespace Hart {
 		inline const std::string& getName() const { return m_Name; }
 	private:
 		std::string m_Name;
+		static std::uint64_t s_LayerID;
 	};
 }

@@ -13,7 +13,6 @@ namespace Hart {
 		static void SetClearColor(const Vec4& color);
 		static void Clear();
 		static void SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height);
-		static void SetLineWidth(float width);
 		static const std::int64_t GetMaxTextureSlotsPerShader();
 		static const std::int64_t GetMaxTextureSlotsTotal();
 		static void EnableDepthTest();
@@ -22,8 +21,6 @@ namespace Hart {
 		static void DisableBlending();
 		static void EnableWireFrameMode();
 		static void DisableWireFrameMode();
-		static void EnableSmoothLines();
-		static void DisableSmoothLines();
 		static void SetPixelPackAlignment(std::int32_t alignmentNumber);
 		static void SetPixelUnpackAlignment(std::int32_t alignmentNumber);
 
