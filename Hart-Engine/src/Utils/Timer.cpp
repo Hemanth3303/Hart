@@ -14,11 +14,13 @@ namespace Hart {
 	}
 
 	void Timer::DeInit() {
+		s_IsInitialized = false;
 		HART_ENGINE_LOG("DeInitializing Timer");
 	}
 
 	double Timer::GetTimeInSeconds() {
 		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 		return static_cast<double>(std::chrono::duration_cast<std::chrono::seconds>(elapsedTime).count());
@@ -26,18 +28,24 @@ namespace Hart {
 	}
 
 	double Timer::GetTimeInMilliSeconds() {
+		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 		return static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime).count());
 	}
 
 	double Timer::GetTimeInMicroSeconds() {
+		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 		return static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(elapsedTime).count());
 	}
 
 	double Timer::GetTimeInNanoSeconds() {
+		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 		return static_cast<double>(std::chrono::duration_cast<std::chrono::nanoseconds>(elapsedTime).count());
@@ -52,5 +60,16 @@ namespace Hart {
 		s_CurrentTimeStamp = ss.str();
 
 		return s_CurrentTimeStamp;
+	}
+
+	ScopedTimer::ScopedTimer(const std::string& name) 
+		: m_Name(name) {
+		
+		m_StartTime = Timer::GetTimeInMilliSeconds();
+	}
+
+	ScopedTimer::~ScopedTimer() {
+		double endTime = Timer::GetTimeInMilliSeconds() - m_StartTime;
+		HART_ENGINE_LOG("ScopedTimer:", "\t\t\t\t\t" + m_Name, "\t\t\t\t\t\tElapsed Time: " + std::to_string(endTime) + "ms");
 	}
 }
