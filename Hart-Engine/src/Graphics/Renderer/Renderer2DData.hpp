@@ -17,8 +17,8 @@ namespace Hart {
 		const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
 		static constexpr std::uint32_t MAX_TEXTURE_SLOTS = 16;
 		const std::uint32_t WHITE_TEXTURE_SLOT = 0;
-		const std::uint32_t TEXT_TEXTURE_SLOT = 1;
-		const std::uint32_t COMMON_TEXTURE_SLOT_START = 2;  // slot_0 == white texture, slot_1=text_texture
+		const std::uint32_t COMMON_TEXTURE_SLOT_START = 1;  // slot_0 == white texture
+		const std::uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
 		std::shared_ptr<Texture2D> whiteTexture;

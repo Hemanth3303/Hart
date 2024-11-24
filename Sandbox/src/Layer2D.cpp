@@ -1,5 +1,7 @@
 #include "Layer2D.hpp"
 
+#undef DrawText
+
 Layer2D::Layer2D(const std::string& name)
 	: Layer(name), m_ParticleSystem(1'000'000) {
 }
@@ -33,6 +35,8 @@ void Layer2D::onAttach() {
 
 	//Hart::AudioManager::PlaySound(pickupSound);
 	//Hart::AudioManager::PlayMusic(criticalTheme);
+
+	//HART_CLIENT_LOG("File size:", Hart::FileManager::GetFileSizeInBytes("res/fonts/Roboto-Regular.ttf"));
 }
 
 void Layer2D::onDetach() {
@@ -90,6 +94,8 @@ void Layer2D::render() {
 	Hart::Mat4 transform = Hart::Mat4::Translate({ 0.9f, 0.6f }) * Hart::Mat4::Rotate(67.0f, { 0.0f, 0.0f, 1.0f }) * Hart::Mat4::Scale({ 0.25, 0.45 });
 
 	Hart::Renderer2D::DrawQuad(transform, Hart::Gold);
+
+	Hart::Renderer2D::DrawText("hi", Hart::Mat4(), Hart::White);
 
 	m_ParticleSystem.render();
 
