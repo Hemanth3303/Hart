@@ -68,6 +68,12 @@ namespace Hart {
 
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uTexture0", s_Data->textureSlots[0]->getSlot());
+
+		// Text Texture
+		s_Data->textureSlots[1] = s_Data->whiteTexture;
+
+		s_Data->quadShader->bind();
+		s_Data->quadShader->setUniform("uTexture1", s_Data->textureSlots[1]->getSlot());
 	}
 
 	void Renderer2D::DeInit() {
@@ -202,10 +208,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Mat4& transform, const Vec4& color) {
-		// if some conditions
-		//	Flush();
-		//	BeginBatch();
-		// AddNewTextVertex(params);
+
 	}
 
 	void Renderer2D::ResetStats() {
@@ -236,7 +239,7 @@ namespace Hart {
 		s_Data->quadIndexCount = 0;
 
 		// Textures
-		s_Data->textureSlotIndex = s_Data->TEXTURE_SLOT_START;
+		s_Data->textureSlotIndex = s_Data->COMMON_TEXTURE_SLOT_START;
 	}
 
 	void Renderer2D::Flush() {
@@ -269,7 +272,7 @@ namespace Hart {
 
 		float textureIndex = 0.0f;
 
-		for (std::size_t i = s_Data->TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
+		for (std::size_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
 			if (s_Data->textureSlots[i] == texture) {
 				textureIndex = static_cast<float>(i);
 				break;
@@ -277,7 +280,7 @@ namespace Hart {
 		}
 		if (textureIndex == 0.0f) {
 			textureIndex = static_cast<float>(s_Data->textureSlotIndex);
-			if (s_Data->textureSlotIndex >= s_Data->TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_TEXTURE_SLOTS) {
+			if (s_Data->textureSlotIndex >= s_Data->COMMON_TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_TEXTURE_SLOTS) {
 				s_Data->textureSlots[s_Data->textureSlotIndex] = texture;
 			}
 			s_Data->textureSlotIndex++;
