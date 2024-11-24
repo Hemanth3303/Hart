@@ -4,8 +4,6 @@
 #include "RenderCommand.hpp"
 #include "Core/Application.hpp"
 
-#include "stb_truetype.h"
-
 namespace Hart {
 	static std::unique_ptr<Renderer2DData> s_Data;
 
@@ -79,8 +77,6 @@ namespace Hart {
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uTexture0", s_Data->textureSlots[s_Data->WHITE_TEXTURE_SLOT]->getSlot());
 
-		// Text Texture
-		
 	}
 
 	void Renderer2D::DeInit() {
@@ -204,6 +200,11 @@ namespace Hart {
 	}
 
 
+	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
+		HART_ASSERT_NOT_EQUAL(font, nullptr);
+		s_Data->textFont = font;
+	}
+
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
 		DrawText(text, position, size, 0.0f, color);
 	}
@@ -215,44 +216,9 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Mat4& transform, const Vec4& color) {
-		std::string fontFilePath = "res/fonts/Roboto-Regular.ttf";
-		std::size_t fontFileSize = FileManager::GetFileSizeInBytes(fontFilePath);
-		std::vector<void*> buffer = FileManager::ReadBinaryFromFile(fontFilePath);
-		std::int32_t fontCount = stbtt_GetNumberOfFonts(reinterpret_cast<const unsigned char*>(buffer.data()));
-		HART_ASSERT_EQUAL(fontCount, 1, "The font file contains more than one font. This is currently not supported");
-
-		Texture2DSpecification textTextureSpecification;
-		textTextureSpecification.width = 1024;
-		textTextureSpecification.height = 1024;
-		textTextureSpecification.numberOfChannels = 1;
-
-		std::vector<std::uint32_t> fontAtlasBitmap;
-		fontAtlasBitmap.reserve(textTextureSpecification.width * textTextureSpecification.height);
-
-		const std::uint32_t codePointFirstChar = 32; // ASCII Space
-		const std::uint32_t numberOfCharsToInclude = 95; // ASCII(32)[Space] to ASCII(126)[~]
-
-		float fontSize = 64.0f;
-
-		stbtt_packedchar packedChars[numberOfCharsToInclude];
-		stbtt_aligned_quad alignedQuads[numberOfCharsToInclude];
-
-		stbtt_pack_context packContext;
-
-		stbtt_PackBegin(&packContext, reinterpret_cast<unsigned char*>(fontAtlasBitmap.data()), textTextureSpecification.width, textTextureSpecification.height, 0, 1, nullptr);
-
-		stbtt_PackFontRange(&packContext, reinterpret_cast<std::uint8_t*>(buffer.data()), 0, fontSize, codePointFirstChar, numberOfCharsToInclude, packedChars);
-		stbtt_PackEnd(&packContext);
-
-		for (int i = 0; i < numberOfCharsToInclude; i++) {
-			float _x, _y;
-
-			stbtt_GetPackedQuad(packedChars, textTextureSpecification.width, textTextureSpecification.height, i, &_x, &_y, &alignedQuads[i], 0);
-		}
-
-		std::shared_ptr<Texture2D> tex = std::make_shared<Texture2D>(fontAtlasBitmap.data(), textTextureSpecification);
-
-		DrawQuad({ 0.0f, 0.0f, 1.0f }, { 0.5f, 0.5f }, tex, White);
+		
+		std::shared_ptr<Texture2D> tex = std::make_shared<Texture2D>(s_Data->textFont->getFontAtlasBitmap(), s_Data->textFont->getTextureSpecification());
+		DrawQuad({ 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f }, tex, White);
 	}
 
 	void Renderer2D::ResetStats() {
@@ -346,5 +312,9 @@ namespace Hart {
 		s_Data->quadIndexCount += 6;
 
 		s_Data->stats.numberOfQuads++;
+	}
+
+	void Renderer2D::AddNewTextVertex(const Mat4& transform, const Vec4& color) {
+
 	}
 }

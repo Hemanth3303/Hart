@@ -2,6 +2,12 @@
 
 // utility macros
 
+#if defined(HART_WINDOWS)
+	#ifdef DrawText
+		#undef DrawText
+	#endif
+#endif
+
 #define BIT(x) (1 << x)
 
 // compilation information

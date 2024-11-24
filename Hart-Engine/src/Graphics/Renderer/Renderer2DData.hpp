@@ -8,6 +8,9 @@
 #include "../VertexArray.hpp"
 #include "../Shader.hpp"
 #include "../Texture2D.hpp"
+#include "../Font.hpp"
+
+#include "stb_truetype.h"
 
 namespace Hart {
 	struct Renderer2DData {
@@ -42,6 +45,16 @@ namespace Hart {
 		// Textures
 		std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
 		std::uint32_t textureSlotIndex = COMMON_TEXTURE_SLOT_START;
+
+		//Text
+		std::shared_ptr<Font> textFont;
+		std::shared_ptr<Shader> textShader;
+		std::shared_ptr<VertexArray> textVertexArray;
+		std::shared_ptr<VertexBuffer> textVertexBuffer;
+
+		std::uint32_t textIndexCount = 0;
+		QuadVertex* textVertexBufferBase = nullptr;
+		QuadVertex* textVertexBufferPtr = nullptr;
 
 		struct Stats {
 		public:

@@ -6,6 +6,7 @@
 #include "../Texture2D.hpp"
 #include "../SpriteSheet.hpp"
 #include "../Camera/OrthographicCamera.hpp"
+#include "../Font.hpp"
 #include "Colors.hpp"
 
 namespace Hart {
@@ -67,10 +68,9 @@ namespace Hart {
 
 		// Text
 
+		static void SetFont(const std::shared_ptr<Font>& font);
 		static void DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color = White);
-
 		static void DrawText(const std::string& text, const Vec3& position, float size, float angleD, const Vec4& color = White);
-
 		static void DrawText(const std::string& text, const Mat4& transform, const Vec4& color = White);
 
 		static void ResetStats();
@@ -85,5 +85,6 @@ namespace Hart {
 		static const float CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture);
 
 		static void AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor);
+		static void AddNewTextVertex(const Mat4& transform, const Vec4& color);
 	};
 }

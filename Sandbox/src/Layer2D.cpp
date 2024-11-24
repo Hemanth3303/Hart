@@ -19,6 +19,7 @@ void Layer2D::onAttach() {
 	m_GrassTex = std::make_shared<Hart::Texture2D>("res/images/grass_block.png", pixelArtTextureSpec);
 	m_EmojiTex = std::make_shared<Hart::Texture2D>("res/images/awesomeface.png");
 	m_SpriteSheet = std::make_shared<Hart::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Vec2(128, 128), pixelArtTextureSpec);
+	m_Font = std::make_shared<Hart::Font>("res/fonts/Roboto-Regular.ttf");
 
 	m_CameraController = std::make_shared<Hart::DefaultOrthographicCameraController>(960.0f, 540.0f);
 
@@ -35,8 +36,8 @@ void Layer2D::onAttach() {
 
 	//Hart::AudioManager::PlaySound(pickupSound);
 	//Hart::AudioManager::PlayMusic(criticalTheme);
+	Hart::Renderer2D::SetFont(m_Font);
 
-	//HART_CLIENT_LOG("File size:", Hart::FileManager::GetFileSizeInBytes("res/fonts/Roboto-Regular.ttf"));
 }
 
 void Layer2D::onDetach() {
@@ -49,6 +50,8 @@ void Layer2D::onEvent(Hart::Event& e) {
 }
 
 void Layer2D::update(const float deltaTime) {
+	//Hart::ScopedTimer sp("Layer2D Update Loop");
+
 	//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
 
 	auto [x, y] = Hart::InputManager::GetMousePosition();
@@ -78,6 +81,9 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
+
+	//Hart::ScopedTimer sp("Layer2D Render Loop");
+
 	Hart::Renderer2D::ResetStats();
 	Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
 
@@ -95,7 +101,7 @@ void Layer2D::render() {
 
 	Hart::Renderer2D::DrawQuad(transform, Hart::Gold);
 
-	Hart::Renderer2D::DrawText("hi", Hart::Mat4(), Hart::White);
+	Hart::Renderer2D::DrawText("Hello, World", {0.0f, 0.0f, 1.0f}, 20.0f, Hart::White);
 
 	m_ParticleSystem.render();
 
