@@ -67,9 +67,12 @@ namespace Hart {
 		public:
 			std::uint32_t numberOfDrawCalls = 0;
 			std::uint32_t numberOfQuads = 0;
+			std::uint32_t numberOfTextQuads = 0;
 		public:
 			std::uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
 			std::uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
+			std::uint32_t getTextVertexCount() const { return numberOfTextQuads * 4; }
+			std::uint32_t getTextIndexCount() const { return numberOfTextQuads * 6; }
 		};
 		Stats stats;
 	};

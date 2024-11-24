@@ -117,10 +117,12 @@ void Layer2D::render() {
 	m_ParticleSystem.render();
 
 	Hart::Renderer2D::EndScene();
+
 	//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Renderer2D::GetNumberOfDrawCalls()));
 	//HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Renderer2D::GetNumberOfQuads()));
 	//HART_CLIENT_TRACE("No of quad vertices: " + std::to_string(Hart::Renderer2D::GetNumberOfQuadVertices()));
 	//HART_CLIENT_TRACE("No of quad indices: " + std::to_string(Hart::Renderer2D::GetNumberOfQuadIndices()));
-	//HART_CLIENT_TRACE("No of lines: " + std::to_string(Hart::Renderer2D::GetNumberOfLines()));
-	//HART_CLIENT_TRACE("No of line vertices: " + std::to_string(Hart::Renderer2D::GetNumberOfLineVertices()));
+	//HART_CLIENT_TRACE("No of text quads: " + std::to_string(Hart::Renderer2D::GetNumberOfTextQuads()));
+	//HART_CLIENT_TRACE("No of text quad vertices: " + std::to_string(Hart::Renderer2D::GetNumberOfTextQuadVertices()));
+	//HART_CLIENT_TRACE("No of text quad indices: " + std::to_string(Hart::Renderer2D::GetNumberOfTextQuadIndices()));
 }

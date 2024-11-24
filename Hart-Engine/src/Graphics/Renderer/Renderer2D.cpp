@@ -313,6 +313,7 @@ namespace Hart {
 	void Renderer2D::ResetStats() {
 		s_Data->stats.numberOfDrawCalls = 0;
 		s_Data->stats.numberOfQuads = 0;
+		s_Data->stats.numberOfTextQuads = 0;
 	}
 
 	std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
@@ -329,6 +330,18 @@ namespace Hart {
 
 	std::uint32_t Renderer2D::GetNumberOfQuadIndices() {
 		return s_Data->stats.getQuadIndexCount();
+	}
+
+	std::uint32_t Renderer2D::GetNumberOfTextQuads() {
+		return s_Data->stats.numberOfTextQuads;
+	}
+
+	std::uint32_t Renderer2D::GetNumberOfTextQuadVertices() {
+		return s_Data->stats.getTextVertexCount();
+	}
+
+	std::uint32_t Renderer2D::GetNumberOfTextQuadIndices() {
+		return s_Data->stats.getTextIndexCount();
 	}
 
 
@@ -429,5 +442,8 @@ namespace Hart {
 			s_Data->textVertexBufferPtr++;
 		}
 		s_Data->textIndexCount += 6;
+
+		s_Data->stats.numberOfTextQuads++;
+
 	}
 }

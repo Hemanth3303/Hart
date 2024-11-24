@@ -76,6 +76,9 @@ namespace Hart {
 		static std::uint32_t GetNumberOfQuads();
 		static std::uint32_t GetNumberOfQuadVertices();
 		static std::uint32_t GetNumberOfQuadIndices();
+		static std::uint32_t GetNumberOfTextQuads();
+		static std::uint32_t GetNumberOfTextQuadVertices();
+		static std::uint32_t GetNumberOfTextQuadIndices();
 	private:
 		static void BeginBatch();
 		static void Flush();
