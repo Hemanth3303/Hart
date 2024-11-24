@@ -51,6 +51,7 @@ namespace Hart {
 		std::shared_ptr<IndexBuffer> quadIndexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), s_Data->MAX_INDICES);
 		s_Data->quadVertexArray->setIndexBuffer(quadIndexBuffer);
 
+		// use coordinates with (0, 0) at center
 		s_Data->quadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
@@ -93,15 +94,9 @@ namespace Hart {
 		std::shared_ptr<IndexBuffer> textIndexBuffer = std::make_shared<IndexBuffer>(textIndices.data(), s_Data->MAX_INDICES);
 		s_Data->textVertexArray->setIndexBuffer(textIndexBuffer);
 
-		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
-		s_Data->textTextureCoords[0] = { 0.0f, 1.0f };
-		s_Data->textTextureCoords[1] = { 1.0f, 1.0f };
-		s_Data->textTextureCoords[2] = { 1.0f, 0.0f };
-		s_Data->textTextureCoords[3] = { 0.0f, 0.0f };
+		float aspectRatio = static_cast<float>(Application::Get()->getWindowHeight()) / static_cast<float>(Application::Get()->getWindowWidth());
+		s_Data->textPixelScale = 0.001f / aspectRatio; //TODO: FIX
 
 		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
@@ -261,19 +256,58 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
-		DrawText(text, position, size, 0.0f, color);
-	}
+		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();
+		stbtt_aligned_quad* alignedQuads = s_Data->textFont->getSTBTTAlignedQuads();
+		std::uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
+		std::uint32_t numberOfCharsToInclude = s_Data->textFont->getNumberOfCharsToInclude();
 
-	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, float angleD, const Vec4& color) {
-		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size, size, 1.0f });
+		Vec3 charPos = position;
+		for (const char ch : text) {
+			if (ch == '\n') {
+				charPos.y -= s_Data->textFont->getFontSize() * s_Data->textPixelScale * size;
+				charPos.x = position.x;
+			}
+			else if (ch < codePointFirstChar || ch >(codePointFirstChar + numberOfCharsToInclude)) {
+				continue;
+			}
+			else {
 
-		DrawText(text, transform, color);
-	}
+				stbtt_packedchar* packedChar = &packedChars[ch - codePointFirstChar];
+				stbtt_aligned_quad* alignedQuad = &alignedQuads[ch - codePointFirstChar];
 
-	void Renderer2D::DrawText(const std::string& text, const Mat4& transform, const Vec4& color) {
+				Vec3 glyphSize = {
+					(packedChar->x1 - packedChar->x0) * s_Data->textPixelScale * size,
+					(packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * size,
+					1.0f
+				};
+
+				Vec3 glyphBoundingBoxBottomLeft = {
+					charPos.x + (packedChar->xoff * s_Data->textPixelScale * size),
+					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * size,
+					charPos.z
+				};
+
+				
+				// use coordinates with (0, 0) at center
+				s_Data->textVertexPositions[0] = { 0.0f, 0.0f, 0.0f, 1.0f };
+				s_Data->textVertexPositions[1] = { 1.0f, 0.0f, 0.0f, 1.0f };
+				s_Data->textVertexPositions[2] = { 1.0f, 1.0f, 0.0f, 1.0f };
+				s_Data->textVertexPositions[3] = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 
-		AddNewTextVertex(transform, color);
+				s_Data->textTextureCoords[0] = { alignedQuad->s0, alignedQuad->t1 };  // Top-left
+				s_Data->textTextureCoords[1] = { alignedQuad->s1, alignedQuad->t1 };  // Top-right
+				s_Data->textTextureCoords[2] = { alignedQuad->s1, alignedQuad->t0 };  // Bottom-right
+				s_Data->textTextureCoords[3] = { alignedQuad->s0, alignedQuad->t0 };  // Bottom-left
+
+
+				Mat4 transform = Mat4::Translate(glyphBoundingBoxBottomLeft) * Mat4::Scale(glyphSize);
+
+				AddNewTextVertex(transform, color);
+
+				charPos.x += packedChar->xadvance * s_Data->textPixelScale * size;
+			}
+		}
 	}
 
 	void Renderer2D::ResetStats() {

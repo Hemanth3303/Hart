@@ -61,6 +61,8 @@ namespace Hart {
 		std::array<Vec4, VERTICES_PER_QUAD> textVertexPositions;
 		std::array<Vec2, VERTICES_PER_QUAD> textTextureCoords;
 
+		float textPixelScale;
+
 		struct Stats {
 		public:
 			std::uint32_t numberOfDrawCalls = 0;

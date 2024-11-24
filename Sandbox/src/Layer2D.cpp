@@ -19,7 +19,8 @@ void Layer2D::onAttach() {
 	m_GrassTex = std::make_shared<Hart::Texture2D>("res/images/grass_block.png", pixelArtTextureSpec);
 	m_EmojiTex = std::make_shared<Hart::Texture2D>("res/images/awesomeface.png");
 	m_SpriteSheet = std::make_shared<Hart::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Vec2(128, 128), pixelArtTextureSpec);
-	m_Font = std::make_shared<Hart::Font>("res/fonts/Roboto-Regular.ttf");
+	m_Font1 = std::make_shared<Hart::Font>("res/fonts/Roboto-Regular.ttf");
+	m_Font2 = std::make_shared<Hart::Font>("res/fonts/CascadiaCode.ttf");
 
 	m_CameraController = std::make_shared<Hart::DefaultOrthographicCameraController>(960.0f, 540.0f);
 
@@ -36,7 +37,7 @@ void Layer2D::onAttach() {
 
 	//Hart::AudioManager::PlaySound(pickupSound);
 	//Hart::AudioManager::PlayMusic(criticalTheme);
-	Hart::Renderer2D::SetFont(m_Font);
+	Hart::Renderer2D::SetFont(m_Font1);
 
 }
 
@@ -103,8 +104,15 @@ void Layer2D::render() {
 	Hart::Renderer2D::DrawQuad({ 0.0f, 0.9f }, { 0.1f, 0.1f }, Hart::White);
 	Hart::Renderer2D::DrawQuad({ -0.9f, -0.9f }, { 0.1f, 0.1f }, Hart::Red);
 
+	std::string allChars = "";
+	for (int i = 32; i <= 196; i++) {
+		if (i % 20==0) allChars += '\n';
+		allChars += i;
+	}
 
-	Hart::Renderer2D::DrawText("Hello, World", {0.0f, 0.0f, 1.0f}, 1.0f, Hart::White);
+	Hart::Renderer2D::DrawText("Hello, World", {-1.6f, 0.0f, 1.0f}, 1.0f, Hart::White);
+	Hart::Renderer2D::SetFont(m_Font2);
+	Hart::Renderer2D::DrawText(allChars, { 0.0f, 0.5f, 1.0f }, 1.0f, Hart::White);
 
 	m_ParticleSystem.render();
 

@@ -1,8 +1,7 @@
 #include "Font.hpp"
 
 namespace Hart {
-	Font::Font(const std::string& filePath, float size) 
-		: m_FontSize(size) {
+	Font::Font(const std::string& filePath) {
 		if (!FileManager::FileExists(filePath)) {
 			HART_ENGINE_ERROR("Font " + filePath + " not found");
 			return;
