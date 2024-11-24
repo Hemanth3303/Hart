@@ -59,7 +59,6 @@ namespace Hart {
 			uniform sampler2D uTexture12;
 			uniform sampler2D uTexture13;
 			uniform sampler2D uTexture14;
-			uniform sampler2D uTexture15;
 
 			void main() {
 				switch(int(fs_in.textureIndex)) {
@@ -107,9 +106,6 @@ namespace Hart {
 						break;
 					case 14:
 						color = texture(uTexture14, fs_in.textureCoords * fs_in.tilingFactor) * fs_in.color;
-						break;
-					case 15:
-						color = texture(uTexture15, fs_in.textureCoords * fs_in.tilingFactor) * fs_in.color;
 						break;
 					default:
 						color = texture(uTexture0, fs_in.textureCoords * fs_in.tilingFactor) * fs_in.color;

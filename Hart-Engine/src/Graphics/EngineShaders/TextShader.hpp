@@ -39,7 +39,7 @@ namespace Hart {
 			uniform sampler2D uTexture15;
 
 			void main() {
-				color = texture(uTexture15, fs_in.textureCoords) * fs_in.color;
+				color = vec4(texture(uTexture15, fs_in.textureCoords).r) * fs_in.color;
 			}
 		)";
 }

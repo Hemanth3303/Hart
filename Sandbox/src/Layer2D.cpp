@@ -100,8 +100,11 @@ void Layer2D::render() {
 	Hart::Mat4 transform = Hart::Mat4::Translate({ 0.9f, 0.6f }) * Hart::Mat4::Rotate(67.0f, { 0.0f, 0.0f, 1.0f }) * Hart::Mat4::Scale({ 0.25, 0.45 });
 
 	Hart::Renderer2D::DrawQuad(transform, Hart::Gold);
+	Hart::Renderer2D::DrawQuad({ 0.0f, 0.9f }, { 0.1f, 0.1f }, Hart::White);
+	Hart::Renderer2D::DrawQuad({ -0.9f, -0.9f }, { 0.1f, 0.1f }, Hart::Red);
 
-	Hart::Renderer2D::DrawText("Hello, World", {0.0f, 0.0f, 1.0f}, 20.0f, Hart::White);
+
+	Hart::Renderer2D::DrawText("Hello, World", {0.0f, 0.0f, 1.0f}, 1.0f, Hart::White);
 
 	m_ParticleSystem.render();
 

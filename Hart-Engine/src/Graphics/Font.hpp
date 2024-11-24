@@ -8,12 +8,12 @@
 namespace Hart {
 	class Font {
 	public:
-		Font(const std::string& filePath);
+		Font(const std::string& filePath, float size = 64.0f);
 		~Font();
 
 		inline const std::size_t getFileSizeInBytes() { return m_FileSize; }
 		inline void* getFontBufferData() { return m_FontDataBuffer.data(); }
-		inline std::uint32_t* getFontAtlasBitmap() { return m_FontAtlasBitmap.data(); }
+		inline std::uint32_t* getFontAtlasBitmapData() { return m_FontAtlasBitmap.data(); }
 		inline const Texture2DSpecification& getTextureSpecification() { return m_FontTextureSpecification; }
 	private:
 		std::size_t m_FileSize = 0;
@@ -21,7 +21,7 @@ namespace Hart {
 		std::vector<std::uint32_t> m_FontAtlasBitmap;
 		Texture2DSpecification m_FontTextureSpecification;
 
-		float m_FontSize = 64.0f;
+		float m_FontSize;
 		static constexpr std::uint32_t m_CodePointFirstChar = 32; // ASCII Space
 		static constexpr std::uint32_t m_NumberOfCharsToInclude = 95; // ASCII(32)[Space] to ASCII(126)[~]
 

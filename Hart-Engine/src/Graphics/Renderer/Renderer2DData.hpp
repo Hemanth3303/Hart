@@ -18,13 +18,15 @@ namespace Hart {
 		const std::uint32_t MAX_QUADS = 10'000;
 		const std::uint32_t MAX_VERTICES = MAX_QUADS * 4;
 		const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
-		static constexpr std::uint32_t MAX_TEXTURE_SLOTS = 16;
+		static constexpr std::uint32_t MAX_TOTAL_TEXTURE_SLOTS = 16;
+		static constexpr std::uint32_t MAX_COMMON_TEXTURE_SLOTS = 15;
 		const std::uint32_t WHITE_TEXTURE_SLOT = 0;
 		const std::uint32_t COMMON_TEXTURE_SLOT_START = 1;  // slot_0 == white texture
 		const std::uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
 		std::shared_ptr<Texture2D> whiteTexture;
+		std::shared_ptr<Texture2D> textTexture;
 
 		// Quads
 		std::shared_ptr<Shader> quadShader;
@@ -43,7 +45,7 @@ namespace Hart {
 		static constexpr float LINE_THICKNESS_SCALE_FACTOR = 0.005f;
 
 		// Textures
-		std::array<std::shared_ptr<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
+		std::array<std::shared_ptr<Texture2D>, MAX_TOTAL_TEXTURE_SLOTS> textureSlots;
 		std::uint32_t textureSlotIndex = COMMON_TEXTURE_SLOT_START;
 
 		//Text
@@ -53,8 +55,11 @@ namespace Hart {
 		std::shared_ptr<VertexBuffer> textVertexBuffer;
 
 		std::uint32_t textIndexCount = 0;
-		QuadVertex* textVertexBufferBase = nullptr;
-		QuadVertex* textVertexBufferPtr = nullptr;
+		TextVertex* textVertexBufferBase = nullptr;
+		TextVertex* textVertexBufferPtr = nullptr;
+
+		std::array<Vec4, VERTICES_PER_QUAD> textVertexPositions;
+		std::array<Vec2, VERTICES_PER_QUAD> textTextureCoords;
 
 		struct Stats {
 		public:
