@@ -51,8 +51,6 @@ void Layer2D::onEvent(Hart::Event& e) {
 void Layer2D::update(const float deltaTime) {
 	//Hart::ScopedTimer sp("Layer2D Update Loop");
 
-	//HART_CLIENT_LOG("DeltaTime: " + std::to_string(deltaTime) + " | FPS: " + std::to_string(Hart::Application::Get()->getCurrentFPS()));
-
 	auto [x, y] = Hart::InputManager::GetMousePosition();
 	std::int32_t width = Hart::Application::Get()->getWindowWidth();
 	std::int32_t height = Hart::Application::Get()->getWindowHeight();
@@ -82,6 +80,7 @@ void Layer2D::update(const float deltaTime) {
 void Layer2D::render() {
 
 	//Hart::ScopedTimer sp("Layer2D Render Loop");
+	static std::string fps, drawCalls, quads, quadVerts, quadInds, textQuads, textQuadVerts, textQuadInds;
 
 	Hart::Renderer2D::ResetStats();
 	Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
@@ -103,22 +102,27 @@ void Layer2D::render() {
 	Hart::Renderer2D::DrawQuad({ -0.9f, -0.9f }, { 0.1f, 0.1f }, Hart::Red);
 
 	Hart::Renderer2D::SetFont(m_Font1);
-	Hart::Renderer2D::DrawText("Hello, World!", { -1.6f, 0.0f, 1.0f }, 2.0f, Hart::White);
+	Hart::Renderer2D::DrawText("Hello, World!", { 0.0f, 0.0f, 1.0f }, 2.0f, Hart::NormalizeRGB255({ 240.0f,0.0f,255.0f}));
+
+	Hart::Renderer2D::DrawText("FPS: " + fps, { -1.6f, 0.8f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of DrawCalls: " + drawCalls, { -1.6f, 0.75f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of Quads: " + quads, { -1.6f, 0.7f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of Quad Vertices: " + quadVerts, { -1.6f, 0.65f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of Quad Indices: " + quadInds, { -1.6f, 0.6f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of TextQuads: " + textQuads, { -1.6f, 0.55f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of TextQuad Vertices: " + textQuadVerts, { -1.6f, 0.5f, 1.0f }, 0.7f, Hart::White);
+	Hart::Renderer2D::DrawText("No of TextQuad Indices: " + textQuadInds, { -1.6f, 0.45f, 1.0f }, 0.7f, Hart::White);
 	
 	m_ParticleSystem.render();
 
 	Hart::Renderer2D::EndScene();
 
-	Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
-	Hart::Renderer2D::SetFont(m_Font2);
-	Hart::Renderer2D::DrawText("Hello, Font2", { -1.6f, -0.8f, 1.0f }, 2.0f, Hart::Red);
-	Hart::Renderer2D::EndScene();
-
-	//HART_CLIENT_TRACE("No of drawcalls: " + std::to_string(Hart::Renderer2D::GetNumberOfDrawCalls()));
-	//HART_CLIENT_TRACE("No of quads: " + std::to_string(Hart::Renderer2D::GetNumberOfQuads()));
-	//HART_CLIENT_TRACE("No of quad vertices: " + std::to_string(Hart::Renderer2D::GetNumberOfQuadVertices()));
-	//HART_CLIENT_TRACE("No of quad indices: " + std::to_string(Hart::Renderer2D::GetNumberOfQuadIndices()));
-	//HART_CLIENT_TRACE("No of text quads: " + std::to_string(Hart::Renderer2D::GetNumberOfTextQuads()));
-	//HART_CLIENT_TRACE("No of text quad vertices: " + std::to_string(Hart::Renderer2D::GetNumberOfTextQuadVertices()));
-	//HART_CLIENT_TRACE("No of text quad indices: " + std::to_string(Hart::Renderer2D::GetNumberOfTextQuadIndices()));
+	fps = std::to_string(Hart::Application::Get()->getCurrentFPS());
+	drawCalls = std::to_string(Hart::Renderer2D::GetNumberOfDrawCalls());
+	quads = std::to_string(Hart::Renderer2D::GetNumberOfQuads());
+	quadVerts = std::to_string(Hart::Renderer2D::GetNumberOfQuadVertices());
+	quadInds = std::to_string(Hart::Renderer2D::GetNumberOfQuadIndices());
+	textQuads = std::to_string(Hart::Renderer2D::GetNumberOfTextQuads());
+	textQuadVerts = std::to_string(Hart::Renderer2D::GetNumberOfTextQuadVertices());
+	textQuadInds = std::to_string(Hart::Renderer2D::GetNumberOfTextQuadIndices());
 }

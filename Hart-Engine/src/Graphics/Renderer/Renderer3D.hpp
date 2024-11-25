@@ -5,7 +5,7 @@
 #include "../VertexArray.hpp"
 #include "../Shader.hpp"
 #include "../Texture2D.hpp"
-#include "Colors.hpp"
+#include "../Colors.hpp"
 
 namespace Hart {
 	

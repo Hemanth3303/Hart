@@ -10,7 +10,7 @@
 #include "Graphics/Texture2D.hpp"
 #include "Graphics/SpriteSheet.hpp"
 #include "Graphics/ParticleSystem.hpp"
-#include "Graphics/Renderer/Colors.hpp"
+#include "Graphics/Colors.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"

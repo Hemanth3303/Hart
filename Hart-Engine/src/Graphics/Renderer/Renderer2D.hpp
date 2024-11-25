@@ -7,7 +7,7 @@
 #include "../SpriteSheet.hpp"
 #include "../Camera/OrthographicCamera.hpp"
 #include "../Font.hpp"
-#include "Colors.hpp"
+#include "../Colors.hpp"
 
 namespace Hart {
 	class Renderer2D {
