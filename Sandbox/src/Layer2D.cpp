@@ -19,8 +19,8 @@ void Layer2D::onAttach() {
 	m_GrassTex = std::make_shared<Hart::Texture2D>("res/images/grass_block.png", pixelArtTextureSpec);
 	m_EmojiTex = std::make_shared<Hart::Texture2D>("res/images/awesomeface.png");
 	m_SpriteSheet = std::make_shared<Hart::SpriteSheet>("res/images/RPGpack_sheet_2X.png", Hart::Vec2(128, 128), pixelArtTextureSpec);
-	m_Font1 = std::make_shared<Hart::Font>("res/fonts/Roboto-Regular.ttf", 48);
-	m_Font2 = std::make_shared<Hart::Font>("res/fonts/CascadiaCode.ttf", 32);
+	m_Font1 = std::make_shared<Hart::Font>("res/fonts/Roboto-Regular.ttf", 48.0f);
+	m_Font2 = std::make_shared<Hart::Font>("res/fonts/CascadiaCode.ttf", 32.0f);
 
 	m_CameraController = std::make_shared<Hart::DefaultOrthographicCameraController>(960.0f, 540.0f);
 

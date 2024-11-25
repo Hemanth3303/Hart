@@ -98,11 +98,11 @@ namespace Hart {
 
 		recalculateTextPixelScaler();
 
-		// use coordinates with (0, 0) at bottom left
-		s_Data->textVertexPositions[0] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[1] = { 1.0f, 0.0f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[2] = { 1.0f, 1.0f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[3] = { 0.0f, 1.0f, 0.0f, 1.0f };
+		// use coordinates with (0, 0) at center
+		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
 		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
@@ -290,8 +290,8 @@ namespace Hart {
 				};
 
 				Vec3 glyphBoundingBoxBottomLeft = {
-					charPos.x + (packedChar->xoff * s_Data->textPixelScale * scaling),
-					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling,
+					charPos.x + (packedChar->xoff * s_Data->textPixelScale * scaling) + (glyphSize.x / 2.0f),
+					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling + (glyphSize.y / 2.0f),
 					charPos.z
 				};
 
