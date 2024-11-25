@@ -68,8 +68,9 @@ namespace Hart {
 
 		// Text
 
+		// one font per scene
 		static void SetFont(const std::shared_ptr<Font>& font);
-		static void DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color = White);
+		static void DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color = White);
 
 		static void ResetStats();
 		static std::uint32_t GetNumberOfDrawCalls();

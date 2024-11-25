@@ -5,6 +5,8 @@
 #include "Core/Application.hpp"
 
 namespace Hart {
+	void recalculateTextPixelScaler();
+
 	static std::unique_ptr<Renderer2DData> s_Data;
 
 	void Renderer2D::Init() {
@@ -94,9 +96,13 @@ namespace Hart {
 		std::shared_ptr<IndexBuffer> textIndexBuffer = std::make_shared<IndexBuffer>(textIndices.data(), s_Data->MAX_INDICES);
 		s_Data->textVertexArray->setIndexBuffer(textIndexBuffer);
 
+		recalculateTextPixelScaler();
 
-		float aspectRatio = static_cast<float>(Application::Get()->getWindowHeight()) / static_cast<float>(Application::Get()->getWindowWidth());
-		s_Data->textPixelScale = 0.001f / aspectRatio; //TODO: FIX
+		// use coordinates with (0, 0) at bottom left
+		s_Data->textVertexPositions[0] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[1] = { 1.0f, 0.0f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[2] = { 1.0f, 1.0f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[3] = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
@@ -248,14 +254,16 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(font, nullptr);
 		s_Data->textFont = font;
 
-		s_Data->textTexture = std::make_shared<Texture2D>(font->getFontAtlasBitmapData(), font->getTextureSpecification());
+		s_Data->textTexture = std::make_shared<Texture2D>(s_Data->textFont->getFontAtlasBitmapData(), s_Data->textFont->getTextureSpecification());
 
 		s_Data->textShader->bind();
 		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
 		s_Data->textShader->setUniform("uTexture15", s_Data->textTexture->getSlot());
 	}
 
-	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
+	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {
+		recalculateTextPixelScaler();
+
 		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();
 		stbtt_aligned_quad* alignedQuads = s_Data->textFont->getSTBTTAlignedQuads();
 		std::uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
@@ -264,10 +272,10 @@ namespace Hart {
 		Vec3 charPos = position;
 		for (const char ch : text) {
 			if (ch == '\n') {
-				charPos.y -= s_Data->textFont->getFontSize() * s_Data->textPixelScale * size;
+				charPos.y -= s_Data->textFont->getFontSize() * s_Data->textPixelScale * scaling;
 				charPos.x = position.x;
 			}
-			else if (ch < codePointFirstChar || ch >(codePointFirstChar + numberOfCharsToInclude)) {
+			else if (ch < codePointFirstChar || ch > (codePointFirstChar + numberOfCharsToInclude)) {
 				continue;
 			}
 			else {
@@ -276,36 +284,27 @@ namespace Hart {
 				stbtt_aligned_quad* alignedQuad = &alignedQuads[ch - codePointFirstChar];
 
 				Vec3 glyphSize = {
-					(packedChar->x1 - packedChar->x0) * s_Data->textPixelScale * size,
-					(packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * size,
+					(packedChar->x1 - packedChar->x0) * s_Data->textPixelScale * scaling,
+					(packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling,
 					1.0f
 				};
 
 				Vec3 glyphBoundingBoxBottomLeft = {
-					charPos.x + (packedChar->xoff * s_Data->textPixelScale * size),
-					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * size,
+					charPos.x + (packedChar->xoff * s_Data->textPixelScale * scaling),
+					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling,
 					charPos.z
 				};
-
-				
-				// use coordinates with (0, 0) at center
-				s_Data->textVertexPositions[0] = { 0.0f, 0.0f, 0.0f, 1.0f };
-				s_Data->textVertexPositions[1] = { 1.0f, 0.0f, 0.0f, 1.0f };
-				s_Data->textVertexPositions[2] = { 1.0f, 1.0f, 0.0f, 1.0f };
-				s_Data->textVertexPositions[3] = { 0.0f, 1.0f, 0.0f, 1.0f };
-
 
 				s_Data->textTextureCoords[0] = { alignedQuad->s0, alignedQuad->t1 };  // Top-left
 				s_Data->textTextureCoords[1] = { alignedQuad->s1, alignedQuad->t1 };  // Top-right
 				s_Data->textTextureCoords[2] = { alignedQuad->s1, alignedQuad->t0 };  // Bottom-right
 				s_Data->textTextureCoords[3] = { alignedQuad->s0, alignedQuad->t0 };  // Bottom-left
 
-
 				Mat4 transform = Mat4::Translate(glyphBoundingBoxBottomLeft) * Mat4::Scale(glyphSize);
 
 				AddNewTextVertex(transform, color);
 
-				charPos.x += packedChar->xadvance * s_Data->textPixelScale * size;
+				charPos.x += packedChar->xadvance * s_Data->textPixelScale * scaling;
 			}
 		}
 	}
@@ -359,11 +358,15 @@ namespace Hart {
 	}
 
 	void Renderer2D::Flush() {
+		s_Data->quadShader->bind();
+		s_Data->whiteTexture->bind(s_Data->WHITE_TEXTURE_SLOT);
 		for (std::uint32_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
-			s_Data->quadShader->bind();
+			//s_Data->quadShader->bind();
 			s_Data->textureSlots[i]->bind(i);
 			s_Data->quadShader->setUniform("uTexture" + std::to_string(i), s_Data->textureSlots[i]->getSlot());
 		}
+		s_Data->textShader->bind();
+		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
 
 		// Quads
 		if (s_Data->quadIndexCount != 0) {
@@ -445,5 +448,10 @@ namespace Hart {
 
 		s_Data->stats.numberOfTextQuads++;
 
+	}
+
+	void recalculateTextPixelScaler() {
+		float aspectRatio = static_cast<float>(Application::Get()->getWindowHeight()) / static_cast<float>(Application::Get()->getWindowWidth());
+		s_Data->textPixelScale = 0.001f / aspectRatio; //TODO: FIX
 	}
 }
