@@ -26,4 +26,9 @@ namespace Hart {
 	inline const Vec4 DarkGreenishBlue = { 0.2f, 0.3f, 0.3f, 1.0f };
 	inline const Vec4 FireRed = { 0.96f, 0.21f, 0.09f, 1.0f };
 	inline const Vec4 JetBlack = { 0.07f, 0.07f, 0.07f, 1.0f };
+
+	// convert rgb[0-255] to rgba[0.0-1.0]
+	Vec4 NormalizeRGB255(const Vec4& color);
+	// convert rgba[0-255] to rgba[0.0-1.0]
+	Vec4 NormalizeRGBA255(const Vec4& color);
 }

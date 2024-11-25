@@ -1,6 +1,8 @@
 add_library(stb STATIC
 	"src/stb_image.c"
 	"include/stb_image.h"
+	"src/stb_truetype.c"
+	"include/stb_truetype.h"
 )
 
 set_target_properties(stb PROPERTIES

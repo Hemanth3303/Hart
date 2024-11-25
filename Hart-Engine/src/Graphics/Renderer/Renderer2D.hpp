@@ -6,7 +6,8 @@
 #include "../Texture2D.hpp"
 #include "../SpriteSheet.hpp"
 #include "../Camera/OrthographicCamera.hpp"
-#include "Colors.hpp"
+#include "../Font.hpp"
+#include "../Colors.hpp"
 
 namespace Hart {
 	class Renderer2D {
@@ -67,17 +68,18 @@ namespace Hart {
 
 		// Text
 
-		static void DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color = White);
-
-		static void DrawText(const std::string& text, const Vec3& position, float size, float angleD, const Vec4& color = White);
-
-		static void DrawText(const std::string& text, const Mat4& transform, const Vec4& color = White);
+		// one font per scene
+		static void SetFont(const std::shared_ptr<Font>& font);
+		static void DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color = White);
 
 		static void ResetStats();
 		static std::uint32_t GetNumberOfDrawCalls();
 		static std::uint32_t GetNumberOfQuads();
 		static std::uint32_t GetNumberOfQuadVertices();
 		static std::uint32_t GetNumberOfQuadIndices();
+		static std::uint32_t GetNumberOfTextQuads();
+		static std::uint32_t GetNumberOfTextQuadVertices();
+		static std::uint32_t GetNumberOfTextQuadIndices();
 	private:
 		static void BeginBatch();
 		static void Flush();
@@ -85,5 +87,6 @@ namespace Hart {
 		static const float CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture);
 
 		static void AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor);
+		static void AddNewTextVertex(const Mat4& transform, const Vec4& color);
 	};
 }

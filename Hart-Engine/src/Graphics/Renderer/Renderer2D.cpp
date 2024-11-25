@@ -5,6 +5,8 @@
 #include "Core/Application.hpp"
 
 namespace Hart {
+	void recalculateTextPixelScaler();
+
 	static std::unique_ptr<Renderer2DData> s_Data;
 
 	void Renderer2D::Init() {
@@ -16,7 +18,6 @@ namespace Hart {
 		// Quads
 		std::vector<std::uint32_t> quadIndices;
 		quadIndices.resize(s_Data->MAX_INDICES);
-
 		std::uint32_t offset = 0;
 		for (std::size_t i = 0; i < s_Data->MAX_INDICES; i += 6) {
 			quadIndices[i + 0] = offset + 0;
@@ -52,10 +53,56 @@ namespace Hart {
 		std::shared_ptr<IndexBuffer> quadIndexBuffer = std::make_shared<IndexBuffer>(quadIndices.data(), s_Data->MAX_INDICES);
 		s_Data->quadVertexArray->setIndexBuffer(quadIndexBuffer);
 
+		// use coordinates with (0, 0) at center
 		s_Data->quadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
+		// Text
+		std::vector<std::uint32_t> textIndices;
+		textIndices.resize(s_Data->MAX_INDICES);
+
+		std::uint32_t textIndexOffset = 0;
+		for (std::size_t i = 0; i < s_Data->MAX_INDICES; i += 6) {
+			textIndices[i + 0] = textIndexOffset + 0;
+			textIndices[i + 1] = textIndexOffset + 1;
+			textIndices[i + 2] = textIndexOffset + 2;
+
+			textIndices[i + 3] = textIndexOffset + 2;
+			textIndices[i + 4] = textIndexOffset + 3;
+			textIndices[i + 5] = textIndexOffset + 0;
+
+			textIndexOffset += 4;
+		}
+
+		BufferLayout textBufferLayout = {
+			{ ShaderDataType::Float4, "aPosition" },
+			{ ShaderDataType::Float4, "aColor" },
+			{ ShaderDataType::Float2, "aTextureCoords" }
+		};
+
+		s_Data->textShader = Application::Get()->getShader("TextShader");
+
+		s_Data->textVertexArray = std::make_shared<VertexArray>();
+		s_Data->textVertexArray->bind();
+
+		s_Data->textVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(TextVertex)));
+		s_Data->textVertexBuffer->setLayout(textBufferLayout);
+		s_Data->textVertexArray->setVertexBuffer(s_Data->textVertexBuffer);
+
+		s_Data->textVertexBufferBase = new TextVertex[s_Data->MAX_VERTICES];
+
+		std::shared_ptr<IndexBuffer> textIndexBuffer = std::make_shared<IndexBuffer>(textIndices.data(), s_Data->MAX_INDICES);
+		s_Data->textVertexArray->setIndexBuffer(textIndexBuffer);
+
+		recalculateTextPixelScaler();
+
+		// use coordinates with (0, 0) at center
+		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
 		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
@@ -64,26 +111,26 @@ namespace Hart {
 		whiteTextureSpec.height = 1;
 		whiteTextureSpec.numberOfChannels = 4;
 		s_Data->whiteTexture = std::make_shared<Texture2D>(&whiteTextureData, whiteTextureSpec);
-		s_Data->textureSlots[0] = s_Data->whiteTexture;
+		s_Data->textureSlots[s_Data->WHITE_TEXTURE_SLOT] = s_Data->whiteTexture;
 
 		s_Data->quadShader->bind();
-		s_Data->quadShader->setUniform("uTexture0", s_Data->textureSlots[0]->getSlot());
-
-		// Text Texture
-		s_Data->textureSlots[1] = s_Data->whiteTexture;
-
-		s_Data->quadShader->bind();
-		s_Data->quadShader->setUniform("uTexture1", s_Data->textureSlots[1]->getSlot());
+		s_Data->whiteTexture->bind(s_Data->WHITE_TEXTURE_SLOT);
+		s_Data->quadShader->setUniform("uTexture0", s_Data->whiteTexture->getSlot());
 	}
 
 	void Renderer2D::DeInit() {
 		HART_ENGINE_LOG("DeInitializing Renderer2D");
 
 		delete s_Data->quadVertexBufferBase;
+		delete s_Data->textVertexBufferBase;
 
 		s_Data->quadVertexArray->getIndexBuffer()->unbind();
 		s_Data->quadVertexArray->unbind();
 		s_Data->quadShader->unbind();
+
+		s_Data->textVertexArray->getIndexBuffer()->unbind();
+		s_Data->textVertexArray->unbind();
+		s_Data->textShader->unbind();
 
 	}
 
@@ -93,8 +140,14 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Data->quadShader, nullptr, "Reason: quadShader is not initialized");
 		HART_ASSERT_NOT_EQUAL(s_Data->quadVertexArray, nullptr, "Reason: quadVertexArray is not initialized");
 
+		HART_ASSERT_NOT_EQUAL(s_Data->textShader, nullptr, "Reason: textShader is not initialized");
+		HART_ASSERT_NOT_EQUAL(s_Data->textVertexArray, nullptr, "Reason: quadVertexArray is not initialized");
+
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
+
+		s_Data->textShader->bind();
+		s_Data->textShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
 
 		BeginBatch();
 	}
@@ -134,7 +187,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawQuad(const Mat4& transform, const Vec4& color) {
-		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_COMMON_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
 		}
@@ -148,7 +201,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawQuad(const Mat4& transform, const std::shared_ptr<Texture2D>& texture, const Vec4& textureTint, float tilingFactor) {
-		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_COMMON_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
 		}
@@ -164,7 +217,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawQuad(const Mat4& transform, const std::shared_ptr<SpriteSheet>& spriteSheet, const Vec2& subTextureIndex, const Vec4& textureTint) {
-		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_COMMON_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
 		}
@@ -197,23 +250,69 @@ namespace Hart {
 	}
 
 
-	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, const Vec4& color) {
-		DrawText(text, position, size, 0.0f, color);
+	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
+		HART_ASSERT_NOT_EQUAL(font, nullptr);
+		s_Data->textFont = font;
+
+		s_Data->textTexture = std::make_shared<Texture2D>(s_Data->textFont->getFontAtlasBitmapData(), s_Data->textFont->getTextureSpecification());
+
+		s_Data->textShader->bind();
+		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
+		s_Data->textShader->setUniform("uTexture15", s_Data->textTexture->getSlot());
 	}
 
-	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float size, float angleD, const Vec4& color) {
-		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size, size, 1.0f });
+	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {
+		recalculateTextPixelScaler();
 
-		DrawText(text, transform, color);
-	}
+		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();
+		stbtt_aligned_quad* alignedQuads = s_Data->textFont->getSTBTTAlignedQuads();
+		std::uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
+		std::uint32_t numberOfCharsToInclude = s_Data->textFont->getNumberOfCharsToInclude();
 
-	void Renderer2D::DrawText(const std::string& text, const Mat4& transform, const Vec4& color) {
+		Vec3 charPos = position;
+		for (const char ch : text) {
+			if (ch == '\n') {
+				charPos.y -= s_Data->textFont->getFontSize() * s_Data->textPixelScale * scaling;
+				charPos.x = position.x;
+			}
+			else if (ch < codePointFirstChar || ch > (codePointFirstChar + numberOfCharsToInclude)) {
+				continue;
+			}
+			else {
 
+				stbtt_packedchar* packedChar = &packedChars[ch - codePointFirstChar];
+				stbtt_aligned_quad* alignedQuad = &alignedQuads[ch - codePointFirstChar];
+
+				Vec3 glyphSize = {
+					(packedChar->x1 - packedChar->x0) * s_Data->textPixelScale * scaling,
+					(packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling,
+					1.0f
+				};
+
+				Vec3 glyphBoundingBoxBottomLeft = {
+					charPos.x + (packedChar->xoff * s_Data->textPixelScale * scaling) + (glyphSize.x / 2.0f),
+					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling + (glyphSize.y / 2.0f),
+					charPos.z
+				};
+
+				s_Data->textTextureCoords[0] = { alignedQuad->s0, alignedQuad->t1 };  // Top-left
+				s_Data->textTextureCoords[1] = { alignedQuad->s1, alignedQuad->t1 };  // Top-right
+				s_Data->textTextureCoords[2] = { alignedQuad->s1, alignedQuad->t0 };  // Bottom-right
+				s_Data->textTextureCoords[3] = { alignedQuad->s0, alignedQuad->t0 };  // Bottom-left
+
+				Mat4 transform = Mat4::Translate(glyphBoundingBoxBottomLeft) * Mat4::Scale(glyphSize);
+
+				AddNewTextVertex(transform, color);
+
+				charPos.x += packedChar->xadvance * s_Data->textPixelScale * scaling;
+			}
+		}
 	}
 
 	void Renderer2D::ResetStats() {
 		s_Data->stats.numberOfDrawCalls = 0;
 		s_Data->stats.numberOfQuads = 0;
+		s_Data->stats.numberOfTextQuads = 0;
 	}
 
 	std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
@@ -232,22 +331,42 @@ namespace Hart {
 		return s_Data->stats.getQuadIndexCount();
 	}
 
+	std::uint32_t Renderer2D::GetNumberOfTextQuads() {
+		return s_Data->stats.numberOfTextQuads;
+	}
+
+	std::uint32_t Renderer2D::GetNumberOfTextQuadVertices() {
+		return s_Data->stats.getTextVertexCount();
+	}
+
+	std::uint32_t Renderer2D::GetNumberOfTextQuadIndices() {
+		return s_Data->stats.getTextIndexCount();
+	}
+
 
 	void Renderer2D::BeginBatch() {
 		// Quads
 		s_Data->quadVertexBufferPtr = s_Data->quadVertexBufferBase;
 		s_Data->quadIndexCount = 0;
 
+		// Text
+		s_Data->textVertexBufferPtr = s_Data->textVertexBufferBase;
+		s_Data->textIndexCount = 0;
+
 		// Textures
 		s_Data->textureSlotIndex = s_Data->COMMON_TEXTURE_SLOT_START;
 	}
 
 	void Renderer2D::Flush() {
-		for (std::uint32_t i = 0; i < s_Data->textureSlotIndex; i++) {
-			s_Data->quadShader->bind();
+		s_Data->quadShader->bind();
+		s_Data->whiteTexture->bind(s_Data->WHITE_TEXTURE_SLOT);
+		for (std::uint32_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
+			//s_Data->quadShader->bind();
 			s_Data->textureSlots[i]->bind(i);
 			s_Data->quadShader->setUniform("uTexture" + std::to_string(i), s_Data->textureSlots[i]->getSlot());
 		}
+		s_Data->textShader->bind();
+		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
 
 		// Quads
 		if (s_Data->quadIndexCount != 0) {
@@ -262,10 +381,24 @@ namespace Hart {
 
 			s_Data->stats.numberOfDrawCalls++;
 		}
+
+		// Text
+		if (s_Data->textIndexCount != 0) {
+			std::uint8_t* textVertBase = reinterpret_cast<std::uint8_t*>(s_Data->textVertexBufferBase);
+			std::uint8_t* textVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->textVertexBufferPtr);
+			std::uint32_t dataSize = static_cast<std::uint32_t>(textVertPtr - textVertBase);
+
+			s_Data->textVertexBuffer->setData(s_Data->textVertexBufferBase, dataSize);
+
+			s_Data->textShader->bind();
+			RenderCommand::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
+
+			s_Data->stats.numberOfDrawCalls++;
+		}
 	}
 
 	const float Renderer2D::CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture) {
-		if ((s_Data->textureSlotIndex >= s_Data->MAX_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
+		if ((s_Data->textureSlotIndex >= s_Data->MAX_COMMON_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
 		}
@@ -280,7 +413,7 @@ namespace Hart {
 		}
 		if (textureIndex == 0.0f) {
 			textureIndex = static_cast<float>(s_Data->textureSlotIndex);
-			if (s_Data->textureSlotIndex >= s_Data->COMMON_TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_TEXTURE_SLOTS) {
+			if (s_Data->textureSlotIndex >= s_Data->COMMON_TEXTURE_SLOT_START && s_Data->textureSlotIndex < s_Data->MAX_COMMON_TEXTURE_SLOTS) {
 				s_Data->textureSlots[s_Data->textureSlotIndex] = texture;
 			}
 			s_Data->textureSlotIndex++;
@@ -302,5 +435,23 @@ namespace Hart {
 		s_Data->quadIndexCount += 6;
 
 		s_Data->stats.numberOfQuads++;
+	}
+
+	void Renderer2D::AddNewTextVertex(const Mat4& transform, const Vec4& color) {
+		for (std::size_t i = 0; i < s_Data->VERTICES_PER_QUAD; i++) {
+			s_Data->textVertexBufferPtr->position = transform * s_Data->textVertexPositions[i];
+			s_Data->textVertexBufferPtr->color = color;
+			s_Data->textVertexBufferPtr->textureCoords = s_Data->textTextureCoords[i];
+			s_Data->textVertexBufferPtr++;
+		}
+		s_Data->textIndexCount += 6;
+
+		s_Data->stats.numberOfTextQuads++;
+
+	}
+
+	void recalculateTextPixelScaler() {
+		float aspectRatio = static_cast<float>(Application::Get()->getWindowHeight()) / static_cast<float>(Application::Get()->getWindowWidth());
+		s_Data->textPixelScale = 0.001f / aspectRatio; //TODO: FIX
 	}
 }

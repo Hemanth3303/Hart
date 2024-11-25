@@ -18,6 +18,8 @@ namespace Hart {
 
 		static bool FileExists(const std::string& fileName);
 
+		static std::uintmax_t GetFileSizeInBytes(const std::string& filepath);
+
 		// Returns file name without the filepath or extension
 		// example: assets/images/grass.png will return grass
 		static std::string GetFileName(const std::string& filePath);

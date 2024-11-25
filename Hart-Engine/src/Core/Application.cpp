@@ -51,7 +51,8 @@ namespace Hart {
 			}
 
 			glfwPollEvents();
-			
+			AudioManager::ClearDoneDecoders();
+
 			currentFrameTime = Timer::GetTimeInMilliSeconds();
 			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
 			
@@ -63,8 +64,6 @@ namespace Hart {
 				for (const auto& layer : m_LayerStack) {
 					layer->update(static_cast<float>(deltaTime));
 				}
-
-				AudioManager::ClearDoneDecoders();
 
 				//render
 				RenderCommand::Clear();

@@ -21,5 +21,7 @@ private:
 	Hart::Random m_Rd;
 	Hart::ParticleProps m_Particle;
 	Hart::ParticleSystem m_ParticleSystem;
+	std::shared_ptr<Hart::Font> m_Font1;
+	std::shared_ptr<Hart::Font> m_Font2;
 	Hart::Vec3 m_MousePos = { 0.0f, 0.0f, 1.0f };
 };

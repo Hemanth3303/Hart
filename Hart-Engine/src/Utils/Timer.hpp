@@ -26,4 +26,13 @@ namespace Hart {
 
 		friend class Hart::Application;
 	};
+
+	class ScopedTimer {
+	public:
+		ScopedTimer(const std::string& name = "ScopedTimer");
+		~ScopedTimer();
+	private:
+		std::string m_Name;
+		double m_StartTime;
+	};
 }
