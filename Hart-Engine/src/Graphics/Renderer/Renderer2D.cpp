@@ -262,6 +262,8 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {
+		HART_ASSERT_NOT_EQUAL(s_Data->textFont, nullptr, "Font not set, did you forget to call Hart::Renderer2D::SetFont()");
+
 		recalculateTextPixelScaler();
 
 		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();

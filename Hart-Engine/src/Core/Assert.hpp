@@ -61,10 +61,12 @@
 
 	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT((expression == value), __VA_ARGS__)
 	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT((expression != value), __VA_ARGS__)
-#else
 
+	#define HART_DEBUG_BREAK() 
+#else
 	#define HART_ASSERT(expression, ...)
 	#define HART_ASSERT_EQUAL(expression, value, ...) 
 	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) 
+	#define HART_DEBUG_BREAK() 
 
 #endif
