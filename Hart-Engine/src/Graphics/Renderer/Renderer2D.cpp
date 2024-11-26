@@ -367,9 +367,10 @@ namespace Hart {
 			s_Data->textureSlots[i]->bind(i);
 			s_Data->quadShader->setUniform("uTexture" + std::to_string(i), s_Data->textureSlots[i]->getSlot());
 		}
-		s_Data->textShader->bind();
-		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
-
+		if (s_Data->textFont) {
+			s_Data->textShader->bind();
+			s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
+		}
 		// Quads
 		if (s_Data->quadIndexCount != 0) {
 			std::uint8_t* quadVertBase = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferBase);
