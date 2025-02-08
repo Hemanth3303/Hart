@@ -84,37 +84,38 @@ void Layer2D::render() {
 
 	Hart::Renderer2D::ResetStats();
 	Hart::Renderer2D::BeginScene(m_CameraController->getCamera());
+	{
 
-	Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
-	Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
-	Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
+		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
+		Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
+		Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
 
-	Hart::Renderer2D::DrawLine({ 0.0f, 0.0f, 1.0f }, m_MousePos, Hart::Cyan);
+		Hart::Renderer2D::DrawLine({ 0.0f, 0.0f, 1.0f }, m_MousePos, Hart::Cyan);
 
-	Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
-	Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
-	Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
+		Hart::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_GrassTex);
+		Hart::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 0.5f, 0.5f }, m_EmojiTex);
+		Hart::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.5f, 0.5f }, m_SpriteSheet, { 0, 0 });
 
-	Hart::Mat4 transform = Hart::Mat4::Translate({ 0.9f, 0.6f }) * Hart::Mat4::Rotate(67.0f, { 0.0f, 0.0f, 1.0f }) * Hart::Mat4::Scale({ 0.25, 0.45 });
+		Hart::Mat4 transform = Hart::Mat4::Translate({ 0.9f, 0.6f }) * Hart::Mat4::Rotate(67.0f, { 0.0f, 0.0f, 1.0f }) * Hart::Mat4::Scale({ 0.25, 0.45 });
 
-	Hart::Renderer2D::DrawQuad(transform, Hart::Gold);
-	Hart::Renderer2D::DrawQuad({ 0.0f, 0.9f }, { 0.1f, 0.1f }, Hart::White);
-	Hart::Renderer2D::DrawQuad({ -0.9f, -0.9f }, { 0.1f, 0.1f }, Hart::Red);
+		Hart::Renderer2D::DrawQuad(transform, Hart::Gold);
+		Hart::Renderer2D::DrawQuad({ 0.0f, 0.9f }, { 0.1f, 0.1f }, Hart::White);
+		Hart::Renderer2D::DrawQuad({ -0.9f, -0.9f }, { 0.1f, 0.1f }, Hart::Red);
 
-	Hart::Renderer2D::SetFont(m_Font1);
-	Hart::Renderer2D::DrawText("Hello, World!", { 0.0f, 0.0f, 1.0f }, 2.0f, Hart::NormalizeRGB255({ 240.0f,0.0f,255.0f}));
+		Hart::Renderer2D::SetFont(m_Font1);
+		Hart::Renderer2D::DrawText("Hello, World!", { 0.0f, 0.0f, 1.0f }, 2.0f, Hart::NormalizeRGB255({ 240.0f,0.0f,255.0f }));
 
-	Hart::Renderer2D::DrawText("FPS: " + fps, { -1.6f, 0.8f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of DrawCalls: " + drawCalls, { -1.6f, 0.75f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of Quads: " + quads, { -1.6f, 0.7f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of Quad Vertices: " + quadVerts, { -1.6f, 0.65f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of Quad Indices: " + quadInds, { -1.6f, 0.6f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of TextQuads: " + textQuads, { -1.6f, 0.55f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of TextQuad Vertices: " + textQuadVerts, { -1.6f, 0.5f, 1.0f }, 0.7f, Hart::White);
-	Hart::Renderer2D::DrawText("No of TextQuad Indices: " + textQuadInds, { -1.6f, 0.45f, 1.0f }, 0.7f, Hart::White);
-	
-	m_ParticleSystem.render();
+		Hart::Renderer2D::DrawText("FPS: " + fps, { -1.6f, 0.8f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of DrawCalls: " + drawCalls, { -1.6f, 0.75f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of Quads: " + quads, { -1.6f, 0.7f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of Quad Vertices: " + quadVerts, { -1.6f, 0.65f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of Quad Indices: " + quadInds, { -1.6f, 0.6f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of TextQuads: " + textQuads, { -1.6f, 0.55f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of TextQuad Vertices: " + textQuadVerts, { -1.6f, 0.5f, 1.0f }, 0.7f, Hart::White);
+		Hart::Renderer2D::DrawText("No of TextQuad Indices: " + textQuadInds, { -1.6f, 0.45f, 1.0f }, 0.7f, Hart::White);
 
+		m_ParticleSystem.render();
+	}
 	Hart::Renderer2D::EndScene();
 
 	fps = std::to_string(Hart::Application::Get()->getCurrentFPS());

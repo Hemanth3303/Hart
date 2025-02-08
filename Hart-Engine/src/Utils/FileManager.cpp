@@ -37,9 +37,7 @@ namespace Hart {
 			inFile.open(fileName, std::ios::binary);
 			HART_ASSERT(inFile, "Reason: Couldn't open file");
 
-			inFile.seekg(0, std::ios::end);
-			fileSize = inFile.tellg();
-			inFile.seekg(0, std::ios::beg);
+			fileSize = GetFileSizeInBytes(fileName);
 
 			outData.resize(fileSize);
 			inFile.read(reinterpret_cast<char*>(&outData[0]), fileSize);

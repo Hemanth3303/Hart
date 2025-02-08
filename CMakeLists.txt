@@ -52,6 +52,7 @@ add_subdirectory("vendor/miniaudio")
 add_subdirectory("Hart-Engine")
 
 if(NOT HART_IS_SUBMODULE)
+	add_subdirectory("Examples/Two-Player-Pong")
 	add_subdirectory("Sandbox")
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
 endif(NOT HART_IS_SUBMODULE)
