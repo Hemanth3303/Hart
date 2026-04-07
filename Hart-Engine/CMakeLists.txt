@@ -1,6 +1,7 @@
 file(GLOB_RECURSE HART_ENGINE_SRC CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
 
-add_library(Hart-Engine STATIC
+add_library(Hart-Engine
+	STATIC
 	${HART_ENGINE_SRC}
 )
 
@@ -15,118 +16,170 @@ set_target_properties(Hart-Engine PROPERTIES
 	OUTPUT_NAME Hart-Engine
 )
 
-target_include_directories(Hart-Engine PUBLIC
-	${PROJECT_SOURCE_DIR}/Hart-Engine/src
-	${PROJECT_SOURCE_DIR}/vendor/glfw/include
-	${PROJECT_SOURCE_DIR}/vendor/glad/include
-	${PROJECT_SOURCE_DIR}/vendor/stb/include
-	${PROJECT_SOURCE_DIR}/vendor/miniaudio/include
+target_link_libraries(Hart-Engine
+	PUBLIC
+		glfw
+		glad
+		stb
+		miniaudio
+	PRIVATE
+
 )
 
-target_link_libraries(Hart-Engine PUBLIC 
-	glfw
-	glad
-	stb
-	miniaudio
+target_include_directories(Hart-Engine
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/src
+		${CMAKE_SOURCE_DIR}/vendor/glad/include
+		${CMAKE_SOURCE_DIR}/vendor/glfw/include
+		${CMAKE_SOURCE_DIR}/vendor/miniaudio/include
+		${CMAKE_SOURCE_DIR}/vendor/stb/include
+	PRIVATE
+
 )
 
-target_compile_definitions(Hart-Engine PRIVATE
-	HART_ENGINE
+target_precompile_headers(Hart-Engine
+	PUBLIC
+		
+	PRIVATE 
+		src/HartPch.hpp
 )
 
-target_precompile_headers(Hart-Engine PRIVATE 
-	src/HartPch.hpp
+target_compile_definitions(Hart-Engine
+	PUBLIC
+
+	PRIVATE
+		HART_ENGINE
 )
+
+# PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions(Hart-Engine PRIVATE
-		NOMINMAX
-		_CRT_SECURE_NO_WARNINGS
-		WIN32_LEAN_AND_MEAN
-		HART_WINDOWS
+
+	target_compile_definitions(Hart-Engine
+		PUBLIC
+
+		PRIVATE
+			NOMINMAX
+			_CRT_SECURE_NO_WARNINGS
+			WIN32_LEAN_AND_MEAN
+			HART_ENGINE_PLATFORM_WINDOWS
 	)
-	if (MSVC)
-		target_compile_options(Hart-Engine PRIVATE
-			/Zc:__cplusplus
+
+	if(MSVC)
+		target_compile_options(Hart-Engine
+			PUBLIC
+
+			PRIVATE
+				/Zc:__cplusplus
 		)
-	elseif (MINGW)
-		target_link_libraries(Hart-Engine PRIVATE
-			m
+	elseif(MINGW)
+		target_link_libraries(Hart-Engine
+			PUBLIC
+				m
+				OpenGL::GL
+			PRIVATE
+
 		)
-		target_link_options(Hart-Engine PRIVATE
-			-static
-			-static-libgcc
-			-static-libstdc++
+		target_link_options(Hart-Engine
+			PUBLIC
+
+			PRIVATE
+				-static-libgcc
+				-static-libstdc++
 		)
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Hart-Engine PRIVATE
-			# clang stuff
+		target_link_libraries(Hart-Engine
+			PUBLIC
+				OpenGL::GL
+			PRIVATE
 		)
-		target_link_options(Hart-Engine PRIVATE
-			-static
+		target_link_options(Hart-Engine
+			PUBLIC
+
+			PRIVATE
 		)
 	endif()
+
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_LINUX
+
+	target_compile_definitions(Hart-Engine
+		PUBLIC
+
+		PRIVATE
+			HART_ENGINE_PLATFORM_LINUX
 	)
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(Hart-Engine PRIVATE
-			dl
-			m
-  			pthread
+
+	if (TARGET OpenGL::OpenGL)
+        target_link_libraries(Hart-Engine
+			PUBLIC
+				OpenGL::OpenGL
+			PRIVATE
 		)
-		target_link_options(Hart-Engine PRIVATE
-			-static
-			-static-libgcc
-			-static-libstdc++
+    else()
+        target_link_libraries(Hart-Engine
+			PUBLIC
+				OpenGL::GL
+			PRIVATE
+
+		)
+    endif()
+
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		target_link_libraries(Hart-Engine
+			PUBLIC
+				dl
+				m
+				pthread
+			PRIVATE
+
+		)
+		target_link_options(Hart-Engine
+			PUBLIC
+
+			PRIVATE
+				-static-libgcc
+				-static-libstdc++
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Hart-Engine PRIVATE
-			# clang stuff
+		target_link_libraries(Hart-Engine
+			PUBLIC
+
+			PRIVATE
 		)
-		target_link_options(Hart-Engine PRIVATE
-			-static
+		target_link_options(Hart-Engine
+			PUBLIC
+
+			PRIVATE
 		)
 	endif()
+
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_OSX
+
+	target_compile_definitions(Hart-Engine
+		PUBLIC
+
+		PRIVATE
+			HART_ENGINE_PLATFORM_OSX
 	)
+
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "CXX flags" FORCE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_DEBUG}" CACHE STRING "C flags" FORCE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_DEBUG}" CACHE STRING "Linker flags" FORCE)
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_DEBUG
-		DEBUG
-	)
-endif()
+# CONFIGURATION SPECIFIC
 
-if(CMAKE_BUILD_TYPE STREQUAL Release)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXX flags" FORCE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C flags" FORCE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_RELEASE
-		NDEBUG
-	)
-endif()
+target_compile_definitions(Hart-Engine
+	PUBLIC
 
-if(CMAKE_BUILD_TYPE STREQUAL Dist)
-	remove_definitions(-DHART_RELEASE)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXX flags" FORCE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C flags" FORCE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
+	PRIVATE
+		$<$<CONFIG:Debug>:HART_ENGINE_DEBUG_BUILD>
+		$<$<CONFIG:Debug>:DEBUG>
 
-	target_compile_definitions(Hart-Engine PRIVATE
-		HART_DIST
-		NDEBUG
-	)
-endif()
+		$<$<CONFIG:Profile>:HART_ENGINE_PROFILE_BUILD>
+		$<$<CONFIG:Profile>:NDEBUG>
+
+		$<$<CONFIG:Release>:HART_ENGINE_RELEASE_BUILD>
+		$<$<CONFIG:Release>:NDEBUG>
+)

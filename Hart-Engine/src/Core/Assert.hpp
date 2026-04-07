@@ -14,7 +14,7 @@
 	#define ASSERT_SOURCE false
 #endif // HART_ENGINE
 
-#if defined(HART_DEBUG)
+#if defined(HART_ENGINE_DEBUG_BUILD)
 
 	#if defined(_WIN32) || defined(_WIN64)
 		#include <intrin.h>
@@ -44,7 +44,7 @@
 	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT((expression == value), __VA_ARGS__)
 	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT((expression != value), __VA_ARGS__)
 
-#elif defined(HART_RELEASE)
+#elif defined(HART_ENGINE_PROFILE_BUILD)
 	#define HART_ASSERT(expression, ...) \
 			if(!expression) { \
 				Hart::Logger::LogMessageList( \

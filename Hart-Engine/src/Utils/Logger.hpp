@@ -39,7 +39,7 @@ namespace Hart {
 	};
 }
 
-#if defined(HART_DEBUG) || defined(HART_RELEASE) || defined(HART_CLIENT_DEBUG) || defined(HART_CLIENT_RELEASE)
+#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD) || defined(HART_CLIENT_DEBUG_BUILD) || defined(HART_CLIENT_PROFILE_BUILD)
 
 	#if defined(HART_ENGINE)
 		
@@ -67,10 +67,10 @@ namespace Hart {
 	#define HART_CLIENT_FATAL(message, ...)\
 		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Fatal, false)
 
-	#endif // HART_ENGINE
+	#endif // Check if engine or client
 
 
-#elif defined(HART_DIST) || defined(HART_CLIENT_DIST)
+#elif defined(HART_ENGINE_RELEASE_BUILD) || defined(HART_CLIENT_RELEASE_BUILD)
 
 	#define HART_ENGINE_TRACE(message, ...) 
 	#define HART_ENGINE_LOG(message, ...)  
