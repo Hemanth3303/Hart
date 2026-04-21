@@ -30,6 +30,9 @@ target_compile_definitions(stb
 		STB
 )
 
+cmake_base_target_platform_definitions(stb STB)
+cmake_base_target_architecture_definitions(stb STB)
+
 # PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -41,7 +44,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			NOMINMAX
 			_CRT_SECURE_NO_WARNINGS
 			WIN32_LEAN_AND_MEAN
-			STB_PLATFORM_WINDOWS
 	)
 
 	if(MSVC)
@@ -82,13 +84,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
-	target_compile_definitions(stb
-		PUBLIC
-
-		PRIVATE
-			STB_PLATFORM_LINUX
-	)
-
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_link_libraries(stb
 			PUBLIC
@@ -102,8 +97,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
-				-static-libgcc
-				-static-libstdc++
+
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(stb
@@ -117,17 +111,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PRIVATE
 		)
 	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-
-	target_compile_definitions(stb
-		PUBLIC
-
-		PRIVATE
-			STB_PLATFORM_OSX
-	)
 
 endif()
 

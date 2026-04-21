@@ -51,6 +51,9 @@ target_compile_definitions(Hart-Engine
 		HART_ENGINE
 )
 
+cmake_base_target_platform_definitions(Hart-Engine HART_ENGINE)
+cmake_base_target_architecture_definitions(Hart-Engine HART_ENGINE)
+
 # PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -62,7 +65,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			NOMINMAX
 			_CRT_SECURE_NO_WARNINGS
 			WIN32_LEAN_AND_MEAN
-			HART_ENGINE_PLATFORM_WINDOWS
 	)
 
 	if(MSVC)
@@ -104,13 +106,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
-	target_compile_definitions(Hart-Engine
-		PUBLIC
-
-		PRIVATE
-			HART_ENGINE_PLATFORM_LINUX
-	)
-
 	if (TARGET OpenGL::OpenGL)
         target_link_libraries(Hart-Engine
 			PUBLIC
@@ -139,8 +134,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
-				-static-libgcc
-				-static-libstdc++
+
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(Hart-Engine
@@ -154,17 +148,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PRIVATE
 		)
 	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-
-	target_compile_definitions(Hart-Engine
-		PUBLIC
-
-		PRIVATE
-			HART_ENGINE_PLATFORM_OSX
-	)
 
 endif()
 

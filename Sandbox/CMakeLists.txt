@@ -41,6 +41,9 @@ target_compile_definitions(Sandbox
 		HART_CLIENT
 )
 
+cmake_base_target_platform_definitions(Sandbox SANDBOX)
+cmake_base_target_architecture_definitions(Sandbox SANDBOX)
+
 # PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -52,7 +55,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			NOMINMAX
 			_CRT_SECURE_NO_WARNINGS
 			WIN32_LEAN_AND_MEAN
-			SANDBOX_PLATFORM_WINDOWS
 	)
 
 	if(MSVC)
@@ -95,13 +97,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
-	target_compile_definitions(Sandbox
-		PUBLIC
-
-		PRIVATE
-			SANDBOX_PLATFORM_LINUX
-	)
-
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_link_libraries(Sandbox
 			PUBLIC
@@ -109,11 +104,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 				m
 				pthread
 			PRIVATE
-		)
-		target_link_options(Sandbox
-			PUBLIC
 
-			PRIVATE
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(Sandbox
@@ -125,19 +116,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
+
 		)
 	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-
-	target_compile_definitions(Sandbox
-		PUBLIC
-
-		PRIVATE
-			SANDBOX_PLATFORM_OSX
-	)
 
 endif()
 

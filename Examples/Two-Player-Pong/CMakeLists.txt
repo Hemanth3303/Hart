@@ -41,6 +41,9 @@ target_compile_definitions(Two-Player-Pong
 		HART_CLIENT
 )
 
+cmake_base_target_platform_definitions(Two-Player-Pong TWO_PLAYER_PONG)
+cmake_base_target_architecture_definitions(Two-Player-Pong TWO_PLAYER_PONG)
+
 # PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -52,7 +55,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			NOMINMAX
 			_CRT_SECURE_NO_WARNINGS
 			WIN32_LEAN_AND_MEAN
-			TWO_PLAYER_PONG_PLATFORM_WINDOWS
 	)
 
 	if(MSVC)
@@ -95,13 +97,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
-	target_compile_definitions(Two-Player-Pong
-		PUBLIC
-
-		PRIVATE
-			TWO_PLAYER_PONG_PLATFORM_LINUX
-	)
-
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_link_libraries(Two-Player-Pong
 			PUBLIC
@@ -130,17 +125,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
 endif()
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-
-	target_compile_definitions(Two-Player-Pong
-		PUBLIC
-
-		PRIVATE
-			TWO_PLAYER_PONG_PLATFORM_OSX
-	)
-
-endif()
-
 if(MSVC)
 	target_link_options(Two-Player-Pong PRIVATE
 		"$<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>"
@@ -159,11 +143,11 @@ target_compile_definitions(Two-Player-Pong
 		$<$<CONFIG:Debug>:DEBUG>
 
 		$<$<CONFIG:Profile>:TWO_PLAYER_PONG_PROFILE_BUILD>
-		$<$<CONFIG:Debug>:HART_CLIENT_PROFILE_BUILD>
+		$<$<CONFIG:Profile>:HART_CLIENT_PROFILE_BUILD>
 		$<$<CONFIG:Profile>:NDEBUG>
 
 		$<$<CONFIG:Release>:TWO_PLAYER_PONG_RELEASE_BUILD>
-		$<$<CONFIG:Debug>:HART_CLIENT_RELEASE_BUILD>
+		$<$<CONFIG:Release>:HART_CLIENT_RELEASE_BUILD>
 		$<$<CONFIG:Release>:NDEBUG>
 )
 
