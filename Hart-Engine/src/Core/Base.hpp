@@ -8,7 +8,7 @@
 	#endif
 #endif
 
-#define BIT(x) (1 << x)
+#define BIT(x) (1 << (x))
 
 // compilation information
 #if defined(HART_ENGINE)
@@ -22,7 +22,7 @@
 
 	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 		#define HART_PLATFORM "Windows"
-	#elif defined(HART_ENGINE_PLATFORM_LINUX
+	#elif defined(HART_ENGINE_PLATFORM_LINUX)
 		#define HART_PLATFORM "Linux"
 	#elif defined(HART_ENGINE_PLATFORM_DARWIN)
 		#define HART_PLATFORM "MacOS"

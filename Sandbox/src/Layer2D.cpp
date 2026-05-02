@@ -37,6 +37,8 @@ void Layer2D::onAttach() {
 
 	//Hart::AudioManager::PlaySound(pickupSound);
 	//Hart::AudioManager::PlayMusic(criticalTheme);
+
+	HART_ASSERT_EQUAL(2 + 2, 7, "wtf");
 }
 
 void Layer2D::onDetach() {
@@ -78,7 +80,6 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-
 	//Hart::ScopedTimer sp("Layer2D Render Loop");
 	static std::string fps, drawCalls, quads, quadVerts, quadInds, textQuads, textQuadVerts, textQuadInds;
 

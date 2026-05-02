@@ -1,5 +1,5 @@
 /*
-* Logging functions with differnt severity levels and colored output
+* Logging functions with different severity levels and colored output
 * Prefer to use the macros over the class functions
 */
 

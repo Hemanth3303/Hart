@@ -4,7 +4,7 @@
 
 namespace Hart {
 	enum EventCategory {
-		None = -1,
+		None = 0,
 
 		WindowEvent = BIT(0),
 		InputEvent = BIT(1),

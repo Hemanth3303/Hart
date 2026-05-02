@@ -1,5 +1,9 @@
 /*
-* Custom assert macros, stripped in distribution builds
+* Custom assert macros.
+* On assertion failure:
+*	- crashes in debug builds.
+*	- just logs in profile builds.
+* Completely stripped in release builds
 */
 
 #pragma once
@@ -14,12 +18,12 @@
 	#define ASSERT_SOURCE false
 #endif // HART_ENGINE
 
-#if defined(HART_ENGINE_DEBUG_BUILD)
+#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_CLIENT_DEBUG_BUILD)
 
-	#if defined(_WIN32) || defined(_WIN64)
+	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 		#include <intrin.h>
 		#define HART_DEBUG_BREAK() __debugbreak()
-	#elif defined(__linux__)
+	#elif defined(HART_ENGINE_PLATFORM_LINUX)
 		#include <signal.h>
 		#define HART_DEBUG_BREAK() raise(SIGTRAP)
 	#else
@@ -27,26 +31,31 @@
 	#endif
 
 	#define HART_ASSERT(expression, ...) \
-		if(!expression) { \
-			Hart::Logger::LogMessageList( \
-				{ \
-					std::string("Assertion failed: "), \
-					std::string("In File: ") + std::string(__FILE__), \
-					std::string("At Line: ") + std::to_string(__LINE__), \
-					__VA_ARGS__ \
-				}, \
-				Hart::LogSeverity::Fatal, \
-				ASSERT_SOURCE \
-			); \
-			HART_DEBUG_BREAK(); \
-		}
+		do { \
+			auto hartEngineAssertionResult = expression; \
+			if(!hartEngineAssertionResult) { \
+				Hart::Logger::LogMessageList( \
+					{ \
+						std::string("Assertion failed: "), \
+						std::string("In File: ") + std::string(__FILE__), \
+						std::string("At Line: ") + std::to_string(__LINE__), \
+						__VA_ARGS__ \
+					}, \
+					Hart::LogSeverity::Fatal, \
+					ASSERT_SOURCE \
+				); \
+				HART_DEBUG_BREAK(); \
+			} \
+		} while (0)
 
-	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT((expression == value), __VA_ARGS__)
-	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT((expression != value), __VA_ARGS__)
+	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT(((expression) == value), __VA_ARGS__)
+	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT(((expression) != value), __VA_ARGS__)
 
-#elif defined(HART_ENGINE_PROFILE_BUILD)
+#elif defined(HART_ENGINE_PROFILE_BUILD) || defined(HART_CLIENT_PROFILE_BUILD)
 	#define HART_ASSERT(expression, ...) \
-			if(!expression) { \
+		do { \
+			auto hartEngineAssertionResult = expression; \
+			if(!hartEngineAssertionResult) { \
 				Hart::Logger::LogMessageList( \
 					{ \
 						std::string("Assertion failed: "), \
@@ -58,15 +67,18 @@
 					ASSERT_SOURCE \
 				); \
 			}
+		} while(0)
 
-	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT((expression == value), __VA_ARGS__)
-	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT((expression != value), __VA_ARGS__)
+	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT(((expression) == value), __VA_ARGS__)
+	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT(((expression) != value), __VA_ARGS__)
 
 	#define HART_DEBUG_BREAK() 
 #else
 	#define HART_ASSERT(expression, ...)
+
 	#define HART_ASSERT_EQUAL(expression, value, ...) 
 	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) 
+
 	#define HART_DEBUG_BREAK() 
 
 #endif

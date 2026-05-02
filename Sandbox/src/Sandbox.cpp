@@ -24,7 +24,7 @@ public:
 	}
 
 	~Sandbox() {
-		HART_CLIENT_LOG("Deinitialising Sandbox");
+		HART_CLIENT_LOG("DeInitialising Sandbox");
 	}
 	
 };

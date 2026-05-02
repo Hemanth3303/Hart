@@ -21,8 +21,8 @@ namespace Hart {
 		const std::shared_ptr<Layer> getLayer(const std::string& layerName);
 		const std::shared_ptr<Layer> getOverlay(const std::string& overlayName);
 
-		inline bool layerExits(const std::string& layerName) { return m_LayerMap.contains(layerName); }
-		inline bool overlayExits(const std::string& overlayName) { return m_OverlayMap.contains(overlayName); }
+		inline bool layerExists(const std::string& layerName) { return m_LayerMap.contains(layerName); }
+		inline bool overlayExists(const std::string& overlayName) { return m_OverlayMap.contains(overlayName); }
 
 		std::vector<std::shared_ptr<Layer>>::iterator begin() { return m_Layers.begin(); }
 		std::vector<std::shared_ptr<Layer>>::iterator end() { return m_Layers.end(); }

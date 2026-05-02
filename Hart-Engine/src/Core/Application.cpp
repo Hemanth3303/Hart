@@ -159,14 +159,15 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		AudioManager::Deinit();
+		AudioManager::DeInit();
 		Renderer3D::DeInit();
 		InputManager::DeInit();
 		Timer::DeInit();
+		m_ShaderLibrary.clear();
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
-		HART_ENGINE_LOG("DeInitilizing GLFW");
+		HART_ENGINE_LOG("DeIntializing GLFW");
 		glfwTerminate();
 	}
 	void Application::eventHandler(Event& e) {
@@ -313,7 +314,7 @@ namespace Hart {
 				break;
 
 			case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-				debugType = "UDEFINED BEHAVIOR";
+				debugType = "UNDEFINED BEHAVIOR";
 				break;
 
 			case GL_DEBUG_TYPE_PORTABILITY:

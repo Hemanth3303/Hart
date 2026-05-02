@@ -14,7 +14,7 @@ namespace Hart {
 			HART_ENGINE_LOG("Opening file " + fileName);
 			inFile.open(fileName, std::ios::in);
 
-			HART_ASSERT(inFile, "Reason: Couldn't open file");
+			HART_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
 
 			dataStream << inFile.rdbuf();
 
@@ -35,7 +35,7 @@ namespace Hart {
 		else {
 			HART_ENGINE_LOG("Opening file " + fileName);
 			inFile.open(fileName, std::ios::binary);
-			HART_ASSERT(inFile, "Reason: Couldn't open file");
+			HART_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
 
 			fileSize = GetFileSizeInBytes(fileName);
 
@@ -60,7 +60,7 @@ namespace Hart {
 
 		HART_ENGINE_LOG("Writing to file " + outFileName);
 
-		HART_ASSERT(outFile);
+		HART_ASSERT(outFile.is_open());
 		outFile << data << "\n";
 		outFile.close();
 	}
