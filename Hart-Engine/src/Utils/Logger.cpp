@@ -164,7 +164,7 @@ namespace Hart {
 		LogTimeStamp();
 		std::cout << "HART_CLIENT_LOG: ";
 		LogMessagesFromList(LogMessageList);
-		std::cout << UNIX_TEXT_WHITE << "\n";;
+		std::cout << UNIX_TEXT_WHITE << "\n";
 	}
 
 	void Logger::ClientWarning(std::initializer_list<Loggable> LogMessageList) {

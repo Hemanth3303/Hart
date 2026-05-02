@@ -28,8 +28,8 @@ namespace Hart {
 		HART_ASSERT_EQUAL(result, MA_SUCCESS);
 	}
 
-	void AudioManager::Deinit() {
-		HART_ENGINE_LOG("Deinitializing Audio Manager");
+	void AudioManager::DeInit() {
+		HART_ENGINE_LOG("DeInitializing Audio Manager");
 		for (auto& audioDecoder : s_Data->audioDecoders) {
 			delete audioDecoder.decoder;
 		}
@@ -64,11 +64,11 @@ namespace Hart {
 		s_Data->audioDecoders.emplace_back(decoder, MA_FALSE);
 	}
 
-	void AudioManager::PuaseAllAudio() {
+	void AudioManager::PauseAllAudio() {
 		ma_device_stop(&s_Data->device);
 	}
 
-	void AudioManager::ResumeAlludio() {
+	void AudioManager::ResumeAllAudio() {
 		ma_device_start(&s_Data->device);
 	}
 

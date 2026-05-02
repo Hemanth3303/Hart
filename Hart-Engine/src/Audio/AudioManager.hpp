@@ -12,12 +12,12 @@ namespace Hart {
 	class AudioManager {
 	public:
 		static void Init();
-		static void Deinit();
+		static void DeInit();
 
 		static void PlaySound(const std::shared_ptr<Sound>& sound);
 		static void PlayMusic(const std::shared_ptr<Music>& music);
-		static void PuaseAllAudio();
-		static void ResumeAlludio();
+		static void PauseAllAudio();
+		static void ResumeAllAudio();
 	private:
 		static bool AreAllDecodersAtEnd();
 		static void ClearDoneDecoders();

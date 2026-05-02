@@ -29,7 +29,7 @@ namespace Hart {
 		static Vec4 Add(const Vec4& left, const Vec4& right);
 		static Vec4 Subtract(const Vec4& left, const Vec4& right);
 		static bool Equals(const Vec4& left, const Vec4& right);
-		// usefull for colors
+		// useful for colors
 		static Vec4 ComponentWiseMultiplication(const Vec4& left, const Vec4& right);
 		static Vec4 ScalarMultiply(const Vec4& vec, float k);
 
@@ -40,7 +40,7 @@ namespace Hart {
 		// subtracts value from the current vector
 		Vec4& subtract(const Vec4& other);
 		bool equals(const Vec4& other);
-		// usefull for colors
+		// useful for colors
 		Vec4& componentWiseMultiplication(const Vec4& other);
 
 		friend Vec4 operator+(const Vec4& left, const Vec4& right);
