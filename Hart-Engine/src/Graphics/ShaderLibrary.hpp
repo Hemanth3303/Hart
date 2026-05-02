@@ -21,6 +21,8 @@ namespace Hart {
 		std::shared_ptr<Shader> getShader(const std::string& name);
 		// returns names of all currently stored shaders in the shaderlibrary
 		std::vector<std::string_view> getAllShaderNames();
+
+		inline void clear() { m_Shaders.clear(); }
 	private:
 		bool exists(const std::string& name);
 	private:

@@ -163,6 +163,7 @@ namespace Hart {
 		Renderer3D::DeInit();
 		InputManager::DeInit();
 		Timer::DeInit();
+		m_ShaderLibrary.clear();
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
