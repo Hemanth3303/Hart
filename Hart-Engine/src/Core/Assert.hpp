@@ -16,10 +16,10 @@
 
 #if defined(HART_ENGINE_DEBUG_BUILD)
 
-	#if defined(_WIN32) || defined(_WIN64)
+	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 		#include <intrin.h>
 		#define HART_DEBUG_BREAK() __debugbreak()
-	#elif defined(__linux__)
+	#elif defined(HART_ENGINE_PLATFORM_LINUX)
 		#include <signal.h>
 		#define HART_DEBUG_BREAK() raise(SIGTRAP)
 	#else
