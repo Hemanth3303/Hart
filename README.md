@@ -20,34 +20,45 @@ CMake
 * [miniaudio](https://miniaud.io/): For audio
 
 ## Build Instructions
-First clone the repo using the command
+
+First clone the repo recursively.
+
+#### Note: This engine builds **GLFW** from source at `vendor/glfw`. For required development libraries and tools depending on your OS, see **[GLFW’s compile guide](https://www.glfw.org/docs/latest/compile.html)** and install what CMake reports as missing.
+
+### Windows example
+Specify a generator manually like so:
+```bash
+$ cmake -S. -Bbuild -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
+$ cmake --build build
+$ .\build\windows_x86-64\Debug\Sandbox.exe
 ```
-git clone --recursive https://github.com/Hemanth3303/Hart.git
-```
-Then cd to that directory
-```
-cd Hart
+Or use a predefined preset. <br>
+For example, to use gcc and makefiles for a debug build on windows x86-64:
+```bash
+$ cmake --preset=windows_x86-64_debug_mingw-w64_makefiles
+$ cmake --build build
+$ .\build\windows_x86-64\Debug\Sandbox.exe
 ```
 
-Then follow the instructions for your os
+### Linux example
 
-* Windows
+Specify a generator manually like so:
+
+```bash
+$ cmake -S. -Bbuild -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+$ cmake --build build
+$ ./build/linux_x86-64/Debug/Sandbox
 ```
-cmake -S . -B build
-cmake --build build -j6
-cd .\build\Debug
-.\Sandbox.exe
+Or use a predefined preset. <br>
+For example, to use gcc and makefiles for a debug build on linux x86-64:
+```bash
+$ cmake --preset=linux_x86-64_debug_gcc_makefiles
+$ cmake --build build
+$ ./build/linux_x86-64/Debug/Sandbox
 ```
 
-* Linux
-```
-cmake -S . -B build
-cmake --build build -j6
-cd ./build/Debug
-./Sandbox
-```
+Note: Use `cmake --list-presets` to see all available presets
 
-You can also use any of the predefined cmake presets, `use cmake --list-presets` to view them.
 
 ## Credits for Assets used in Sandbox
 * SpriteSheet: [RPG_Base](https://www.kenney.nl/assets/rpg-base)

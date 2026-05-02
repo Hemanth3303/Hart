@@ -3,6 +3,7 @@ add_library(miniaudio STATIC
 	"include/miniaudio.h"
 )
 
+
 set_target_properties(miniaudio PROPERTIES
 	CXX_STANDARD 20
 	CXX_STANDARD_REQUIRED ON
@@ -14,95 +15,116 @@ set_target_properties(miniaudio PROPERTIES
 	OUTPUT_NAME miniaudio
 )
 
-target_include_directories(miniaudio PUBLIC
-	${PROJECT_SOURCE_DIR}/vendor/miniaudio/include
+target_include_directories(miniaudio
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/include
+	PRIVATE
+
 )
 
-target_compile_definitions(miniaudio PRIVATE
+target_compile_definitions(miniaudio
+	PUBLIC
+
+	PRIVATE
+		MINIAUDIO
 )
+
+cmake_base_target_platform_definitions(miniaudio MINIAUDIO)
+cmake_base_target_architecture_definitions(miniaudio MINIAUDIO)
+
+# PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions(miniaudio PRIVATE
-		NOMINMAX
-		_CRT_SECURE_NO_WARNINGS
-		WIN32_LEAN_AND_MEAN
+
+	target_compile_definitions(miniaudio
+		PUBLIC
+
+		PRIVATE
+			NOMINMAX
+			_CRT_SECURE_NO_WARNINGS
+			WIN32_LEAN_AND_MEAN
 	)
-	if (MSVC)
-		target_compile_options(miniaudio PRIVATE
-			/Zc:__cplusplus
+
+	if(MSVC)
+		target_compile_options(miniaudio
+			PUBLIC
+
+			PRIVATE
+				/Zc:__cplusplus
 		)
-	elseif (MINGW)
-		target_link_libraries(miniaudio PRIVATE
-			m
+	elseif(MINGW)
+		target_link_libraries(miniaudio
+			PUBLIC
+				m
+			PRIVATE
+
 		)
-		target_link_options(miniaudio PRIVATE
-			-static
-			-static-libgcc
-			-static-libstdc++
+		target_link_options(miniaudio
+			PUBLIC
+
+			PRIVATE
+				-static-libgcc
+				-static-libstdc++
 		)
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(miniaudio PRIVATE
-			# clang stuff
+		target_link_libraries(miniaudio
+			PUBLIC
+
+			PRIVATE
 		)
-		target_link_options(miniaudio PRIVATE
-			-static
+		target_link_options(miniaudio
+			PUBLIC
+
+			PRIVATE
 		)
 	endif()
+
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-	target_compile_definitions(miniaudio PRIVATE
-	)
+
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(miniaudio PRIVATE
-			dl
-			m
-  			pthread
+		target_link_libraries(miniaudio
+			PUBLIC
+				dl
+				m
+				pthread
+			PRIVATE
+
 		)
-		target_link_options(miniaudio PRIVATE
-			-static
-			-static-libgcc
-			-static-libstdc++
+		target_link_options(miniaudio
+			PUBLIC
+
+			PRIVATE
+
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(miniaudio PRIVATE
-			# clang stuff
+		target_link_libraries(miniaudio
+			PUBLIC
+
+			PRIVATE
 		)
-		target_link_options(miniaudio PRIVATE
-			-static
+		target_link_options(miniaudio
+			PUBLIC
+
+			PRIVATE
 		)
 	endif()
+
 endif()
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-	target_compile_definitions(miniaudio PRIVATE
-	)
-endif()
+# CONFIGURATION SPECIFIC
 
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "CXX flags" FORCE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_DEBUG}" CACHE STRING "C flags" FORCE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_DEBUG}" CACHE STRING "Linker flags" FORCE)
-	target_compile_definitions(miniaudio PRIVATE
-		DEBUG
-	)
-endif()
+target_compile_definitions(miniaudio
+	PUBLIC
 
-if(CMAKE_BUILD_TYPE STREQUAL Release)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXX flags" FORCE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C flags" FORCE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
-	target_compile_definitions(miniaudio PRIVATE
-		NDEBUG
-	)
-endif()
+	PRIVATE
+		$<$<CONFIG:Debug>:MINIAUDIO_DEBUG_BUILD>
+		$<$<CONFIG:Debug>:DEBUG>
 
-if(CMAKE_BUILD_TYPE STREQUAL Dist)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXX flags" FORCE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C flags" FORCE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_RELEASE}" CACHE STRING "Linker flags" FORCE)
+		$<$<CONFIG:Profile>:MINIAUDIO_PROFILE_BUILD>
+		$<$<CONFIG:Profile>:NDEBUG>
 
-	target_compile_definitions(miniaudio PRIVATE
-		NDEBUG
-	)
-endif()
+		$<$<CONFIG:Release>:MINIAUDIO_RELEASE_BUILD>
+		$<$<CONFIG:Release>:NDEBUG>
+)
