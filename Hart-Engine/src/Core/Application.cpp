@@ -112,7 +112,8 @@ namespace Hart {
 			"Compilation Information:", 
 			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
 			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
-			"\t\t\t\t\tOn Platform: " HART_PLATFORM
+			"\t\t\t\t\tPlatform: " HART_PLATFORM,
+			"\t\t\t\t\tArchitecture: " HART_ARCHITECTURE,
 		);
 
 		HART_ENGINE_LOG("Initializing Hart Engine");

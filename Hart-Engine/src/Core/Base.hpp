@@ -19,18 +19,32 @@
 	// compilation time information
 	#define HART_COMPILATION_TIMESTAMP __DATE__ " at " __TIME__
 
-	// platform information
-	#if defined(_WIN32)
-		#if defined(_WIN64)
-			#define HART_PLATFORM "Windows x86-64"
-		#else
-			#define HART_PLATFORM "Windows x86"
-		#endif
-	#elif defined(__linux__)
+
+	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+		#define HART_PLATFORM "Windows"
+	#elif defined(HART_ENGINE_PLATFORM_LINUX
 		#define HART_PLATFORM "Linux"
+	#elif defined(HART_ENGINE_PLATFORM_DARWIN)
+		#define HART_PLATFORM "MacOS"
 	#else
 		#define HART_PLATFORM "Unknown"
-	#endif
+	#endif // platform check
+
+	#if defined(HART_ENGINE_ARCHITECTURE_X86_32)
+		#define HART_ARCHITECTURE "x86-32"
+	#elif defined(HART_ENGINE_ARCHITECTURE_X86_64)
+		#define HART_ARCHITECTURE "x86-64"
+	#elif defined(HART_ENGINE_ARCHITECTURE_AARCH32)
+		#define HART_ARCHITECTURE "aarch32"
+	#elif defined(HART_ENGINE_ARCHITECTURE_AARCH64)
+		#define HART_ARCHITECTURE "aarch64"
+	#elif defined(HART_ENGINE_ARCHITECTURE_RISCV32)
+		#define HART_ARCHITECTURE "riscv32"
+	#elif defined(HART_ENGINE_ARCHITECTURE_RISCV64)
+		#define HART_ARCHITECTURE "riscv64"
+	#else 
+		#define HART_ARCHITECTURE "Unkown"
+	#endif // architecture check
 
 	// compiler information
 	#if defined(__clang__) // clang needs to be checked for first because for some reason _MS_VER seems to defined when using clang on windows
