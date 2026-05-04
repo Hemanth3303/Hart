@@ -132,17 +132,17 @@ namespace Hart {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
 
-		glfwSwapInterval(0);
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
 		m_Window = std::make_unique<Window>(windowProps);
+		glfwSwapInterval(0);
 		m_IsRunning = true;
 
-	#if defined(HART_DEBUG) || defined(HART_RELEASE)
+	#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLDebugMessageCallback, nullptr);
-	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
+	#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 
 		initializeShaderLibrary();
 
@@ -169,6 +169,8 @@ namespace Hart {
 
 		HART_ENGINE_LOG("DeIntializing GLFW");
 		glfwTerminate();
+
+		s_Instance = nullptr;
 	}
 	void Application::eventHandler(Event& e) {
 

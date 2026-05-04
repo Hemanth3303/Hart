@@ -7,7 +7,7 @@
 #endif // HART_ENGINE_PLATFORM_WINDOWS
 
 namespace Hart {
-	#ifdef HART_ENGINE
+	#if defined(HART_ENGINE)
 
 		#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

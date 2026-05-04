@@ -43,6 +43,8 @@ target_compile_definitions(Sandbox
 
 cmake_base_target_platform_definitions(Sandbox SANDBOX)
 cmake_base_target_architecture_definitions(Sandbox SANDBOX)
+cmake_base_target_platform_definitions(Sandbox HART_CLIENT)
+cmake_base_target_architecture_definitions(Sandbox HART_CLIENT)
 
 # PLATFORM AND COMPILER SPECIFIC
 
