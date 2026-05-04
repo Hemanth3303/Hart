@@ -2,7 +2,7 @@
 
 // utility macros
 
-#if defined(HART_ENGINE_PLATFORM_WINDOW) || defined(HART_CLIENT_PLATFORM_WINDOWS)
+#if defined(HART_ENGINE_PLATFORM_WINDOWS) || defined(HART_CLIENT_PLATFORM_WINDOWS)
 	#ifdef DrawText
 		#undef DrawText
 	#endif
