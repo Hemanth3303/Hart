@@ -8,7 +8,7 @@ namespace Hart {
 		: m_loadedFromStbi(true), m_TextureSpec(texture2DSpecs) {
 		
 		if (!FileManager::FileExists(filePath)) {
-			HART_ENGINE_ERROR("File " + filePath + " does not exits", "Is the name and/or path correct?");
+			HART_ENGINE_ERROR("File " + filePath + " does not exists", "Is the name and/or path correct?");
 			m_loadedFromStbi = false;
 		}
 		else {

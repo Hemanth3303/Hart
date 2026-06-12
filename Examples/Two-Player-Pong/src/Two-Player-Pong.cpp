@@ -1,11 +1,5 @@
 // Example Game: Two player controlled pong game
 
-#if defined(HART_WINDOWS)
-	#ifdef DrawText
-		#undef DrawText
-	#endif
-#endif
-
 #include "Core/EntryPoint.hpp"
 #include "Hart.hpp"
 

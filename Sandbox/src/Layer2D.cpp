@@ -78,7 +78,6 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-
 	//Hart::ScopedTimer sp("Layer2D Render Loop");
 	static std::string fps, drawCalls, quads, quadVerts, quadInds, textQuads, textQuadVerts, textQuadInds;
 

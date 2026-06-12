@@ -8,7 +8,6 @@
 #include "Graphics/ShaderLibrary.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"
-#include "Events/WindowEvents.hpp"
 #include "Events/MouseEvents.hpp"
 #include "Events/EventDispatcher.hpp"
 #include "Events/EventCategory.hpp"
@@ -63,8 +62,8 @@ namespace Hart {
 		void pushOverlay(const std::shared_ptr<Layer>& overlay);
 		void popOverlay(const std::shared_ptr<Layer>& overlay);
 		
-		inline bool layerExists(const std::string& layerName) { return m_LayerStack.layerExits(layerName); }
-		inline bool overlayExists(const std::string& overlayName) { return m_LayerStack.overlayExits(overlayName); }
+		inline bool layerExists(const std::string& layerName) { return m_LayerStack.layerExists(layerName); }
+		inline bool overlayExists(const std::string& overlayName) { return m_LayerStack.overlayExists(overlayName); }
 		inline const std::shared_ptr<Layer> getLayer(const std::string& layerName) { return m_LayerStack.getLayer(layerName); }
 		inline const std::shared_ptr<Layer> getOverlay(const std::string& overlayName) { return m_LayerStack.getOverlay(overlayName); }
 	private:

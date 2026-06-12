@@ -51,7 +51,7 @@ namespace Hart {
 		glfwSetMouseButtonCallback(m_GLFWwindow, mouseButtonCallback);
 
 		std::int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HART_ASSERT_NOT_EQUAL(success, -1, "Failed to Initialize GLAD");
+		HART_ASSERT_NOT_EQUAL(success, 0, "Failed to Initialize GLAD");
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
 		RenderCommand::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);

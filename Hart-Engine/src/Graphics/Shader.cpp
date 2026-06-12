@@ -167,7 +167,13 @@ namespace Hart {
 		}
 
 		std::int32_t uniformLocation = glGetUniformLocation(m_ShaderID, uniformName.c_str());
-		m_UniformLocationCache[uniformName] = uniformLocation;
+		if (uniformLocation == -1) {
+			HART_ENGINE_ERROR("Uniform not found", uniformName);
+			HART_DEBUG_BREAK();
+		}
+		else {
+			m_UniformLocationCache[uniformName] = uniformLocation;
+		}
 		return uniformLocation;
 	}
 

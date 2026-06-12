@@ -2,14 +2,14 @@
 #include "Logger.hpp"
 #include "Timer.hpp"
 
-#ifdef HART_WINDOWS
-#include <Windows.h>
-#endif // HART_WINDOWS
+#ifdef HART_ENGINE_PLATFORM_WINDOWS
+#include <windows.h>
+#endif // HART_ENGINE_PLATFORM_WINDOWS
 
 namespace Hart {
-	#ifdef HART_ENGINE
+	#if defined(HART_ENGINE)
 
-		#if defined(HART_WINDOWS)
+		#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 			#define WINDOWS_TEXT_WHITE (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
@@ -27,9 +27,9 @@ namespace Hart {
 
 			#define SET_TEXT_COLOR(color) 
 
-		#endif // HART_WINDOWS
+		#endif // HART_ENGINE_PLATFORM_WINDOWS
 
-		#if !defined(HART_WINDOWS)
+		#if !defined(HART_ENGINE_PLATFORM_WINDOWS)
 
 			#define UNIX_TEXT_WHITE "\033[0m"
 			#define UNIX_TEXT_RED "\033[31m"
@@ -164,7 +164,7 @@ namespace Hart {
 		LogTimeStamp();
 		std::cout << "HART_CLIENT_LOG: ";
 		LogMessagesFromList(LogMessageList);
-		std::cout << UNIX_TEXT_WHITE << "\n";;
+		std::cout << UNIX_TEXT_WHITE << "\n";
 	}
 
 	void Logger::ClientWarning(std::initializer_list<Loggable> LogMessageList) {

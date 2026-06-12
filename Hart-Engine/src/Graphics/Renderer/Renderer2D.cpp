@@ -121,8 +121,8 @@ namespace Hart {
 	void Renderer2D::DeInit() {
 		HART_ENGINE_LOG("DeInitializing Renderer2D");
 
-		delete s_Data->quadVertexBufferBase;
-		delete s_Data->textVertexBufferBase;
+		delete[] s_Data->quadVertexBufferBase;
+		delete[] s_Data->textVertexBufferBase;
 
 		s_Data->quadVertexArray->getIndexBuffer()->unbind();
 		s_Data->quadVertexArray->unbind();
@@ -132,6 +132,7 @@ namespace Hart {
 		s_Data->textVertexArray->unbind();
 		s_Data->textShader->unbind();
 
+		s_Data.reset();
 	}
 
 	void Renderer2D::BeginScene(OrthographicCamera& camera) {

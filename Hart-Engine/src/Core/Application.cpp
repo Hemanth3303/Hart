@@ -112,7 +112,8 @@ namespace Hart {
 			"Compilation Information:", 
 			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
 			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
-			"\t\t\t\t\tOn Platform: " HART_PLATFORM
+			"\t\t\t\t\tPlatform: " HART_PLATFORM,
+			"\t\t\t\t\tArchitecture: " HART_ARCHITECTURE,
 		);
 
 		HART_ENGINE_LOG("Initializing Hart Engine");
@@ -131,17 +132,17 @@ namespace Hart {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
 
-		glfwSwapInterval(0);
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
 		m_Window = std::make_unique<Window>(windowProps);
+		glfwSwapInterval(0);
 		m_IsRunning = true;
 
-	#if defined(HART_DEBUG) || defined(HART_RELEASE)
+	#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLDebugMessageCallback, nullptr);
-	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
+	#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 
 		initializeShaderLibrary();
 
@@ -158,15 +159,18 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		AudioManager::Deinit();
+		AudioManager::DeInit();
 		Renderer3D::DeInit();
 		InputManager::DeInit();
 		Timer::DeInit();
+		m_ShaderLibrary.clear();
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
-		HART_ENGINE_LOG("DeInitilizing GLFW");
+		HART_ENGINE_LOG("DeIntializing GLFW");
 		glfwTerminate();
+
+		s_Instance = nullptr;
 	}
 	void Application::eventHandler(Event& e) {
 
@@ -312,7 +316,7 @@ namespace Hart {
 				break;
 
 			case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-				debugType = "UDEFINED BEHAVIOR";
+				debugType = "UNDEFINED BEHAVIOR";
 				break;
 
 			case GL_DEBUG_TYPE_PORTABILITY:
