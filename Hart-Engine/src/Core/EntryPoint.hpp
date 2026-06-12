@@ -17,7 +17,7 @@
 #endif // _MSC_VER
 
 //#if defined(HART_CLIENT_PLATFORM_WINDOWS) && defined(HART_CLIENT_RELEASE_BUILD)
-//#include <Windows.h>
+//#include <windows.h>
 //extern "C" {
 //	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 //	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;

@@ -3,7 +3,7 @@
 #include "Timer.hpp"
 
 #ifdef HART_ENGINE_PLATFORM_WINDOWS
-#include <Windows.h>
+#include <windows.h>
 #endif // HART_ENGINE_PLATFORM_WINDOWS
 
 namespace Hart {
