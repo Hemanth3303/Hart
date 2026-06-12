@@ -43,6 +43,8 @@ target_compile_definitions(Two-Player-Pong
 
 cmake_base_target_platform_definitions(Two-Player-Pong TWO_PLAYER_PONG)
 cmake_base_target_architecture_definitions(Two-Player-Pong TWO_PLAYER_PONG)
+cmake_base_target_platform_definitions(Two-Player-Pong HART_CLIENT)
+cmake_base_target_architecture_definitions(Two-Player-Pong HART_CLIENT)
 
 # PLATFORM AND COMPILER SPECIFIC
 
@@ -89,7 +91,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
 			PRIVATE
 				-static
-				-static-libstdc++
 		)
 	endif()
 

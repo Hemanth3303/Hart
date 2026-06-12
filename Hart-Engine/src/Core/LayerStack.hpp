@@ -18,8 +18,8 @@ namespace Hart {
 		//Deletes all layers and overlays
 		void popAll();
 
-		const std::shared_ptr<Layer> getLayer(const std::string& layerName);
-		const std::shared_ptr<Layer> getOverlay(const std::string& overlayName);
+		std::shared_ptr<Layer> getLayer(const std::string& layerName);
+		std::shared_ptr<Layer> getOverlay(const std::string& overlayName);
 
 		inline bool layerExists(const std::string& layerName) { return m_LayerMap.contains(layerName); }
 		inline bool overlayExists(const std::string& overlayName) { return m_OverlayMap.contains(overlayName); }

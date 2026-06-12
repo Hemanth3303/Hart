@@ -37,8 +37,6 @@ void Layer2D::onAttach() {
 
 	//Hart::AudioManager::PlaySound(pickupSound);
 	//Hart::AudioManager::PlayMusic(criticalTheme);
-
-	HART_ASSERT_EQUAL(2 + 2, 7, "wtf");
 }
 
 void Layer2D::onDetach() {
