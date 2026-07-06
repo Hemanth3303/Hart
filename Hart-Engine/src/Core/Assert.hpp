@@ -66,7 +66,7 @@
 					Hart::LogSeverity::Error, \
 					ASSERT_SOURCE \
 				); \
-			}
+			} \
 		} while(0)
 
 	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT(((expression) == value), __VA_ARGS__)
