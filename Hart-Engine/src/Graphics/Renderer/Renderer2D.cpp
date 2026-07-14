@@ -173,7 +173,7 @@ namespace Hart {
 
 	void Renderer2D::DrawQuad(const Vec3& position, const Vec2& size, float angleD, const std::shared_ptr<Texture2D>& texture, const Vec4& textureTint, float tilingFactor) {
 		Mat4 transform = Mat4::Translate(position) * Mat4::Rotate(angleD, { 0.0f, 0.0f, 1.0f }) * Mat4::Scale({ size.x, size.y, 1.0f });
-		
+
 		DrawQuad(transform, texture, textureTint, tilingFactor);
 	}
 

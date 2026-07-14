@@ -1,12 +1,12 @@
 #include "Font.hpp"
 
 namespace Hart {
-	Font::Font(const std::string& filePath, const float fontSize) 
+	Font::Font(const std::string& filePath, const float fontSize)
 		: m_FontSize(fontSize) {
 		if (!FileManager::FileExists(filePath)) {
 			HART_ENGINE_ERROR("Font " + filePath + " not found");
 			return;
-			
+
 		}
 		m_FileSize = FileManager::GetFileSizeInBytes(filePath);
 		m_FontDataBuffer = FileManager::ReadBinaryFromFile(filePath);
@@ -51,9 +51,9 @@ namespace Hart {
 				m_PackedChars.data(),
 				m_FontTextureSpecification.width,
 				m_FontTextureSpecification.height,
-				i, 
-				&unusedX, 
-				&unusedY, 
+				i,
+				&unusedX,
+				&unusedY,
 				&m_AlignedQuads[i],
 				0
 			);
@@ -61,6 +61,6 @@ namespace Hart {
 	}
 
 	Font::~Font() {
-		
+
 	}
 }

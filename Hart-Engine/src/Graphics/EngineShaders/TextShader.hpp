@@ -35,7 +35,7 @@ namespace Hart {
 				vec4 color;
 				vec2 textureCoords;
 			} fs_in;
-			
+
 			uniform sampler2D uTexture15;
 
 			void main() {

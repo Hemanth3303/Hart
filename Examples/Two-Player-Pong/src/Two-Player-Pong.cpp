@@ -76,7 +76,7 @@ public:
 		}
 
 		m_BallPos += Hart::Vec3::ScalarMultiply(m_BallVel, BALL_SPEED * deltaTime);
-		
+
 	}
 
 	virtual void render() override {
@@ -84,7 +84,7 @@ public:
 		{
 			Hart::Renderer2D::DrawQuad(m_PlayerOnePos, m_PlayerSize, Hart::White);
 			Hart::Renderer2D::DrawQuad(m_PlayerTwoPos, m_PlayerSize, Hart::White);
-			
+
 			Hart::Renderer2D::DrawLine({ 0.0f, 1.0f }, { 0.0f, -1.0f }, Hart::White);
 
 			Hart::Renderer2D::DrawQuad(m_BallPos, m_BallSize, Hart::White);

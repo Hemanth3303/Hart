@@ -1,7 +1,7 @@
 # Hart
 A game engine being built in C++ and OpenGL 4.6 <br>
 
-## Info 
+## Info
 I'm making this engine as a learning exercise. As such I probably won't be accepting any pull requests.<br>
 (That is if someone somehow finds this repository lol)
 

@@ -11596,7 +11596,7 @@ typedef struct ma_IUnknown  ma_IUnknown;
 
 #include <sys/time.h>   /* select() (used for ma_sleep()). */
 #include <time.h>       /* For nanosleep() */
-#include <unistd.h> 
+#include <unistd.h>
 #endif
 
 /* For fstat(), etc. */

@@ -3,7 +3,7 @@
 #include "Graphics/Renderer/RenderCommand.hpp"
 
 namespace Hart {
-	
+
 	void windowSizeCallback(GLFWwindow* glfwWindow, std::int32_t width, std::int32_t height);
 	void windowCloseCallback(GLFWwindow* glfwWindow);
 	void windowPositionCallback(GLFWwindow* glfwWindow, std::int32_t xpos, std::int32_t ypos);
@@ -152,7 +152,7 @@ namespace Hart {
 
 	void mouseButtonCallback(GLFWwindow* glfwWindow, std::int32_t button, std::int32_t action, std::int32_t mods) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
-		
+
 		switch (action) {
 			case GLFW_PRESS: {
 				MouseButtonPressedEvent e(static_cast<MouseCode>(button));

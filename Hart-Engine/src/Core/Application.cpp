@@ -55,7 +55,7 @@ namespace Hart {
 
 			currentFrameTime = Timer::GetTimeInMilliSeconds();
 			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
-			
+
 			if (deltaTime >= maxPeriod) {
 				m_LastFrameTime = currentFrameTime;
 				m_CurrentFPS = 1.0 / deltaTime;
@@ -109,7 +109,7 @@ namespace Hart {
 
 	void Application::init(const WindowProps& windowProps) {
 		HART_ENGINE_LOG(
-			"Compilation Information:", 
+			"Compilation Information:",
 			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
 			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
 			"\t\t\t\t\tPlatform: " HART_PLATFORM,
@@ -127,7 +127,7 @@ namespace Hart {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		
+
 	#if defined(HART_DEBUG) || defined(HART_RELEASE)
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
@@ -201,7 +201,7 @@ namespace Hart {
 			(*itr)->onEvent(e);
 		}
 	}
-	
+
 	bool Application::onWindowResized(WindowResizedEvent& e) {
 
 		if (e.getWidth() == 0 && e.getHeight() == 0) {

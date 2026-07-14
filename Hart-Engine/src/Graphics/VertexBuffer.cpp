@@ -62,7 +62,7 @@ namespace Hart {
 		}
 	}
 
-	VertexBuffer::VertexBuffer(std::uint32_t size) 
+	VertexBuffer::VertexBuffer(std::uint32_t size)
 		: m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
@@ -70,7 +70,7 @@ namespace Hart {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	VertexBuffer::VertexBuffer(float* vertices, std::uint32_t size) 
+	VertexBuffer::VertexBuffer(float* vertices, std::uint32_t size)
 		: m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);

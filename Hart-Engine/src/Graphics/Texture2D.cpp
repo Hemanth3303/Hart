@@ -6,7 +6,7 @@
 namespace Hart {
 	Texture2D::Texture2D(const std::string& filePath, const Texture2DSpecification& texture2DSpecs)
 		: m_loadedFromStbi(true), m_TextureSpec(texture2DSpecs) {
-		
+
 		if (!FileManager::FileExists(filePath)) {
 			HART_ENGINE_ERROR("File " + filePath + " does not exists", "Is the name and/or path correct?");
 			m_loadedFromStbi = false;

@@ -39,8 +39,8 @@ target_include_directories(Hart-Engine
 
 target_precompile_headers(Hart-Engine
 	PUBLIC
-		
-	PRIVATE 
+
+	PRIVATE
 		src/HartPch.hpp
 )
 

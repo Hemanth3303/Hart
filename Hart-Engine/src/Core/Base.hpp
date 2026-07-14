@@ -42,7 +42,7 @@
 		#define HART_ARCHITECTURE "riscv32"
 	#elif defined(HART_ENGINE_ARCHITECTURE_RISCV64)
 		#define HART_ARCHITECTURE "riscv64"
-	#else 
+	#else
 		#define HART_ARCHITECTURE "Unkown"
 	#endif // architecture check
 
@@ -66,7 +66,7 @@
 		#else
 			#define HART_COMPILER_VERSION TO_STR(__GNUC__) "." TO_STR(__GNUC_MINOR__)
 		#endif
-	#else 
+	#else
 		#define HART_COMPILER "Unknown"
 		#define HART_COMPILER_VERSION "Unknown"
 	#endif

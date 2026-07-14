@@ -8,7 +8,7 @@
 #include "../Colors.hpp"
 
 namespace Hart {
-	
+
 	class Renderer3D {
 	public:
 		static void Init();

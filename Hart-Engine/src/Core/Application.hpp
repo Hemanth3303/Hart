@@ -34,9 +34,9 @@ namespace Hart {
 		// sets OpenGL clear color
 		// rgba values in range 0 to 1
 		void setBackgroundColor(const Vec4& color);
-		
+
 		//getters
-		
+
 		// returns a non owning reference to the current static application instance
 		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
@@ -51,7 +51,7 @@ namespace Hart {
 		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 
 		//setters
-		
+
 		// sets the maximum frames per second
 		// default value is 1000
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
@@ -61,7 +61,7 @@ namespace Hart {
 		void popLayer(const std::shared_ptr<Layer>& layer);
 		void pushOverlay(const std::shared_ptr<Layer>& overlay);
 		void popOverlay(const std::shared_ptr<Layer>& overlay);
-		
+
 		inline bool layerExists(const std::string& layerName) { return m_LayerStack.layerExists(layerName); }
 		inline bool overlayExists(const std::string& overlayName) { return m_LayerStack.overlayExists(overlayName); }
 		inline const std::shared_ptr<Layer> getLayer(const std::string& layerName) { return m_LayerStack.getLayer(layerName); }

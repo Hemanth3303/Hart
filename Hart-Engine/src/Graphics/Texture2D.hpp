@@ -49,7 +49,7 @@ namespace Hart {
 
 		void bind(std::uint32_t slot = 0) const;
 		void unbind() const;
-		
+
 		void setBuffer(std::uint32_t* buffer);
 		void setBuffer(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs);
 

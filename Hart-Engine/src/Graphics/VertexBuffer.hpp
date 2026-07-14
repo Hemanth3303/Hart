@@ -44,7 +44,7 @@ namespace Hart {
 		std::uint32_t m_Stride = 0;
 	};
 
-	// A class representing an OpenGL VertexBuffer 
+	// A class representing an OpenGL VertexBuffer
 	class VertexBuffer {
 	public:
 		VertexBuffer(std::uint32_t size);

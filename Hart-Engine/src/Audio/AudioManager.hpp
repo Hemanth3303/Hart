@@ -21,7 +21,7 @@ namespace Hart {
 	private:
 		static bool AreAllDecodersAtEnd();
 		static void ClearDoneDecoders();
-		
+
 		friend void dataCallback(ma_device* device, void* output, const void* input, std::uint32_t frameCount);
 		friend std::uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, std::uint32_t frameCount);
 		friend class Application;

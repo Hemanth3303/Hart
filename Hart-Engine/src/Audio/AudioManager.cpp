@@ -22,7 +22,7 @@ namespace Hart {
 
 		ma_result result = ma_device_init(nullptr, &s_Data->deviceConfig, &s_Data->device);
 		HART_ASSERT_EQUAL(result, MA_SUCCESS);
-		
+
 
 		result = ma_device_start(&s_Data->device);
 		HART_ASSERT_EQUAL(result, MA_SUCCESS);
@@ -119,7 +119,7 @@ namespace Hart {
 		temp.resize(4096);
 		ma_uint32 tempCapInFrames = temp.size() / s_Data->CHANNEL_COUNT;
 		ma_uint32 totalFramesRead = 0;
-		
+
 		ma_uint64 framesReadThisIteration;
 		while (totalFramesRead < frameCount) {
 			ma_uint32 totalFramesRemaining = frameCount - totalFramesRead;

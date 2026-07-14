@@ -70,7 +70,7 @@ namespace Hart {
 		}
 		return m_LayerMap[layerName];
 	}
-	
+
 	std::shared_ptr<Layer> LayerStack::getOverlay(const std::string& overlayName) {
 	if(!overlayExists(overlayName)) {
 			HART_ENGINE_ERROR("Overlay named " + overlayName + " doesn't exist. Returning nullptr");

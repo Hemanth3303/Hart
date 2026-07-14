@@ -26,7 +26,7 @@ public:
 	~Sandbox() {
 		HART_CLIENT_LOG("DeInitialising Sandbox");
 	}
-	
+
 };
 
 std::unique_ptr<Hart::Application> Hart::CreateApplication() {

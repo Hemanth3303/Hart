@@ -2,13 +2,13 @@
 #include "PerspectiveCamera.hpp"
 
 namespace Hart {
-	PerspectiveCamera::PerspectiveCamera(float fovD, float aspectRatio, float near, float far) 
+	PerspectiveCamera::PerspectiveCamera(float fovD, float aspectRatio, float near, float far)
 		: m_ProjectionMatrix(Mat4::Perspective(fovD, aspectRatio, near, far)), m_ViewMatrix(1.0f) {
 
 		m_ViewMatrix = Mat4::LookAt(m_Position, m_Position + m_Front, m_WorldUp);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
-	
+
 	PerspectiveCamera::~PerspectiveCamera() {
 
 	}

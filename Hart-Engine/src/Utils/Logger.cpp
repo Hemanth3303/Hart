@@ -20,12 +20,12 @@ namespace Hart {
 			#define SET_TEXT_COLOR(color) SetConsoleTextAttribute(hConsole, color)
 
 		#else
-			#define WINDOWS_TEXT_WHITE 
-			#define WINDOWS_TEXT_GREEN 
-			#define WINDOWS_TEXT_YELLOW 
-			#define WINDOWS_TEXT_RED 
+			#define WINDOWS_TEXT_WHITE
+			#define WINDOWS_TEXT_GREEN
+			#define WINDOWS_TEXT_YELLOW
+			#define WINDOWS_TEXT_RED
 
-			#define SET_TEXT_COLOR(color) 
+			#define SET_TEXT_COLOR(color)
 
 		#endif // HART_ENGINE_PLATFORM_WINDOWS
 

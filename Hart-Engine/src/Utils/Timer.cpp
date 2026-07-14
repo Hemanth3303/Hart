@@ -62,9 +62,9 @@ namespace Hart {
 		return s_CurrentTimeStamp;
 	}
 
-	ScopedTimer::ScopedTimer(const std::string& name) 
+	ScopedTimer::ScopedTimer(const std::string& name)
 		: m_Name(name) {
-		
+
 		m_StartTime = Timer::GetTimeInMilliSeconds();
 	}
 
