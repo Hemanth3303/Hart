@@ -1,15 +1,16 @@
 # Hart
-A game engine being built in C++ and OpenGL 4.6 <br>
+A (mostly 2d) game engine built in C++ and OpenGL 4.6 <br>
+
+## Important Note
+- Please do not use this as a reference for code structure, C++, OpenGL or engine architecture.
+- If you want a proper reference, use Cherno's Hazel2D instead, [linked below](#note).
 
 ## Info
-I'm making this engine as a learning exercise. As such I probably won't be accepting any pull requests.<br>
-(That is if someone somehow finds this repository lol)
+I made this engine as a learning exercise. As such I won't be accepting any pull requests.<br>
+(That is if someone somehow finds this repository)
 
 ## Build System
 CMake
-
-## Template for making games with this engine
-[Hart-Game-Template](https://github.com/Hemanth3303/Hart-Game-Template)
 
 ## Dependencies
 * [glfw](https://www.glfw.org/): For Windowing, Creating OpenGL Context, Input handling, etc.
