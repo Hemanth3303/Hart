@@ -167,7 +167,7 @@ namespace Hart {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
-		HART_ENGINE_LOG("DeIntializing GLFW");
+		HART_ENGINE_LOG("DeInitializing GLFW");
 		glfwTerminate();
 
 		s_Instance = nullptr;

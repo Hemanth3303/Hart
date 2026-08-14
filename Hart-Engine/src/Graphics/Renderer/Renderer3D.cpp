@@ -15,7 +15,7 @@ namespace Hart {
 
 	void Renderer3D::DeInit() {
 		Renderer2D::DeInit();
-		HART_ENGINE_LOG("DeIntializing Renderer3D");
+		HART_ENGINE_LOG("DeInitializing Renderer3D");
 		RenderCommand::DeInit();
 	}
 
