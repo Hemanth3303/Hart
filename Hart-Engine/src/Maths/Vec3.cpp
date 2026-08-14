@@ -94,9 +94,9 @@ namespace Hart {
 
 	Vec3 Vec3::CrossProduct(const Vec3& left, const Vec3& right) {
 		return Vec3(
-			(left.y * right.z) - (right.y * left.z),
-			(left.x * right.z) - (right.x * left.z),
-			(left.x * right.y) - (right.x * left.y)
+			(left.y * right.z) - (left.z * right.y),
+			(left.z * right.x) - (left.x * right.z),
+			(left.x * right.y) - (left.y * right.x)
 		);
 	}
 
