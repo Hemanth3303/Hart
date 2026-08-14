@@ -25,25 +25,11 @@ namespace Hart {
 		return s_Keys[static_cast<std::int32_t>(keyCode)];
 	}
 
-	bool InputManager::IsKeyReleased(const KeyCode& keyCode) {
-		if (keyCode == KeyCode::Unknown) {
-			return false;
-		}
-		return !IsKeyPressed(keyCode);
-	}
-
 	bool InputManager::IsMouseButtonPressed(const MouseCode& mouseCode) {
 		if (mouseCode == MouseCode::Unknown) {
 			return false;
 		}
 		return s_MouseButtons[static_cast<std::int32_t>(mouseCode)];
-	}
-
-	bool InputManager::IsMouseButtonReleased(const MouseCode& mouseCode) {
-		if (mouseCode == MouseCode::Unknown) {
-			return false;
-		}
-		return !IsMouseButtonPressed(mouseCode);
 	}
 
 	const Vec2 InputManager::GetMousePosition() {

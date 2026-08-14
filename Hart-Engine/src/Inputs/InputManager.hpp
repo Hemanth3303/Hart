@@ -12,9 +12,7 @@ namespace Hart {
 		static constexpr std::int32_t GetMaxKeys();
 		static constexpr std::int32_t GetMaxMouseButtons();
 		static bool IsKeyPressed(const KeyCode& keyCode);
-		static bool IsKeyReleased(const KeyCode& keyCode);
 		static bool IsMouseButtonPressed(const MouseCode& mouseCode);
-		static bool IsMouseButtonReleased(const MouseCode& mouseCode);
 		static const Vec2 GetMousePosition();
 		// sets the cursor's location to the specified location
 		static void SetMousePosition(const Vec2& position);
