@@ -128,9 +128,9 @@ namespace Hart {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	#if defined(HART_DEBUG) || defined(HART_RELEASE)
+	#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-	#endif // defined(HART_DEBUG) || defined(HART_RELEASE)
+	#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
 
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
