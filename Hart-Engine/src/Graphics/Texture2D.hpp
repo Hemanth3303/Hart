@@ -4,7 +4,9 @@
 
 #pragma once
 
-#include "HartPch.hpp"
+#include <cstdint>
+#include <string>
+#include <memory>
 
 namespace Hart {
 	enum class TextureMagFilter {

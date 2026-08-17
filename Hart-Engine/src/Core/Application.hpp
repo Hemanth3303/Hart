@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Window.hpp"
 #include "Layer.hpp"
 #include "LayerStack.hpp"

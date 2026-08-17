@@ -1,4 +1,8 @@
+#include "HartPch.hpp"
 #include "Font.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/FileManager.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	Font::Font(const std::string& filePath, const float fontSize)

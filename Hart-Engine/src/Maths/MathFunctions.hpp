@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include "HartPch.hpp"
 #include "MathConstants.hpp"
+
+#include <cmath>
+#include <algorithm>
 
 namespace Hart {
 	// angle unit conversions
@@ -166,4 +168,5 @@ namespace Hart {
 	inline auto clamp(auto value, auto min, auto max) {
 		return std::clamp(value, min, max);
 	}
+
 }

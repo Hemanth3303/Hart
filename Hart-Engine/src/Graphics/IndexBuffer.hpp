@@ -1,7 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
-
 #include "glad/glad.h"
 
 namespace Hart {

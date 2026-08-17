@@ -1,13 +1,12 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
-#include "../Texture2D.hpp"
-#include "../SpriteSheet.hpp"
-#include "../Camera/OrthographicCamera.hpp"
-#include "../Font.hpp"
-#include "../Colors.hpp"
+#include "Graphics/Texture2D.hpp"
+#include "Graphics/SpriteSheet.hpp"
+#include "Graphics/Camera/OrthographicCamera.hpp"
+#include "Graphics/Font.hpp"
+#include "Graphics/Colors.hpp"
 
 namespace Hart {
 	class Renderer2D {

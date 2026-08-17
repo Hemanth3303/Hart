@@ -1,7 +1,11 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Layer.hpp"
+
+#include <memory>
+#include <vector>
+#include <unordered_map>
+#include <string>
 
 namespace Hart {
 	// LayerStack

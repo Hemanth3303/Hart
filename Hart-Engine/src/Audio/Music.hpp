@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "HartPch.hpp"
+#include <string>
+#include <cstdint>
 
 namespace Hart {
 	class Music {

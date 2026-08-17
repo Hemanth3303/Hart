@@ -1,8 +1,9 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Vec2.hpp"
 #include "MathFunctions.hpp"
+
+#include <iostream>
 
 namespace Hart {
 	// A three component vector.

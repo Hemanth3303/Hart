@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifdef _MSC_VER
+#if defined(HART_COMPILER_MSVC)
 	#pragma warning(disable : 5105)
 
 	#pragma comment(lib, "opengl32")
@@ -14,7 +14,7 @@
 	#pragma comment(lib, "shell32")
 	#pragma comment(lib, "user32")
 
-#endif // _MSC_VER
+#endif // HART_COMPILER_MSVC
 
 // #if defined(HART_CLIENT_PLATFORM_WINDOWS) && defined(HART_CLIENT_RELEASE_BUILD)
 // #include <windows.h>

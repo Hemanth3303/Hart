@@ -1,7 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
-
 #include "OrthographicCamera.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"

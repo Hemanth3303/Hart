@@ -1,6 +1,8 @@
 #include "HartPch.hpp"
 #include "AudioManager.hpp"
 #include "AudioManagerData.hpp"
+#include "Utils/Logger.hpp"
+#include "Core/Assert.hpp"
 
 namespace Hart {
 	static std::unique_ptr<AudioManagerData> s_Data;

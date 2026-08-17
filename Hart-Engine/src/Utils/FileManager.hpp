@@ -4,7 +4,9 @@
 
 #pragma once
 
-#include "HartPch.hpp"
+#include <vector>
+#include <cstdint>
+#include <string>
 
 namespace Hart {
 	class FileManager {
@@ -18,7 +20,7 @@ namespace Hart {
 
 		static bool FileExists(const std::string& fileName);
 
-		static std::uintmax_t GetFileSizeInBytes(const std::string& filepath);
+		static uintmax_t GetFileSizeInBytes(const std::string& filepath);
 
 		// Returns file name without the filepath or extension
 		// example: assets/images/grass.png will return grass

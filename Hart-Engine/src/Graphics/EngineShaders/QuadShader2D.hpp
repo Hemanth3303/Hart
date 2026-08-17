@@ -1,7 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
-
 namespace Hart {
 	inline const std::string QuadShader2DVertexSource = // vertex shader
 		R"(

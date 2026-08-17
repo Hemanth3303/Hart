@@ -1,5 +1,9 @@
 #include "HartPch.hpp"
 #include "LayerStack.hpp"
+#include "Utils/Logger.hpp"
+#include "Core/Assert.hpp"
+
+#include <algorithm>
 
 namespace Hart {
 	LayerStack::LayerStack() {
@@ -12,7 +16,7 @@ namespace Hart {
 	void LayerStack::pushLayer(const std::shared_ptr<Layer>& layer) {
 		if (m_LayerMap.contains(layer->getName()) || m_OverlayMap.contains(layer->getName())) {
 			HART_ENGINE_ERROR("A Layer or an Overlay with that name already exists, aborting push");
-			HART_ENGINE_DEBUG_BUILD_BREAK();
+			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
 			m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
@@ -35,7 +39,7 @@ namespace Hart {
 	void LayerStack::pushOverlay(const std::shared_ptr<Layer>& overlay) {
 		if (m_LayerMap.contains(overlay->getName()) || m_OverlayMap.contains(overlay->getName())) {
 			HART_ENGINE_ERROR("A Layer or an Overlay with that name already exists, aborting push");
-			HART_ENGINE_DEBUG_BUILD_BREAK();
+			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
 			m_Layers.emplace_back(overlay);

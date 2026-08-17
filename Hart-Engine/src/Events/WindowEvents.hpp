@@ -6,6 +6,8 @@
 
 #include "Event.hpp"
 
+#include <cstdint>
+
 namespace Hart {
 	class WindowResizedEvent : public Event {
 	public:

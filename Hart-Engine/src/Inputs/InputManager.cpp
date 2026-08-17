@@ -1,6 +1,8 @@
 #include "HartPch.hpp"
 #include "InputManager.hpp"
 #include "Core/Application.hpp"
+#include "Core/Assert.hpp"
+
 #include "GLFW/glfw3.h"
 
 namespace Hart {

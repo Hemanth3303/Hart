@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Inputs/KeyCodes.hpp"
 #include "Inputs/MouseCodes.hpp"
 #include "Maths/Vec2.hpp"

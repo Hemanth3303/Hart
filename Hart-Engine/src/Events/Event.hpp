@@ -4,9 +4,11 @@
 
 #pragma once
 
-#include "HartPch.hpp"
 #include "EventType.hpp"
 #include "EventCategory.hpp"
+
+#include <iostream>
+#include <string_view>
 
 #define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
 

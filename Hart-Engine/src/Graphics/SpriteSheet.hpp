@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Texture2D.hpp"
 #include "Maths/Vec2.hpp"
 

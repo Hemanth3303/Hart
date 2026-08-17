@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "HartPch.hpp"
 #include "Loggable.hpp"
 
 namespace Hart {

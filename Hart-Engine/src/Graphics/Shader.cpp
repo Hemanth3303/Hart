@@ -5,6 +5,9 @@
 
 #include "HartPch.hpp"
 #include "Shader.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/FileManager.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
@@ -169,7 +172,7 @@ namespace Hart {
 		int32_t uniformLocation = glGetUniformLocation(m_ShaderID, uniformName.c_str());
 		if (uniformLocation == -1) {
 			HART_ENGINE_ERROR("Uniform not found", uniformName);
-			HART_ENGINE_DEBUG_BUILD_BREAK();
+			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
 			m_UniformLocationCache[uniformName] = uniformLocation;

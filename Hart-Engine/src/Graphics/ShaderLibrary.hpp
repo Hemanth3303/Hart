@@ -1,7 +1,9 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Shader.hpp"
+
+#include <memory>
+#include <vector>
 
 namespace Hart {
 	// Class for managing shaders

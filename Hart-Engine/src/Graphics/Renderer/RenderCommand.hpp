@@ -1,7 +1,6 @@
 #pragma once
 
-#include "HartPch.hpp"
-#include "../VertexArray.hpp"
+#include "Graphics/VertexArray.hpp"
 
 namespace Hart {
 	class RenderCommand {

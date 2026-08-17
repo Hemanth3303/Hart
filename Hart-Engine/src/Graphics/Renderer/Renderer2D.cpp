@@ -3,6 +3,8 @@
 #include "Renderer2DData.hpp"
 #include "RenderCommand.hpp"
 #include "Core/Application.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	void recalculateTextPixelScaler();

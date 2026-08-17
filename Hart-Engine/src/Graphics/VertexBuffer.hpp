@@ -1,9 +1,10 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Shader.hpp"
 
 #include "glad/glad.h"
+
+#include <vector>
 
 namespace Hart {
 	// A struct representing one attribute in a VertexBuffer

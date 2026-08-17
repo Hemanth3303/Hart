@@ -2,6 +2,8 @@
 
 #include "Event.hpp"
 
+#include <functional>
+
 namespace Hart {
 	class EventDispatcher {
 		template <typename T>

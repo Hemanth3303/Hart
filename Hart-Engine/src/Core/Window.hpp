@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Maths/Vec2.hpp"
 #include "Events/Event.hpp"
 #include "Events/WindowEvents.hpp"

@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "HartPch.hpp"
+#include <chrono>
+#include <string_view>
 
 namespace Hart {
 	class Application;

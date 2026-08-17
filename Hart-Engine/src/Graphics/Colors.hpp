@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Maths/Vec4.hpp"
 
 // TODO: Add more colors

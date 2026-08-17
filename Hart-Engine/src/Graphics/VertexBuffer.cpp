@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "VertexBuffer.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	BufferElement::BufferElement(ShaderDataType ptype, const std::string& pname, bool pnormalized)

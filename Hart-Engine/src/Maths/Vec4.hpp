@@ -1,9 +1,10 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Vec2.hpp"
 #include "Vec3.hpp"
 #include "MathFunctions.hpp"
+
+#include <iostream>
 
 namespace Hart {
 	// A four component vector

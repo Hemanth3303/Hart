@@ -1,7 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
-
 #include "Texture2D.hpp"
 #include "Camera/OrthographicCamera.hpp"
 #include "Maths/Vec2.hpp"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "OrthographicCameraController.hpp"
 
 namespace Hart {

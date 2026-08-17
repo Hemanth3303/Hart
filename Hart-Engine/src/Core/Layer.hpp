@@ -1,7 +1,8 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Events/Event.hpp"
+
+#include <cstdint>
 
 namespace Hart {
 	// Base Layer class

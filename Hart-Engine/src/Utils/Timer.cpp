@@ -1,5 +1,7 @@
 #include "HartPch.hpp"
 #include "Timer.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	std::chrono::high_resolution_clock::time_point Timer::s_TimePoint;

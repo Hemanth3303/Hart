@@ -1,5 +1,8 @@
 #include "HartPch.hpp"
 #include "Mat4.hpp"
+#include "Core/Assert.hpp"
+
+#include <cstring> // for memcpy
 
 namespace Hart {
 	Mat4::Mat4() {

@@ -3,6 +3,7 @@
 #include "Renderer3DData.hpp"
 #include "Renderer2D.hpp"
 #include "RenderCommand.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	static std::unique_ptr<Renderer3DData> s_Data = std::make_unique<Renderer3DData>();

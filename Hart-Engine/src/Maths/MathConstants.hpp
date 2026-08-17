@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "HartPch.hpp"
+#include <numbers>
 
 namespace Hart {
 	constexpr inline double PI = std::numbers::pi;

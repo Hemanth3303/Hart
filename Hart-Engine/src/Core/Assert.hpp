@@ -22,12 +22,12 @@
 
 	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 		#include <intrin.h>
-		#define HART_ENGINE_DEBUG_BUILD_BREAK() __debugbreak()
+		#define HART_ENGINE_DEBUG_BREAK() __debugbreak()
 	#elif defined(HART_ENGINE_PLATFORM_LINUX)
 		#include <signal.h>
-		#define HART_ENGINE_DEBUG_BUILD_BREAK() raise(SIGTRAP)
+		#define HART_ENGINE_DEBUG_BREAK() raise(SIGTRAP)
 	#else
-		#define HART_ENGINE_DEBUG_BUILD_BREAK()
+		#define HART_ENGINE_DEBUG_BREAK()
 	#endif
 
 	#define HART_ASSERT(expression, ...)                                   \
@@ -41,7 +41,7 @@
 					  __VA_ARGS__ },                                       \
 					Hart::LogSeverity::Fatal,                              \
 					ASSERT_SOURCE);                                        \
-				HART_ENGINE_DEBUG_BUILD_BREAK();                           \
+				HART_ENGINE_DEBUG_BREAK();                           \
 			}                                                              \
 		} while (0)
 
@@ -66,13 +66,13 @@
 	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT(((expression) == value), __VA_ARGS__)
 	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT(((expression) != value), __VA_ARGS__)
 
-	#define HART_ENGINE_DEBUG_BUILD_BREAK()
+	#define HART_ENGINE_DEBUG_BREAK()
 #else
 	#define HART_ASSERT(expression, ...)
 
 	#define HART_ASSERT_EQUAL(expression, value, ...)
 	#define HART_ASSERT_NOT_EQUAL(expression, value, ...)
 
-	#define HART_ENGINE_DEBUG_BUILD_BREAK()
+	#define HART_ENGINE_DEBUG_BREAK()
 
 #endif

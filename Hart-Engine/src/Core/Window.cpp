@@ -1,6 +1,8 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
+#include "Assert.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 

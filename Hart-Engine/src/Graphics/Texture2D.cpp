@@ -2,6 +2,8 @@
 #include "Texture2D.hpp"
 #include "glad/glad.h"
 #include "stb_image.h"
+#include "Utils/FileManager.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	Texture2D::Texture2D(const std::string& filePath, const Texture2DSpecification& texture2DSpecs)

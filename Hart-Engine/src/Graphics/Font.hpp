@@ -1,9 +1,11 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Texture2D.hpp"
 
 #include "stb_truetype.h"
+
+#include <vector>
+#include <array>
 
 namespace Hart {
 	class Font {

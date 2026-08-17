@@ -1,5 +1,7 @@
 #include "HartPch.hpp"
 #include "RenderCommand.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/Logger.hpp"
 
 #include "glad/glad.h"
 

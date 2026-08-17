@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "ShaderLibrary.hpp"
+#include "Core/Assert.hpp"
 
 namespace Hart {
 	ShaderLibrary::ShaderLibrary() {

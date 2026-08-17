@@ -1,5 +1,10 @@
 #include "HartPch.hpp"
 #include "FileManager.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/Logger.hpp"
+
+#include <fstream>
+#include <filesystem>
 
 namespace Hart {
 	std::string FileManager::ReadStringFromFile(const std::string& fileName) {
@@ -69,7 +74,7 @@ namespace Hart {
 		return std::filesystem::exists(fileName);
 	}
 
-	std::uintmax_t FileManager::GetFileSizeInBytes(const std::string& filepath) {
+	uintmax_t FileManager::GetFileSizeInBytes(const std::string& filepath) {
 		if (FileExists(filepath)) {
 			std::filesystem::path path = filepath;
 			return std::filesystem::file_size(filepath);

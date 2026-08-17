@@ -1,8 +1,8 @@
 #pragma once
 
-#include "HartPch.hpp"
-
 #include "miniaudio.h"
+
+#include <vector>
 
 namespace Hart {
 	struct DecoderInfo {

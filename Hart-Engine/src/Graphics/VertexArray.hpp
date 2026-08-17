@@ -1,10 +1,11 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
 
 #include "glad/glad.h"
+
+#include <memory>
 
 namespace Hart {
 	// Class representing an OpenGL VertexArray

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Events/Event.hpp"
 
 namespace Hart {

@@ -1,14 +1,13 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Maths/Mat4.hpp"
 #include "Vertices.hpp"
-#include "../VertexBuffer.hpp"
-#include "../IndexBuffer.hpp"
-#include "../VertexArray.hpp"
-#include "../Shader.hpp"
-#include "../Texture2D.hpp"
-#include "../Font.hpp"
+#include "Graphics/VertexBuffer.hpp"
+#include "Graphics/IndexBuffer.hpp"
+#include "Graphics/VertexArray.hpp"
+#include "Graphics/Shader.hpp"
+#include "Graphics/Texture2D.hpp"
+#include "Graphics/Font.hpp"
 
 #include "stb_truetype.h"
 

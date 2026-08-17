@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HartPch.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Mat4.hpp"
 

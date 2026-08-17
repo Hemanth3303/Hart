@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include "HartPch.hpp"
 #include "Vec4.hpp"
 #include "MathFunctions.hpp"
 

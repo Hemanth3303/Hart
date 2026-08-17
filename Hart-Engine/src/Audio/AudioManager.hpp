@@ -2,11 +2,12 @@
 
 #pragma once
 
-#include "HartPch.hpp"
 #include "Sound.hpp"
 #include "Music.hpp"
 
 #include "miniaudio.h"
+
+#include <memory>
 
 namespace Hart {
 	class AudioManager {

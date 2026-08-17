@@ -1,6 +1,7 @@
 #include "HartPch.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexArray.hpp"
+#include "Core/Assert.hpp"
 
 namespace Hart {
 	VertexArray::VertexArray() {
