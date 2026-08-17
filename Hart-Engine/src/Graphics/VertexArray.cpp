@@ -23,7 +23,7 @@ namespace Hart {
 	void VertexArray::setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
 		glBindVertexArray(m_ID);
 
-		HART_ASSERT_NOT_EQUAL(vertexBuffer->getLayout().isEmpty(), true, "Attempting to add a VertexBuffer with an empty layout to VertexArray");
+		HART_DEBUG_ASSERT(!(vertexBuffer->getLayout().isEmpty()), "Attempting to add a VertexBuffer with an empty layout to VertexArray");
 		vertexBuffer->bind();
 		uint32_t index = 0;
 		for (const auto& element : vertexBuffer->getLayout()) {

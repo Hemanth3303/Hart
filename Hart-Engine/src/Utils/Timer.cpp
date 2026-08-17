@@ -9,7 +9,7 @@ namespace Hart {
 	std::string Timer::s_CurrentTimeStamp = std::string("TTT");
 
 	void Timer::Init() {
-		HART_ASSERT_NOT_EQUAL(s_IsInitialized, true, "Reason: Timer already initialized once. Do not initialize timer more than once");
+		HART_DEBUG_ASSERT((s_IsInitialized != true), "Reason: Timer already initialized once. Do not initialize timer more than once");
 		s_TimePoint = std::chrono::high_resolution_clock::now();
 		s_IsInitialized = true;
 		HART_ENGINE_LOG("Initializing Timer");
@@ -21,7 +21,7 @@ namespace Hart {
 	}
 
 	double Timer::GetTimeInSeconds() {
-		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+		HART_DEBUG_ASSERT((s_IsInitialized == true), "Reason: Timer not Initialized");
 
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
@@ -29,7 +29,7 @@ namespace Hart {
 	}
 
 	double Timer::GetTimeInMilliSeconds() {
-		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+		HART_DEBUG_ASSERT((s_IsInitialized == true), "Reason: Timer not Initialized");
 
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
@@ -37,7 +37,7 @@ namespace Hart {
 	}
 
 	double Timer::GetTimeInMicroSeconds() {
-		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+		HART_DEBUG_ASSERT((s_IsInitialized == true), "Reason: Timer not Initialized");
 
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
@@ -45,7 +45,7 @@ namespace Hart {
 	}
 
 	double Timer::GetTimeInNanoSeconds() {
-		HART_ASSERT_EQUAL(s_IsInitialized, true, "Reason: Timer not Initialized");
+		HART_DEBUG_ASSERT((s_IsInitialized == true), "Reason: Timer not Initialized");
 
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;

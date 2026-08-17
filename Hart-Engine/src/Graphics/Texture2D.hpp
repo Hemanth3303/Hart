@@ -33,7 +33,9 @@ namespace Hart {
 
 	struct Texture2DSpecification {
 	public:
-		uint32_t width = 0, height = 0, numberOfChannels = 4;
+		uint32_t width = 0;
+		uint32_t height = 0;
+		uint32_t numberOfChannels = 4;
 		TextureMagFilter magFilter = TextureMagFilter::Linear;
 		TextureMinFilter minFilter = TextureMinFilter::LinearLinear;
 		TextureRepeatFilter repeatX = TextureRepeatFilter::Repeat;

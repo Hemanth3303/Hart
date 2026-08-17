@@ -67,10 +67,21 @@ namespace Hart {
 	void Texture2D::init() {
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 
+		HART_DEBUG_ASSERT((m_TextureSpec.numberOfChannels > 0) && (m_TextureSpec.numberOfChannels < 5),
+					"Invalid number of channels in texture");
+
 		m_InternalFormat = GL_RGB8;
 		m_IncomingFormat = GL_RGB;
 
-		if (m_TextureSpec.numberOfChannels == 3) {
+		if (m_TextureSpec.numberOfChannels == 1) {
+			m_InternalFormat = GL_R8;
+			m_IncomingFormat = GL_RED;
+		}
+		else if (m_TextureSpec.numberOfChannels == 2) {
+			m_InternalFormat = GL_RG8;
+			m_IncomingFormat = GL_RG;
+		}
+		else if (m_TextureSpec.numberOfChannels == 3) {
 			m_InternalFormat = GL_RGB8;
 			m_IncomingFormat = GL_RGB;
 		}
@@ -78,9 +89,8 @@ namespace Hart {
 			m_InternalFormat = GL_RGBA8;
 			m_IncomingFormat = GL_RGBA;
 		}
-		else if (m_TextureSpec.numberOfChannels == 1) {
-			m_InternalFormat = GL_R8;
-			m_IncomingFormat = GL_RED;
+		else {
+			return;
 		}
 
 		glTextureStorage2D(m_TextureID, 1, m_InternalFormat, m_TextureSpec.width, m_TextureSpec.height);

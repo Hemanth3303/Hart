@@ -80,13 +80,13 @@ namespace Hart {
 	}
 
 	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
-		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
+		HART_DEBUG_ASSERT((vertexArray != nullptr), "Reason: VertexArray is null");
 		vertexArray->bind();
 		glDrawArrays(GL_LINES, 0, vertexCount);
 	}
 
 	void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
-		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
+		HART_DEBUG_ASSERT((vertexArray != nullptr), "Reason: VertexArray is null");
 
 		vertexArray->bind();
 		uint32_t count = (vertexCount == 0 ? vertexArray->getVertexBuffer()->getVertexCount() : vertexCount);
@@ -94,8 +94,8 @@ namespace Hart {
 	}
 
 	void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount) {
-		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
-		HART_ASSERT_NOT_EQUAL(vertexArray->getIndexBuffer(), nullptr, "Reason: IndexBuffer is null");
+		HART_DEBUG_ASSERT((vertexArray != nullptr), "Reason: VertexArray is null");
+		HART_DEBUG_ASSERT((vertexArray->getIndexBuffer() != nullptr), "Reason: IndexBuffer is null");
 
 		vertexArray->bind();
 		vertexArray->getIndexBuffer()->bind();

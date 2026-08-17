@@ -23,10 +23,10 @@ namespace Hart {
 		s_Data->deviceConfig.pUserData = nullptr;
 
 		ma_result result = ma_device_init(nullptr, &s_Data->deviceConfig, &s_Data->device);
-		HART_ASSERT_EQUAL(result, MA_SUCCESS);
+		HART_DEBUG_ASSERT((result == MA_SUCCESS));
 
 		result = ma_device_start(&s_Data->device);
-		HART_ASSERT_EQUAL(result, MA_SUCCESS);
+		HART_DEBUG_ASSERT((result == MA_SUCCESS));
 	}
 
 	void AudioManager::DeInit() {
@@ -46,7 +46,7 @@ namespace Hart {
 
 		std::string filePath = sound->getFilePath();
 		ma_result result = ma_decoder_init_file(filePath.c_str(), &config, decoder);
-		HART_ASSERT_EQUAL(result, MA_SUCCESS, "failed to create sound decoder");
+		HART_DEBUG_ASSERT((result == MA_SUCCESS), "failed to create sound decoder");
 
 		ma_data_source_set_looping(decoder, sound->isLooping());
 		s_Data->audioDecoders.emplace_back(decoder, MA_FALSE);
@@ -59,7 +59,7 @@ namespace Hart {
 
 		std::string filePath = music->getFilePath();
 		ma_result result = ma_decoder_init_file(filePath.c_str(), &config, decoder);
-		HART_ASSERT_EQUAL(result, MA_SUCCESS, "failed to create music decoder");
+		HART_DEBUG_ASSERT((result == MA_SUCCESS), "failed to create music decoder");
 
 		ma_data_source_set_looping(decoder, music->isLooping());
 		s_Data->audioDecoders.emplace_back(decoder, MA_FALSE);
@@ -99,7 +99,7 @@ namespace Hart {
 	void dataCallback(ma_device* device, void* output, const void* input, uint32_t frameCount) {
 		float* outputF32 = reinterpret_cast<float*>(output);
 
-		HART_ASSERT_EQUAL(s_Data->device.playback.format, s_Data->SAMPLE_FORMAT);
+		HART_DEBUG_ASSERT((s_Data->device.playback.format == s_Data->SAMPLE_FORMAT));
 
 		for (auto& audioDecoder : s_Data->audioDecoders) {
 			if (!audioDecoder.isAtEnd) {

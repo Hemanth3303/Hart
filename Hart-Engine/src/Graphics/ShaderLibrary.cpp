@@ -10,7 +10,7 @@ namespace Hart {
 	}
 
 	void ShaderLibrary::addShader(const std::shared_ptr<Shader>& shader) {
-		HART_ASSERT_NOT_EQUAL(exists(shader->getName()), true, "Reason: Shader with name " + shader->getName() + " already exists");
+		HART_DEBUG_ASSERT(!exists(shader->getName()), true, "Reason: Shader with name " + shader->getName() + " already exists");
 
 		m_Shaders[shader->getName()] = shader;
 	}
@@ -34,7 +34,7 @@ namespace Hart {
 	}
 
 	std::shared_ptr<Shader> ShaderLibrary::getShader(const std::string& name) {
-		HART_ASSERT_EQUAL(exists(name), true, "Reason: Shader named " + name + " doesn't exist");
+		HART_DEBUG_ASSERT(exists(name), true, "Reason: Shader named " + name + " doesn't exist");
 		return m_Shaders[name];
 	}
 

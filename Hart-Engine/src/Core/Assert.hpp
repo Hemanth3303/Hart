@@ -30,7 +30,7 @@
 		#define HART_ENGINE_DEBUG_BREAK()
 	#endif
 
-	#define HART_ASSERT(expression, ...)                                   \
+	#define HART_DEBUG_ASSERT(expression, ...)                                   \
 		do {                                                               \
 			auto hartEngineAssertionResult = expression;                   \
 			if (!hartEngineAssertionResult) {                              \
@@ -45,11 +45,8 @@
 			}                                                              \
 		} while (0)
 
-	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT(((expression) == value), __VA_ARGS__)
-	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT(((expression) != value), __VA_ARGS__)
-
 #elif defined(HART_ENGINE_PROFILE_BUILD) || defined(HART_CLIENT_PROFILE_BUILD)
-	#define HART_ASSERT(expression, ...)                                   \
+	#define HART_DEBUG_ASSERT(expression, ...)                                   \
 		do {                                                               \
 			auto hartEngineAssertionResult = expression;                   \
 			if (!hartEngineAssertionResult) {                              \
@@ -63,15 +60,9 @@
 			}                                                              \
 		} while (0)
 
-	#define HART_ASSERT_EQUAL(expression, value, ...) HART_ASSERT(((expression) == value), __VA_ARGS__)
-	#define HART_ASSERT_NOT_EQUAL(expression, value, ...) HART_ASSERT(((expression) != value), __VA_ARGS__)
-
 	#define HART_ENGINE_DEBUG_BREAK()
 #else
-	#define HART_ASSERT(expression, ...)
-
-	#define HART_ASSERT_EQUAL(expression, value, ...)
-	#define HART_ASSERT_NOT_EQUAL(expression, value, ...)
+	#define HART_DEBUG_ASSERT(expression, ...)
 
 	#define HART_ENGINE_DEBUG_BREAK()
 

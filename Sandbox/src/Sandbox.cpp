@@ -19,7 +19,7 @@ public:
 		setExitKey(Hart::KeyCode::Escape);
 		setBackgroundColor(Hart::DarkGreenishBlue);
 
-		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
+		m_Layer2D = std::make_shared<Layer2D>("SandboxLayer2D");
 		pushLayer(m_Layer2D);
 	}
 

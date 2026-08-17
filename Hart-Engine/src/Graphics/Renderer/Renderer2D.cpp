@@ -15,7 +15,7 @@ namespace Hart {
 		HART_ENGINE_LOG("Initializing Renderer2D");
 
 		s_Data = std::make_unique<Renderer2DData>();
-		HART_ASSERT_NOT_EQUAL(s_Data, nullptr, "Reason: Failed to initialize Renderer2D");
+		HART_DEBUG_ASSERT((s_Data != nullptr), "Reason: Failed to initialize Renderer2D");
 
 		// Quads
 		std::vector<uint32_t> quadIndices;
@@ -140,11 +140,11 @@ namespace Hart {
 	void Renderer2D::BeginScene(OrthographicCamera& camera) {
 		s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
 
-		HART_ASSERT_NOT_EQUAL(s_Data->quadShader, nullptr, "Reason: quadShader is not initialized");
-		HART_ASSERT_NOT_EQUAL(s_Data->quadVertexArray, nullptr, "Reason: quadVertexArray is not initialized");
+		HART_DEBUG_ASSERT((s_Data->quadShader != nullptr), "Reason: quadShader is not initialized");
+		HART_DEBUG_ASSERT((s_Data->quadVertexArray != nullptr), "Reason: quadVertexArray is not initialized");
 
-		HART_ASSERT_NOT_EQUAL(s_Data->textShader, nullptr, "Reason: textShader is not initialized");
-		HART_ASSERT_NOT_EQUAL(s_Data->textVertexArray, nullptr, "Reason: quadVertexArray is not initialized");
+		HART_DEBUG_ASSERT((s_Data->textShader != nullptr), "Reason: textShader is not initialized");
+		HART_DEBUG_ASSERT((s_Data->textVertexArray != nullptr), "Reason: quadVertexArray is not initialized");
 
 		s_Data->quadShader->bind();
 		s_Data->quadShader->setUniform("uViewProjectionMatrix2D", s_Data->viewProjectionMatrix);
@@ -253,7 +253,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
-		HART_ASSERT_NOT_EQUAL(font, nullptr);
+		HART_DEBUG_ASSERT((font != nullptr));
 		s_Data->textFont = font;
 
 		s_Data->textTexture = std::make_shared<Texture2D>(s_Data->textFont->getFontAtlasBitmapData(), s_Data->textFont->getTextureSpecification());
@@ -264,7 +264,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {
-		HART_ASSERT_NOT_EQUAL(s_Data->textFont, nullptr, "Font not set, did you forget to call Hart::Renderer2D::SetFont()");
+		HART_DEBUG_ASSERT((s_Data->textFont != nullptr), "Font not set, did you forget to call Hart::Renderer2D::SetFont()");
 
 		recalculateTextPixelScaler();
 

@@ -39,7 +39,7 @@ namespace Hart {
 	}
 
 	void InputManager::SetMousePosition(const Vec2& position) {
-		HART_ASSERT_NOT_EQUAL(Hart::Application::Get(), nullptr, "Reason: Called InputManager before Application was initialized");
+		HART_DEBUG_ASSERT((Hart::Application::Get() != nullptr), "Reason: Called InputManager before Application was initialized");
 		glfwSetCursorPos(Hart::Application::Get()->getWindow()->getGLFWwindow(), position.x, position.y);
 	}
 

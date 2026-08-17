@@ -22,7 +22,7 @@ namespace Hart {
 	}
 
 	Mat4::Mat4(const std::initializer_list<float>& values) {
-		HART_ASSERT_EQUAL(values.size(), 16, "Reason: Must provide exactly 16 elements to the constructor method Mat4(const std::initializer_list<float>& values)");
+		HART_DEBUG_ASSERT((values.size() == 16), "Reason: Must provide exactly 16 elements to the constructor method Mat4(const std::initializer_list<float>& values)");
 		const float* itr = values.begin();
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -288,7 +288,7 @@ namespace Hart {
 
 	Mat4 Mat4::Inverse(const Mat4& matrix) {
 		const float deter = Determinant(matrix);
-		HART_ASSERT_NOT_EQUAL(deter, 0, "Reason: The given matrix is not invertible, as determinant==0");
+		HART_DEBUG_ASSERT((deter != 0), "Reason: The given matrix is not invertible, as determinant==0");
 
 		if (deter == 0.0f) {
 			return matrix;

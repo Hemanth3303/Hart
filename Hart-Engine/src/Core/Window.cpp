@@ -34,7 +34,7 @@ namespace Hart {
 		glfwWindowHint(GLFW_RESIZABLE, m_WindowProps.resizable);
 		HART_ENGINE_LOG("Initializing Window");
 		m_GLFWwindow = glfwCreateWindow(m_WindowProps.width, m_WindowProps.height, m_WindowProps.title.c_str(), nullptr, nullptr);
-		HART_ASSERT_NOT_EQUAL(m_GLFWwindow, nullptr, "Reason: Failed to create GLFWwindow");
+		HART_DEBUG_ASSERT((m_GLFWwindow != nullptr), "Reason: Failed to create GLFWwindow");
 		HART_ENGINE_LOG("Window initialized successfully");
 		glfwMakeContextCurrent(m_GLFWwindow);
 		glfwSetWindowUserPointer(m_GLFWwindow, static_cast<void*>(this));
@@ -53,7 +53,7 @@ namespace Hart {
 		glfwSetMouseButtonCallback(m_GLFWwindow, mouseButtonCallback);
 
 		int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HART_ASSERT_NOT_EQUAL(success, 0, "Failed to Initialize GLAD");
+		HART_DEBUG_ASSERT((success != 0), "Failed to Initialize GLAD");
 		HART_ENGINE_LOG("GLAD loaded successfully");
 
 		RenderCommand::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);

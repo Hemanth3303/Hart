@@ -15,7 +15,7 @@ namespace Hart {
 		m_FontDataBuffer = FileManager::ReadBinaryFromFile(filePath);
 
 		int32_t fontCount = stbtt_GetNumberOfFonts(reinterpret_cast<const unsigned char*>(m_FontDataBuffer.data()));
-		HART_ASSERT_EQUAL(fontCount, 1, "The font file contains more than one font. This is currently not supported");
+		HART_DEBUG_ASSERT((fontCount == 1), "The font file contains more than one font. This is currently not supported");
 
 		m_FontTextureSpecification.width = 1024;
 		m_FontTextureSpecification.height = 1024;
