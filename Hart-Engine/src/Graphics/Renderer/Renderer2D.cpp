@@ -35,8 +35,8 @@ namespace Hart {
 			{ ShaderDataType::Float4, "aPosition" },
 			{ ShaderDataType::Float4, "aColor" },
 			{ ShaderDataType::Float2, "aTextureCoords" },
-			{ ShaderDataType::Float,  "aTextureIndex" },
-			{ ShaderDataType::Float,  "aTilingFactor" }
+			{ ShaderDataType::Float, "aTextureIndex" },
+			{ ShaderDataType::Float, "aTilingFactor" }
 		};
 
 		s_Data->quadShader = Application::Get()->getShader("QuadShader2D");
@@ -56,8 +56,8 @@ namespace Hart {
 		// use coordinates with (0, 0) at center
 		s_Data->quadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->quadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data->quadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
-		s_Data->quadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data->quadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
+		s_Data->quadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 		// Text
 		std::vector<std::uint32_t> textIndices;
@@ -101,8 +101,8 @@ namespace Hart {
 		// use coordinates with (0, 0) at center
 		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
-		s_Data->textVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
+		s_Data->textVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 		// White Texture
 		std::uint32_t whiteTextureData = 0xffffffff;
@@ -244,12 +244,11 @@ namespace Hart {
 		Vec3 midpoint = { (startPosition.x + endPosition.x) / 2.0f, (startPosition.y + endPosition.y) / 2.0f };
 		Vec3 direction = endPosition - startPosition;
 		float length = direction.getMagnitude();
-		Vec2 size = { length,  thickness * s_Data->LINE_THICKNESS_SCALE_FACTOR };
+		Vec2 size = { length, thickness * s_Data->LINE_THICKNESS_SCALE_FACTOR };
 		float angleD = arcTan2D(-direction.y, direction.x);
 
 		DrawQuad(midpoint, size, angleD, color);
 	}
-
 
 	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
 		HART_ASSERT_NOT_EQUAL(font, nullptr);
@@ -298,10 +297,10 @@ namespace Hart {
 					charPos.z
 				};
 
-				s_Data->textTextureCoords[0] = { alignedQuad->s0, alignedQuad->t1 };  // Top-left
-				s_Data->textTextureCoords[1] = { alignedQuad->s1, alignedQuad->t1 };  // Top-right
-				s_Data->textTextureCoords[2] = { alignedQuad->s1, alignedQuad->t0 };  // Bottom-right
-				s_Data->textTextureCoords[3] = { alignedQuad->s0, alignedQuad->t0 };  // Bottom-left
+				s_Data->textTextureCoords[0] = { alignedQuad->s0, alignedQuad->t1 }; // Top-left
+				s_Data->textTextureCoords[1] = { alignedQuad->s1, alignedQuad->t1 }; // Top-right
+				s_Data->textTextureCoords[2] = { alignedQuad->s1, alignedQuad->t0 }; // Bottom-right
+				s_Data->textTextureCoords[3] = { alignedQuad->s0, alignedQuad->t0 }; // Bottom-left
 
 				Mat4 transform = Mat4::Translate(glyphBoundingBoxBottomLeft) * Mat4::Scale(glyphSize);
 
@@ -346,7 +345,6 @@ namespace Hart {
 		return s_Data->stats.getTextIndexCount();
 	}
 
-
 	void Renderer2D::BeginBatch() {
 		// Quads
 		s_Data->quadVertexBufferPtr = s_Data->quadVertexBufferBase;
@@ -364,7 +362,7 @@ namespace Hart {
 		s_Data->quadShader->bind();
 		s_Data->whiteTexture->bind(s_Data->WHITE_TEXTURE_SLOT);
 		for (std::uint32_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
-			//s_Data->quadShader->bind();
+			// s_Data->quadShader->bind();
 			s_Data->textureSlots[i]->bind(i);
 			s_Data->quadShader->setUniform("uTexture" + std::to_string(i), s_Data->textureSlots[i]->getSlot());
 		}
@@ -376,7 +374,7 @@ namespace Hart {
 		if (s_Data->quadIndexCount != 0) {
 			std::uint8_t* quadVertBase = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferBase);
 			std::uint8_t* quadVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferPtr);
-			std::uint32_t dataSize = static_cast<std::uint32_t>(quadVertPtr-quadVertBase);
+			std::uint32_t dataSize = static_cast<std::uint32_t>(quadVertPtr - quadVertBase);
 
 			s_Data->quadVertexBuffer->setData(s_Data->quadVertexBufferBase, dataSize);
 
@@ -451,11 +449,10 @@ namespace Hart {
 		s_Data->textIndexCount += 6;
 
 		s_Data->stats.numberOfTextQuads++;
-
 	}
 
 	void recalculateTextPixelScaler() {
 		float aspectRatio = static_cast<float>(Application::Get()->getWindowHeight()) / static_cast<float>(Application::Get()->getWindowWidth());
-		s_Data->textPixelScale = 0.001f / aspectRatio; //TODO: FIX
+		s_Data->textPixelScale = 0.001f / aspectRatio; // TODO: FIX
 	}
 }

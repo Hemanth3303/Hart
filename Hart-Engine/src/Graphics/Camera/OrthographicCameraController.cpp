@@ -10,12 +10,10 @@ namespace Hart {
 	}
 
 	OrthographicCameraController::OrthographicCameraController(float width, float height, bool enableCameraRotation)
-		: m_Width(width), m_Height(height), m_AspectRatio(m_Width / m_Height), m_EnableCameraRotation(enableCameraRotation), m_Bounds(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Camera(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top) {
-
+		: m_Width(width), m_Height(height), m_AspectRatio(m_Width / m_Height), m_EnableCameraRotation(enableCameraRotation), m_Bounds(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Camera(m_Bounds.left, m_Bounds.right, m_Bounds.bottom, m_Bounds.top) {
 	}
 
 	OrthographicCameraController::~OrthographicCameraController() {
-
 	}
 
 	void OrthographicCameraController::setMovementKeys(KeyCode leftKey, KeyCode rightKey, KeyCode upKey, KeyCode downKey) {

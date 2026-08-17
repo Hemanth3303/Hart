@@ -1,6 +1,6 @@
 /*
-* Common math constants
-*/
+ * Common math constants
+ */
 
 #pragma once
 

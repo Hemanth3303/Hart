@@ -15,8 +15,7 @@ namespace Hart {
 			"OpenGL Renderer Info:",
 			std::string("\t\t\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
 			std::string("\t\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
-			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION))
-		);
+			std::string("\t\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 	}
 	void RenderCommand::DeInit() {
 		HART_ENGINE_LOG("DeInitializing OpenGL Renderer");
@@ -70,9 +69,9 @@ namespace Hart {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-    void RenderCommand::SetPixelPackAlignment(std::int32_t alignmentNumber) {
+	void RenderCommand::SetPixelPackAlignment(std::int32_t alignmentNumber) {
 		glPixelStorei(GL_PACK_ALIGNMENT, alignmentNumber);
-    }
+	}
 
 	void RenderCommand::SetPixelUnpackAlignment(std::int32_t alignmentNumber) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, alignmentNumber);

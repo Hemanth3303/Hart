@@ -1,6 +1,6 @@
 /*
-* Class for timing functions
-*/
+ * Class for timing functions
+ */
 
 #pragma once
 
@@ -15,10 +15,12 @@ namespace Hart {
 		static double GetTimeInMicroSeconds();
 		static double GetTimeInNanoSeconds();
 		static std::string_view GetCurrentTimeStamp();
+
 	private:
 		// Should be initialized only once during lifetime of Hart::Application
 		static void Init();
 		static void DeInit();
+
 	private:
 		static std::chrono::high_resolution_clock::time_point s_TimePoint;
 		static bool s_IsInitialized;
@@ -31,6 +33,7 @@ namespace Hart {
 	public:
 		ScopedTimer(const std::string& name = "ScopedTimer");
 		~ScopedTimer();
+
 	private:
 		std::string m_Name;
 		double m_StartTime;

@@ -24,9 +24,9 @@ namespace Hart {
 		HART_ENGINE_LOG("DeInitializing Window");
 	}
 
-    void Window::swapBuffers() {
+	void Window::swapBuffers() {
 		glfwSwapBuffers(m_GLFWwindow);
-    }
+	}
 
 	void Window::init() {
 		glfwWindowHint(GLFW_RESIZABLE, m_WindowProps.resizable);
@@ -147,7 +147,6 @@ namespace Hart {
 				break;
 			}
 		}
-
 	}
 
 	void mouseButtonCallback(GLFWwindow* glfwWindow, std::int32_t button, std::int32_t action, std::int32_t mods) {

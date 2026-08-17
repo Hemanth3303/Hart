@@ -3,14 +3,12 @@
 #include "Core/EntryPoint.hpp"
 #include "Hart.hpp"
 
-class GameLayer :public Hart::Layer {
+class GameLayer : public Hart::Layer {
 public:
 	GameLayer(const std::string& name = "GameLayer")
-		:Layer(name) {
-
+		: Layer(name) {
 	}
 	~GameLayer() {
-
 	}
 
 	virtual void onAttach() override {
@@ -22,11 +20,9 @@ public:
 		Hart::Renderer2D::SetFont(m_Font);
 	}
 	virtual void onDetach() override {
-
 	}
 
 	virtual void onEvent(Hart::Event& e) override {
-
 	}
 
 	virtual void update(const float deltaTime) override {
@@ -76,7 +72,6 @@ public:
 		}
 
 		m_BallPos += Hart::Vec3::ScalarMultiply(m_BallVel, BALL_SPEED * deltaTime);
-
 	}
 
 	virtual void render() override {
@@ -91,7 +86,6 @@ public:
 
 			Hart::Renderer2D::DrawText(std::to_string(m_PlayerOneScore), { -0.5f, 0.0f, 0.0f }, 5.0f, Hart::Gray);
 			Hart::Renderer2D::DrawText(std::to_string(m_PlayerTwoScore), { 0.3f, 0.0f, 0.0f }, 5.0f, Hart::Gray);
-
 		}
 		Hart::Renderer2D::EndScene();
 	}
@@ -108,12 +102,11 @@ public:
 			objOnePos.x + objOneSize.x > objTwoPos.x &&
 			objOnePos.x < objTwoPos.x + objTwoSize.x &&
 			objOnePos.y + objOneSize.y > objTwoPos.y &&
-			objOnePos.y < objTwoPos.y + objTwoSize.y
-			);
+			objOnePos.y < objTwoPos.y + objTwoSize.y);
 	}
 
 private:
-	Hart::Vec3 m_PlayerOnePos={ -1.2f, 0.0f, 1.0f };
+	Hart::Vec3 m_PlayerOnePos = { -1.2f, 0.0f, 1.0f };
 	Hart::Vec3 m_PlayerTwoPos = { 1.2f, 0.0f, 1.0f };
 	Hart::Vec2 m_PlayerSize = { 0.08f, 0.4f };
 
@@ -144,7 +137,6 @@ public:
 	}
 
 	~Game() {
-
 	}
 };
 

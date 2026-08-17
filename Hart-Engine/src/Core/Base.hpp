@@ -19,7 +19,6 @@
 	// compilation time information
 	#define HART_COMPILATION_TIMESTAMP __DATE__ " at " __TIME__
 
-
 	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 		#define HART_PLATFORM "Windows"
 	#elif defined(HART_ENGINE_PLATFORM_LINUX)

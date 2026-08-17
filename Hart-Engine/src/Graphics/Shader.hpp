@@ -51,10 +51,12 @@ namespace Hart {
 
 		static std::uint32_t GetShaderDataTypeSize(ShaderDataType type);
 		static GLenum ShaderDataTypeToOpenGLType(ShaderDataType type);
+
 	private:
 		void init(const char* vsSource, const char* fsSource);
 		std::int32_t getUniformLocation(const std::string& uniformName) const;
 		void checkCompileErrors(std::uint32_t shader, const ShaderType& type) const;
+
 	private:
 		std::uint32_t m_ShaderID = 0;
 		std::string m_Name;

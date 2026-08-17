@@ -82,7 +82,6 @@ namespace Hart {
 		m_Data = value;
 	}
 
-
 	Loggable::Loggable(const Vec2& vec) {
 		m_Data = vec.toString();
 	}
@@ -104,7 +103,6 @@ namespace Hart {
 	}
 
 	Loggable::~Loggable() {
-
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const Loggable& loggable) {

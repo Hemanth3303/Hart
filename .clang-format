@@ -10,7 +10,19 @@ AccessModifierOffset: -4
 IndentPPDirectives: BeforeHash
 
 # Braces
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Custom
+BraceWrapping:
+  BeforeElse: true
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeWhile: false
+
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
@@ -40,4 +52,4 @@ AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignTrailingComments: false
 SpaceBeforeParens: ControlStatements
-Cpp11BracedListStyle: true
+Cpp11BracedListStyle: false

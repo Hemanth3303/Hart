@@ -8,6 +8,5 @@ namespace Hart {
 	}
 
 	Music::~Music() {
-
 	}
 }

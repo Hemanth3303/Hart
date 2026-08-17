@@ -1,6 +1,6 @@
 /*
-* A 4x4 matrix class
-*/
+ * A 4x4 matrix class
+ */
 
 #pragma once
 
@@ -15,6 +15,7 @@ namespace Hart {
 			float elements[4 * 4];
 			Vec4 columns[4];
 		};
+
 	public:
 		// initializes all elements to zero
 		Mat4();

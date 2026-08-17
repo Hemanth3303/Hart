@@ -1,6 +1,6 @@
 /*
-* Class that manages all file related activities
-*/
+ * Class that manages all file related activities
+ */
 
 #pragma once
 

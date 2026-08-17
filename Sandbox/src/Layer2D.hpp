@@ -12,6 +12,7 @@ public:
 	virtual void onEvent(Hart::Event& e) override;
 	virtual void update(const float deltaTime) override;
 	virtual void render() override;
+
 private:
 	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex;
 	std::shared_ptr<Hart::SpriteSheet> m_SpriteSheet;

@@ -8,6 +8,5 @@ namespace Hart {
 	}
 
 	Sound::~Sound() {
-
 	}
 }

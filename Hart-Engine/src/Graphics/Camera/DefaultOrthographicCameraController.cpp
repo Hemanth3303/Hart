@@ -10,7 +10,6 @@ namespace Hart {
 	}
 
 	DefaultOrthographicCameraController::~DefaultOrthographicCameraController() {
-
 	}
 
 	void DefaultOrthographicCameraController::update(const float deltaTime) {

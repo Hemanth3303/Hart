@@ -69,7 +69,7 @@ namespace Hart {
 		return std::filesystem::exists(fileName);
 	}
 
-    std::uintmax_t FileManager::GetFileSizeInBytes(const std::string& filepath) {
+	std::uintmax_t FileManager::GetFileSizeInBytes(const std::string& filepath) {
 		if (FileExists(filepath)) {
 			std::filesystem::path path = filepath;
 			return std::filesystem::file_size(filepath);
@@ -78,7 +78,7 @@ namespace Hart {
 			HART_ENGINE_ERROR(filepath + " not found");
 		}
 		return 0;
-    }
+	}
 
 	std::string FileManager::GetFileName(const std::string& filePath) {
 		std::size_t lastSlash = filePath.find_last_of("/\\");
@@ -101,7 +101,7 @@ namespace Hart {
 	}
 
 	std::string FileManager::GetFileNameWithExtension(const std::string& filePath) {
-        std::size_t lastSlash = filePath.find_last_of("/\\");
+		std::size_t lastSlash = filePath.find_last_of("/\\");
 		if (lastSlash == std::string::npos) {
 			lastSlash = 0;
 		}
@@ -113,5 +113,5 @@ namespace Hart {
 		end -= lastSlash;
 
 		return filePath.substr(lastSlash, end);
-    }
+	}
 }

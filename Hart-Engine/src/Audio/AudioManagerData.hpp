@@ -9,8 +9,8 @@ namespace Hart {
 	public:
 		DecoderInfo(ma_decoder* p_decoder, bool p_isAtEnd)
 			: decoder(p_decoder), isAtEnd(p_isAtEnd) {
-
 		}
+
 	public:
 		ma_decoder* decoder = nullptr;
 		bool isAtEnd = MA_TRUE;

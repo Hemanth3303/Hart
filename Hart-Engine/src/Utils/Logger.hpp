@@ -1,7 +1,7 @@
 /*
-* Logging functions with different severity levels and colored output
-* Prefer to use the macros over the class functions
-*/
+ * Logging functions with different severity levels and colored output
+ * Prefer to use the macros over the class functions
+ */
 
 #pragma once
 
@@ -20,6 +20,7 @@ namespace Hart {
 	class Logger {
 	public:
 		static void LogMessageList(std::initializer_list<Loggable> messageList, const LogSeverity& logSeverity, bool fromEngine);
+
 	private:
 		static void EngineTrace(std::initializer_list<Loggable> messageList);
 		static void EngineLog(std::initializer_list<Loggable> messageList);
@@ -35,7 +36,6 @@ namespace Hart {
 
 		static void LogMessagesFromList(std::initializer_list<Loggable> messageList);
 		static void LogTimeStamp();
-
 	};
 }
 
@@ -43,32 +43,31 @@ namespace Hart {
 
 	#if defined(HART_ENGINE)
 
-		#define HART_ENGINE_TRACE(message, ...)\
+		#define HART_ENGINE_TRACE(message, ...) \
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Trace, true)
-		#define HART_ENGINE_LOG(message, ...)\
+		#define HART_ENGINE_LOG(message, ...) \
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Log, true)
-		#define HART_ENGINE_WARNING(message, ...)\
+		#define HART_ENGINE_WARNING(message, ...) \
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Warning, true)
-		#define HART_ENGINE_ERROR(message, ...)\
+		#define HART_ENGINE_ERROR(message, ...) \
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Error, true)
-		#define HART_ENGINE_FATAL(message, ...)\
+		#define HART_ENGINE_FATAL(message, ...) \
 			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Fatal, true)
 
 	#elif defined(HART_CLIENT)
 
-	#define HART_CLIENT_TRACE(message, ...)\
-		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Trace, false)
-	#define HART_CLIENT_LOG(message, ...)\
-		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Log, false)
-	#define HART_CLIENT_WARNING(message, ...)\
-		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Warning, false)
-	#define HART_CLIENT_ERROR(message, ...)\
-		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Error, false)
-	#define HART_CLIENT_FATAL(message, ...)\
-		Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Fatal, false)
+		#define HART_CLIENT_TRACE(message, ...) \
+			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Trace, false)
+		#define HART_CLIENT_LOG(message, ...) \
+			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Log, false)
+		#define HART_CLIENT_WARNING(message, ...) \
+			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Warning, false)
+		#define HART_CLIENT_ERROR(message, ...) \
+			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Error, false)
+		#define HART_CLIENT_FATAL(message, ...) \
+			Hart::Logger::LogMessageList({ message, __VA_ARGS__ }, Hart::LogSeverity::Fatal, false)
 
 	#endif // Check if engine or client
-
 
 #elif defined(HART_ENGINE_RELEASE_BUILD) || defined(HART_CLIENT_RELEASE_BUILD)
 

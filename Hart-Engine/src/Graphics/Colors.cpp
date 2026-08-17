@@ -10,6 +10,7 @@ namespace Hart {
 			1.0f
 		};
 	}
+
 	Vec4 NormalizeRGBA255(const Vec4& color) {
 		return {
 			color.x / 255.0f,

@@ -18,6 +18,7 @@ namespace Hart {
 		static void PlayMusic(const std::shared_ptr<Music>& music);
 		static void PauseAllAudio();
 		static void ResumeAllAudio();
+
 	private:
 		static bool AreAllDecodersAtEnd();
 		static void ClearDoneDecoders();

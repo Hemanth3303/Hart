@@ -35,7 +35,7 @@ namespace Hart {
 		// rgba values in range 0 to 1
 		void setBackgroundColor(const Vec4& color);
 
-		//getters
+		// getters
 
 		// returns a non owning reference to the current static application instance
 		inline static Application* const& Get() { return s_Instance; }
@@ -50,12 +50,13 @@ namespace Hart {
 		inline std::shared_ptr<Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
 		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 
-		//setters
+		// setters
 
 		// sets the maximum frames per second
 		// default value is 1000
 		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const KeyCode& exitKey) { m_ExitKey = exitKey; }
+
 	protected:
 		void pushLayer(const std::shared_ptr<Layer>& layer);
 		void popLayer(const std::shared_ptr<Layer>& layer);
@@ -66,6 +67,7 @@ namespace Hart {
 		inline bool overlayExists(const std::string& overlayName) { return m_LayerStack.overlayExists(overlayName); }
 		inline const std::shared_ptr<Layer> getLayer(const std::string& layerName) { return m_LayerStack.getLayer(layerName); }
 		inline const std::shared_ptr<Layer> getOverlay(const std::string& overlayName) { return m_LayerStack.getOverlay(overlayName); }
+
 	private:
 		// initializes application
 		void init(const WindowProps& windowProps);
@@ -102,10 +104,11 @@ namespace Hart {
 		ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
 		KeyCode m_ExitKey = KeyCode::Unknown;
-		double m_MaxFPS = 1'000, m_CurrentFPS=0.0;
+		double m_MaxFPS = 1'000, m_CurrentFPS = 0.0;
 		double m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
+
 	private:
 		// initializes engine's shader library with some defaul shaders
 		friend void initializeShaderLibrary();

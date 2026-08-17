@@ -7,7 +7,6 @@ Layer2D::Layer2D(const std::string& name)
 }
 
 Layer2D::~Layer2D() {
-
 }
 
 void Layer2D::onAttach() {
@@ -29,7 +28,7 @@ void Layer2D::onAttach() {
 	m_Particle.sizeBegin = 0.08f, m_Particle.sizeVariation = 0.001f, m_Particle.sizeEnd = 0.0f;
 	m_Particle.lifeTime = 2.0f;
 	m_Particle.velocity = { m_Rd.getRandomFloat(-1.0f, 1.0f), m_Rd.getRandomFloat(-1.0f, 1.0f) };
-	m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f),  m_Rd.getRandomFloat(-2.0f, 2.0f) };
+	m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f), m_Rd.getRandomFloat(-2.0f, 2.0f) };
 	m_Particle.position = { 0.0f, 0.0f, 1.0f };
 
 	pickupSound = std::make_shared<Hart::Sound>("res/sfx/pickup.wav");
@@ -44,12 +43,12 @@ void Layer2D::onDetach() {
 }
 
 void Layer2D::onEvent(Hart::Event& e) {
-	//HART_CLIENT_LOG(e);
+	// HART_CLIENT_LOG(e);
 	m_CameraController->onEvent(e);
 }
 
 void Layer2D::update(const float deltaTime) {
-	//Hart::ScopedTimer sp("Layer2D Update Loop");
+	// Hart::ScopedTimer sp("Layer2D Update Loop");
 
 	auto [x, y] = Hart::InputManager::GetMousePosition();
 	std::int32_t width = Hart::Application::Get()->getWindowWidth();
@@ -59,7 +58,7 @@ void Layer2D::update(const float deltaTime) {
 	Hart::Vec3 position = m_CameraController->getCamera().getPosition();
 	x = (x / width) * bounds.getWidth() - bounds.getWidth() * 0.5f;
 	y = bounds.getHeight() * 0.5f - (y / height) * bounds.getHeight();
-	m_Particle.position = { x + position.x, y + position.y , 1.0f };
+	m_Particle.position = { x + position.x, y + position.y, 1.0f };
 
 	m_MousePos.x = x;
 	m_MousePos.y = y;
@@ -78,7 +77,7 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-	//Hart::ScopedTimer sp("Layer2D Render Loop");
+	// Hart::ScopedTimer sp("Layer2D Render Loop");
 	static std::string fps, drawCalls, quads, quadVerts, quadInds, textQuads, textQuadVerts, textQuadInds;
 
 	Hart::Renderer2D::ResetStats();
@@ -86,8 +85,8 @@ void Layer2D::render() {
 	{
 
 		Hart::Renderer2D::DrawLine({ -0.5f, -0.5f }, { 0.5f, -0.5f }, Hart::Red);
-		Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f,  0.5f }, Hart::Blue);
-		Hart::Renderer2D::DrawLine({ 0.0f,  0.5f }, { -0.5f, -0.5f }, Hart::Green);
+		Hart::Renderer2D::DrawLine({ 0.5f, -0.5f }, { 0.0f, 0.5f }, Hart::Blue);
+		Hart::Renderer2D::DrawLine({ 0.0f, 0.5f }, { -0.5f, -0.5f }, Hart::Green);
 
 		Hart::Renderer2D::DrawLine({ 0.0f, 0.0f, 1.0f }, m_MousePos, Hart::Cyan);
 
@@ -102,7 +101,7 @@ void Layer2D::render() {
 		Hart::Renderer2D::DrawQuad({ -0.9f, -0.9f }, { 0.1f, 0.1f }, Hart::Red);
 
 		Hart::Renderer2D::SetFont(m_Font1);
-		Hart::Renderer2D::DrawText("Hello, World!", { 0.0f, 0.0f, 1.0f }, 2.0f, Hart::NormalizeRGB255({ 240.0f,0.0f,255.0f }));
+		Hart::Renderer2D::DrawText("Hello, World!", { 0.0f, 0.0f, 1.0f }, 2.0f, Hart::NormalizeRGB255({ 240.0f, 0.0f, 255.0f }));
 
 		Hart::Renderer2D::DrawText("FPS: " + fps, { -1.6f, 0.8f, 1.0f }, 0.7f, Hart::White);
 		Hart::Renderer2D::DrawText("No of DrawCalls: " + drawCalls, { -1.6f, 0.75f, 1.0f }, 0.7f, Hart::White);

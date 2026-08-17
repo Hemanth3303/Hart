@@ -10,6 +10,5 @@ namespace Hart {
 	}
 
 	SpriteSheet::~SpriteSheet() {
-
 	}
 }

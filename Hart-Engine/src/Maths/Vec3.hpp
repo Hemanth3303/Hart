@@ -10,6 +10,7 @@ namespace Hart {
 	struct Vec3 {
 	public:
 		float x, y, z;
+
 	public:
 		// initializes x, y and z components to 0
 		Vec3();

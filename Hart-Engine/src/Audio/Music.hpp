@@ -12,6 +12,7 @@ namespace Hart {
 
 		inline const std::string& getFilePath() const { return m_FilePath; }
 		inline const bool isLooping() const { return m_Looping; }
+
 	private:
 		std::string m_FilePath;
 		bool m_Looping;

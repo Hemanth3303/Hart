@@ -1,6 +1,6 @@
 /*
-* OpenGL Textures
-*/
+ * OpenGL Textures
+ */
 
 #pragma once
 
@@ -62,9 +62,11 @@ namespace Hart {
 
 		bool operator==(const Texture2D& other) const;
 		friend bool operator==(const std::shared_ptr<Texture2D>& left, const std::shared_ptr<Texture2D>& right);
+
 	private:
 		void init();
 		void deinit();
+
 	private:
 		std::uint32_t m_TextureID = 0;
 		std::uint32_t* m_Buffer;

@@ -45,11 +45,11 @@ namespace Hart {
 		glBindTextureUnit(m_Slot, 0);
 	}
 
-    void Texture2D::setBuffer(std::uint32_t* buffer) {
+	void Texture2D::setBuffer(std::uint32_t* buffer) {
 		deinit();
 		m_Buffer = buffer;
 		init();
-    }
+	}
 
 	void Texture2D::setBuffer(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs) {
 		deinit();

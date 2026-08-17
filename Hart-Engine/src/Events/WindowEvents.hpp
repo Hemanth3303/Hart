@@ -1,17 +1,16 @@
 /*
-* WindowResized, windowclosed, windowfocuslost, windowfocusgained, windowmoved
-*/
+ * WindowResized, windowclosed, windowfocuslost, windowfocusgained, windowmoved
+ */
 
 #pragma once
 
 #include "Event.hpp"
 
 namespace Hart {
-	class WindowResizedEvent :public Event {
+	class WindowResizedEvent : public Event {
 	public:
 		WindowResizedEvent(std::uint32_t width, std::uint32_t height)
 			: m_Width(width), m_Height(height) {
-
 		}
 
 		inline std::uint32_t getWidth() const { return m_Width; }
@@ -44,11 +43,10 @@ namespace Hart {
 	public:
 		WindowMovedEvent(float xpos, float ypos)
 			: m_Xpos(xpos), m_Ypos(ypos) {
-
 		}
 
-		inline float getXpos()const { return m_Xpos; }
-		inline float getYpos()const { return m_Ypos; }
+		inline float getXpos() const { return m_Xpos; }
+		inline float getYpos() const { return m_Ypos; }
 
 		static EventType GetStaticType() { return EventType::WindowMovedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
@@ -58,6 +56,7 @@ namespace Hart {
 		std::string toString() const override {
 			return ("WindowMovedEvent: " + std::to_string(m_Xpos) + ", " + std::to_string(m_Ypos));
 		}
+
 	private:
 		float m_Xpos, m_Ypos;
 	};

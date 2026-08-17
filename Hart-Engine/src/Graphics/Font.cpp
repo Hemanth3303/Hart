@@ -6,7 +6,6 @@ namespace Hart {
 		if (!FileManager::FileExists(filePath)) {
 			HART_ENGINE_ERROR("Font " + filePath + " not found");
 			return;
-
 		}
 		m_FileSize = FileManager::GetFileSizeInBytes(filePath);
 		m_FontDataBuffer = FileManager::ReadBinaryFromFile(filePath);
@@ -29,8 +28,7 @@ namespace Hart {
 			m_FontTextureSpecification.height,
 			0,
 			1,
-			nullptr
-		);
+			nullptr);
 
 		stbtt_PackFontRange(
 			&m_PackContext,
@@ -39,8 +37,7 @@ namespace Hart {
 			m_FontSize,
 			m_CodePointFirstChar,
 			m_NumberOfCharsToInclude,
-			m_PackedChars.data()
-		);
+			m_PackedChars.data());
 
 		stbtt_PackEnd(&m_PackContext);
 
@@ -55,12 +52,10 @@ namespace Hart {
 				&unusedX,
 				&unusedY,
 				&m_AlignedQuads[i],
-				0
-			);
+				0);
 		}
 	}
 
 	Font::~Font() {
-
 	}
 }

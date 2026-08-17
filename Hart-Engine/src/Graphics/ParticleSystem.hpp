@@ -35,6 +35,7 @@ namespace Hart {
 		void render();
 
 		void emit(const ParticleProps& particleProps);
+
 	private:
 		struct Particle {
 			Vec3 position = {};

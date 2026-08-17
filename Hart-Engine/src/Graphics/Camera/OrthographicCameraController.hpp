@@ -13,6 +13,7 @@ namespace Hart {
 	struct OrthographicCameraBounds {
 	public:
 		float left, right, top, bottom;
+
 	public:
 		OrthographicCameraBounds(float left, float right, float bottom, float top);
 
@@ -38,6 +39,7 @@ namespace Hart {
 		inline const float getAspectRatio() const { return m_AspectRatio; }
 		inline const float getZoomLevel() const { return m_ZoomLevel; }
 		inline const OrthographicCameraBounds& getBounds() const { return m_Bounds; }
+
 	protected:
 		float m_Width, m_Height;
 		float m_AspectRatio;

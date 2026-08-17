@@ -8,7 +8,7 @@ namespace Hart {
 		Vec4 position;
 		Vec4 color;
 		Vec2 textureCoords;
-		float textureIndex = -1.0f; //invalid texture slot
+		float textureIndex = -1.0f; // invalid texture slot
 		float tilingFactor = 1.0f;
 	};
 

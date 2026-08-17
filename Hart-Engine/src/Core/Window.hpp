@@ -17,6 +17,7 @@ namespace Hart {
 		std::int32_t width = 640, height = 480;
 		std::string title = "Hart Application";
 		bool resizable = false;
+
 	private:
 		Vec2 position = { 0.0f, 0.0f };
 		friend class Window;
@@ -24,13 +25,15 @@ namespace Hart {
 	// Class representing the GUI Window
 	class Window {
 		using EventCallBackFunction = std::function<void(Event&)>;
+
 	public:
 		Window(const WindowProps& windowProps);
 		~Window();
 
 		void swapBuffers();
 
-		inline const std::int32_t& getWidth() const { return m_WindowProps.width;
+		inline const std::int32_t& getWidth() const {
+			return m_WindowProps.width;
 		}
 		inline const std::int32_t& getHeight() const { return m_WindowProps.height; }
 
@@ -48,12 +51,14 @@ namespace Hart {
 		friend void mouseButtonCallback(GLFWwindow* glfwWindow, std::int32_t button, std::int32_t action, std::int32_t mods);
 		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
+
 	private:
 		void init();
 		void deinit();
 		inline void setWindowSize(std::int32_t width, std::int32_t height) { m_WindowProps.width = width, m_WindowProps.height = height; }
 		inline void setWindowPosition(float xpos, float ypos) { m_WindowProps.position.x = xpos, m_WindowProps.position.y = ypos; }
 		void setEventCallback(const EventCallBackFunction callbackFn);
+
 	private:
 		WindowProps m_WindowProps;
 		GLFWwindow* m_GLFWwindow = nullptr;

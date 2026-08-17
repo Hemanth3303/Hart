@@ -1,6 +1,6 @@
 ﻿/*
-* A Game/App made using Hart-Engine, currently used for testing purposes
-*/
+ * A Game/App made using Hart-Engine, currently used for testing purposes
+ */
 
 #include "Core/EntryPoint.hpp"
 #include "Hart.hpp"
@@ -9,6 +9,7 @@
 class Sandbox : public Hart::Application {
 private:
 	std::shared_ptr<Layer2D> m_Layer2D;
+
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
@@ -25,7 +26,6 @@ public:
 	~Sandbox() {
 		HART_CLIENT_LOG("DeInitialising Sandbox");
 	}
-
 };
 
 std::unique_ptr<Hart::Application> Hart::CreateApplication() {

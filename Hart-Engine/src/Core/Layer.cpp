@@ -7,7 +7,6 @@ namespace Hart {
 
 	Layer::Layer()
 		: m_Name(std::string("Layer") + std::to_string(s_LayerID++)) {
-
 	}
 
 	Layer::Layer(const std::string& name)
@@ -16,6 +15,5 @@ namespace Hart {
 	}
 
 	Layer::~Layer() {
-
 	}
 }

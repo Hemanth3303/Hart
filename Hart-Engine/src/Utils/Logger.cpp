@@ -3,49 +3,49 @@
 #include "Timer.hpp"
 
 #ifdef HART_ENGINE_PLATFORM_WINDOWS
-#include <windows.h>
+	#include <windows.h>
 #endif // HART_ENGINE_PLATFORM_WINDOWS
 
 namespace Hart {
-	#if defined(HART_ENGINE)
+#if defined(HART_ENGINE)
 
-		#if defined(HART_ENGINE_PLATFORM_WINDOWS)
-			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-			#define WINDOWS_TEXT_WHITE (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
-			#define WINDOWS_TEXT_GREEN (FOREGROUND_GREEN)
-			#define WINDOWS_TEXT_YELLOW (FOREGROUND_RED | FOREGROUND_GREEN)
-			#define WINDOWS_TEXT_RED (FOREGROUND_RED)
+		#define WINDOWS_TEXT_WHITE (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
+		#define WINDOWS_TEXT_GREEN (FOREGROUND_GREEN)
+		#define WINDOWS_TEXT_YELLOW (FOREGROUND_RED | FOREGROUND_GREEN)
+		#define WINDOWS_TEXT_RED (FOREGROUND_RED)
 
-			#define SET_TEXT_COLOR(color) SetConsoleTextAttribute(hConsole, color)
+		#define SET_TEXT_COLOR(color) SetConsoleTextAttribute(hConsole, color)
 
-		#else
-			#define WINDOWS_TEXT_WHITE
-			#define WINDOWS_TEXT_GREEN
-			#define WINDOWS_TEXT_YELLOW
-			#define WINDOWS_TEXT_RED
+	#else
+		#define WINDOWS_TEXT_WHITE
+		#define WINDOWS_TEXT_GREEN
+		#define WINDOWS_TEXT_YELLOW
+		#define WINDOWS_TEXT_RED
 
-			#define SET_TEXT_COLOR(color)
+		#define SET_TEXT_COLOR(color)
 
-		#endif // HART_ENGINE_PLATFORM_WINDOWS
+	#endif // HART_ENGINE_PLATFORM_WINDOWS
 
-		#if !defined(HART_ENGINE_PLATFORM_WINDOWS)
+	#if !defined(HART_ENGINE_PLATFORM_WINDOWS)
 
-			#define UNIX_TEXT_WHITE "\033[0m"
-			#define UNIX_TEXT_RED "\033[31m"
-			#define UNIX_TEXT_YELLOW "\033[33m"
-			#define UNIX_TEXT_GREEN "\033[32m"
+		#define UNIX_TEXT_WHITE "\033[0m"
+		#define UNIX_TEXT_RED "\033[31m"
+		#define UNIX_TEXT_YELLOW "\033[33m"
+		#define UNIX_TEXT_GREEN "\033[32m"
 
-			#else
+	#else
 
-			#define UNIX_TEXT_WHITE ""
-			#define UNIX_TEXT_RED ""
-			#define UNIX_TEXT_YELLOW ""
-			#define UNIX_TEXT_GREEN ""
+		#define UNIX_TEXT_WHITE ""
+		#define UNIX_TEXT_RED ""
+		#define UNIX_TEXT_YELLOW ""
+		#define UNIX_TEXT_GREEN ""
 
-		#endif //check OS is not windows
+	#endif // check OS is not windows
 
-	#endif // HART_ENGINE
+#endif // HART_ENGINE
 
 	void Logger::LogMessageList(std::initializer_list<Loggable> LogMessageList, const LogSeverity& logSeverity, bool fromEngine) {
 		switch (logSeverity) {

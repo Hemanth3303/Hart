@@ -23,8 +23,10 @@ namespace Hart {
 		std::vector<std::string_view> getAllShaderNames();
 
 		inline void clear() { m_Shaders.clear(); }
+
 	private:
 		bool exists(const std::string& name);
+
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Shader>> m_Shaders;
 	};

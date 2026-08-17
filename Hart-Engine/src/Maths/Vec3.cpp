@@ -52,8 +52,7 @@ namespace Hart {
 		return Vec3(
 			static_cast<float>(Hart::lerp(a.x, b.x, t)),
 			static_cast<float>(Hart::lerp(a.y, b.y, t)),
-			static_cast<float>(Hart::lerp(a.z, b.z, t))
-		);
+			static_cast<float>(Hart::lerp(a.z, b.z, t)));
 	}
 
 	Vec3& Vec3::add(const Vec3& other) {
@@ -96,8 +95,7 @@ namespace Hart {
 		return Vec3(
 			(left.y * right.z) - (left.z * right.y),
 			(left.z * right.x) - (left.x * right.z),
-			(left.x * right.y) - (left.y * right.x)
-		);
+			(left.x * right.y) - (left.y * right.x));
 	}
 
 	Vec3 Vec3::GetNormal(const Vec3& vec) {

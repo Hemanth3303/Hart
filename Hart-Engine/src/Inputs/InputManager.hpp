@@ -20,6 +20,7 @@ namespace Hart {
 		static const MouseCode& GetCurrentMouseButton();
 		static void EnableMouse();
 		static void DisableMouse();
+
 	private:
 		static void Init();
 		static void DeInit();
@@ -31,6 +32,7 @@ namespace Hart {
 		static void UpdateMousePosition(const Vec2& mousePosition);
 		static void SetCurrentKey(const KeyCode& keyCode);
 		static void SetCurrentMouseButton(const MouseCode& mouseCode);
+
 	private:
 		static constexpr std::int32_t MAX_KEYS = 1024;
 		static constexpr std::int32_t MAX_MOUSE_BUTTONS = 512;

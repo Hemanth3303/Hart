@@ -18,6 +18,7 @@ namespace Hart {
 		virtual void render() {}
 
 		inline const std::string& getName() const { return m_Name; }
+
 	private:
 		std::string m_Name;
 		static std::uint64_t s_LayerID;

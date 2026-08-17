@@ -17,6 +17,7 @@ namespace Hart {
 		inline std::shared_ptr<Texture2D> getTexture() const { return m_Texture; }
 		inline const Vec2& getSpriteSize() const { return m_SpriteSize; }
 		inline const Vec2& getSpriteSheetSize() const { return m_SpriteSheetSize; }
+
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 		Vec2 m_SpriteSize;

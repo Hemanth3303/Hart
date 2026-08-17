@@ -65,7 +65,7 @@ namespace Hart {
 					layer->update(static_cast<float>(deltaTime));
 				}
 
-				//render
+				// render
 				RenderCommand::Clear();
 				for (const auto& layer : m_LayerStack) {
 					layer->render();
@@ -76,9 +76,9 @@ namespace Hart {
 		HART_ENGINE_LOG("Exiting main engine loop");
 	}
 
-    void Application::setBackgroundColor(const Vec4& color) {
+	void Application::setBackgroundColor(const Vec4& color) {
 		RenderCommand::SetClearColor(color);
-    }
+	}
 
 	void Application::enableVsync(bool enable) {
 		if (!enable) {
@@ -113,8 +113,7 @@ namespace Hart {
 			"\t\t\t\t\tCompiled using: " HART_COMPILER " | Version: " HART_COMPILER_VERSION,
 			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
 			"\t\t\t\t\tPlatform: " HART_PLATFORM,
-			"\t\t\t\t\tArchitecture: " HART_ARCHITECTURE,
-		);
+			"\t\t\t\t\tArchitecture: " HART_ARCHITECTURE, );
 
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
@@ -128,9 +127,9 @@ namespace Hart {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
+#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-	#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
+#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
 
 		HART_ENGINE_LOG("GLFW initialized successfully");
 
@@ -138,11 +137,11 @@ namespace Hart {
 		glfwSwapInterval(0);
 		m_IsRunning = true;
 
-	#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
+#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLDebugMessageCallback, nullptr);
-	#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
+#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 
 		initializeShaderLibrary();
 
@@ -193,7 +192,7 @@ namespace Hart {
 		eventDispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
 		eventDispatcher.dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
 
-		//pass events to layers
+		// pass events to layers
 		for (auto itr = m_LayerStack.rbegin(); itr != m_LayerStack.rend(); itr++) {
 			if (e.getHandled()) {
 				break;
@@ -348,8 +347,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
-					);
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
 				break;
 
 			case GL_DEBUG_SEVERITY_MEDIUM:
@@ -359,8 +357,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
-				);
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
 				break;
 
 			case GL_DEBUG_SEVERITY_LOW:
@@ -370,8 +367,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
-					);
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
 				break;
 
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
@@ -381,8 +377,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
-					);
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
 				break;
 
 			default:
@@ -392,8 +387,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message),
-					);
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
 				break;
 		}
 	}

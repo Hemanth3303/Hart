@@ -1,7 +1,7 @@
 /*
-* Based on shader class from learnopengl.com
-* https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/shader_s.h
-*/
+ * Based on shader class from learnopengl.com
+ * https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/shader_s.h
+ */
 
 #include "HartPch.hpp"
 #include "Shader.hpp"
@@ -24,7 +24,7 @@ namespace Hart {
 	}
 
 	Shader::Shader(const std::string& name, const char* vertexShaderSource, const char* fragmentShaderSource)
-		:m_Name(name) {
+		: m_Name(name) {
 
 		init(vertexShaderSource, fragmentShaderSource);
 	}

@@ -1,6 +1,6 @@
 /*
-* Mousebuttonpress, mousebuttonreleased, mousemoved, mousewheelscrolled
-*/
+ * Mousebuttonpress, mousebuttonreleased, mousemoved, mousewheelscrolled
+ */
 
 #pragma once
 
@@ -12,7 +12,6 @@ namespace Hart {
 	public:
 		MouseMovedEvent(const float x, const float y)
 			: m_MouseXPos(x), m_MouseYPos(y) {
-
 		}
 
 		float getXPos() const { return m_MouseXPos; }
@@ -25,6 +24,7 @@ namespace Hart {
 		std::string toString() const override {
 			return "MouseMovedEvent: " + std::to_string(m_MouseXPos) + ", " + std::to_string(m_MouseYPos);
 		}
+
 	private:
 		float m_MouseXPos, m_MouseYPos;
 	};
@@ -33,7 +33,6 @@ namespace Hart {
 	public:
 		MouseWheelScrolledEvent(const float xOffset, const float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {
-
 		}
 
 		float getXOffset() const { return m_XOffset; }
@@ -46,6 +45,7 @@ namespace Hart {
 		std::string toString() const override {
 			return "MouseWheelScrolledEvent: " + std::to_string(m_XOffset) + ", " + std::to_string(m_YOffset);
 		}
+
 	private:
 		float m_XOffset, m_YOffset;
 	};
@@ -56,11 +56,12 @@ namespace Hart {
 		MouseCode getMouseButton() const { return m_Button; }
 
 		virtual std::int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::MouseButtonEvent | EventCategory::InputEvent); }
+
 	protected:
 		MouseButtonEvent(const MouseCode button)
 			: m_Button(button) {
-
 		}
+
 	protected:
 		MouseCode m_Button;
 	};
@@ -69,7 +70,6 @@ namespace Hart {
 	public:
 		MouseButtonPressedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {
-
 		}
 
 		static EventType GetStaticType() { return EventType::MouseButtonPressedEvent; }
@@ -84,7 +84,6 @@ namespace Hart {
 	public:
 		MouseButtonReleasedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {
-
 		}
 
 		static EventType GetStaticType() { return EventType::MouseButtonReleasedEvent; }

@@ -30,7 +30,6 @@ namespace Hart {
 	}
 
 	Mat4::~Mat4() {
-
 	}
 
 	Vec4 Mat4::getColumn(std::int32_t index) {
@@ -39,8 +38,7 @@ namespace Hart {
 			elements[index + 0],
 			elements[index + 1],
 			elements[index + 2],
-			elements[index + 3]
-		);
+			elements[index + 3]);
 	}
 
 	float Mat4::getElementAt(std::int32_t i, std::int32_t j) const {
@@ -93,8 +91,7 @@ namespace Hart {
 		return Vec3(
 			columns[0].x * vec.x + columns[1].x * vec.y + columns[2].x * vec.z + columns[3].x,
 			columns[0].y * vec.x + columns[1].y * vec.y + columns[2].y * vec.z + columns[3].y,
-			columns[0].z * vec.x + columns[1].z * vec.y + columns[2].z * vec.z + columns[3].z
-		);
+			columns[0].z * vec.x + columns[1].z * vec.y + columns[2].z * vec.z + columns[3].z);
 	}
 
 	Vec3 operator*(const Mat4& left, const Vec3& right) {
@@ -106,8 +103,7 @@ namespace Hart {
 			columns[0].x * vec.x + columns[1].x * vec.y + columns[2].x * vec.z + columns[3].x * vec.w,
 			columns[0].y * vec.x + columns[1].y * vec.y + columns[2].y * vec.z + columns[3].y * vec.w,
 			columns[0].z * vec.x + columns[1].z * vec.y + columns[2].z * vec.z + columns[3].z * vec.w,
-			columns[0].w * vec.x + columns[1].w * vec.y + columns[2].w * vec.z + columns[3].w * vec.w
-		);
+			columns[0].w * vec.x + columns[1].w * vec.y + columns[2].w * vec.z + columns[3].w * vec.w);
 	}
 
 	Mat4& Mat4::transpose() {
@@ -211,8 +207,8 @@ namespace Hart {
 
 		adjointMatrix.elements[1] =
 			-(matrix.elements[1] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
-				matrix.elements[2] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) +
-				matrix.elements[3] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]));
+			  matrix.elements[2] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) +
+			  matrix.elements[3] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]));
 
 		adjointMatrix.elements[2] =
 			matrix.elements[1] * (matrix.elements[6] * matrix.elements[15] - matrix.elements[7] * matrix.elements[14]) -
@@ -221,13 +217,13 @@ namespace Hart {
 
 		adjointMatrix.elements[3] =
 			-(matrix.elements[1] * (matrix.elements[6] * matrix.elements[11] - matrix.elements[7] * matrix.elements[10]) -
-				matrix.elements[2] * (matrix.elements[5] * matrix.elements[11] - matrix.elements[7] * matrix.elements[9]) +
-				matrix.elements[3] * (matrix.elements[5] * matrix.elements[10] - matrix.elements[6] * matrix.elements[9]));
+			  matrix.elements[2] * (matrix.elements[5] * matrix.elements[11] - matrix.elements[7] * matrix.elements[9]) +
+			  matrix.elements[3] * (matrix.elements[5] * matrix.elements[10] - matrix.elements[6] * matrix.elements[9]));
 
 		adjointMatrix.elements[4] =
 			-(matrix.elements[4] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
-				matrix.elements[6] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
-				matrix.elements[7] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]));
+			  matrix.elements[6] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
+			  matrix.elements[7] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]));
 
 		adjointMatrix.elements[5] =
 			matrix.elements[0] * (matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14]) -
@@ -236,8 +232,8 @@ namespace Hart {
 
 		adjointMatrix.elements[6] =
 			-(matrix.elements[0] * (matrix.elements[6] * matrix.elements[15] - matrix.elements[7] * matrix.elements[14]) -
-				matrix.elements[2] * (matrix.elements[4] * matrix.elements[15] - matrix.elements[7] * matrix.elements[12]) +
-				matrix.elements[3] * (matrix.elements[4] * matrix.elements[14] - matrix.elements[6] * matrix.elements[12]));
+			  matrix.elements[2] * (matrix.elements[4] * matrix.elements[15] - matrix.elements[7] * matrix.elements[12]) +
+			  matrix.elements[3] * (matrix.elements[4] * matrix.elements[14] - matrix.elements[6] * matrix.elements[12]));
 
 		adjointMatrix.elements[7] =
 			matrix.elements[0] * (matrix.elements[6] * matrix.elements[11] - matrix.elements[7] * matrix.elements[10]) -
@@ -251,8 +247,8 @@ namespace Hart {
 
 		adjointMatrix.elements[9] =
 			-(matrix.elements[0] * (matrix.elements[9] * matrix.elements[15] - matrix.elements[11] * matrix.elements[13]) -
-				matrix.elements[1] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
-				matrix.elements[3] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]));
+			  matrix.elements[1] * (matrix.elements[8] * matrix.elements[15] - matrix.elements[11] * matrix.elements[12]) +
+			  matrix.elements[3] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]));
 
 		adjointMatrix.elements[10] =
 			matrix.elements[0] * (matrix.elements[5] * matrix.elements[15] - matrix.elements[7] * matrix.elements[13]) -
@@ -261,13 +257,13 @@ namespace Hart {
 
 		adjointMatrix.elements[11] =
 			-(matrix.elements[0] * (matrix.elements[5] * matrix.elements[11] - matrix.elements[7] * matrix.elements[9]) -
-				matrix.elements[1] * (matrix.elements[4] * matrix.elements[11] - matrix.elements[7] * matrix.elements[8]) +
-				matrix.elements[3] * (matrix.elements[4] * matrix.elements[9] - matrix.elements[5] * matrix.elements[8]));
+			  matrix.elements[1] * (matrix.elements[4] * matrix.elements[11] - matrix.elements[7] * matrix.elements[8]) +
+			  matrix.elements[3] * (matrix.elements[4] * matrix.elements[9] - matrix.elements[5] * matrix.elements[8]));
 
 		adjointMatrix.elements[12] =
 			-(matrix.elements[4] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]) -
-				matrix.elements[5] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]) +
-				matrix.elements[6] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]));
+			  matrix.elements[5] * (matrix.elements[8] * matrix.elements[14] - matrix.elements[10] * matrix.elements[12]) +
+			  matrix.elements[6] * (matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12]));
 
 		adjointMatrix.elements[13] =
 			matrix.elements[0] * (matrix.elements[9] * matrix.elements[14] - matrix.elements[10] * matrix.elements[13]) -
@@ -276,8 +272,8 @@ namespace Hart {
 
 		adjointMatrix.elements[14] =
 			-(matrix.elements[0] * (matrix.elements[5] * matrix.elements[14] - matrix.elements[6] * matrix.elements[13]) -
-				matrix.elements[1] * (matrix.elements[4] * matrix.elements[14] - matrix.elements[6] * matrix.elements[12]) +
-				matrix.elements[2] * (matrix.elements[4] * matrix.elements[13] - matrix.elements[5] * matrix.elements[12]));
+			  matrix.elements[1] * (matrix.elements[4] * matrix.elements[14] - matrix.elements[6] * matrix.elements[12]) +
+			  matrix.elements[2] * (matrix.elements[4] * matrix.elements[13] - matrix.elements[5] * matrix.elements[12]));
 
 		adjointMatrix.elements[15] =
 			matrix.elements[0] * (matrix.elements[5] * matrix.elements[10] - matrix.elements[6] * matrix.elements[9]) -

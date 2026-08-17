@@ -3,7 +3,7 @@
 #include "HartPch.hpp"
 
 namespace Hart {
-	inline const std::string CubeShader3DVertexSource =  // vertex shader
+	inline const std::string CubeShader3DVertexSource = // vertex shader
 		R"(
 			#version 460 core
 
@@ -23,7 +23,7 @@ namespace Hart {
 			}
 		)";
 
-	inline const std::string CubeShader3DFragmentSource =  // fragment shader
+	inline const std::string CubeShader3DFragmentSource = // fragment shader
 		R"(
 			#version 460 core
 

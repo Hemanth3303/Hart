@@ -15,7 +15,7 @@ namespace Hart {
 		void pushOverlay(const std::shared_ptr<Layer>& overlay);
 		void popOverlay(const std::shared_ptr<Layer>& overlay);
 
-		//Deletes all layers and overlays
+		// Deletes all layers and overlays
 		void popAll();
 
 		std::shared_ptr<Layer> getLayer(const std::string& layerName);
@@ -33,6 +33,7 @@ namespace Hart {
 		std::vector<std::shared_ptr<Layer>>::const_iterator end() const { return m_Layers.end(); }
 		std::vector<std::shared_ptr<Layer>>::const_reverse_iterator rbegin() const { return m_Layers.rbegin(); }
 		std::vector<std::shared_ptr<Layer>>::const_reverse_iterator rend() const { return m_Layers.rend(); }
+
 	private:
 		std::vector<std::shared_ptr<Layer>> m_Layers;
 		std::unordered_map<std::string, std::shared_ptr<Layer>> m_LayerMap;

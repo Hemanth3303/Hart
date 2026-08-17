@@ -10,7 +10,6 @@ namespace Hart {
 	}
 
 	PerspectiveCamera::~PerspectiveCamera() {
-
 	}
 
 	void PerspectiveCamera::setProjection(float fovD, float aspectRatio, float near, float far) {

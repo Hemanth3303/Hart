@@ -33,8 +33,7 @@ namespace Hart {
 				element.getOpenGLType(),
 				element.normalized ? GL_TRUE : GL_FALSE,
 				vertexBuffer->getLayout().getStride(),
-				reinterpret_cast<const void*>(element.offset)
-			);
+				reinterpret_cast<const void*>(element.offset));
 			index++;
 		}
 		vertexBuffer->unbind();

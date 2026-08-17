@@ -15,6 +15,7 @@ namespace Hart {
 		// offset of element in one vertex
 		uint64_t offset;
 		bool normalized;
+
 	public:
 		BufferElement(ShaderDataType ptype, const std::string& pname, bool pnormalized = false);
 		std::uint32_t getComponentCount() const;
@@ -36,8 +37,10 @@ namespace Hart {
 		std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
 		std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
 		std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
+
 	private:
 		void calculateOffsetAndStride();
+
 	private:
 		std::vector<BufferElement> m_Elements;
 		// stride of entire vertex
@@ -66,6 +69,7 @@ namespace Hart {
 		// this function basically returns getSize() / getSizeOfOneItemInBuffer()
 		inline const std::uint32_t getNumberOfItems() const { return getSize() / getSizeOfOneItemInBuffer(); }
 		void setLayout(const BufferLayout& layout);
+
 	private:
 		std::uint32_t m_ID = 0;
 		std::uint32_t m_Size;

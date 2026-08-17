@@ -8,6 +8,7 @@ namespace Hart {
 	struct Vec2 {
 	public:
 		float x, y;
+
 	public:
 		// initializes x and y components to 0
 		Vec2();

@@ -3,7 +3,7 @@
 #include "HartPch.hpp"
 
 namespace Hart {
-	inline const std::string TextShaderVertexSource = //vertex shader
+	inline const std::string TextShaderVertexSource = // vertex shader
 		R"(
 			#version 460 core
 

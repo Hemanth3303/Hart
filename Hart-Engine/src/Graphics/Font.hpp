@@ -19,6 +19,7 @@ namespace Hart {
 		inline stbtt_aligned_quad* getSTBTTAlignedQuads() { return m_AlignedQuads.data(); }
 		inline const std::uint32_t getCodePointFirstChar() { return m_CodePointFirstChar; }
 		inline const std::uint32_t getNumberOfCharsToInclude() { return m_NumberOfCharsToInclude; }
+
 	private:
 		std::size_t m_FileSize = 0;
 		std::vector<void*> m_FontDataBuffer;

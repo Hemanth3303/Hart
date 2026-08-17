@@ -1,7 +1,6 @@
 /*
-* Note: Learned most of this stuff from TheCherno's game engine series
-*/
-
+ * Note: Learned most of this stuff from TheCherno's game engine series
+ */
 
 #pragma once
 
@@ -9,7 +8,7 @@
 #include "EventType.hpp"
 #include "EventCategory.hpp"
 
-#define BIND_EVENT_FUNC(x) std::bind (&x, this, std::placeholders::_1)
+#define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace Hart {
 	class EventDispatcher;

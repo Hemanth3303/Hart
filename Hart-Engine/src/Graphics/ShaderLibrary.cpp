@@ -3,11 +3,9 @@
 
 namespace Hart {
 	ShaderLibrary::ShaderLibrary() {
-
 	}
 
 	ShaderLibrary::~ShaderLibrary() {
-
 	}
 
 	void ShaderLibrary::addShader(const std::shared_ptr<Shader>& shader) {
@@ -46,7 +44,6 @@ namespace Hart {
 		}
 		return shaderNames;
 	}
-
 
 	bool ShaderLibrary::exists(const std::string& name) {
 		if (m_Shaders.find(name) == m_Shaders.end()) {

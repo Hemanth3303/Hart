@@ -61,8 +61,7 @@ namespace Hart {
 			static_cast<float>(Hart::lerp(a.x, b.x, t)),
 			static_cast<float>(Hart::lerp(a.y, b.y, t)),
 			static_cast<float>(Hart::lerp(a.z, b.z, t)),
-			static_cast<float>(Hart::lerp(a.w, b.w, t))
-		);
+			static_cast<float>(Hart::lerp(a.w, b.w, t)));
 	}
 
 	Vec4& Vec4::add(const Vec4& other) {

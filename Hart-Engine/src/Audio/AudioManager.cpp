@@ -23,7 +23,6 @@ namespace Hart {
 		ma_result result = ma_device_init(nullptr, &s_Data->deviceConfig, &s_Data->device);
 		HART_ASSERT_EQUAL(result, MA_SUCCESS);
 
-
 		result = ma_device_start(&s_Data->device);
 		HART_ASSERT_EQUAL(result, MA_SUCCESS);
 	}
@@ -72,9 +71,8 @@ namespace Hart {
 		ma_device_start(&s_Data->device);
 	}
 
-
 	bool AudioManager::AreAllDecodersAtEnd() {
-		for (auto& audioDecoder: s_Data->audioDecoders) {
+		for (auto& audioDecoder : s_Data->audioDecoders) {
 			if (audioDecoder.isAtEnd == MA_FALSE) {
 				return false;
 			}
@@ -102,11 +100,12 @@ namespace Hart {
 		HART_ASSERT_EQUAL(s_Data->device.playback.format, s_Data->SAMPLE_FORMAT);
 
 		for (auto& audioDecoder : s_Data->audioDecoders) {
-			if(!audioDecoder.isAtEnd) {
+			if (!audioDecoder.isAtEnd) {
 				std::uint32_t framesRead = readAndMixPCMFramesF32(audioDecoder.decoder, outputF32, frameCount);
 				if (framesRead < frameCount) {
 					audioDecoder.isAtEnd = MA_TRUE;
-;				}
+					;
+				}
 			}
 		}
 
@@ -142,7 +141,7 @@ namespace Hart {
 			totalFramesRead += static_cast<ma_uint32>(framesReadThisIteration);
 
 			if (static_cast<ma_uint32>(framesReadThisIteration) < framesToReadThisIteration) {
-				break; //EOF
+				break; // EOF
 			}
 		}
 		return totalFramesRead;

@@ -12,7 +12,6 @@ namespace Hart {
 	}
 
 	Random::~Random() {
-
 	}
 
 	std::int32_t Random::getRandomInt32(std::int32_t begin, std::int32_t end) const {
@@ -39,16 +38,14 @@ namespace Hart {
 		std::uniform_real_distribution<> distribution(begin, end);
 		return Vec2(
 			static_cast<float>(distribution(*(m_MT19937.get()))),
-			static_cast<float>(distribution(*(m_MT19937.get())))
-		);
+			static_cast<float>(distribution(*(m_MT19937.get()))));
 	}
 	Vec3 Random::getRandomVec3(float begin, float end) const {
 		std::uniform_real_distribution<> distribution(begin, end);
 		return Vec3(
 			static_cast<float>(distribution(*(m_MT19937.get()))),
 			static_cast<float>(distribution(*(m_MT19937.get()))),
-			static_cast<float>(distribution(*(m_MT19937.get())))
-		);
+			static_cast<float>(distribution(*(m_MT19937.get()))));
 	}
 	Vec4 Random::getRandomVec4(float begin, float end) const {
 		std::uniform_real_distribution<> distribution(begin, end);
@@ -56,7 +53,6 @@ namespace Hart {
 			static_cast<float>(distribution(*(m_MT19937.get()))),
 			static_cast<float>(distribution(*(m_MT19937.get()))),
 			static_cast<float>(distribution(*(m_MT19937.get()))),
-			static_cast<float>(distribution(*(m_MT19937.get())))
-		);
+			static_cast<float>(distribution(*(m_MT19937.get()))));
 	}
 }

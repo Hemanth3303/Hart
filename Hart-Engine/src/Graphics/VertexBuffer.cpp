@@ -4,7 +4,6 @@
 namespace Hart {
 	BufferElement::BufferElement(ShaderDataType ptype, const std::string& pname, bool pnormalized)
 		: type(ptype), name(pname), size(Shader::GetShaderDataTypeSize(ptype)), offset(0), normalized(pnormalized) {
-
 	}
 
 	std::uint32_t BufferElement::getComponentCount() const {
@@ -43,7 +42,6 @@ namespace Hart {
 	}
 
 	BufferLayout::BufferLayout() {
-
 	}
 
 	BufferLayout::BufferLayout(const std::initializer_list<BufferElement>& elements)

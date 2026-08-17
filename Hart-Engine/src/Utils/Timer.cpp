@@ -24,7 +24,6 @@ namespace Hart {
 		std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> elapsedTime = timePoint2 - s_TimePoint;
 		return static_cast<double>(std::chrono::duration_cast<std::chrono::seconds>(elapsedTime).count());
-
 	}
 
 	double Timer::GetTimeInMilliSeconds() {

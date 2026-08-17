@@ -1,6 +1,6 @@
 /*
-* Keypressed, keyreleased and keyrepeat
-*/
+ * Keypressed, keyreleased and keyrepeat
+ */
 
 #pragma once
 
@@ -18,17 +18,16 @@ namespace Hart {
 	protected:
 		KeyEvent(const KeyCode keyCode)
 			: m_KeyCode(keyCode) {
-
 		}
+
 	protected:
 		KeyCode m_KeyCode;
 	};
 
-	class KeyPressedEvent :public KeyEvent {
+	class KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(const KeyCode keyCode)
 			: KeyEvent(keyCode) {
-
 		}
 
 		static EventType GetStaticType() { return EventType::KeyPressedEvent; }
@@ -39,11 +38,10 @@ namespace Hart {
 		}
 	};
 
-	class KeyReleasedEvent :public KeyEvent {
+	class KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(const KeyCode keyCode)
 			: KeyEvent(keyCode) {
-
 		}
 
 		static EventType GetStaticType() { return EventType::KeyReleasedEvent; }
@@ -58,7 +56,6 @@ namespace Hart {
 	public:
 		KeyRepeatEvent(const KeyCode keyCode, std::int32_t repeatCount)
 			: KeyEvent(keyCode), m_RepeatCount(repeatCount) {
-
 		}
 
 		const std::int32_t& getRepeatCount() const { return m_RepeatCount; }
@@ -69,6 +66,7 @@ namespace Hart {
 		std::string toString() const override {
 			return "KeyRepeat: " + std::to_string(static_cast<std::int32_t>(m_KeyCode)) + " (repeat count = " + std::to_string(m_RepeatCount) + ")";
 		}
+
 	private:
 		std::int32_t m_RepeatCount;
 	};
