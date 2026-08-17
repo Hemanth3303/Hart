@@ -37,12 +37,12 @@ target_include_directories(Hart-Engine
 
 )
 
-# target_precompile_headers(Hart-Engine
-# 	PUBLIC
+target_precompile_headers(Hart-Engine
+	PUBLIC
 
-# 	PRIVATE
-# 		src/HartPch.hpp
-# )
+	PRIVATE
+		src/HartPch.hpp
+)
 
 target_compile_definitions(Hart-Engine
 	PUBLIC
