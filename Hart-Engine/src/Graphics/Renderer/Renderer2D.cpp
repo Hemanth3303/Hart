@@ -16,10 +16,10 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Data, nullptr, "Reason: Failed to initialize Renderer2D");
 
 		// Quads
-		std::vector<std::uint32_t> quadIndices;
+		std::vector<uint32_t> quadIndices;
 		quadIndices.resize(s_Data->MAX_INDICES);
-		std::uint32_t offset = 0;
-		for (std::size_t i = 0; i < s_Data->MAX_INDICES; i += 6) {
+		uint32_t offset = 0;
+		for (size_t i = 0; i < s_Data->MAX_INDICES; i += 6) {
 			quadIndices[i + 0] = offset + 0;
 			quadIndices[i + 1] = offset + 1;
 			quadIndices[i + 2] = offset + 2;
@@ -44,7 +44,7 @@ namespace Hart {
 		s_Data->quadVertexArray = std::make_shared<VertexArray>();
 		s_Data->quadVertexArray->bind();
 
-		s_Data->quadVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(QuadVertex)));
+		s_Data->quadVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<uint32_t>(sizeof(QuadVertex)));
 		s_Data->quadVertexBuffer->setLayout(quadBufferLayout);
 		s_Data->quadVertexArray->setVertexBuffer(s_Data->quadVertexBuffer);
 
@@ -60,11 +60,11 @@ namespace Hart {
 		s_Data->quadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 		// Text
-		std::vector<std::uint32_t> textIndices;
+		std::vector<uint32_t> textIndices;
 		textIndices.resize(s_Data->MAX_INDICES);
 
-		std::uint32_t textIndexOffset = 0;
-		for (std::size_t i = 0; i < s_Data->MAX_INDICES; i += 6) {
+		uint32_t textIndexOffset = 0;
+		for (size_t i = 0; i < s_Data->MAX_INDICES; i += 6) {
 			textIndices[i + 0] = textIndexOffset + 0;
 			textIndices[i + 1] = textIndexOffset + 1;
 			textIndices[i + 2] = textIndexOffset + 2;
@@ -87,7 +87,7 @@ namespace Hart {
 		s_Data->textVertexArray = std::make_shared<VertexArray>();
 		s_Data->textVertexArray->bind();
 
-		s_Data->textVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<std::uint32_t>(sizeof(TextVertex)));
+		s_Data->textVertexBuffer = std::make_shared<VertexBuffer>(s_Data->MAX_VERTICES * static_cast<uint32_t>(sizeof(TextVertex)));
 		s_Data->textVertexBuffer->setLayout(textBufferLayout);
 		s_Data->textVertexArray->setVertexBuffer(s_Data->textVertexBuffer);
 
@@ -105,7 +105,7 @@ namespace Hart {
 		s_Data->textVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 		// White Texture
-		std::uint32_t whiteTextureData = 0xffffffff;
+		uint32_t whiteTextureData = 0xffffffff;
 		Texture2DSpecification whiteTextureSpec;
 		whiteTextureSpec.width = 1;
 		whiteTextureSpec.height = 1;
@@ -268,8 +268,8 @@ namespace Hart {
 
 		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();
 		stbtt_aligned_quad* alignedQuads = s_Data->textFont->getSTBTTAlignedQuads();
-		std::uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
-		std::uint32_t numberOfCharsToInclude = s_Data->textFont->getNumberOfCharsToInclude();
+		uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
+		uint32_t numberOfCharsToInclude = s_Data->textFont->getNumberOfCharsToInclude();
 
 		Vec3 charPos = position;
 		for (const char ch : text) {
@@ -317,31 +317,31 @@ namespace Hart {
 		s_Data->stats.numberOfTextQuads = 0;
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfDrawCalls() {
+	uint32_t Renderer2D::GetNumberOfDrawCalls() {
 		return s_Data->stats.numberOfDrawCalls;
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfQuads() {
+	uint32_t Renderer2D::GetNumberOfQuads() {
 		return s_Data->stats.numberOfQuads;
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfQuadVertices() {
+	uint32_t Renderer2D::GetNumberOfQuadVertices() {
 		return s_Data->stats.getQuadVertexCount();
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfQuadIndices() {
+	uint32_t Renderer2D::GetNumberOfQuadIndices() {
 		return s_Data->stats.getQuadIndexCount();
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfTextQuads() {
+	uint32_t Renderer2D::GetNumberOfTextQuads() {
 		return s_Data->stats.numberOfTextQuads;
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfTextQuadVertices() {
+	uint32_t Renderer2D::GetNumberOfTextQuadVertices() {
 		return s_Data->stats.getTextVertexCount();
 	}
 
-	std::uint32_t Renderer2D::GetNumberOfTextQuadIndices() {
+	uint32_t Renderer2D::GetNumberOfTextQuadIndices() {
 		return s_Data->stats.getTextIndexCount();
 	}
 
@@ -361,7 +361,7 @@ namespace Hart {
 	void Renderer2D::Flush() {
 		s_Data->quadShader->bind();
 		s_Data->whiteTexture->bind(s_Data->WHITE_TEXTURE_SLOT);
-		for (std::uint32_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
+		for (uint32_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
 			// s_Data->quadShader->bind();
 			s_Data->textureSlots[i]->bind(i);
 			s_Data->quadShader->setUniform("uTexture" + std::to_string(i), s_Data->textureSlots[i]->getSlot());
@@ -372,9 +372,9 @@ namespace Hart {
 		}
 		// Quads
 		if (s_Data->quadIndexCount != 0) {
-			std::uint8_t* quadVertBase = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferBase);
-			std::uint8_t* quadVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->quadVertexBufferPtr);
-			std::uint32_t dataSize = static_cast<std::uint32_t>(quadVertPtr - quadVertBase);
+			uint8_t* quadVertBase = reinterpret_cast<uint8_t*>(s_Data->quadVertexBufferBase);
+			uint8_t* quadVertPtr = reinterpret_cast<uint8_t*>(s_Data->quadVertexBufferPtr);
+			uint32_t dataSize = static_cast<uint32_t>(quadVertPtr - quadVertBase);
 
 			s_Data->quadVertexBuffer->setData(s_Data->quadVertexBufferBase, dataSize);
 
@@ -386,9 +386,9 @@ namespace Hart {
 
 		// Text
 		if (s_Data->textIndexCount != 0) {
-			std::uint8_t* textVertBase = reinterpret_cast<std::uint8_t*>(s_Data->textVertexBufferBase);
-			std::uint8_t* textVertPtr = reinterpret_cast<std::uint8_t*>(s_Data->textVertexBufferPtr);
-			std::uint32_t dataSize = static_cast<std::uint32_t>(textVertPtr - textVertBase);
+			uint8_t* textVertBase = reinterpret_cast<uint8_t*>(s_Data->textVertexBufferBase);
+			uint8_t* textVertPtr = reinterpret_cast<uint8_t*>(s_Data->textVertexBufferPtr);
+			uint32_t dataSize = static_cast<uint32_t>(textVertPtr - textVertBase);
 
 			s_Data->textVertexBuffer->setData(s_Data->textVertexBufferBase, dataSize);
 
@@ -407,7 +407,7 @@ namespace Hart {
 
 		float textureIndex = 0.0f;
 
-		for (std::size_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
+		for (size_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
 			if (s_Data->textureSlots[i] == texture) {
 				textureIndex = static_cast<float>(i);
 				break;
@@ -425,7 +425,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor) {
-		for (std::size_t i = 0; i < s_Data->VERTICES_PER_QUAD; i++) {
+		for (size_t i = 0; i < s_Data->VERTICES_PER_QUAD; i++) {
 			s_Data->quadVertexBufferPtr->position = transform * s_Data->quadVertexPositions[i];
 			s_Data->quadVertexBufferPtr->color = color;
 			s_Data->quadVertexBufferPtr->textureCoords = s_Data->quadTextureCoords[i];
@@ -440,7 +440,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::AddNewTextVertex(const Mat4& transform, const Vec4& color) {
-		for (std::size_t i = 0; i < s_Data->VERTICES_PER_QUAD; i++) {
+		for (size_t i = 0; i < s_Data->VERTICES_PER_QUAD; i++) {
 			s_Data->textVertexBufferPtr->position = transform * s_Data->textVertexPositions[i];
 			s_Data->textVertexBufferPtr->color = color;
 			s_Data->textVertexBufferPtr->textureCoords = s_Data->textTextureCoords[i];

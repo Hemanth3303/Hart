@@ -29,18 +29,18 @@ namespace Hart {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void RenderCommand::SetViewPort(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height) {
+	void RenderCommand::SetViewPort(int32_t x, int32_t y, int32_t width, int32_t height) {
 		glViewport(x, y, width, height);
 	}
 
-	const std::int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
-		std::int64_t maxNoOfTextureSlotsPerShader;
+	const int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
+		int64_t maxNoOfTextureSlotsPerShader;
 		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &maxNoOfTextureSlotsPerShader);
 
 		return maxNoOfTextureSlotsPerShader;
 	}
 
-	const std::int64_t RenderCommand::GetMaxTextureSlotsTotal() {
+	const int64_t RenderCommand::GetMaxTextureSlotsTotal() {
 		return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
 	}
 
@@ -69,35 +69,35 @@ namespace Hart {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	void RenderCommand::SetPixelPackAlignment(std::int32_t alignmentNumber) {
+	void RenderCommand::SetPixelPackAlignment(int32_t alignmentNumber) {
 		glPixelStorei(GL_PACK_ALIGNMENT, alignmentNumber);
 	}
 
-	void RenderCommand::SetPixelUnpackAlignment(std::int32_t alignmentNumber) {
+	void RenderCommand::SetPixelUnpackAlignment(int32_t alignmentNumber) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, alignmentNumber);
 	}
 
-	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
 		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 		vertexArray->bind();
 		glDrawArrays(GL_LINES, 0, vertexCount);
 	}
 
-	void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t vertexCount) {
+	void RenderCommand::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
 		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 
 		vertexArray->bind();
-		std::uint32_t count = (vertexCount == 0 ? vertexArray->getVertexBuffer()->getVertexCount() : vertexCount);
+		uint32_t count = (vertexCount == 0 ? vertexArray->getVertexBuffer()->getVertexCount() : vertexCount);
 		glDrawArrays(GL_TRIANGLES, 0, count);
 	}
 
-	void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, std::uint32_t indexCount) {
+	void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount) {
 		HART_ASSERT_NOT_EQUAL(vertexArray, nullptr, "Reason: VertexArray is null");
 		HART_ASSERT_NOT_EQUAL(vertexArray->getIndexBuffer(), nullptr, "Reason: IndexBuffer is null");
 
 		vertexArray->bind();
 		vertexArray->getIndexBuffer()->bind();
-		std::uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
+		uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
 
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}

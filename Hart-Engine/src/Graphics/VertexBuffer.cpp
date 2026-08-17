@@ -6,7 +6,7 @@ namespace Hart {
 		: type(ptype), name(pname), size(Shader::GetShaderDataTypeSize(ptype)), offset(0), normalized(pnormalized) {
 	}
 
-	std::uint32_t BufferElement::getComponentCount() const {
+	uint32_t BufferElement::getComponentCount() const {
 		switch (type) {
 			case Hart::ShaderDataType::None:
 				HART_ENGINE_ERROR("ShaderDataType can't be null");
@@ -60,7 +60,7 @@ namespace Hart {
 		}
 	}
 
-	VertexBuffer::VertexBuffer(std::uint32_t size)
+	VertexBuffer::VertexBuffer(uint32_t size)
 		: m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
@@ -68,7 +68,7 @@ namespace Hart {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	VertexBuffer::VertexBuffer(float* vertices, std::uint32_t size)
+	VertexBuffer::VertexBuffer(float* vertices, uint32_t size)
 		: m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
@@ -88,18 +88,18 @@ namespace Hart {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void VertexBuffer::setData(const void* data, std::uint32_t size, std::uint32_t offset) {
+	void VertexBuffer::setData(const void* data, uint32_t size, uint32_t offset) {
 		m_Size = size;
 		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
 		glBufferSubData(GL_ARRAY_BUFFER, offset, m_Size, data);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	void VertexBuffer::setLayout(const BufferLayout& layout) {
-		std::uint32_t itemsPerVertex = 0;
+		uint32_t itemsPerVertex = 0;
 		for (const auto& element : layout.getElements()) {
 			itemsPerVertex += element.getComponentCount();
 		}
-		std::uint32_t numberOfVerticesVertexBuffer = getNumberOfItems() / itemsPerVertex;
+		uint32_t numberOfVerticesVertexBuffer = getNumberOfItems() / itemsPerVertex;
 		m_VertexCount += numberOfVerticesVertexBuffer;
 
 		m_Layout = layout;

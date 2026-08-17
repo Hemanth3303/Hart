@@ -81,7 +81,7 @@ namespace Hart {
 	}
 
 	std::string FileManager::GetFileName(const std::string& filePath) {
-		std::size_t lastSlash = filePath.find_last_of("/\\");
+		size_t lastSlash = filePath.find_last_of("/\\");
 		if (lastSlash == std::string::npos) {
 			lastSlash = 0;
 		}
@@ -89,7 +89,7 @@ namespace Hart {
 			lastSlash += 1;
 		}
 
-		std::size_t lastDot = filePath.rfind('.');
+		size_t lastDot = filePath.rfind('.');
 		if (lastDot == std::string::npos) {
 			lastDot = filePath.size() - lastSlash;
 		}
@@ -101,7 +101,7 @@ namespace Hart {
 	}
 
 	std::string FileManager::GetFileNameWithExtension(const std::string& filePath) {
-		std::size_t lastSlash = filePath.find_last_of("/\\");
+		size_t lastSlash = filePath.find_last_of("/\\");
 		if (lastSlash == std::string::npos) {
 			lastSlash = 0;
 		}
@@ -109,7 +109,7 @@ namespace Hart {
 			lastSlash += 1;
 		}
 
-		std::size_t end = filePath.length();
+		size_t end = filePath.length();
 		end -= lastSlash;
 
 		return filePath.substr(lastSlash, end);

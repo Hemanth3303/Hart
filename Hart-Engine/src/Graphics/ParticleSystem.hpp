@@ -28,7 +28,7 @@ namespace Hart {
 
 	class ParticleSystem {
 	public:
-		ParticleSystem(std::uint32_t maxParticles = 10000);
+		ParticleSystem(uint32_t maxParticles = 10000);
 
 		void update(const float deltaTime);
 		// must be called within a Hart::Renderer2D::BeginScene(Camera) and Hart::Renderer2D::EndScene()
@@ -53,6 +53,6 @@ namespace Hart {
 		};
 		std::vector<Particle> m_ParticlePool;
 		Random m_Random;
-		std::uint32_t m_PoolIndex;
+		uint32_t m_PoolIndex;
 	};
 }

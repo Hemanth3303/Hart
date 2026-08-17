@@ -192,9 +192,9 @@ namespace Hart {
 	}
 
 	void Logger::LogMessagesFromList(std::initializer_list<Loggable> messageList) {
-		std::size_t length = messageList.size();
+		size_t length = messageList.size();
 		const Loggable* messagePtr = messageList.begin();
-		for (std::size_t i = 0; i < length; i++) {
+		for (size_t i = 0; i < length; i++) {
 			std::cout << *messagePtr;
 			messagePtr++;
 			// new line not printed for last message

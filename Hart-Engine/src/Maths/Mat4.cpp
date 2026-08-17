@@ -3,13 +3,13 @@
 
 namespace Hart {
 	Mat4::Mat4() {
-		for (std::int32_t i = 0; i < 4 * 4; i++) {
+		for (int32_t i = 0; i < 4 * 4; i++) {
 			elements[i] = 0.0f;
 		}
 	}
 
 	Mat4::Mat4(float diagonal) {
-		for (std::int32_t i = 0; i < 4 * 4; i++) {
+		for (int32_t i = 0; i < 4 * 4; i++) {
 			elements[i] = 0.0f;
 		}
 		elements[0 + 0 * 4] = diagonal;
@@ -32,7 +32,7 @@ namespace Hart {
 	Mat4::~Mat4() {
 	}
 
-	Vec4 Mat4::getColumn(std::int32_t index) {
+	Vec4 Mat4::getColumn(int32_t index) {
 		index *= 4;
 		return Vec4(
 			elements[index + 0],
@@ -41,7 +41,7 @@ namespace Hart {
 			elements[index + 3]);
 	}
 
-	float Mat4::getElementAt(std::int32_t i, std::int32_t j) const {
+	float Mat4::getElementAt(int32_t i, int32_t j) const {
 		return elements[i + j * 4];
 	}
 
@@ -51,9 +51,9 @@ namespace Hart {
 
 	std::string Mat4::toString() const {
 		std::string out = "Mat4(\n";
-		for (std::int32_t i = 0; i < 4; i++) {
+		for (int32_t i = 0; i < 4; i++) {
 			out += "[ ";
-			for (std::int32_t j = 0; j < 4; j++) {
+			for (int32_t j = 0; j < 4; j++) {
 				out += std::to_string(elements[i + j * 4]) + ", ";
 			}
 			out += "]\n";
@@ -64,16 +64,16 @@ namespace Hart {
 
 	Mat4& Mat4::multiply(const Mat4& other) {
 		float data[4 * 4]{};
-		for (std::int32_t x = 0; x < 4; x++) {
-			for (std::int32_t y = 0; y < 4; y++) {
+		for (int32_t x = 0; x < 4; x++) {
+			for (int32_t y = 0; y < 4; y++) {
 				float sum = 0.0f;
-				for (std::int32_t k = 0; k < 4; k++) {
+				for (int32_t k = 0; k < 4; k++) {
 					sum += elements[x + k * 4] * other.elements[k + y * 4];
 				}
 				data[x + y * 4] = sum;
 			}
 		}
-		std::size_t matrixSize = static_cast<std::size_t>(4 * 4) * sizeof(float);
+		size_t matrixSize = static_cast<size_t>(4 * 4) * sizeof(float);
 		std::memcpy(elements, data, matrixSize);
 
 		return *this;
@@ -162,8 +162,8 @@ namespace Hart {
 
 	Mat4 Mat4::Transpose(const Mat4& matrix) {
 		Mat4 result;
-		for (std::int32_t x = 0; x < 4; x++) {
-			for (std::int32_t y = 0; y < 4; y++) {
+		for (int32_t x = 0; x < 4; x++) {
+			for (int32_t y = 0; y < 4; y++) {
 				result.elements[x + y * 4] = matrix.elements[x * 4 + y];
 			}
 		}
@@ -292,7 +292,7 @@ namespace Hart {
 		}
 
 		Mat4 inverseMat = Adjoint(matrix);
-		for (std::int32_t i = 0; i < 4 * 4; i++) {
+		for (int32_t i = 0; i < 4 * 4; i++) {
 			inverseMat.elements[i] /= deter;
 		}
 

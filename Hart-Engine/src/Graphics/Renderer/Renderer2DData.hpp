@@ -15,14 +15,14 @@
 namespace Hart {
 	struct Renderer2DData {
 	public:
-		const std::uint32_t MAX_QUADS = 10'000;
-		const std::uint32_t MAX_VERTICES = MAX_QUADS * 4;
-		const std::uint32_t MAX_INDICES = MAX_QUADS * 6;
-		static constexpr std::uint32_t MAX_TOTAL_TEXTURE_SLOTS = 16;
-		static constexpr std::uint32_t MAX_COMMON_TEXTURE_SLOTS = 15;
-		const std::uint32_t WHITE_TEXTURE_SLOT = 0;
-		const std::uint32_t COMMON_TEXTURE_SLOT_START = 1; // slot_0 == white texture
-		const std::uint32_t TEXT_TEXTURE_SLOT = 15;
+		const uint32_t MAX_QUADS = 10'000;
+		const uint32_t MAX_VERTICES = MAX_QUADS * 4;
+		const uint32_t MAX_INDICES = MAX_QUADS * 6;
+		static constexpr uint32_t MAX_TOTAL_TEXTURE_SLOTS = 16;
+		static constexpr uint32_t MAX_COMMON_TEXTURE_SLOTS = 15;
+		const uint32_t WHITE_TEXTURE_SLOT = 0;
+		const uint32_t COMMON_TEXTURE_SLOT_START = 1; // slot_0 == white texture
+		const uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
 		std::shared_ptr<Texture2D> whiteTexture;
@@ -33,11 +33,11 @@ namespace Hart {
 		std::shared_ptr<VertexArray> quadVertexArray;
 		std::shared_ptr<VertexBuffer> quadVertexBuffer;
 
-		std::uint32_t quadIndexCount = 0;
+		uint32_t quadIndexCount = 0;
 		QuadVertex* quadVertexBufferBase = nullptr;
 		QuadVertex* quadVertexBufferPtr = nullptr;
 
-		static constexpr std::uint32_t VERTICES_PER_QUAD = 4;
+		static constexpr uint32_t VERTICES_PER_QUAD = 4;
 		std::array<Vec4, VERTICES_PER_QUAD> quadVertexPositions;
 		std::array<Vec2, VERTICES_PER_QUAD> quadTextureCoords;
 
@@ -46,7 +46,7 @@ namespace Hart {
 
 		// Textures
 		std::array<std::shared_ptr<Texture2D>, MAX_TOTAL_TEXTURE_SLOTS> textureSlots;
-		std::uint32_t textureSlotIndex = COMMON_TEXTURE_SLOT_START;
+		uint32_t textureSlotIndex = COMMON_TEXTURE_SLOT_START;
 
 		// Text
 		std::shared_ptr<Font> textFont;
@@ -54,7 +54,7 @@ namespace Hart {
 		std::shared_ptr<VertexArray> textVertexArray;
 		std::shared_ptr<VertexBuffer> textVertexBuffer;
 
-		std::uint32_t textIndexCount = 0;
+		uint32_t textIndexCount = 0;
 		TextVertex* textVertexBufferBase = nullptr;
 		TextVertex* textVertexBufferPtr = nullptr;
 
@@ -65,15 +65,15 @@ namespace Hart {
 
 		struct Stats {
 		public:
-			std::uint32_t numberOfDrawCalls = 0;
-			std::uint32_t numberOfQuads = 0;
-			std::uint32_t numberOfTextQuads = 0;
+			uint32_t numberOfDrawCalls = 0;
+			uint32_t numberOfQuads = 0;
+			uint32_t numberOfTextQuads = 0;
 
 		public:
-			std::uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
-			std::uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
-			std::uint32_t getTextVertexCount() const { return numberOfTextQuads * 4; }
-			std::uint32_t getTextIndexCount() const { return numberOfTextQuads * 6; }
+			uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
+			uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
+			uint32_t getTextVertexCount() const { return numberOfTextQuads * 4; }
+			uint32_t getTextIndexCount() const { return numberOfTextQuads * 6; }
 		};
 		Stats stats;
 	};

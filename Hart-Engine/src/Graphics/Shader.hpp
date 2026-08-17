@@ -39,8 +39,8 @@ namespace Hart {
 		void unbind() const;
 
 		void setUniform(const std::string& uniformName, bool value) const;
-		void setUniform(const std::string& uniformName, std::int32_t value) const;
-		void setUniform(const std::string& uniformName, std::int32_t* values, std::uint32_t count) const;
+		void setUniform(const std::string& uniformName, int32_t value) const;
+		void setUniform(const std::string& uniformName, int32_t* values, uint32_t count) const;
 		void setUniform(const std::string& uniformName, float value) const;
 		void setUniform(const std::string& uniformName, const Vec2& value) const;
 		void setUniform(const std::string& uniformName, const Vec3& value) const;
@@ -49,17 +49,17 @@ namespace Hart {
 
 		inline const std::string& getName() const { return m_Name; }
 
-		static std::uint32_t GetShaderDataTypeSize(ShaderDataType type);
+		static uint32_t GetShaderDataTypeSize(ShaderDataType type);
 		static GLenum ShaderDataTypeToOpenGLType(ShaderDataType type);
 
 	private:
 		void init(const char* vsSource, const char* fsSource);
-		std::int32_t getUniformLocation(const std::string& uniformName) const;
-		void checkCompileErrors(std::uint32_t shader, const ShaderType& type) const;
+		int32_t getUniformLocation(const std::string& uniformName) const;
+		void checkCompileErrors(uint32_t shader, const ShaderType& type) const;
 
 	private:
-		std::uint32_t m_ShaderID = 0;
+		uint32_t m_ShaderID = 0;
 		std::string m_Name;
-		mutable std::unordered_map<std::string, std::int32_t> m_UniformLocationCache;
+		mutable std::unordered_map<std::string, int32_t> m_UniformLocationCache;
 	};
 }

@@ -35,10 +35,10 @@ namespace Hart {
 		~Mat4();
 
 		// returns a column as a vector
-		Vec4 getColumn(std::int32_t index);
+		Vec4 getColumn(int32_t index);
 
 		// returns element at aij of A
-		float getElementAt(std::int32_t i, std::int32_t j) const;
+		float getElementAt(int32_t i, int32_t j) const;
 
 		// creates a new 4x4 identity matrix
 		static Mat4 Identity();

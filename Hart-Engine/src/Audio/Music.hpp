@@ -7,7 +7,7 @@
 namespace Hart {
 	class Music {
 	public:
-		Music(const std::string filePath, bool looping = true, std::uint32_t volume = 100);
+		Music(const std::string filePath, bool looping = true, uint32_t volume = 100);
 		~Music();
 
 		inline const std::string& getFilePath() const { return m_FilePath; }
@@ -16,6 +16,6 @@ namespace Hart {
 	private:
 		std::string m_FilePath;
 		bool m_Looping;
-		std::uint32_t m_Volume;
+		uint32_t m_Volume;
 	};
 }

@@ -116,8 +116,8 @@ private:
 
 	std::shared_ptr<Hart::Font> m_Font;
 
-	std::uint32_t m_PlayerOneScore = 0;
-	std::uint32_t m_PlayerTwoScore = 0;
+	uint32_t m_PlayerOneScore = 0;
+	uint32_t m_PlayerTwoScore = 0;
 	const float PLAYER_SPEED = 2.0f;
 	const float BALL_SPEED = 6.0f;
 

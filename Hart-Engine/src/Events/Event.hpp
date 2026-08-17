@@ -20,7 +20,7 @@ namespace Hart {
 
 		virtual EventType getEventType() const = 0;
 		virtual std::string_view getName() const = 0;
-		virtual std::int32_t getEventCategoryFlags() const = 0;
+		virtual int32_t getEventCategoryFlags() const = 0;
 		virtual std::string toString() const { return std::string(getName()); }
 
 		inline bool isInCategory(EventCategory category) const { return getEventCategoryFlags() & category; }

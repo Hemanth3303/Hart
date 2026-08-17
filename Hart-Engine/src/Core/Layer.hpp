@@ -21,6 +21,6 @@ namespace Hart {
 
 	private:
 		std::string m_Name;
-		static std::uint64_t s_LayerID;
+		static uint64_t s_LayerID;
 	};
 }

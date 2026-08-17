@@ -24,7 +24,7 @@ namespace Hart {
 
 		HART_ASSERT_NOT_EQUAL(vertexBuffer->getLayout().isEmpty(), true, "Attempting to add a VertexBuffer with an empty layout to VertexArray");
 		vertexBuffer->bind();
-		std::uint32_t index = 0;
+		uint32_t index = 0;
 		for (const auto& element : vertexBuffer->getLayout()) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(

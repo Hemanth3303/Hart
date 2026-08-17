@@ -73,13 +73,13 @@ namespace Hart {
 		static void DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color = White);
 
 		static void ResetStats();
-		static std::uint32_t GetNumberOfDrawCalls();
-		static std::uint32_t GetNumberOfQuads();
-		static std::uint32_t GetNumberOfQuadVertices();
-		static std::uint32_t GetNumberOfQuadIndices();
-		static std::uint32_t GetNumberOfTextQuads();
-		static std::uint32_t GetNumberOfTextQuadVertices();
-		static std::uint32_t GetNumberOfTextQuadIndices();
+		static uint32_t GetNumberOfDrawCalls();
+		static uint32_t GetNumberOfQuads();
+		static uint32_t GetNumberOfQuadVertices();
+		static uint32_t GetNumberOfQuadIndices();
+		static uint32_t GetNumberOfTextQuads();
+		static uint32_t GetNumberOfTextQuadVertices();
+		static uint32_t GetNumberOfTextQuadIndices();
 
 	private:
 		static void BeginBatch();

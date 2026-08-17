@@ -9,24 +9,24 @@
 namespace Hart {
 	class WindowResizedEvent : public Event {
 	public:
-		WindowResizedEvent(std::uint32_t width, std::uint32_t height)
+		WindowResizedEvent(uint32_t width, uint32_t height)
 			: m_Width(width), m_Height(height) {
 		}
 
-		inline std::uint32_t getWidth() const { return m_Width; }
-		inline std::uint32_t getHeight() const { return m_Height; }
+		inline uint32_t getWidth() const { return m_Width; }
+		inline uint32_t getHeight() const { return m_Height; }
 
 		static EventType GetStaticType() { return EventType::WindowResizedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "WindowResizedEvent"; }
-		virtual std::int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 
 		std::string toString() const override {
 			return ("WindowResizedEvent: " + std::to_string(m_Width) + ", " + std::to_string(m_Height));
 		}
 
 	private:
-		std::uint32_t m_Width, m_Height;
+		uint32_t m_Width, m_Height;
 	};
 
 	class WindowClosedEvent : public Event {
@@ -36,7 +36,7 @@ namespace Hart {
 		static EventType GetStaticType() { return EventType::WindowClosedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "WindowClosedEvent"; }
-		virtual std::int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 	};
 
 	class WindowMovedEvent : public Event {
@@ -51,7 +51,7 @@ namespace Hart {
 		static EventType GetStaticType() { return EventType::WindowMovedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "WindowMovedEvent"; }
-		virtual std::int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 
 		std::string toString() const override {
 			return ("WindowMovedEvent: " + std::to_string(m_Xpos) + ", " + std::to_string(m_Ypos));
@@ -68,7 +68,7 @@ namespace Hart {
 		static EventType GetStaticType() { return EventType::WindowFocusGainedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "WindowFocusGained"; }
-		virtual std::int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 	};
 
 	class WindowFocusLostEvent : public Event {
@@ -78,6 +78,6 @@ namespace Hart {
 		static EventType GetStaticType() { return EventType::WindowFocusLostEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "WindowFocusLost"; }
-		virtual std::int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 	};
 }

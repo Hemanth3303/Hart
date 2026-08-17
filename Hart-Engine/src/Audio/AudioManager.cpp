@@ -5,8 +5,8 @@
 namespace Hart {
 	static std::unique_ptr<AudioManagerData> s_Data;
 
-	void dataCallback(ma_device* device, void* output, const void* input, std::uint32_t frameCount);
-	std::uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, std::uint32_t frameCount);
+	void dataCallback(ma_device* device, void* output, const void* input, uint32_t frameCount);
+	uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, uint32_t frameCount);
 
 	void AudioManager::Init() {
 		HART_ENGINE_LOG("Initializing Audio Manager");
@@ -94,14 +94,14 @@ namespace Hart {
 		}
 	}
 
-	void dataCallback(ma_device* device, void* output, const void* input, std::uint32_t frameCount) {
+	void dataCallback(ma_device* device, void* output, const void* input, uint32_t frameCount) {
 		float* outputF32 = reinterpret_cast<float*>(output);
 
 		HART_ASSERT_EQUAL(s_Data->device.playback.format, s_Data->SAMPLE_FORMAT);
 
 		for (auto& audioDecoder : s_Data->audioDecoders) {
 			if (!audioDecoder.isAtEnd) {
-				std::uint32_t framesRead = readAndMixPCMFramesF32(audioDecoder.decoder, outputF32, frameCount);
+				uint32_t framesRead = readAndMixPCMFramesF32(audioDecoder.decoder, outputF32, frameCount);
 				if (framesRead < frameCount) {
 					audioDecoder.isAtEnd = MA_TRUE;
 					;
@@ -112,7 +112,7 @@ namespace Hart {
 		(void)input;
 	}
 
-	std::uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, std::uint32_t frameCount) {
+	uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, uint32_t frameCount) {
 		ma_result result;
 		std::vector<float> temp;
 		temp.resize(4096);

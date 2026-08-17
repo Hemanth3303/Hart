@@ -3,7 +3,7 @@
 #include "Renderer/Renderer2D.hpp"
 
 namespace Hart {
-	ParticleSystem::ParticleSystem(std::uint32_t maxParticles)
+	ParticleSystem::ParticleSystem(uint32_t maxParticles)
 		: m_PoolIndex(maxParticles - 1) {
 		m_ParticlePool.resize(maxParticles);
 	}

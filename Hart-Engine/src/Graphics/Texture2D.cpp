@@ -15,7 +15,7 @@ namespace Hart {
 			int32_t width, height, channels;
 
 			stbi_set_flip_vertically_on_load(true);
-			m_Buffer = reinterpret_cast<std::uint32_t*>(stbi_load(filePath.c_str(), &width, &height, &channels, 0));
+			m_Buffer = reinterpret_cast<uint32_t*>(stbi_load(filePath.c_str(), &width, &height, &channels, 0));
 			stbi_set_flip_vertically_on_load(false);
 
 			m_TextureSpec.width = width;
@@ -26,7 +26,7 @@ namespace Hart {
 		init();
 	}
 
-	Texture2D::Texture2D(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs)
+	Texture2D::Texture2D(uint32_t* buffer, const Texture2DSpecification& texture2DSpecs)
 		: m_Buffer(buffer), m_loadedFromStbi(false), m_TextureSpec(texture2DSpecs) {
 
 		init();
@@ -36,7 +36,7 @@ namespace Hart {
 		deinit();
 	}
 
-	void Texture2D::bind(std::uint32_t slot) const {
+	void Texture2D::bind(uint32_t slot) const {
 		m_Slot = slot;
 		glBindTextureUnit(m_Slot, m_TextureID);
 	}
@@ -45,13 +45,13 @@ namespace Hart {
 		glBindTextureUnit(m_Slot, 0);
 	}
 
-	void Texture2D::setBuffer(std::uint32_t* buffer) {
+	void Texture2D::setBuffer(uint32_t* buffer) {
 		deinit();
 		m_Buffer = buffer;
 		init();
 	}
 
-	void Texture2D::setBuffer(std::uint32_t* buffer, const Texture2DSpecification& texture2DSpecs) {
+	void Texture2D::setBuffer(uint32_t* buffer, const Texture2DSpecification& texture2DSpecs) {
 		deinit();
 		m_TextureSpec = texture2DSpecs;
 		m_Buffer = buffer;
@@ -83,10 +83,10 @@ namespace Hart {
 
 		glTextureStorage2D(m_TextureID, 1, m_InternalFormat, m_TextureSpec.width, m_TextureSpec.height);
 
-		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, static_cast<std::int32_t>(m_TextureSpec.magFilter));
-		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, static_cast<std::int32_t>(m_TextureSpec.minFilter));
-		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, static_cast<std::int32_t>(m_TextureSpec.repeatX));
-		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, static_cast<std::int32_t>(m_TextureSpec.repeatY));
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, static_cast<int32_t>(m_TextureSpec.magFilter));
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, static_cast<int32_t>(m_TextureSpec.minFilter));
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, static_cast<int32_t>(m_TextureSpec.repeatX));
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, static_cast<int32_t>(m_TextureSpec.repeatY));
 
 		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_TextureSpec.width, m_TextureSpec.height, m_IncomingFormat, GL_UNSIGNED_BYTE, m_Buffer);
 

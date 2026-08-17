@@ -24,7 +24,7 @@ namespace Hart {
 	public:
 		Application();
 		// takes window configurations as arguments
-		Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
+		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
 		virtual ~Application();
 
 		// enables or disables vsync
@@ -41,8 +41,8 @@ namespace Hart {
 		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
-		inline const std::int32_t getWindowWidth() const { return m_Window->getWidth(); }
-		inline const std::int32_t getWindowHeight() const { return m_Window->getHeight(); }
+		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
+		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline const Vec2 getWindowDimensions() const { return m_Window->getDimensions(); }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
@@ -113,7 +113,7 @@ namespace Hart {
 		// initializes engine's shader library with some defaul shaders
 		friend void initializeShaderLibrary();
 		// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
-		friend void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter);
+		friend void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter);
 	};
 
 	// User must define this function

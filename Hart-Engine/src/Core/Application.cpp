@@ -15,14 +15,14 @@ namespace Hart {
 	extern void initializeShaderLibrary();
 
 	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
-	void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter);
+	void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter);
 
 	Application::Application() {
 		WindowProps windowProps;
 		init(windowProps);
 	}
 
-	Application::Application(std::int32_t windowWidth, std::int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
+	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
 		WindowProps windowProps;
 		windowProps.width = windowWidth;
 		windowProps.height = windowHeight;
@@ -121,7 +121,7 @@ namespace Hart {
 		HART_ASSERT_NOT_EQUAL(s_Instance, nullptr, "Reason: Failed to initialize Hart Engine");
 
 		HART_ENGINE_LOG("Initializing GLFW");
-		std::int32_t success = glfwInit();
+		int32_t success = glfwInit();
 		HART_ASSERT_EQUAL(success, GLFW_TRUE, "Reason: Failed to initialize GLFW");
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -270,7 +270,7 @@ namespace Hart {
 	}
 
 	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
-	void OpenGLDebugMessageCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, std::int32_t length, const char* message, const void* userParameter) {
+	void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter) {
 		const char* debugSource;
 		const char* debugType;
 		const char* debugSeverity;

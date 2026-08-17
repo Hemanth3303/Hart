@@ -22,8 +22,8 @@ namespace Hart {
 		ma_device_config deviceConfig;
 
 		static constexpr ma_format SAMPLE_FORMAT = ma_format_f32;
-		static constexpr std::uint32_t CHANNEL_COUNT = 2;
-		static constexpr std::uint32_t SAMPLE_RATE = 48'000;
+		static constexpr uint32_t CHANNEL_COUNT = 2;
+		static constexpr uint32_t SAMPLE_RATE = 48'000;
 
 		std::vector<DecoderInfo> audioDecoders;
 	};

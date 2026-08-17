@@ -38,6 +38,6 @@ namespace Hart {
 		std::vector<std::shared_ptr<Layer>> m_Layers;
 		std::unordered_map<std::string, std::shared_ptr<Layer>> m_LayerMap;
 		std::unordered_map<std::string, std::shared_ptr<Layer>> m_OverlayMap;
-		std::uint32_t m_LayerInsertIndex = 0;
+		uint32_t m_LayerInsertIndex = 0;
 	};
 }
