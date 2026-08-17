@@ -6,6 +6,7 @@
 
 #include "Event.hpp"
 
+#include <string>
 #include <cstdint>
 
 namespace Hart {

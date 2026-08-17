@@ -1,10 +1,15 @@
 #pragma once
 
-// utility macros
-
 #if defined(HART_ENGINE_PLATFORM_WINDOWS) || defined(HART_CLIENT_PLATFORM_WINDOWS)
-	#ifdef DrawText
+	// fuck windows
+	#if defined(DrawText)
 		#undef DrawText
+	#endif
+	#if defined(near)
+		#undef near
+	#endif
+	#if defined(far)
+		#undef far
 	#endif
 #endif
 
