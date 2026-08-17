@@ -3,8 +3,13 @@
 #include "Renderer/Renderer2D.hpp"
 
 namespace Hart {
-	ParticleSystem::ParticleSystem(uint32_t maxParticles)
-		: m_PoolIndex(maxParticles - 1) {
+	ParticleSystem::ParticleSystem(uint32_t maxParticles) {
+		HART_DEBUG_ASSERT(maxParticles > 0, "maxParticles must be greater than zero");
+		if (maxParticles == 0) {
+			return;
+		}
+
+		m_PoolIndex = maxParticles - 1;
 		m_ParticlePool.resize(maxParticles);
 	}
 
@@ -45,6 +50,9 @@ namespace Hart {
 	}
 
 	void ParticleSystem::emit(const ParticleProps& particleProps) {
+		if (m_ParticlePool.empty()) {
+			return;
+		}
 		Particle& particle = m_ParticlePool[m_PoolIndex];
 		particle.active = true;
 
@@ -75,6 +83,11 @@ namespace Hart {
 		particle.texture = particleProps.texture;
 		particle.tilingFactor = particleProps.tilingFactor;
 
-		m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
+		if (m_PoolIndex == 0) {
+			m_PoolIndex = static_cast<uint32_t>(m_ParticlePool.size() - 1);
+		}
+		else {
+			--m_PoolIndex;
+		}
 	}
 }
