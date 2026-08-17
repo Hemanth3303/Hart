@@ -107,12 +107,10 @@ namespace Hart {
 		s_Data->textVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 		// White Texture
-		uint32_t whiteTextureData = 0xffffffff;
-		Texture2DSpecification whiteTextureSpec;
-		whiteTextureSpec.width = 1;
-		whiteTextureSpec.height = 1;
-		whiteTextureSpec.numberOfChannels = 4;
-		s_Data->whiteTexture = std::make_shared<Texture2D>(&whiteTextureData, whiteTextureSpec);
+		s_Data->whiteTexture = std::make_shared<Texture2D>(
+			s_Data->whiteTextureData.data(),
+			s_Data->whiteTextureSpec);
+
 		s_Data->textureSlots[s_Data->WHITE_TEXTURE_SLOT] = s_Data->whiteTexture;
 
 		s_Data->quadShader->bind();
@@ -256,11 +254,15 @@ namespace Hart {
 		HART_DEBUG_ASSERT((font != nullptr));
 		s_Data->textFont = font;
 
-		s_Data->textTexture = std::make_shared<Texture2D>(s_Data->textFont->getFontAtlasBitmapData(), s_Data->textFont->getTextureSpecification());
+		s_Data->textTexture = std::make_shared<Texture2D>(
+			s_Data->textFont->getFontAtlasBitmap().data(),
+			s_Data->textFont->getTextureSpecification());
 
 		s_Data->textShader->bind();
 		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
-		s_Data->textShader->setUniform("uTexture15", s_Data->textTexture->getSlot());
+		s_Data->textShader->setUniform(
+			"uTexture15",
+			s_Data->textTexture->getSlot());
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {

@@ -11,7 +11,7 @@ namespace Hart {
 			HART_ENGINE_ERROR("Font " + filePath + " not found");
 			return;
 		}
-		m_FileSize = FileManager::GetFileSizeInBytes(filePath);
+
 		m_FontDataBuffer = FileManager::ReadBinaryFromFile(filePath);
 
 		int32_t fontCount = stbtt_GetNumberOfFonts(reinterpret_cast<const unsigned char*>(m_FontDataBuffer.data()));
@@ -23,7 +23,7 @@ namespace Hart {
 		m_FontTextureSpecification.magFilter = TextureMagFilter::Linear;
 		m_FontTextureSpecification.minFilter = TextureMinFilter::LinearLinear;
 
-		m_FontAtlasBitmap.reserve(m_FontTextureSpecification.width * m_FontTextureSpecification.height);
+		m_FontAtlasBitmap.resize(m_FontTextureSpecification.width * m_FontTextureSpecification.height);
 
 		stbtt_PackBegin(
 			&m_PackContext,
@@ -36,7 +36,7 @@ namespace Hart {
 
 		stbtt_PackFontRange(
 			&m_PackContext,
-			reinterpret_cast<uint8_t*>(m_FontDataBuffer.data()),
+			reinterpret_cast<unsigned char*>(m_FontDataBuffer.data()),
 			0,
 			m_FontSize,
 			m_CodePointFirstChar,

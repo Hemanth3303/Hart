@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <array>
+#include <cstddef>
 
 namespace Hart {
 	class Font {
@@ -13,19 +14,18 @@ namespace Hart {
 		Font(const std::string& filePath, const float fontSize = 64.0f);
 		~Font();
 
-		inline const float getFontSize() { return m_FontSize; }
-		inline void* getFontBufferData() { return m_FontDataBuffer.data(); }
-		inline uint32_t* getFontAtlasBitmapData() { return m_FontAtlasBitmap.data(); }
-		inline const Texture2DSpecification& getTextureSpecification() { return m_FontTextureSpecification; }
+		inline float getFontSize() const { return m_FontSize; }
+		inline const std::vector<std::byte>& getFontBuffer() const { return m_FontDataBuffer; }
+		inline std::vector<std::byte>& getFontAtlasBitmap() { return m_FontAtlasBitmap; }
+		inline const Texture2DSpecification& getTextureSpecification() const { return m_FontTextureSpecification; }
 		inline stbtt_packedchar* getSTBTTPackedChar() { return m_PackedChars.data(); }
 		inline stbtt_aligned_quad* getSTBTTAlignedQuads() { return m_AlignedQuads.data(); }
 		inline const uint32_t getCodePointFirstChar() { return m_CodePointFirstChar; }
 		inline const uint32_t getNumberOfCharsToInclude() { return m_NumberOfCharsToInclude; }
 
 	private:
-		size_t m_FileSize = 0;
-		std::vector<void*> m_FontDataBuffer;
-		std::vector<uint32_t> m_FontAtlasBitmap;
+		std::vector<std::byte> m_FontDataBuffer;
+		std::vector<std::byte> m_FontAtlasBitmap;
 		Texture2DSpecification m_FontTextureSpecification;
 
 		const float m_FontSize;

@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <memory>
+#include <cstddef>
 
 namespace Hart {
 	enum class TextureMagFilter {
@@ -48,19 +49,19 @@ namespace Hart {
 	public:
 		// width, height and number of channels of specification will be overwritten by the actual values from image file
 		Texture2D(const std::string& filePath, const Texture2DSpecification& texture2DSpecs = {});
-		Texture2D(uint32_t* buffer, const Texture2DSpecification& texture2DSpecs = {});
+		Texture2D(std::byte* buffer, const Texture2DSpecification& texture2DSpecs = {});
 		~Texture2D();
 
 		void bind(uint32_t slot = 0) const;
 		void unbind() const;
 
-		void setBuffer(uint32_t* buffer);
-		void setBuffer(uint32_t* buffer, const Texture2DSpecification& texture2DSpecs);
+		void setBuffer(std::byte* buffer);
+		void setBuffer(std::byte* buffer, const Texture2DSpecification& texture2DSpecs);
 
 		inline const uint32_t getId() const { return m_TextureID; }
-		inline const uint32_t* getBuffer() const { return m_Buffer; }
+		inline const std::byte* getBuffer() const { return m_Buffer; }
 		inline const int32_t getSlot() const { return m_Slot; }
-		inline const Texture2DSpecification& getSpecs() const { return m_TextureSpec; }
+		inline const Texture2DSpecification& getSpec() const { return m_TextureSpec; }
 		inline const uint32_t getWidth() const { return m_TextureSpec.width; }
 		inline const uint32_t getHeight() const { return m_TextureSpec.height; }
 
@@ -73,7 +74,7 @@ namespace Hart {
 
 	private:
 		uint32_t m_TextureID = 0;
-		uint32_t* m_Buffer;
+		std::byte* m_Buffer = nullptr;
 		mutable uint32_t m_Slot = 0;
 		bool m_loadedFromStbi = false;
 		Texture2DSpecification m_TextureSpec;

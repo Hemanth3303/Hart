@@ -12,23 +12,23 @@ namespace Hart {
 		if (!FileManager::FileExists(filePath)) {
 			HART_ENGINE_ERROR("File " + filePath + " does not exists", "Is the name and/or path correct?");
 			m_loadedFromStbi = false;
+			return;
 		}
-		else {
-			int32_t width, height, channels;
 
-			stbi_set_flip_vertically_on_load(true);
-			m_Buffer = reinterpret_cast<uint32_t*>(stbi_load(filePath.c_str(), &width, &height, &channels, 0));
-			stbi_set_flip_vertically_on_load(false);
+		int32_t width, height, channels;
 
-			m_TextureSpec.width = width;
-			m_TextureSpec.height = height;
-			m_TextureSpec.numberOfChannels = channels;
-		}
+		stbi_set_flip_vertically_on_load(true);
+		m_Buffer = reinterpret_cast<std::byte*>(stbi_load(filePath.c_str(), &width, &height, &channels, 0));
+		stbi_set_flip_vertically_on_load(false);
+
+		m_TextureSpec.width = width;
+		m_TextureSpec.height = height;
+		m_TextureSpec.numberOfChannels = channels;
 
 		init();
 	}
 
-	Texture2D::Texture2D(uint32_t* buffer, const Texture2DSpecification& texture2DSpecs)
+	Texture2D::Texture2D(std::byte* buffer, const Texture2DSpecification& texture2DSpecs)
 		: m_Buffer(buffer), m_loadedFromStbi(false), m_TextureSpec(texture2DSpecs) {
 
 		init();
@@ -47,14 +47,16 @@ namespace Hart {
 		glBindTextureUnit(m_Slot, 0);
 	}
 
-	void Texture2D::setBuffer(uint32_t* buffer) {
+	void Texture2D::setBuffer(std::byte* buffer) {
 		deinit();
+		m_loadedFromStbi = false;
 		m_Buffer = buffer;
 		init();
 	}
 
-	void Texture2D::setBuffer(uint32_t* buffer, const Texture2DSpecification& texture2DSpecs) {
+	void Texture2D::setBuffer(std::byte* buffer, const Texture2DSpecification& texture2DSpecs) {
 		deinit();
+		m_loadedFromStbi = false;
 		m_TextureSpec = texture2DSpecs;
 		m_Buffer = buffer;
 		init();
@@ -68,7 +70,7 @@ namespace Hart {
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 
 		HART_DEBUG_ASSERT((m_TextureSpec.numberOfChannels > 0) && (m_TextureSpec.numberOfChannels < 5),
-					"Invalid number of channels in texture");
+						  "Invalid number of channels in texture");
 
 		m_InternalFormat = GL_RGB8;
 		m_IncomingFormat = GL_RGB;
@@ -109,7 +111,7 @@ namespace Hart {
 
 	void Texture2D::deinit() {
 		if (m_loadedFromStbi == true) {
-			stbi_image_free(reinterpret_cast<void*>(m_Buffer));
+			stbi_image_free(m_Buffer);
 		}
 
 		glDeleteTextures(1, &m_TextureID);

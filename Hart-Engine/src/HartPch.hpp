@@ -21,6 +21,7 @@
 #include <numbers>
 #include <numeric>
 #include <limits>
+#include <system_error>
 
 // from the C standard library
 #include <cstdint>

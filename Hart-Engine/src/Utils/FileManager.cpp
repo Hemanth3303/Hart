@@ -5,6 +5,8 @@
 
 #include <fstream>
 #include <filesystem>
+#include <system_error>
+#include <limits>
 
 namespace Hart {
 	std::string FileManager::ReadStringFromFile(const std::string& fileName) {
@@ -30,10 +32,9 @@ namespace Hart {
 		return outDataStr;
 	}
 
-	std::vector<void*> FileManager::ReadBinaryFromFile(const std::string& fileName) {
+	std::vector<std::byte> FileManager::ReadBinaryFromFile(const std::string& fileName) {
 		std::ifstream inFile;
-		std::streampos fileSize;
-		std::vector<void*> outData = {};
+		std::vector<std::byte> outData = {};
 		if (!FileExists(fileName)) {
 			HART_ENGINE_ERROR("Could not find file named " + fileName, "\t\t\tIs the file name and/or file path correct?");
 		}
@@ -42,10 +43,17 @@ namespace Hart {
 			inFile.open(fileName, std::ios::binary);
 			HART_DEBUG_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
 
-			fileSize = GetFileSizeInBytes(fileName);
+			const uintmax_t fileSize = GetFileSizeInBytes(fileName);
+			HART_DEBUG_ASSERT(
+				(fileSize <= std::numeric_limits<std::size_t>::max()),
+				"File is too large to fit in memory");
 
-			outData.resize(fileSize);
-			inFile.read(reinterpret_cast<char*>(&outData[0]), fileSize);
+			outData.resize(static_cast<std::size_t>(fileSize));
+			if (!outData.empty()) {
+				inFile.read(
+					reinterpret_cast<char*>(outData.data()),
+					static_cast<std::streamsize>(outData.size()));
+			}
 		}
 
 		return outData;
@@ -75,14 +83,20 @@ namespace Hart {
 	}
 
 	uintmax_t FileManager::GetFileSizeInBytes(const std::string& filepath) {
-		if (FileExists(filepath)) {
-			std::filesystem::path path = filepath;
-			return std::filesystem::file_size(filepath);
-		}
-		else {
+		if (!FileExists(filepath)) {
 			HART_ENGINE_ERROR(filepath + " not found");
+			return 0;
 		}
-		return 0;
+
+		std::error_code errorCode;
+		uintmax_t fileSize = std::filesystem::file_size(filepath, errorCode);
+
+		if (errorCode) {
+			HART_ENGINE_ERROR(filepath + " could not determine file size: " + errorCode.message());
+			return 0;
+		}
+
+		return fileSize;
 	}
 
 	std::string FileManager::GetFileName(const std::string& filePath) {

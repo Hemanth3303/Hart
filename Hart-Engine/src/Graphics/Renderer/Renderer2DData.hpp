@@ -24,8 +24,6 @@ namespace Hart {
 		const uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
-		std::shared_ptr<Texture2D> whiteTexture;
-		std::shared_ptr<Texture2D> textTexture;
 
 		// Quads
 		std::shared_ptr<Shader> quadShader;
@@ -44,6 +42,19 @@ namespace Hart {
 		static constexpr float LINE_THICKNESS_SCALE_FACTOR = 0.005f;
 
 		// Textures
+		std::shared_ptr<Texture2D> whiteTexture;
+		std::shared_ptr<Texture2D> textTexture;
+		std::array<std::byte, 4> whiteTextureData = {
+			std::byte{ 0xff },
+			std::byte{ 0xff },
+			std::byte{ 0xff },
+			std::byte{ 0xff }
+		};
+		Texture2DSpecification whiteTextureSpec = {
+			.width = 1,
+			.height = 1,
+			.numberOfChannels = 4,
+		};
 		std::array<std::shared_ptr<Texture2D>, MAX_TOTAL_TEXTURE_SLOTS> textureSlots;
 		uint32_t textureSlotIndex = COMMON_TEXTURE_SLOT_START;
 
