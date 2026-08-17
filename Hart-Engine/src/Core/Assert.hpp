@@ -30,36 +30,10 @@
 		#define HART_ENGINE_DEBUG_BREAK()
 	#endif
 
-	#define HART_DEBUG_ASSERT(expression, ...)                                   \
-		do {                                                               \
-			auto hartEngineAssertionResult = expression;                   \
-			if (!hartEngineAssertionResult) {                              \
-				Hart::Logger::LogMessageList(                              \
-					{ std::string("Assertion failed: "),                   \
-					  std::string("In File: ") + std::string(__FILE__),    \
-					  std::string("At Line: ") + std::to_string(__LINE__), \
-					  __VA_ARGS__ },                                       \
-					Hart::LogSeverity::Fatal,                              \
-					ASSERT_SOURCE);                                        \
-				HART_ENGINE_DEBUG_BREAK();                           \
-			}                                                              \
-		} while (0)
+	#define HART_DEBUG_ASSERT(expression, ...)
 
 #elif defined(HART_ENGINE_PROFILE_BUILD) || defined(HART_CLIENT_PROFILE_BUILD)
-	#define HART_DEBUG_ASSERT(expression, ...)                                   \
-		do {                                                               \
-			auto hartEngineAssertionResult = expression;                   \
-			if (!hartEngineAssertionResult) {                              \
-				Hart::Logger::LogMessageList(                              \
-					{ std::string("Assertion failed: "),                   \
-					  std::string("In File: ") + std::string(__FILE__),    \
-					  std::string("At Line: ") + std::to_string(__LINE__), \
-					  __VA_ARGS__ },                                       \
-					Hart::LogSeverity::Error,                              \
-					ASSERT_SOURCE);                                        \
-			}                                                              \
-		} while (0)
-
+	#define HART_DEBUG_ASSERT(expression, ...)
 	#define HART_ENGINE_DEBUG_BREAK()
 #else
 	#define HART_DEBUG_ASSERT(expression, ...)

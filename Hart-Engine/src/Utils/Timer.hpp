@@ -1,42 +1,18 @@
-/*
- * Class for timing functions
- */
-
 #pragma once
 
 #include <chrono>
-#include <string_view>
+#include <cstdint>
+#include <string>
 
 namespace Hart {
-	class Application;
 	class Timer {
 	public:
-		static double GetTimeInSeconds();
-		static double GetTimeInMilliSeconds();
-		static double GetTimeInMicroSeconds();
-		static double GetTimeInNanoSeconds();
-		static std::string_view GetCurrentTimeStamp();
+		static uint64_t GetTimepointNanoseconds();
+		static uint64_t GetTimepointMicroseconds();
+		static uint64_t GetTimepointMilliseconds();
+		static uint64_t GetTimepointSeconds();
 
-	private:
-		// Should be initialized only once during lifetime of Hart::Application
-		static void Init();
-		static void DeInit();
-
-	private:
-		static std::chrono::high_resolution_clock::time_point s_TimePoint;
-		static bool s_IsInitialized;
-		static std::string s_CurrentTimeStamp;
-
-		friend class Hart::Application;
-	};
-
-	class ScopedTimer {
-	public:
-		ScopedTimer(const std::string& name = "ScopedTimer");
-		~ScopedTimer();
-
-	private:
-		std::string m_Name;
-		double m_StartTime;
+		static std::string GetTimeStampUTC();
+		static std::string GetTimeStampLocalTime();
 	};
 }

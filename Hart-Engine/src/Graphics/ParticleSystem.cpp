@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "ParticleSystem.hpp"
+#include "Core/Assert.hpp"
 #include "Renderer/Renderer2D.hpp"
 
 namespace Hart {

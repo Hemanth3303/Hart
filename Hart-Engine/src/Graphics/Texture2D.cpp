@@ -2,6 +2,7 @@
 #include "Texture2D.hpp"
 #include "glad/glad.h"
 #include "stb_image.h"
+#include "Core/Assert.hpp"
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"
 

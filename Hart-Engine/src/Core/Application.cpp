@@ -43,7 +43,7 @@ namespace Hart {
 		HART_ENGINE_LOG("Entering main engine loop");
 
 		double maxPeriod = 1.0f / m_MaxFPS;
-		double currentFrameTime = Timer::GetTimeInMilliSeconds();
+		double currentFrameTime = Timer::GetTimepointMilliseconds();
 		double deltaTime = 0.0;
 
 		while (m_IsRunning) {
@@ -55,7 +55,7 @@ namespace Hart {
 			glfwPollEvents();
 			AudioManager::ClearDoneDecoders();
 
-			currentFrameTime = Timer::GetTimeInMilliSeconds();
+			currentFrameTime = Timer::GetTimepointMilliseconds();
 			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
 
 			if (deltaTime >= maxPeriod) {
@@ -147,7 +147,6 @@ namespace Hart {
 
 		initializeShaderLibrary();
 
-		Timer::Init();
 		InputManager::Init();
 		Renderer3D::Init();
 		AudioManager::Init();
@@ -163,7 +162,6 @@ namespace Hart {
 		AudioManager::DeInit();
 		Renderer3D::DeInit();
 		InputManager::DeInit();
-		Timer::DeInit();
 		m_ShaderLibrary.clear();
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
