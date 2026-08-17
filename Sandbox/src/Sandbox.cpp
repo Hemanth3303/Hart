@@ -19,10 +19,6 @@ public:
 		setBackgroundColor(Hart::DarkGreenishBlue);
 
 		m_Layer2D = std::make_shared<Layer2D>("Layer2D");
-
-		std::cout << Hart::Vec3::CrossProduct(Hart::Vec3(1, 0, 0), Hart::Vec3(0, 1, 0)) << '\n';
-		std::cout << Hart::Vec3::CrossProduct(Hart::Vec3(0, 1, 0), Hart::Vec3(1, 0, 0)) << '\n';
-
 		pushLayer(m_Layer2D);
 	}
 

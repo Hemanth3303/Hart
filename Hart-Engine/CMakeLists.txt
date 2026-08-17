@@ -37,12 +37,12 @@ target_include_directories(Hart-Engine
 
 )
 
-target_precompile_headers(Hart-Engine
-	PUBLIC
+# target_precompile_headers(Hart-Engine
+# 	PUBLIC
 
-	PRIVATE
-		src/HartPch.hpp
-)
+# 	PRIVATE
+# 		src/HartPch.hpp
+# )
 
 target_compile_definitions(Hart-Engine
 	PUBLIC
@@ -53,6 +53,7 @@ target_compile_definitions(Hart-Engine
 
 cmake_base_target_platform_definitions(Hart-Engine HART_ENGINE)
 cmake_base_target_architecture_definitions(Hart-Engine HART_ENGINE)
+cmake_base_apply_sanitizers(Hart-Engine SANITIZERS ASAN UBSAN CONFIGS Debug)
 
 # PLATFORM AND COMPILER SPECIFIC
 

@@ -45,6 +45,7 @@ cmake_base_target_platform_definitions(Two-Player-Pong TWO_PLAYER_PONG)
 cmake_base_target_architecture_definitions(Two-Player-Pong TWO_PLAYER_PONG)
 cmake_base_target_platform_definitions(Two-Player-Pong HART_CLIENT)
 cmake_base_target_architecture_definitions(Two-Player-Pong HART_CLIENT)
+cmake_base_apply_sanitizers(Two-Player-Pong SANITIZERS ASAN UBSAN CONFIGS Debug)
 
 # PLATFORM AND COMPILER SPECIFIC
 
