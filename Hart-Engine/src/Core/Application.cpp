@@ -347,7 +347,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
 				break;
 
 			case GL_DEBUG_SEVERITY_MEDIUM:
@@ -357,7 +357,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
 				break;
 
 			case GL_DEBUG_SEVERITY_LOW:
@@ -367,7 +367,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
 				break;
 
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
@@ -377,7 +377,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
 				break;
 
 			default:
@@ -387,7 +387,7 @@ namespace Hart {
 					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
 					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
 					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message), );
+					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
 				break;
 		}
 	}
