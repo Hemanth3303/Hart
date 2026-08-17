@@ -104,7 +104,7 @@ namespace Hart {
 		bool m_IsRunning = false;
 		KeyCode m_ExitKey = KeyCode::Unknown;
 		double m_MaxFPS = 1'000, m_CurrentFPS = 0.0;
-		double m_LastFrameTime = 0.0;
+		uint64_t m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
 

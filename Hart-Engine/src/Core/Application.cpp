@@ -43,7 +43,7 @@ namespace Hart {
 		HART_ENGINE_LOG("Entering main engine loop");
 
 		double maxPeriod = 1.0f / m_MaxFPS;
-		double currentFrameTime = Timer::GetTimepointMilliseconds();
+		uint64_t currentFrameTime = Timer::GetTimepointMilliseconds();
 		double deltaTime = 0.0;
 
 		while (m_IsRunning) {
