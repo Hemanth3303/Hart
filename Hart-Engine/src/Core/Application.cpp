@@ -42,8 +42,8 @@ namespace Hart {
 	void Application::run() {
 		HART_ENGINE_LOG("Entering main engine loop");
 
-		double maxPeriod = 1.0f / m_MaxFPS;
-		uint64_t currentFrameTime = Timer::GetTimepointMilliseconds();
+		m_LastFrameTime = Timer::GetTimepointNanoseconds();
+		uint64_t currentFrameTime = Timer::GetTimepointNanoseconds();
 		double deltaTime = 0.0;
 
 		while (m_IsRunning) {
@@ -56,29 +56,27 @@ namespace Hart {
 			glfwPollEvents();
 			AudioManager::ClearDoneDecoders();
 
-			currentFrameTime = Timer::GetTimepointMilliseconds();
-			deltaTime = (currentFrameTime - m_LastFrameTime) / 1000.0;
+			currentFrameTime = Timer::GetTimepointNanoseconds();
+			deltaTime = (currentFrameTime - m_LastFrameTime) / 1'000'000'000.0;
 
-			if (deltaTime >= maxPeriod) {
-				m_LastFrameTime = currentFrameTime;
-				m_CurrentFPS = 1.0 / deltaTime;
+			m_LastFrameTime = currentFrameTime;
+			m_CurrentFPS = 1.0 / deltaTime;
 
-				// update
-				for (const auto& layer : m_LayerStack) {
-					layer->update(static_cast<float>(deltaTime));
-				}
-
-				// render
-				RenderCommand::Clear(
-					RenderClearFlags::ColorBuffer |
-					RenderClearFlags::DepthBuffer |
-					RenderClearFlags::StencilBuffer);
-
-				for (const auto& layer : m_LayerStack) {
-					layer->render();
-				}
-				m_Window->swapBuffers();
+			// update
+			for (const auto& layer : m_LayerStack) {
+				layer->update(static_cast<float>(deltaTime));
 			}
+
+			// render
+			RenderCommand::Clear(
+				RenderClearFlags::ColorBuffer |
+				RenderClearFlags::DepthBuffer |
+				RenderClearFlags::StencilBuffer);
+
+			for (const auto& layer : m_LayerStack) {
+				layer->render();
+			}
+			m_Window->swapBuffers();
 		}
 		HART_ENGINE_LOG("Exiting main engine loop");
 	}
@@ -177,6 +175,7 @@ namespace Hart {
 
 		s_Instance = nullptr;
 	}
+	
 	void Application::eventHandler(Event& e) {
 
 		EventDispatcher eventDispatcher(e);

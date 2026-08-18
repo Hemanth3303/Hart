@@ -14,7 +14,6 @@ public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
 		HART_CLIENT_LOG("Initialising SandboxApp");
-		setMaxFPS(1000);
 		enableVsync(false);
 		setExitKey(Hart::KeyCode::Escape);
 		setBackgroundColor(Hart::DarkGreenishBlue);

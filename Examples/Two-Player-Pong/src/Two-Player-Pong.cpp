@@ -128,7 +128,6 @@ class Game : public Hart::Application {
 public:
 	Game()
 		: Application(640, 480, "Two Player Pong", false) {
-		setMaxFPS(60.0);
 		setExitKey(Hart::KeyCode::Escape);
 
 		setBackgroundColor(Hart::Black);

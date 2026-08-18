@@ -51,9 +51,6 @@ namespace Hart {
 
 		// setters
 
-		// sets the maximum frames per second
-		// default value is 1000
-		inline void setMaxFPS(double maxFPS) { m_MaxFPS = maxFPS; }
 		inline void setExitKey(const KeyCode& exitKey) { m_ExitKey = exitKey; }
 
 	protected:
@@ -103,7 +100,7 @@ namespace Hart {
 		ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
 		KeyCode m_ExitKey = KeyCode::Unknown;
-		double m_MaxFPS = 1'000, m_CurrentFPS = 0.0;
+		double m_CurrentFPS = 0.0;
 		uint64_t m_LastFrameTime = 0.0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
