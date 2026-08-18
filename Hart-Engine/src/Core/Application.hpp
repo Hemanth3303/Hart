@@ -70,6 +70,8 @@ namespace Hart {
 		// deinitializes application
 		void deinit();
 
+		static void LogCompileInfo();
+
 		// Event managers
 		void eventHandler(Event& e);
 		// Begin Event Methods

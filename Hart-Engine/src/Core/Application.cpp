@@ -1,6 +1,7 @@
 #include "HartPch.hpp"
 #include "Application.hpp"
 #include "Base.hpp"
+#include "CompileInfo.hpp"
 #include "Assert.hpp"
 #include "Utils/Timer.hpp"
 #include "Utils/Logger.hpp"
@@ -109,14 +110,7 @@ namespace Hart {
 	}
 
 	void Application::init(const WindowProps& windowProps) {
-		HART_ENGINE_INFO(
-			"\n\t\t\t===============Compilation Information===============",
-			"\n\t\t\t\tCompiled using: " HART_COMPILER_STR " | Version: " HART_COMPILER_VERSION_STR,
-			"\n\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
-			"\n\t\t\t\tPlatform: " HART_PLATFORM_STR,
-			"\n\t\t\t\tArchitecture: " HART_ARCHITECTURE_STR
-			"\n\t\t\t=====================================================");
-
+		LogCompileInfo();
 		HART_ENGINE_INFO("Initializing Hart Engine");
 
 		s_Instance = this;
@@ -171,6 +165,17 @@ namespace Hart {
 		glfwTerminate();
 
 		s_Instance = nullptr;
+	}
+
+	void Application::LogCompileInfo() {
+		HART_ENGINE_INFO(
+			"\n\t\t\t===============Compilation Information===============",
+			"\n\t\t\t\tHart Engine Version: ", HART_ENGINE_VERSION,
+			"\n\t\t\t\tCompiled using: ", HART_COMPILER_STR, " v", HART_COMPILER_VERSION_STR,
+			"\n\t\t\t\tCompiled On: ", HART_COMPILATION_TIMESTAMP,
+			"\n\t\t\t\tPlatform: ", HART_PLATFORM_STR,
+			"\n\t\t\t\tArchitecture: ", HART_ARCHITECTURE_STR,
+			"\n\t\t\t=====================================================");
 	}
 
 	void Application::eventHandler(Event& e) {

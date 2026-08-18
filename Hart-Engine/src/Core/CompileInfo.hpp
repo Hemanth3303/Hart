@@ -1,0 +1,72 @@
+#pragma once
+
+#include "Base.hpp"
+
+#if defined(HART_ENGINE)
+
+	#define HART_ENGINE_VERSION_MAJOR 0
+	#define HART_ENGINE_VERSION_MINOR 0
+	#define HART_ENGINE_VERSION_PATCH 0
+
+	#define HART_ENGINE_VERSION                \
+		HART_TO_STR(HART_ENGINE_VERSION_MAJOR) \
+		"." HART_TO_STR(HART_ENGINE_VERSION_MINOR) "." HART_TO_STR(HART_ENGINE_VERSION_PATCH)
+
+	#define HART_COMPILATION_TIMESTAMP __DATE__ " at " __TIME__ " (compiled host's localtime)"
+
+	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+		#define HART_PLATFORM_STR "Windows"
+	#elif defined(HART_ENGINE_PLATFORM_LINUX)
+		#define HART_PLATFORM_STR "Linux"
+	#elif defined(HART_ENGINE_PLATFORM_DARWIN)
+		#define HART_PLATFORM_STR "MacOS"
+	#else
+		#define HART_PLATFORM_STR "Unknown"
+	#endif
+
+	#if defined(HART_ENGINE_ARCHITECTURE_X86_32)
+		#define HART_ARCHITECTURE_STR "x86-32"
+	#elif defined(HART_ENGINE_ARCHITECTURE_X86_64)
+		#define HART_ARCHITECTURE_STR "x86-64"
+	#elif defined(HART_ENGINE_ARCHITECTURE_AARCH32)
+		#define HART_ARCHITECTURE_STR "aarch32"
+	#elif defined(HART_ENGINE_ARCHITECTURE_AARCH64)
+		#define HART_ARCHITECTURE_STR "aarch64"
+	#elif defined(HART_ENGINE_ARCHITECTURE_RISCV32)
+		#define HART_ARCHITECTURE_STR "riscv32"
+	#elif defined(HART_ENGINE_ARCHITECTURE_RISCV64)
+		#define HART_ARCHITECTURE_STR "riscv64"
+	#else
+		#define HART_ARCHITECTURE_STR "Unkown"
+	#endif
+
+	#if defined(HART_COMPILER_MSVC)
+		#define HART_COMPILER_STR "Microsoft Visual C++ Compiler(MSVC)"
+		#define HART_COMPILER_VERSION_STR HART_TO_STR(_MSC_FULL_VER)
+	#elif defined(HART_COMPILER_MINGW_W64)
+		#define HART_COMPILER_STR "MinGW-w64 GCC"
+		#define HART_COMPILER_VERSION_STR        \
+			HART_TO_STR(__MINGW64_VERSION_MAJOR) \
+			"." HART_TO_STR(__MINGW64_VERSION_MINOR)
+	#elif defined(HART_COMPILER_MINGW32)
+		#define HART_COMPILER_STR "MinGW GCC"
+		#define HART_COMPILER_VERSION_STR        \
+			HART_TO_STR(__MINGW32_VERSION_MAJOR) \
+			"." HART_TO_STR(__MINGW32_VERSION_MINOR)
+	#elif defined(HART_COMPILER_GNU_GCC)
+		#define HART_COMPILER_STR "GNU GCC"
+		#if defined(__GNUC_PATCHLEVEL__)
+			#define HART_COMPILER_VERSION_STR \
+				HART_TO_STR(__GNUC__)         \
+				"." HART_TO_STR(__GNUC_MINOR__) "." HART_TO_STR(__GNUC_PATCHLEVEL__)
+		#else
+			#define HART_COMPILER_VERSION_STR \
+				HART_TO_STR(__GNUC__)         \
+				"." HART_TO_STR(__GNUC_MINOR__)
+		#endif
+	#elif defined(HART_COMPILER_UNKNOWN)
+		#define HART_COMPILER_STR "Unknown"
+		#define HART_COMPILER_VERSION_STR "Unknown"
+	#endif
+
+#endif
