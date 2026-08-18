@@ -19,6 +19,7 @@ namespace Hart {
 	};
 
 	enum class LogSeverity {
+		Undefined = -1,
 		Trace = 0,
 		Info,
 		Warning,
@@ -27,6 +28,7 @@ namespace Hart {
 	};
 
 	enum class LogSource {
+		Unknown = -1,
 		HartEngine = 0,
 		HartClient
 	};
@@ -60,6 +62,7 @@ namespace Hart {
 					return "::ERROR";
 				case LogSeverity::Fatal:
 					return "::FATAL";
+				case LogSeverity::Undefined:
 				default:
 					return "::UNDEFINED_SEVERITY";
 			}

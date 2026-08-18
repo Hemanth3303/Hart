@@ -26,6 +26,8 @@
 
 #include "Application.hpp"
 
+#include <cstdlib>
+
 extern std::unique_ptr<Hart::Application> Hart::CreateApplication();
 
 int main(int argc, char** argv) {
@@ -33,5 +35,5 @@ int main(int argc, char** argv) {
 
 	app->run();
 
-	return 0;
+	return EXIT_SUCCESS;
 }

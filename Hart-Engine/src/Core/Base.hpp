@@ -13,14 +13,13 @@
 	#endif
 #endif
 
+// helper macros
 #define BIT(x) (1 << (x))
+#define HART_TO_STR_HELPER(x) #x
+#define HART_TO_STR(x) HART_TO_STR_HELPER(x)
 
 // compilation information
 #if defined(HART_ENGINE)
-	// helper macros
-	#define HART_TO_STR_HELPER(x) #x
-	#define HART_TO_STR(x) HART_TO_STR_HELPER(x)
-
 	#define HART_COMPILATION_TIMESTAMP __DATE__ " at " __TIME__
 
 	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
