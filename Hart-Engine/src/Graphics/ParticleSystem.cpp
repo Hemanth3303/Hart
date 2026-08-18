@@ -1,7 +1,7 @@
 #include "HartPch.hpp"
 #include "ParticleSystem.hpp"
 #include "Core/Assert.hpp"
-#include "Renderer/Renderer2D.hpp"
+#include "Renderer2D/Renderer2D.hpp"
 
 namespace Hart {
 	ParticleSystem::ParticleSystem(uint32_t maxParticles) {

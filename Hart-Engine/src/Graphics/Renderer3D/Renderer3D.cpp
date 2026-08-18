@@ -1,8 +1,7 @@
 #include "HartPch.hpp"
 #include "Renderer3D.hpp"
 #include "Renderer3DData.hpp"
-#include "Renderer2D.hpp"
-#include "RenderCommand.hpp"
+#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
 #include "Utils/Logger.hpp"
 
 namespace Hart {
@@ -30,7 +29,7 @@ namespace Hart {
 		shader->setUniform("uViewProjectionMatrix3D", s_Data->viewProjectionMatrix);
 		shader->setUniform("uModelMatrix", transformationMatrix);
 
-		RenderCommand::DrawArrays(vertexArray);
+		OpenGLRenderer::DrawArrays(vertexArray);
 
 		shader->unbind();
 	}

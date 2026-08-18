@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Graphics/VertexArray.hpp"
+#include "OpenGLRendererData.hpp"
 
 namespace Hart {
 	enum class RenderClearFlags : GLbitfield {
@@ -11,7 +12,7 @@ namespace Hart {
 
 	RenderClearFlags operator|(RenderClearFlags lhs, RenderClearFlags rhs);
 
-	class RenderCommand {
+	class OpenGLRenderer {
 	public:
 		static void Init();
 		static void DeInit();
@@ -21,18 +22,20 @@ namespace Hart {
 		// Bitwise OR the target values. eg: RenderClearFlags::ColorBuffer | RenderClearFlags::DepthBuffer
 		static void Clear(RenderClearFlags clearFlag);
 		static void SetViewPort(int32_t x, int32_t y, int32_t width, int32_t height);
-		static int64_t GetMaxTextureSlotsPerShader();
-		static int64_t GetMaxTextureSlotsTotal();
+
 		static void EnableDepthTest();
 		static void DisableDepthTest();
 		static void EnableBlending();
 		static void DisableBlending();
 		static void EnableWireFrameMode();
 		static void DisableWireFrameMode();
+
+		static int64_t GetMaxTextureSlotsPerShader();
+		static int64_t GetMaxTextureSlotsTotal();
 		static void SetPixelPackAlignment(int32_t alignmentNumber);
-		static int32_t GetPixelPackAlignment();
 		static void SetPixelUnpackAlignment(int32_t alignmentNumber);
-		static int32_t GetPixelUnpackAlignment();
+
+		static const OpenGLRendererData& GetOpenGLRendererData();
 
 		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount);
 
@@ -44,9 +47,9 @@ namespace Hart {
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0);
 
 	private:
-		static void LogOpenGLRendererInfo();
+		static void LogInfo();
+
 	private:
-		inline static int32_t s_PixelPackAlignment = 4;
-		inline static int32_t s_PixelUnpackAlignment = 4;
+		inline static OpenGLRendererData s_Data{};
 	};
 }

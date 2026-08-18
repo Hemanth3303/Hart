@@ -5,10 +5,10 @@
 #include "Utils/Timer.hpp"
 #include "Utils/Logger.hpp"
 #include "Inputs/InputManager.hpp"
-#include "Graphics/Renderer/RenderCommand.hpp"
-#include "Graphics/Renderer/RendererDebug.hpp"
-#include "Graphics/Renderer/Renderer3D.hpp"
-#include "Graphics/Renderer/Renderer2D.hpp"
+#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
+#include "Graphics/OpenGLRenderer/OpenGLRendererDebug.hpp"
+#include "Graphics/Renderer3D/Renderer3D.hpp"
+#include "Graphics/Renderer2D/Renderer2D.hpp"
 #include "Graphics/EngineShaders/QuadShader2D.hpp"
 #include "Graphics/EngineShaders/TextShader2D.hpp"
 #include "Graphics/EngineShaders/CubeShader3D.hpp"
@@ -64,7 +64,7 @@ namespace Hart {
 			}
 
 			// render
-			RenderCommand::Clear(
+			OpenGLRenderer::Clear(
 				RenderClearFlags::ColorBuffer |
 				RenderClearFlags::DepthBuffer |
 				RenderClearFlags::StencilBuffer);
@@ -78,7 +78,7 @@ namespace Hart {
 	}
 
 	void Application::setBackgroundColor(const Vec4& color) {
-		RenderCommand::SetClearColor(color);
+		OpenGLRenderer::SetClearColor(color);
 	}
 
 	void Application::enableVsync(bool enable) {
@@ -141,9 +141,9 @@ namespace Hart {
 
 		InputManager::Init();
 
-		RenderCommand::Init();
+		OpenGLRenderer::Init();
 #if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
-		RendererDebug::Init();
+		OpenGLRendererDebug::Init();
 #endif
 
 		initializeShaderLibrary();
@@ -153,15 +153,15 @@ namespace Hart {
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 
 		// Setting clear color as black
-		RenderCommand::SetClearColor(Black);
+		OpenGLRenderer::SetClearColor(Black);
 	}
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		RendererDebug::DeInit();
+		OpenGLRendererDebug::DeInit();
 		Renderer3D::DeInit();
 		Renderer2D::DeInit();
-		RenderCommand::DeInit();
+		OpenGLRenderer::DeInit();
 		InputManager::DeInit();
 		m_ShaderLibrary.clear();
 		// i just want to see the "shutting down hart engine" message at last o_o

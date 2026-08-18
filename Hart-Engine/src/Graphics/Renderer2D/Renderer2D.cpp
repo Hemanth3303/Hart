@@ -1,7 +1,7 @@
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
 #include "Renderer2DData.hpp"
-#include "RenderCommand.hpp"
+#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
 #include "Core/Application.hpp"
 #include "Core/Assert.hpp"
 #include "Utils/Logger.hpp"
@@ -383,7 +383,7 @@ namespace Hart {
 			s_Data->quadVertexBuffer->setData(s_Data->quadVertexBufferBase, dataSize);
 
 			s_Data->quadShader->bind();
-			RenderCommand::DrawIndexed(s_Data->quadVertexArray, s_Data->quadIndexCount);
+			OpenGLRenderer::DrawIndexed(s_Data->quadVertexArray, s_Data->quadIndexCount);
 
 			s_Data->stats.numberOfDrawCalls++;
 		}
@@ -397,7 +397,7 @@ namespace Hart {
 			s_Data->textVertexBuffer->setData(s_Data->textVertexBufferBase, dataSize);
 
 			s_Data->textShader->bind();
-			RenderCommand::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
+			OpenGLRenderer::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
 
 			s_Data->stats.numberOfDrawCalls++;
 		}

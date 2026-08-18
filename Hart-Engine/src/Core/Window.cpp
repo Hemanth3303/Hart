@@ -1,7 +1,7 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
 #include "Assert.hpp"
-#include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
 #include "Utils/Logger.hpp"
 
 namespace Hart {
@@ -56,7 +56,7 @@ namespace Hart {
 		HART_DEBUG_ASSERT((success != 0), "Failed to Initialize GLAD");
 		HART_ENGINE_INFO("GLAD loaded successfully");
 
-		RenderCommand::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);
+		OpenGLRenderer::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);
 
 		int32_t x, y;
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
@@ -115,7 +115,7 @@ namespace Hart {
 		engineWindow->m_WindowProps.width = width;
 		engineWindow->m_WindowProps.height = height;
 
-		RenderCommand::SetViewPort(0, 0, engineWindow->m_WindowProps.width, engineWindow->m_WindowProps.height);
+		OpenGLRenderer::SetViewPort(0, 0, engineWindow->m_WindowProps.width, engineWindow->m_WindowProps.height);
 	}
 
 	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods) {

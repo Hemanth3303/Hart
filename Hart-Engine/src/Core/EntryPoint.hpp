@@ -1,8 +1,12 @@
 /*
  * Entry point of any Hart Application
  */
-
 #pragma once
+
+#include "Base.hpp"
+#include "Application.hpp"
+
+#include <cstdlib>
 
 #if defined(HART_COMPILER_MSVC)
 // refer https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5105
@@ -30,10 +34,6 @@ __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 #endif
-
-#include "Application.hpp"
-
-#include <cstdlib>
 
 extern std::unique_ptr<Hart::Application> Hart::CreateApplication();
 

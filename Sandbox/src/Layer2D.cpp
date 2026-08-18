@@ -1,6 +1,7 @@
 #include "Layer2D.hpp"
 
-#undef DrawText
+// ignore this sin for now
+#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
 
 Layer2D::Layer2D(const std::string& name)
 	: Layer(name), m_ParticleSystem(1'000'000) {
@@ -30,7 +31,6 @@ void Layer2D::onAttach() {
 	m_Particle.velocity = { m_Rd.getRandomFloat(-1.0f, 1.0f), m_Rd.getRandomFloat(-1.0f, 1.0f) };
 	m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f), m_Rd.getRandomFloat(-2.0f, 2.0f) };
 	m_Particle.position = { 0.0f, 0.0f, 1.0f };
-
 }
 
 void Layer2D::onDetach() {
@@ -61,7 +61,7 @@ void Layer2D::update(const float deltaTime) {
 	if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Left)) {
 		m_ParticleSystem.emit(m_Particle);
 	}
-	
+
 	m_CameraController->update(deltaTime);
 	m_ParticleSystem.update(deltaTime);
 }
@@ -101,6 +101,13 @@ void Layer2D::render() {
 		Hart::Renderer2D::DrawText("No of TextQuads: " + textQuads, { -1.6f, 0.55f, 1.0f }, 0.7f, Hart::White);
 		Hart::Renderer2D::DrawText("No of TextQuad Vertices: " + textQuadVerts, { -1.6f, 0.5f, 1.0f }, 0.7f, Hart::White);
 		Hart::Renderer2D::DrawText("No of TextQuad Indices: " + textQuadInds, { -1.6f, 0.45f, 1.0f }, 0.7f, Hart::White);
+
+		// ignore this sin for now
+		const Hart::OpenGLRendererData& openglRendererData = Hart::OpenGLRenderer::GetOpenGLRendererData();
+
+		Hart::Renderer2D::DrawText("OpenGL Vendor: " + openglRendererData.openglInfo.vendor, { -1.6f, -0.60f, 1.0f }, 1.3f, Hart::Red);
+		Hart::Renderer2D::DrawText("OpenGL Renderer: " + openglRendererData.openglInfo.renderer, { -1.6f, -0.70f, 1.0f }, 1.3f, Hart::Red);
+		Hart::Renderer2D::DrawText("OpenGL Version: " + openglRendererData.openglInfo.version, { -1.6f, -0.80f, 1.0f }, 1.3f, Hart::Red);
 
 		m_ParticleSystem.render();
 	}
