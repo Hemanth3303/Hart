@@ -8,7 +8,6 @@
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
-#include "Audio/AudioManager.hpp"
 
 namespace Hart {
 
@@ -54,7 +53,6 @@ namespace Hart {
 			}
 
 			glfwPollEvents();
-			AudioManager::ClearDoneDecoders();
 
 			currentFrameTime = Timer::GetTimepointNanoseconds();
 			deltaTime = (currentFrameTime - m_LastFrameTime) / 1'000'000'000.0;
@@ -153,7 +151,6 @@ namespace Hart {
 
 		InputManager::Init();
 		Renderer3D::Init();
-		AudioManager::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
 
@@ -163,7 +160,6 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		AudioManager::DeInit();
 		Renderer3D::DeInit();
 		InputManager::DeInit();
 		m_ShaderLibrary.clear();

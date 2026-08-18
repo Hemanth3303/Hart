@@ -17,8 +17,6 @@ private:
 	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex;
 	std::shared_ptr<Hart::SpriteSheet> m_SpriteSheet;
 	std::shared_ptr<Hart::OrthographicCameraController> m_CameraController;
-	std::shared_ptr<Hart::Sound> pickupSound;
-	std::shared_ptr<Hart::Music> criticalTheme;
 	Hart::Random m_Rd;
 	Hart::ParticleProps m_Particle;
 	Hart::ParticleSystem m_ParticleSystem;

@@ -31,11 +31,6 @@ void Layer2D::onAttach() {
 	m_Particle.velocityVariation = { m_Rd.getRandomFloat(-2.0f, 2.0f), m_Rd.getRandomFloat(-2.0f, 2.0f) };
 	m_Particle.position = { 0.0f, 0.0f, 1.0f };
 
-	pickupSound = std::make_shared<Hart::Sound>("res/sfx/pickup.wav");
-	criticalTheme = std::make_shared<Hart::Music>("res/music/CriticalTheme.wav");
-
-	Hart::AudioManager::PlaySound(pickupSound);
-	Hart::AudioManager::PlayMusic(criticalTheme);
 }
 
 void Layer2D::onDetach() {
@@ -65,13 +60,8 @@ void Layer2D::update(const float deltaTime) {
 
 	if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Left)) {
 		m_ParticleSystem.emit(m_Particle);
-		Hart::AudioManager::PlaySound(pickupSound);
-		Hart::AudioManager::PauseAllAudio();
 	}
-	if (Hart::InputManager::IsMouseButtonPressed(Hart::MouseCode::Right)) {
-		Hart::AudioManager::ResumeAllAudio();
-	}
-
+	
 	m_CameraController->update(deltaTime);
 	m_ParticleSystem.update(deltaTime);
 }
