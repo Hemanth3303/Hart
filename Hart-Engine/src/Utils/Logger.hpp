@@ -41,7 +41,6 @@ namespace Hart {
 				<< Timer::GetTimeStampUTC()
 				<< " ["
 				<< LogSourceToString(logSource)
-				<< " "
 				<< LogSeverityToString(severity)
 				<< "]: ";
 			(std::cerr << ... << args);
@@ -52,28 +51,28 @@ namespace Hart {
 		static constexpr std::string_view LogSeverityToString(LogSeverity severity) {
 			switch (severity) {
 				case LogSeverity::Trace:
-					return "TRACE";
+					return "::TRACE";
 				case LogSeverity::Info:
-					return "INFO";
+					return "::INFO";
 				case LogSeverity::Warning:
-					return "WARNING";
+					return "::WARNING";
 				case LogSeverity::Error:
-					return "ERROR";
+					return "::ERROR";
 				case LogSeverity::Fatal:
-					return "FATAL";
+					return "::FATAL";
 				default:
-					return "UNDEFINED SEVERITY";
+					return "::UNDEFINED_SEVERITY";
 			}
 		}
 
 		static constexpr std::string_view LogSourceToString(LogSource logSource) {
 			switch (logSource) {
 				case LogSource::HartEngine:
-					return "HART ENGINE";
+					return "HART_ENGINE";
 				case LogSource::HartClient:
-					return "HART CLIENT";
+					return "HART_CLIENT";
 				default:
-					return "UNKNOWN LOG SOURCE";
+					return "UNKNOWN_LOG_SOURCE";
 			}
 		}
 

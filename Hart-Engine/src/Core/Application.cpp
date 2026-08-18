@@ -111,11 +111,12 @@ namespace Hart {
 
 	void Application::init(const WindowProps& windowProps) {
 		HART_ENGINE_LOG(
-			"Compilation Information:",
-			"\t\t\t\t\tCompiled using: " HART_COMPILER_STR " | Version: " HART_COMPILER_VERSION_STR,
-			"\t\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
-			"\t\t\t\t\tPlatform: " HART_PLATFORM_STR,
-			"\t\t\t\t\tArchitecture: " HART_ARCHITECTURE_STR);
+			"\n\t\t\t===============Compilation Information===============",
+			"\n\t\t\t\tCompiled using: " HART_COMPILER_STR " | Version: " HART_COMPILER_VERSION_STR,
+			"\n\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
+			"\n\t\t\t\tPlatform: " HART_PLATFORM_STR,
+			"\n\t\t\t\tArchitecture: " HART_ARCHITECTURE_STR
+			"\n\t\t\t=====================================================");
 
 		HART_ENGINE_LOG("Initializing Hart Engine");
 
