@@ -10,7 +10,7 @@ Layer2D::~Layer2D() {
 }
 
 void Layer2D::onAttach() {
-	HART_CLIENT_LOG(std::string("Attached layer: ") + getName());
+	HART_CLIENT_INFO(std::string("Attached layer: ") + getName());
 
 	Hart::Texture2DSpecification pixelArtTextureSpec;
 	pixelArtTextureSpec.magFilter = Hart::TextureMagFilter::Nearest;
@@ -39,16 +39,16 @@ void Layer2D::onAttach() {
 }
 
 void Layer2D::onDetach() {
-	HART_CLIENT_LOG(std::string("Detached layer: ") + getName());
+	HART_CLIENT_INFO(std::string("Detached layer: ") + getName());
 }
 
 void Layer2D::onEvent(Hart::Event& e) {
-	// HART_CLIENT_LOG(e);
+	// HART_CLIENT_INFO(e);
 	m_CameraController->onEvent(e);
 }
 
 void Layer2D::update(const float deltaTime) {
-	Hart::ScopedTimer st("Layer2D Update Loop");
+	// Hart::ScopedTimer st("Layer2D Update Loop");
 
 	auto [x, y] = Hart::InputManager::GetMousePosition();
 	std::int32_t width = Hart::Application::Get()->getWindowWidth();
@@ -77,7 +77,7 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-	Hart::ScopedTimer st("Layer2D Render Loop");
+	// Hart::ScopedTimer st("Layer2D Render Loop");
 	static std::string fps, drawCalls, quads, quadVerts, quadInds, textQuads, textQuadVerts, textQuadInds;
 
 	Hart::Renderer2D::ResetStats();

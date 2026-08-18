@@ -118,7 +118,7 @@ namespace Hart {
 		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Trace, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_CLIENT_LOG(message, ...)                                              \
+	#define HART_CLIENT_INFO(message, ...)                                              \
 		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Info, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
@@ -135,7 +135,7 @@ namespace Hart {
 								 message __VA_OPT__(, __VA_ARGS__))
 #else
 	#define HART_CLIENT_TRACE(message, ...)
-	#define HART_CLIENT_LOG(message, ...)
+	#define HART_CLIENT_INFO(message, ...)
 	#define HART_CLIENT_WARNING(message, ...)
 	#define HART_CLIENT_ERROR(message, ...)
 	#define HART_CLIENT_FATAL(message, ...)

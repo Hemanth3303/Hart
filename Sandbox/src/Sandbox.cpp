@@ -13,7 +13,7 @@ private:
 public:
 	Sandbox()
 		: Application(960, 540, "Hart Engine: Sandbox", true) {
-		HART_CLIENT_LOG("Initialising SandboxApp");
+		HART_CLIENT_INFO("Initialising SandboxApp");
 		enableVsync(false);
 		setExitKey(Hart::KeyCode::Escape);
 		setBackgroundColor(Hart::DarkGreenishBlue);
@@ -23,7 +23,7 @@ public:
 	}
 
 	~Sandbox() {
-		HART_CLIENT_LOG("DeInitialising Sandbox");
+		HART_CLIENT_INFO("DeInitialising Sandbox");
 	}
 };
 
