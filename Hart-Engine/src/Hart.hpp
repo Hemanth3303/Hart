@@ -37,3 +37,4 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Random.hpp"
 #include "Utils/Timer.hpp"
+#include "Utils/ScopedTimer.hpp"

@@ -48,7 +48,7 @@ void Layer2D::onEvent(Hart::Event& e) {
 }
 
 void Layer2D::update(const float deltaTime) {
-	// Hart::ScopedTimer sp("Layer2D Update Loop");
+	Hart::ScopedTimer st("Layer2D Update Loop");
 
 	auto [x, y] = Hart::InputManager::GetMousePosition();
 	std::int32_t width = Hart::Application::Get()->getWindowWidth();
@@ -77,7 +77,7 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-	// Hart::ScopedTimer sp("Layer2D Render Loop");
+	Hart::ScopedTimer st("Layer2D Render Loop");
 	static std::string fps, drawCalls, quads, quadVerts, quadInds, textQuads, textQuadVerts, textQuadInds;
 
 	Hart::Renderer2D::ResetStats();
