@@ -8,12 +8,12 @@
 #include "Graphics/Renderer/RenderCommand.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
+#include "Graphics/EngineShaders/QuadShader2D.hpp"
+#include "Graphics/EngineShaders/TextShader2D.hpp"
+#include "Graphics/EngineShaders/CubeShader3D.hpp"
 
 namespace Hart {
-
 	Application* Application::s_Instance = nullptr;
-
-	extern void initializeShaderLibrary();
 
 	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
 	void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter);
@@ -148,7 +148,6 @@ namespace Hart {
 #endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 
 		initializeShaderLibrary();
-
 		InputManager::Init();
 		Renderer3D::Init();
 
@@ -268,6 +267,12 @@ namespace Hart {
 	bool Application::onMouseButtonReleased(MouseButtonReleasedEvent& e) {
 		InputManager::SetMouseButtonReleased(e.getMouseButton());
 		return false;
+	}
+
+	void Application::initializeShaderLibrary() {
+		m_ShaderLibrary.loadShaderFromString("QuadShader2D", QuadShader2DVertexSource.c_str(), QuadShader2DFragmentSource.c_str());
+		m_ShaderLibrary.loadShaderFromString("TextShader", TextShaderVertexSource.c_str(), TextShaderFragmentSource.c_str());
+		m_ShaderLibrary.loadShaderFromString("CubeShader3D", CubeShader3DVertexSource.c_str(), CubeShader3DFragmentSource.c_str());
 	}
 
 	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
