@@ -5,6 +5,7 @@
 #pragma once
 
 #if defined(HART_COMPILER_MSVC)
+// refer https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5105
 	#pragma warning(disable : 5105)
 
 	#pragma comment(lib, "opengl32")
@@ -16,13 +17,19 @@
 
 #endif // HART_COMPILER_MSVC
 
-// #if defined(HART_CLIENT_PLATFORM_WINDOWS) && defined(HART_CLIENT_RELEASE_BUILD)
-// #include <windows.h>
-// extern "C" {
-//	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-//	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-// }
-// #endif
+/**
+ * Define HART_REQUEST_DGPU_WINDOWS before including this file
+ * to request the dedicated gpu on windows, especially in laptops with
+ * igpu and dgpu.
+ * CMake config for defining HART_CLIENT_PLATFORM_WINDOWS must be setup for this to work.
+ */
+#if defined(HART_REQUEST_DGPU_WINDOWS) && defined(HART_CLIENT_PLATFORM_WINDOWS)
+	#include <windows.h>
+extern "C" {
+__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+#endif
 
 #include "Application.hpp"
 

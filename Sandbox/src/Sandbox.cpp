@@ -2,6 +2,9 @@
  * A Game/App made using Hart-Engine, currently used for testing purposes
  */
 
+#if defined(HART_CLIENT_RELEASE_BUILD)
+	#define HART_REQUEST_DGPU_WINDOWS
+#endif
 #include "Core/EntryPoint.hpp"
 #include "Hart.hpp"
 #include "Layer2D.hpp"
