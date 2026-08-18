@@ -18,12 +18,7 @@ namespace Hart {
 		SetPixelUnpackAlignment(4);
 
 		HART_ENGINE_INFO("Initializing OpenGL Renderer");
-		HART_ENGINE_INFO(
-			"\n\t\t\t=======================OpenGL Renderer Info=======================",
-			"\n\t\t\t\tVendor: ", glGetString(GL_VENDOR),
-			"\n\t\t\t\tRenderer: ", glGetString(GL_RENDERER),
-			"\n\t\t\t\tVersion: ", glGetString(GL_VERSION),
-			"\n\t\t\t==================================================================");
+		LogOpenGLRendererInfo();
 	}
 	void RenderCommand::DeInit() {
 		HART_ENGINE_INFO("DeInitializing OpenGL Renderer");
@@ -80,11 +75,21 @@ namespace Hart {
 	}
 
 	void RenderCommand::SetPixelPackAlignment(int32_t alignmentNumber) {
-		glPixelStorei(GL_PACK_ALIGNMENT, alignmentNumber);
+		s_PixelPackAlignment = alignmentNumber;
+		glPixelStorei(GL_PACK_ALIGNMENT, s_PixelPackAlignment);
+	}
+
+	int32_t RenderCommand::GetPixelPackAlignment() {
+		return s_PixelPackAlignment;
 	}
 
 	void RenderCommand::SetPixelUnpackAlignment(int32_t alignmentNumber) {
-		glPixelStorei(GL_UNPACK_ALIGNMENT, alignmentNumber);
+		s_PixelUnpackAlignment = alignmentNumber;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, s_PixelUnpackAlignment);
+	}
+
+	int32_t RenderCommand::GetPixelUnpackAlignment() {
+		return s_PixelUnpackAlignment;
 	}
 
 	void RenderCommand::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
@@ -110,5 +115,19 @@ namespace Hart {
 		uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
 
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+	}
+
+	void RenderCommand::LogOpenGLRendererInfo() {
+		HART_ENGINE_INFO(
+			"\n\t\t\t=======================OpenGL Renderer Info=======================",
+			"\n\t\t\t\tVendor: ", glGetString(GL_VENDOR),
+			"\n\t\t\t\tRenderer: ", glGetString(GL_RENDERER),
+			"\n\t\t\t\tVersion: ", glGetString(GL_VERSION),
+			"\n\t\t\t\tFeatures:",
+			"\n\t\t\t\t\tMax texture slots per shader: ", GetMaxTextureSlotsPerShader(),
+			"\n\t\t\t\t\tMax texture slots combined: ", GetMaxTextureSlotsTotal(),
+			"\n\t\t\t\t\tInitial pixel pack alignment: ", GetPixelPackAlignment(),
+			"\n\t\t\t\t\tInitial pixel unpack alignment: ", GetPixelUnpackAlignment(),
+			"\n\t\t\t==================================================================");
 	}
 }

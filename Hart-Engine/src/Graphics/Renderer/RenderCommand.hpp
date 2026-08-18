@@ -30,7 +30,9 @@ namespace Hart {
 		static void EnableWireFrameMode();
 		static void DisableWireFrameMode();
 		static void SetPixelPackAlignment(int32_t alignmentNumber);
+		static int32_t GetPixelPackAlignment();
 		static void SetPixelUnpackAlignment(int32_t alignmentNumber);
+		static int32_t GetPixelUnpackAlignment();
 
 		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount);
 
@@ -40,5 +42,11 @@ namespace Hart {
 		// by default uses index count of index buffer in vertex array
 		// if provided with an indexCount greater than 0, it uses that indexCount instead
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0);
+
+	private:
+		static void LogOpenGLRendererInfo();
+	private:
+		inline static int32_t s_PixelPackAlignment = 4;
+		inline static int32_t s_PixelUnpackAlignment = 4;
 	};
 }
