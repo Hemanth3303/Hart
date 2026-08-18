@@ -19,5 +19,8 @@ namespace Hart {
 		static std::string GetTimeStampUTC();
 		// uses the realtime std::chrono::system_clock
 		static std::string GetTimeStampLocalTime();
+
+	private:
+		inline static constexpr int NANOSECOND_STRING_LENGTH = 9;
 	};
 }

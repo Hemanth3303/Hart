@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "Timer.hpp"
+
 #include <concepts>
 #include <iostream>
 #include <mutex>
@@ -36,7 +38,8 @@ namespace Hart {
 		static void LogMessage(const LogSource& logSource, const LogSeverity& severity, const T&... args) {
 			std::lock_guard<std::mutex> lock(s_LoggerMutex);
 			std::cerr
-				<< "["
+				<< Timer::GetTimeStampUTC()
+				<< " ["
 				<< LogSourceToString(logSource)
 				<< " "
 				<< LogSeverityToString(severity)
