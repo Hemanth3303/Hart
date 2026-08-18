@@ -36,11 +36,11 @@ namespace Hart {
 
 	Application::~Application() {
 		deinit();
-		HART_ENGINE_LOG("Shutting down Hart Engine");
+		HART_ENGINE_INFO("Shutting down Hart Engine");
 	}
 
 	void Application::run() {
-		HART_ENGINE_LOG("Entering main engine loop");
+		HART_ENGINE_INFO("Entering main engine loop");
 
 		m_LastFrameTime = Timer::GetTimepointNanoseconds();
 		uint64_t currentFrameTime = Timer::GetTimepointNanoseconds();
@@ -78,7 +78,7 @@ namespace Hart {
 			}
 			m_Window->swapBuffers();
 		}
-		HART_ENGINE_LOG("Exiting main engine loop");
+		HART_ENGINE_INFO("Exiting main engine loop");
 	}
 
 	void Application::setBackgroundColor(const Vec4& color) {
@@ -113,7 +113,7 @@ namespace Hart {
 	}
 
 	void Application::init(const WindowProps& windowProps) {
-		HART_ENGINE_LOG(
+		HART_ENGINE_INFO(
 			"\n\t\t\t===============Compilation Information===============",
 			"\n\t\t\t\tCompiled using: " HART_COMPILER_STR " | Version: " HART_COMPILER_VERSION_STR,
 			"\n\t\t\t\tCompiled On: " HART_COMPILATION_TIMESTAMP,
@@ -121,12 +121,12 @@ namespace Hart {
 			"\n\t\t\t\tArchitecture: " HART_ARCHITECTURE_STR
 			"\n\t\t\t=====================================================");
 
-		HART_ENGINE_LOG("Initializing Hart Engine");
+		HART_ENGINE_INFO("Initializing Hart Engine");
 
 		s_Instance = this;
 		HART_DEBUG_ASSERT((s_Instance != nullptr), "Reason: Failed to initialize Hart Engine");
 
-		HART_ENGINE_LOG("Initializing GLFW");
+		HART_ENGINE_INFO("Initializing GLFW");
 		int32_t success = glfwInit();
 		HART_DEBUG_ASSERT((success == GLFW_TRUE), "Reason: Failed to initialize GLFW");
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -137,7 +137,7 @@ namespace Hart {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 #endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
 
-		HART_ENGINE_LOG("GLFW initialized successfully");
+		HART_ENGINE_INFO("GLFW initialized successfully");
 
 		m_Window = std::make_unique<Window>(windowProps);
 		glfwSwapInterval(0);
@@ -170,12 +170,12 @@ namespace Hart {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
-		HART_ENGINE_LOG("DeInitializing GLFW");
+		HART_ENGINE_INFO("DeInitializing GLFW");
 		glfwTerminate();
 
 		s_Instance = nullptr;
 	}
-	
+
 	void Application::eventHandler(Event& e) {
 
 		EventDispatcher eventDispatcher(e);
@@ -381,7 +381,7 @@ namespace Hart {
 
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
 				debugSeverity = "NOTIFICATION";
-				HART_ENGINE_LOG(
+				HART_ENGINE_INFO(
 					"\n\t\t\t\t\t=========OpenGL Error=========",
 					"\n\t\t\t\t\t  From: ", debugSource,
 					"\n\t\t\t\t\t  Type: ", debugType,

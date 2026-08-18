@@ -17,8 +17,8 @@ namespace Hart {
 		SetPixelPackAlignment(4);
 		SetPixelUnpackAlignment(4);
 
-		HART_ENGINE_LOG("Initializing OpenGL Renderer");
-		HART_ENGINE_LOG(
+		HART_ENGINE_INFO("Initializing OpenGL Renderer");
+		HART_ENGINE_INFO(
 			"\n\t\t\t=======================OpenGL Renderer Info=======================",
 			"\n\t\t\t\tVendor: ", glGetString(GL_VENDOR),
 			"\n\t\t\t\tRenderer: ", glGetString(GL_RENDERER),
@@ -26,7 +26,7 @@ namespace Hart {
 			"\n\t\t\t==================================================================");
 	}
 	void RenderCommand::DeInit() {
-		HART_ENGINE_LOG("DeInitializing OpenGL Renderer");
+		HART_ENGINE_INFO("DeInitializing OpenGL Renderer");
 	}
 	void RenderCommand::SetClearColor(const Vec4& color) {
 		glClearColor(color.x, color.y, color.z, color.w);

@@ -60,7 +60,7 @@ namespace Hart {
 	}
 
 	void InputManager::Init() {
-		HART_ENGINE_LOG("Initializing Input Manager");
+		HART_ENGINE_INFO("Initializing Input Manager");
 		for (bool& key : s_Keys) {
 			key = false;
 		}
@@ -71,7 +71,7 @@ namespace Hart {
 	}
 
 	void InputManager::DeInit() {
-		HART_ENGINE_LOG("DeInitializing Input Manager");
+		HART_ENGINE_INFO("DeInitializing Input Manager");
 	}
 
 	void InputManager::SetKeyPressed(const KeyCode& keyCode) {

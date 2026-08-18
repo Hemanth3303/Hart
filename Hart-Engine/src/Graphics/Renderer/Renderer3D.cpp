@@ -11,12 +11,12 @@ namespace Hart {
 	void Renderer3D::Init() {
 		RenderCommand::Init();
 		Renderer2D::Init();
-		HART_ENGINE_LOG("Initializing Renderer3D");
+		HART_ENGINE_INFO("Initializing Renderer3D");
 	}
 
 	void Renderer3D::DeInit() {
 		Renderer2D::DeInit();
-		HART_ENGINE_LOG("DeInitializing Renderer3D");
+		HART_ENGINE_INFO("DeInitializing Renderer3D");
 		RenderCommand::DeInit();
 	}
 

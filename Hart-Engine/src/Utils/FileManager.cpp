@@ -18,7 +18,7 @@ namespace Hart {
 			HART_ENGINE_ERROR("Could not find file named ", fileName, "\n\t\t\tIs the file name and/or file path correct?");
 		}
 		else {
-			HART_ENGINE_LOG("Opening file: ", fileName);
+			HART_ENGINE_INFO("Opening file: ", fileName);
 			inFile.open(fileName, std::ios::in);
 
 			HART_DEBUG_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
@@ -39,7 +39,7 @@ namespace Hart {
 			HART_ENGINE_ERROR("Could not find file named ", fileName, "\n\t\t\tIs the file name and/or file path correct?");
 		}
 		else {
-			HART_ENGINE_LOG("Opening file ", fileName);
+			HART_ENGINE_INFO("Opening file ", fileName);
 			inFile.open(fileName, std::ios::binary);
 			HART_DEBUG_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
 
@@ -63,7 +63,7 @@ namespace Hart {
 		std::fstream outFile;
 
 		if (!std::filesystem::is_directory(directory)) {
-			HART_ENGINE_LOG("Directory ", directory, " doesn't exist. Creating it");
+			HART_ENGINE_INFO("Directory ", directory, " doesn't exist. Creating it");
 			std::filesystem::create_directories(directory);
 		}
 
@@ -71,7 +71,7 @@ namespace Hart {
 
 		outFile.open(outFileName, std::ios::out | std::ios::app);
 
-		HART_ENGINE_LOG("Writing to file " , outFileName);
+		HART_ENGINE_INFO("Writing to file " , outFileName);
 
 		HART_DEBUG_ASSERT(outFile.is_open());
 		outFile << data << "\n";

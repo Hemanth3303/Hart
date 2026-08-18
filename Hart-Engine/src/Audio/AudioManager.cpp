@@ -11,7 +11,7 @@ namespace Hart {
 	uint32_t readAndMixPCMFramesF32(ma_decoder* decoder, float* outputF32, uint32_t frameCount);
 
 	void AudioManager::Init() {
-		HART_ENGINE_LOG("Initializing Audio Manager");
+		HART_ENGINE_INFO("Initializing Audio Manager");
 
 		s_Data = std::make_unique<AudioManagerData>();
 
@@ -30,7 +30,7 @@ namespace Hart {
 	}
 
 	void AudioManager::DeInit() {
-		HART_ENGINE_LOG("DeInitializing Audio Manager");
+		HART_ENGINE_INFO("DeInitializing Audio Manager");
 		for (auto& audioDecoder : s_Data->audioDecoders) {
 			delete audioDecoder.decoder;
 		}

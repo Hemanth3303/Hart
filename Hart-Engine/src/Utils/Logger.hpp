@@ -89,7 +89,7 @@ namespace Hart {
 		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Trace, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_ENGINE_LOG(message, ...)                                              \
+	#define HART_ENGINE_INFO(message, ...)                                              \
 		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Info, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
@@ -107,7 +107,7 @@ namespace Hart {
 
 #else
 	#define HART_ENGINE_TRACE(message, ...)
-	#define HART_ENGINE_LOG(message, ...)
+	#define HART_ENGINE_INFO(message, ...)
 	#define HART_ENGINE_WARNING(message, ...)
 	#define HART_ENGINE_ERROR(message, ...)
 	#define HART_ENGINE_FATAL(message, ...)
