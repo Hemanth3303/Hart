@@ -66,6 +66,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
 			PRIVATE
 				/Zc:__cplusplus
+				/Zc:preprocessor
 		)
 	elseif(MINGW)
 		target_link_libraries(Sandbox
