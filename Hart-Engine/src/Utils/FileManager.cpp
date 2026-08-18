@@ -15,10 +15,10 @@ namespace Hart {
 		std::string outDataStr = "";
 
 		if (!FileExists(fileName)) {
-			HART_ENGINE_ERROR("Could not find file named " + fileName, "\t\t\tIs the file name and/or file path correct?");
+			HART_ENGINE_ERROR("Could not find file named ", fileName, "\n\t\t\tIs the file name and/or file path correct?");
 		}
 		else {
-			HART_ENGINE_LOG("Opening file " + fileName);
+			HART_ENGINE_LOG("Opening file: ", fileName);
 			inFile.open(fileName, std::ios::in);
 
 			HART_DEBUG_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
@@ -36,10 +36,10 @@ namespace Hart {
 		std::ifstream inFile;
 		std::vector<std::byte> outData = {};
 		if (!FileExists(fileName)) {
-			HART_ENGINE_ERROR("Could not find file named " + fileName, "\t\t\tIs the file name and/or file path correct?");
+			HART_ENGINE_ERROR("Could not find file named ", fileName, "\n\t\t\tIs the file name and/or file path correct?");
 		}
 		else {
-			HART_ENGINE_LOG("Opening file " + fileName);
+			HART_ENGINE_LOG("Opening file ", fileName);
 			inFile.open(fileName, std::ios::binary);
 			HART_DEBUG_ASSERT(inFile.is_open(), "Reason: Couldn't open file");
 
@@ -63,7 +63,7 @@ namespace Hart {
 		std::fstream outFile;
 
 		if (!std::filesystem::is_directory(directory)) {
-			HART_ENGINE_LOG("Directory " + directory + " doesn't exist. Creating it");
+			HART_ENGINE_LOG("Directory ", directory, " doesn't exist. Creating it");
 			std::filesystem::create_directories(directory);
 		}
 
@@ -71,7 +71,7 @@ namespace Hart {
 
 		outFile.open(outFileName, std::ios::out | std::ios::app);
 
-		HART_ENGINE_LOG("Writing to file " + outFileName);
+		HART_ENGINE_LOG("Writing to file " , outFileName);
 
 		HART_DEBUG_ASSERT(outFile.is_open());
 		outFile << data << "\n";
@@ -84,7 +84,7 @@ namespace Hart {
 
 	uintmax_t FileManager::GetFileSizeInBytes(const std::string& filepath) {
 		if (!FileExists(filepath)) {
-			HART_ENGINE_ERROR(filepath + " not found");
+			HART_ENGINE_ERROR(filepath, " not found");
 			return 0;
 		}
 
@@ -92,7 +92,7 @@ namespace Hart {
 		uintmax_t fileSize = std::filesystem::file_size(filepath, errorCode);
 
 		if (errorCode) {
-			HART_ENGINE_ERROR(filepath + " could not determine file size: " + errorCode.message());
+			HART_ENGINE_ERROR(filepath, " could not determine file size\n", errorCode.message());
 			return 0;
 		}
 

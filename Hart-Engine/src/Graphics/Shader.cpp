@@ -171,7 +171,7 @@ namespace Hart {
 
 		int32_t uniformLocation = glGetUniformLocation(m_ShaderID, uniformName.c_str());
 		if (uniformLocation == -1) {
-			HART_ENGINE_ERROR("Uniform not found", uniformName);
+			HART_ENGINE_ERROR("Uniform not found: ", uniformName);
 			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
@@ -190,10 +190,10 @@ namespace Hart {
 			if (!success) {
 				glGetShaderInfoLog(shader, INFOLOG_SIZE, nullptr, infoLog);
 				if (type == ShaderType::VertexShader) {
-					HART_ENGINE_ERROR("Vertex Shader Compile Error", infoLog);
+					HART_ENGINE_ERROR("Vertex Shader Compile Error\n", infoLog);
 				}
 				else {
-					HART_ENGINE_ERROR("Fragment Shader Compile Error", infoLog);
+					HART_ENGINE_ERROR("Fragment Shader Compile Error\n", infoLog);
 				}
 			}
 		}
@@ -201,7 +201,7 @@ namespace Hart {
 			glGetProgramiv(shader, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetProgramInfoLog(shader, INFOLOG_SIZE, nullptr, infoLog);
-				HART_ENGINE_ERROR("Shader Program Link Error", infoLog);
+				HART_ENGINE_ERROR("Shader Program Link Error\n", infoLog);
 			}
 		}
 	}

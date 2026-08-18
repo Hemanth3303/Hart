@@ -15,9 +15,9 @@ namespace Hart {
 		HART_ENGINE_LOG("Initializing OpenGL Renderer");
 		HART_ENGINE_LOG(
 			"\n\t\t\t=======================OpenGL Renderer Info=======================",
-			std::string("\n\t\t\t\tVendor: ") + reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
-			std::string("\n\t\t\t\tRenderer: ") + reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
-			std::string("\n\t\t\t\tVersion: ") + reinterpret_cast<const char*>(glGetString(GL_VERSION)),
+			"\n\t\t\t\tVendor: ", glGetString(GL_VENDOR),
+			"\n\t\t\t\tRenderer: ", glGetString(GL_RENDERER),
+			"\n\t\t\t\tVersion: ", glGetString(GL_VERSION),
 			"\n\t\t\t==================================================================");
 	}
 	void RenderCommand::DeInit() {

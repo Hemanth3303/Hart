@@ -49,6 +49,7 @@ namespace Hart {
 		while (m_IsRunning) {
 
 			if (InputManager::IsKeyPressed(m_ExitKey)) {
+				HART_ENGINE_TRACE("ExitKey(GLFW_KEY_CODE = ", (int)m_ExitKey, ") was pressed.");
 				m_IsRunning = false;
 			}
 
@@ -344,51 +345,57 @@ namespace Hart {
 			case GL_DEBUG_SEVERITY_HIGH:
 				debugSeverity = "HIGH";
 				HART_ENGINE_FATAL(
-					"OpenGL Error: ",
-					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
-					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
-					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
+					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t  From: ", debugSource,
+					"\n\t\t\t\t\t  Type: ", debugType,
+					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
+					"\n\t\t\t\t\t  OpenGL Message: ", message,
+					"\n\t\t\t\t\t===============================");
+				HART_ENGINE_DEBUG_BREAK();
 				break;
 
 			case GL_DEBUG_SEVERITY_MEDIUM:
 				debugSeverity = "MEDIUM";
 				HART_ENGINE_ERROR(
-					"OpenGL Error: ",
-					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
-					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
-					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
+					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t  From: ", debugSource,
+					"\n\t\t\t\t\t  Type: ", debugType,
+					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
+					"\n\t\t\t\t\t  OpenGL Message: ", message,
+					"\n\t\t\t\t\t===============================");
 				break;
 
 			case GL_DEBUG_SEVERITY_LOW:
 				debugSeverity = "LOW";
 				HART_ENGINE_WARNING(
-					"OpenGL Error: ",
-					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
-					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
-					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
+					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t  From: ", debugSource,
+					"\n\t\t\t\t\t  Type: ", debugType,
+					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
+					"\n\t\t\t\t\t  OpenGL Message: ", message,
+					"\n\t\t\t\t\t===============================");
 				break;
 
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
 				debugSeverity = "NOTIFICATION";
 				HART_ENGINE_LOG(
-					"OpenGL Error: ",
-					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
-					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
-					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
+					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t  From: ", debugSource,
+					"\n\t\t\t\t\t  Type: ", debugType,
+					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
+					"\n\t\t\t\t\t  OpenGL Message: ", message,
+					"\n\t\t\t\t\t===============================");
 				break;
 
 			default:
 				debugSeverity = "UNKNOWN";
 				HART_ENGINE_ERROR(
-					"OpenGL Error: ",
-					std::string("\t\t\t\t\t\t  From: ") + std::string(debugSource),
-					std::string("\t\t\t\t\t\t  Type: ") + std::string(debugType),
-					std::string("\t\t\t\t\t\t  OpenGL Severity: ") + std::string(debugSeverity),
-					std::string("\t\t\t\t\t\t  OpenGL Message: ") + std::string(message));
+					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t  From: ", debugSource,
+					"\n\t\t\t\t\t  Type: ", debugType,
+					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
+					"\n\t\t\t\t\t  OpenGL Message: ", message,
+					"\n\t\t\t\t\t===============================");
 				break;
 		}
 	}
