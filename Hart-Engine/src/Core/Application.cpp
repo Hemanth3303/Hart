@@ -6,6 +6,7 @@
 #include "Utils/Logger.hpp"
 #include "Inputs/InputManager.hpp"
 #include "Graphics/Renderer/RenderCommand.hpp"
+#include "Graphics/Renderer/RendererDebug.hpp"
 #include "Graphics/Renderer/Renderer3D.hpp"
 #include "Graphics/Renderer/Renderer2D.hpp"
 #include "Graphics/EngineShaders/QuadShader2D.hpp"
@@ -14,9 +15,6 @@
 
 namespace Hart {
 	Application* Application::s_Instance = nullptr;
-
-	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
-	void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter);
 
 	Application::Application() {
 		WindowProps windowProps;
@@ -131,9 +129,9 @@ namespace Hart {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
+#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_RELEASE_BUILD)
+#endif
 
 		HART_ENGINE_INFO("GLFW initialized successfully");
 
@@ -141,14 +139,15 @@ namespace Hart {
 		glfwSwapInterval(0);
 		m_IsRunning = true;
 
+		InputManager::Init();
+
+		RenderCommand::Init();
 #if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(OpenGLDebugMessageCallback, nullptr);
-#endif // defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
+		RendererDebug::Init();
+#endif
 
 		initializeShaderLibrary();
-		InputManager::Init();
+		Renderer2D::Init();
 		Renderer3D::Init();
 
 		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
@@ -159,7 +158,10 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
+		RendererDebug::DeInit();
 		Renderer3D::DeInit();
+		Renderer2D::DeInit();
+		RenderCommand::DeInit();
 		InputManager::DeInit();
 		m_ShaderLibrary.clear();
 		// i just want to see the "shutting down hart engine" message at last o_o
@@ -273,134 +275,5 @@ namespace Hart {
 		m_ShaderLibrary.loadShaderFromString("QuadShader2D", QuadShader2DVertexSource.c_str(), QuadShader2DFragmentSource.c_str());
 		m_ShaderLibrary.loadShaderFromString("TextShader", TextShaderVertexSource.c_str(), TextShaderFragmentSource.c_str());
 		m_ShaderLibrary.loadShaderFromString("CubeShader3D", CubeShader3DVertexSource.c_str(), CubeShader3DFragmentSource.c_str());
-	}
-
-	// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
-	void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter) {
-		const char* debugSource;
-		const char* debugType;
-		const char* debugSeverity;
-
-		switch (source) {
-			case GL_DEBUG_SOURCE_API:
-				debugSource = "API";
-				break;
-
-			case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
-				debugSource = "WINDOW SYSTEM";
-				break;
-
-			case GL_DEBUG_SOURCE_SHADER_COMPILER:
-				debugSource = "SHADER COMPILER";
-				break;
-
-			case GL_DEBUG_SOURCE_THIRD_PARTY:
-				debugSource = "THIRD PARTY";
-				break;
-
-			case GL_DEBUG_SOURCE_APPLICATION:
-				debugSource = "APPLICATION";
-				break;
-
-			case GL_DEBUG_SOURCE_OTHER:
-				debugSource = "UNKNOWN";
-				break;
-
-			default:
-				debugSource = "UNKNOWN";
-				break;
-		}
-
-		switch (type) {
-			case GL_DEBUG_TYPE_ERROR:
-				debugType = "ERROR";
-				break;
-
-			case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-				debugType = "DEPRECATED BEHAVIOR";
-				break;
-
-			case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-				debugType = "UNDEFINED BEHAVIOR";
-				break;
-
-			case GL_DEBUG_TYPE_PORTABILITY:
-				debugType = "PORTABILITY";
-				break;
-
-			case GL_DEBUG_TYPE_PERFORMANCE:
-				debugType = "PERFORMANCE";
-				break;
-
-			case GL_DEBUG_TYPE_OTHER:
-				debugType = "OTHER";
-				break;
-
-			case GL_DEBUG_TYPE_MARKER:
-				debugType = "MARKER";
-				break;
-
-			default:
-				debugType = "UNKNOWN";
-				break;
-		}
-
-		switch (severity) {
-			case GL_DEBUG_SEVERITY_HIGH:
-				debugSeverity = "HIGH";
-				HART_ENGINE_FATAL(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
-					"\n\t\t\t\t\t  From: ", debugSource,
-					"\n\t\t\t\t\t  Type: ", debugType,
-					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
-					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
-				HART_ENGINE_DEBUG_BREAK();
-				break;
-
-			case GL_DEBUG_SEVERITY_MEDIUM:
-				debugSeverity = "MEDIUM";
-				HART_ENGINE_ERROR(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
-					"\n\t\t\t\t\t  From: ", debugSource,
-					"\n\t\t\t\t\t  Type: ", debugType,
-					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
-					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
-				break;
-
-			case GL_DEBUG_SEVERITY_LOW:
-				debugSeverity = "LOW";
-				HART_ENGINE_WARNING(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
-					"\n\t\t\t\t\t  From: ", debugSource,
-					"\n\t\t\t\t\t  Type: ", debugType,
-					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
-					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
-				break;
-
-			case GL_DEBUG_SEVERITY_NOTIFICATION:
-				debugSeverity = "NOTIFICATION";
-				HART_ENGINE_INFO(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
-					"\n\t\t\t\t\t  From: ", debugSource,
-					"\n\t\t\t\t\t  Type: ", debugType,
-					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
-					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
-				break;
-
-			default:
-				debugSeverity = "UNKNOWN";
-				HART_ENGINE_ERROR(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
-					"\n\t\t\t\t\t  From: ", debugSource,
-					"\n\t\t\t\t\t  Type: ", debugType,
-					"\n\t\t\t\t\t  OpenGL Severity: ", debugSeverity,
-					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
-				break;
-		}
 	}
 }

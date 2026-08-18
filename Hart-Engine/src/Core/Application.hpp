@@ -107,6 +107,7 @@ namespace Hart {
 
 	private:
 		// initializes engine's shader library with some defaul shaders
+		// must be called before Renderer3D::Init() and Renderer2D::Init()
 		void initializeShaderLibrary();
 		// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
 		friend void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter);

@@ -9,15 +9,11 @@ namespace Hart {
 	static std::unique_ptr<Renderer3DData> s_Data = std::make_unique<Renderer3DData>();
 
 	void Renderer3D::Init() {
-		RenderCommand::Init();
-		Renderer2D::Init();
 		HART_ENGINE_INFO("Initializing Renderer3D");
 	}
 
 	void Renderer3D::DeInit() {
-		Renderer2D::DeInit();
 		HART_ENGINE_INFO("DeInitializing Renderer3D");
-		RenderCommand::DeInit();
 	}
 
 	void Renderer3D::BeginScene(PerspectiveCamera& camera) {
