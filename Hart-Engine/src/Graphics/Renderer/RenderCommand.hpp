@@ -3,6 +3,14 @@
 #include "Graphics/VertexArray.hpp"
 
 namespace Hart {
+	enum class RenderClearFlags : GLbitfield {
+		ColorBuffer = GL_COLOR_BUFFER_BIT,
+		DepthBuffer = GL_DEPTH_BUFFER_BIT,
+		StencilBuffer = GL_STENCIL_BUFFER_BIT,
+	};
+
+	RenderClearFlags operator|(RenderClearFlags lhs, RenderClearFlags rhs);
+
 	class RenderCommand {
 	public:
 		static void Init();
@@ -10,10 +18,11 @@ namespace Hart {
 
 		// rgba values in range 0 to 1
 		static void SetClearColor(const Vec4& color);
-		static void Clear();
+		// Bitwise OR the target values. eg: RenderClearFlags::ColorBuffer | RenderClearFlags::DepthBuffer
+		static void Clear(RenderClearFlags clearFlag);
 		static void SetViewPort(int32_t x, int32_t y, int32_t width, int32_t height);
-		static const int64_t GetMaxTextureSlotsPerShader();
-		static const int64_t GetMaxTextureSlotsTotal();
+		static int64_t GetMaxTextureSlotsPerShader();
+		static int64_t GetMaxTextureSlotsTotal();
 		static void EnableDepthTest();
 		static void DisableDepthTest();
 		static void EnableBlending();

@@ -69,7 +69,11 @@ namespace Hart {
 				}
 
 				// render
-				RenderCommand::Clear();
+				RenderCommand::Clear(
+					RenderClearFlags::ColorBuffer |
+					RenderClearFlags::DepthBuffer |
+					RenderClearFlags::StencilBuffer);
+
 				for (const auto& layer : m_LayerStack) {
 					layer->render();
 				}

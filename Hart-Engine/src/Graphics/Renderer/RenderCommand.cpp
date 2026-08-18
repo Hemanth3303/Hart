@@ -6,6 +6,11 @@
 #include "glad/glad.h"
 
 namespace Hart {
+	RenderClearFlags operator|(RenderClearFlags lhs, RenderClearFlags rhs) {
+		return static_cast<RenderClearFlags>(
+			static_cast<GLbitfield>(lhs) | static_cast<GLbitfield>(rhs));
+	}
+
 	void RenderCommand::Init() {
 		EnableDepthTest();
 		EnableBlending();
@@ -27,24 +32,26 @@ namespace Hart {
 		glClearColor(color.x, color.y, color.z, color.w);
 	}
 
-	void RenderCommand::Clear() {
-		// TODO: ask for flags to what to clear
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	void RenderCommand::Clear(RenderClearFlags clearFlag) {
+		glClear(static_cast<GLbitfield>(clearFlag));
 	}
 
 	void RenderCommand::SetViewPort(int32_t x, int32_t y, int32_t width, int32_t height) {
 		glViewport(x, y, width, height);
 	}
 
-	const int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
-		int64_t maxNoOfTextureSlotsPerShader;
-		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &maxNoOfTextureSlotsPerShader);
+	int64_t RenderCommand::GetMaxTextureSlotsPerShader() {
+		int64_t maxTextureSlotsPerShader;
+		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureSlotsPerShader);
 
-		return maxNoOfTextureSlotsPerShader;
+		return maxTextureSlotsPerShader;
 	}
 
-	const int64_t RenderCommand::GetMaxTextureSlotsTotal() {
-		return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS;
+	int64_t RenderCommand::GetMaxTextureSlotsTotal() {
+		int64_t maxTextureSlotsCombined;
+		glGetInteger64v(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTextureSlotsCombined);
+
+		return maxTextureSlotsCombined;
 	}
 
 	void RenderCommand::EnableDepthTest() {
