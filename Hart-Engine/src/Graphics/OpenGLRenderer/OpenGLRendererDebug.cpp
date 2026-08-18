@@ -25,53 +25,53 @@ namespace Hart {
 		switch (severity) {
 			case GL_DEBUG_SEVERITY_HIGH:
 				HART_ENGINE_FATAL(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
 					"\n\t\t\t\t\t  OpenGL Severity: ", "HIGH",
 					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
+					"\n\t\t\t\t\t======================================");
 				HART_ENGINE_DEBUG_BREAK();
 				break;
 
 			case GL_DEBUG_SEVERITY_MEDIUM:
 				HART_ENGINE_ERROR(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
 					"\n\t\t\t\t\t  OpenGL Severity: ", "MEDIUM",
 					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
+					"\n\t\t\t\t\t======================================");
 				break;
 
 			case GL_DEBUG_SEVERITY_LOW:
 				HART_ENGINE_WARNING(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
 					"\n\t\t\t\t\t  OpenGL Severity: ", "LOW",
 					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
+					"\n\t\t\t\t\t======================================");
 				break;
 
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
 				HART_ENGINE_INFO(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
 					"\n\t\t\t\t\t  OpenGL Severity: ", "NOTIFICATION",
 					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
+					"\n\t\t\t\t\t======================================");
 				break;
 
 			default:
 				HART_ENGINE_ERROR(
-					"\n\t\t\t\t\t=========OpenGL Error=========",
+					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
 					"\n\t\t\t\t\t  OpenGL Severity: ", "UNKNOWN",
 					"\n\t\t\t\t\t  OpenGL Message: ", message,
-					"\n\t\t\t\t\t===============================");
+					"\n\t\t\t\t\t======================================");
 				break;
 		}
 	}
