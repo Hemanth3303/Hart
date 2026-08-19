@@ -4,7 +4,7 @@
 
 class Layer2D : public Hart::Layer {
 public:
-	Layer2D(const std::string& name = "Layer2D");
+	Layer2D(const std::string& name);
 	~Layer2D();
 
 	virtual void onAttach() override;
@@ -12,15 +12,5 @@ public:
 	virtual void onEvent(Hart::Event& e) override;
 	virtual void update(const float deltaTime) override;
 	virtual void render() override;
-
 private:
-	std::shared_ptr<Hart::Texture2D> m_GrassTex, m_EmojiTex;
-	std::shared_ptr<Hart::SpriteSheet> m_SpriteSheet;
-	std::shared_ptr<Hart::OrthographicCameraController> m_CameraController;
-	Hart::Random m_Rd;
-	Hart::ParticleProps m_Particle;
-	Hart::ParticleSystem m_ParticleSystem;
-	std::shared_ptr<Hart::Font> m_Font1;
-	std::shared_ptr<Hart::Font> m_Font2;
-	Hart::Vec3 m_MousePos = { 0.0f, 0.0f, 1.0f };
 };
