@@ -2,30 +2,32 @@
 
 #include "Event.hpp"
 
+#include <concepts>
+#include <type_traits>
 #include <functional>
 
 namespace Hart {
-	class EventDispatcher {
-		template <typename T>
-		using EventFunction = std::function<bool(T&)>;
+	template <typename F, typename T>
+	concept EventHandler =
+		std::invocable<F, T&> &&
+		std::same_as<std::invoke_result_t<F, T&>, bool>;
 
+	class EventDispatcher {
 	public:
 		EventDispatcher(Event& event)
 			: m_Event(event) {
 		}
 
-		// if the event type of the template and m_Event are same, then 'func' gets called
-		template <typename T>
-		bool dispatch(EventFunction<T> func) {
+		// if the event type of the template and m_Event are same,
+		// func is called on m_Event
+		template <typename T, typename F>
+		requires EventHandler<F, T>
+		void dispatch(F&& func) {
 			if (m_Event.getEventType() == T::GetStaticType()) {
-				// get address of m_Event
-				// convert pointer of derived(from event class) to base class pointer(event class)
-				// dereference the pointer
-				// m_Event.m_Handled = func(*(T*)&(m_Event));
-				m_Event.m_Handled = func(*(static_cast<T*>(&m_Event)));
-				return true;
+				m_Event.m_Handled = std::invoke(
+					std::forward<F>(func),
+					static_cast<T&>(m_Event));
 			}
-			return false;
 		}
 
 	private:
