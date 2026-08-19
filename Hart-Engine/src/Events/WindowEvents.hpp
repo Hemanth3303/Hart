@@ -25,7 +25,10 @@ namespace Hart {
 		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 
 		std::string toString() const override {
-			return ("WindowResizedEvent: " + std::to_string(m_Width) + ", " + std::to_string(m_Height));
+			return ("WindowResizedEvent: { Width: " +
+					std::to_string(m_Width) +
+					", Height: " + std::to_string(m_Height)) +
+				   " }";
 		}
 
 	private:
@@ -57,7 +60,11 @@ namespace Hart {
 		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 
 		std::string toString() const override {
-			return ("WindowMovedEvent: " + std::to_string(m_Xpos) + ", " + std::to_string(m_Ypos));
+			return ("WindowMovedEvent: { xPos: " +
+					std::to_string(m_Xpos) +
+					", yPos: " +
+					std::to_string(m_Ypos)) +
+				   " }";
 		}
 
 	private:

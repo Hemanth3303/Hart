@@ -34,7 +34,9 @@ namespace Hart {
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "KeyPressedEvent"; }
 		std::string toString() const override {
-			return "KeyPressedEvent: " + std::to_string(static_cast<int32_t>(m_KeyCode));
+			return "KeyPressedEvent: (KeyCode = " +
+				   std::to_string(static_cast<int32_t>(m_KeyCode)) +
+				   ")";
 		}
 	};
 
@@ -48,7 +50,9 @@ namespace Hart {
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "KeyReleasedEvent"; }
 		std::string toString() const override {
-			return "KeyReleasedEvent: " + std::to_string(static_cast<int32_t>(m_KeyCode));
+			return "KeyReleasedEvent: (KeyCode = " +
+				   std::to_string(static_cast<int32_t>(m_KeyCode)) +
+				   ")";
 		}
 	};
 
@@ -64,7 +68,11 @@ namespace Hart {
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "KeyRepeatEvent"; }
 		std::string toString() const override {
-			return "KeyRepeat: " + std::to_string(static_cast<int32_t>(m_KeyCode)) + " (repeat count = " + std::to_string(m_RepeatCount) + ")";
+			return "KeyRepeatEvent: (KeyCode = " +
+				   std::to_string(static_cast<int32_t>(m_KeyCode)) +
+				   ", repeat count = " +
+				   std::to_string(m_RepeatCount) +
+				   ")";
 		}
 
 	private:

@@ -22,7 +22,11 @@ namespace Hart {
 		virtual std::string_view getName() const override { return "MouseMovedEvent"; }
 		virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 		std::string toString() const override {
-			return "MouseMovedEvent: " + std::to_string(m_MouseXPos) + ", " + std::to_string(m_MouseYPos);
+			return "MouseMovedEvent: { xPos: " +
+				   std::to_string(m_MouseXPos) +
+				   ", yPos: " +
+				   std::to_string(m_MouseYPos) +
+				   " }";
 		}
 
 	private:
@@ -43,7 +47,11 @@ namespace Hart {
 		virtual std::string_view getName() const override { return "MouseWheelScrolledEvent"; }
 		virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 		std::string toString() const override {
-			return "MouseWheelScrolledEvent: " + std::to_string(m_XOffset) + ", " + std::to_string(m_YOffset);
+			return "MouseWheelScrolledEvent: { xOffset: " +
+				   std::to_string(m_XOffset) +
+				   ", yOffset: " +
+				   std::to_string(m_YOffset) +
+				   " }";
 		}
 
 	private:
@@ -76,7 +84,9 @@ namespace Hart {
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "MouseButtonPressedEvent"; }
 		std::string toString() const override {
-			return "MouseButtonPressedEvent: " + std::to_string(static_cast<int32_t>(m_Button));
+			return "MouseButtonPressedEvent: (MouseCode = " +
+				   std::to_string(static_cast<int32_t>(m_Button)) +
+				   ")";
 		}
 	};
 
@@ -90,7 +100,9 @@ namespace Hart {
 		virtual EventType getEventType() const override { return GetStaticType(); }
 		virtual std::string_view getName() const override { return "MouseButtonReleasedEvent"; }
 		std::string toString() const override {
-			return "MouseButtonReleasedEvent: " + std::to_string(static_cast<int32_t>(m_Button));
+			return "MouseButtonReleasedEvent: (MouseCode = " +
+				   std::to_string(static_cast<int32_t>(m_Button)) +
+				   ")";
 		}
 	};
 }
