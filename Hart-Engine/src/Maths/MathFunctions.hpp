@@ -142,11 +142,11 @@ namespace Hart {
 	}
 
 	inline double square(double value) {
-		return power(value, 2);
+		return (value * value);
 	}
 
 	inline double cube(double value) {
-		return power(value, 3);
+		return (value * value * value);
 	}
 
 	inline double squareRoot(double value) {
