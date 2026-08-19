@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "Timer.hpp"
+#include "Platform/PlatformTime.hpp"
 
 #include <chrono>
 #include <iomanip>
@@ -35,14 +36,13 @@ namespace Hart {
 							   now.time_since_epoch() - seconds)
 							   .count();
 
-		const std::time_t epochSeconds = std::chrono::system_clock::to_time_t(now);
+		std::time_t epochSeconds = std::chrono::system_clock::to_time_t(now);
 		std::tm calendarTime{};
 
-#if defined(HART_ENGINE_PLATFORM_WINDOWS)
-		gmtime_s(&calendarTime, &epochSeconds);
-#else
-		gmtime_r(&epochSeconds, &calendarTime);
-#endif
+		bool status = Platform::GmTime(epochSeconds, calendarTime);
+		if (!status) {
+			return "INVALID_TIMESTAMP";
+		}
 
 		std::ostringstream oss;
 
@@ -66,14 +66,13 @@ namespace Hart {
 							   now.time_since_epoch() - seconds)
 							   .count();
 
-		const std::time_t epochSeconds = std::chrono::system_clock::to_time_t(now);
+		std::time_t epochSeconds = std::chrono::system_clock::to_time_t(now);
 		std::tm calendarTime{};
 
-#if defined(HART_ENGINE_PLATFORM_WINDOWS)
-		localtime_s(&calendarTime, &epochSeconds);
-#else
-		localtime_r(&epochSeconds, &calendarTime);
-#endif
+		bool status = Platform::LocalTime(epochSeconds, calendarTime);
+		if (!status) {
+			return "INVALID_TIMESTAMP";
+		}
 
 		std::ostringstream oss;
 
