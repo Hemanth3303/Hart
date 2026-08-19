@@ -25,8 +25,6 @@
 	// compiler information
 	#if defined(__clang__) // clang needs to be checked for first because for some reason _MS_VER seems to defined when using clang on windows
 		#define HART_COMPILER_LLVM_CLANG
-		#define HART_COMPILER_STR "LLVM Clang"
-		#define HART_COMPILER_VERSION_STR __clang_version__
 	#elif defined(_MSC_VER)
 		#define HART_COMPILER_MSVC
 	#elif defined(__MINGW64__)
