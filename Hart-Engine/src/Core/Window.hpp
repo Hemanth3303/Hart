@@ -10,6 +10,8 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+#include <functional>
+
 namespace Hart {
 	struct WindowProps {
 	public:

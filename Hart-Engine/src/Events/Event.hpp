@@ -10,8 +10,6 @@
 #include <iostream>
 #include <string_view>
 
-#define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
-
 namespace Hart {
 	class EventDispatcher;
 	// Base class for events

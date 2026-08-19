@@ -135,7 +135,9 @@ namespace Hart {
 		Renderer2D::Init();
 		Renderer3D::Init();
 
-		m_Window->setEventCallback((BIND_EVENT_FUNC(Application::eventHandler)));
+		m_Window->setEventCallback([this](Event& e) {
+			this->eventHandler(e);
+		});
 
 		// Setting clear color as black
 		OpenGLRenderer::SetClearColor(Black);
@@ -171,23 +173,21 @@ namespace Hart {
 	void Application::eventHandler(Event& e) {
 
 		EventDispatcher eventDispatcher(e);
+
 		// window events
-		eventDispatcher.dispatch<WindowResizedEvent>(BIND_EVENT_FUNC(Application::onWindowResized));
-		eventDispatcher.dispatch<WindowClosedEvent>(BIND_EVENT_FUNC(Application::onWindowClosed));
-		eventDispatcher.dispatch<WindowMovedEvent>(BIND_EVENT_FUNC(Application::onWindowMoved));
-		eventDispatcher.dispatch<WindowFocusGainedEvent>(BIND_EVENT_FUNC(Application::onWindowFocusGained));
-		eventDispatcher.dispatch<WindowFocusLostEvent>(BIND_EVENT_FUNC(Application::onWindowFocusLost));
-
+		eventDispatcher.dispatch<WindowResizedEvent>([this](WindowResizedEvent& e) {
+			return this->onWindowResized(e);
+		});
+		eventDispatcher.dispatch<WindowClosedEvent>([this](WindowClosedEvent& e) {
+			return this->onWindowClosed(e);
+		});
+		eventDispatcher.dispatch<WindowMovedEvent>([this](WindowMovedEvent& e) {
+			return this->onWindowMoved(e);
+		});
 		// key events
-		eventDispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FUNC(Application::onKeyPressed));
-		eventDispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FUNC(Application::onKeyReleased));
-		eventDispatcher.dispatch<KeyRepeatEvent>(BIND_EVENT_FUNC(Application::onKeyRepeat));
-
-		// mouse events
-		eventDispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FUNC(Application::onMouseMoved));
-		eventDispatcher.dispatch<MouseWheelScrolledEvent>(BIND_EVENT_FUNC(Application::onMouseWheelScrolled));
-		eventDispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonPressed));
-		eventDispatcher.dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FUNC(Application::onMouseButtonReleased));
+		eventDispatcher.dispatch<KeyPressedEvent>([this](KeyPressedEvent& e) {
+			return this->onKeyPressed(e);
+		});
 
 		// pass events to layers
 		for (auto itr = m_LayerStack.rbegin(); itr != m_LayerStack.rend(); itr++) {
@@ -221,44 +221,12 @@ namespace Hart {
 		return true;
 	}
 
-	bool Application::onWindowFocusGained(WindowFocusGainedEvent& e) {
-		return false;
-	}
-
-	bool Application::onWindowFocusLost(WindowFocusLostEvent& e) {
-		return false;
-	}
-
 	bool Application::onKeyPressed(KeyPressedEvent& e) {
 		if (e.getKeyCode() == m_ExitKey) {
 			HART_ENGINE_INFO("Exit request received (Keycode = ", static_cast<int>(m_ExitKey), ")");
 			m_IsRunning = false;
 			return true;
 		}
-		return false;
-	}
-
-	bool Application::onKeyReleased(KeyReleasedEvent& e) {
-		return false;
-	}
-
-	bool Application::onKeyRepeat(KeyRepeatEvent& e) {
-		return false;
-	}
-
-	bool Application::onMouseMoved(MouseMovedEvent& e) {
-		return false;
-	}
-
-	bool Application::onMouseWheelScrolled(MouseWheelScrolledEvent& e) {
-		return false;
-	}
-
-	bool Application::onMouseButtonPressed(MouseButtonPressedEvent& e) {
-		return false;
-	}
-
-	bool Application::onMouseButtonReleased(MouseButtonReleasedEvent& e) {
 		return false;
 	}
 

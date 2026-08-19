@@ -70,31 +70,15 @@ namespace Hart {
 		// deinitializes application
 		void deinit();
 
-		static void LogCompileInfo();
+		void eventHandler(Event& e);
 
 		// Event managers
-		void eventHandler(Event& e);
-		// Begin Event Methods
-		// The methods below return true if the event is processed and no need to propogate further, else they return false
-
-		// window
 		bool onWindowResized(WindowResizedEvent& e);
 		bool onWindowClosed(WindowClosedEvent& e);
 		bool onWindowMoved(WindowMovedEvent& e);
-		bool onWindowFocusGained(WindowFocusGainedEvent& e);
-		bool onWindowFocusLost(WindowFocusLostEvent& e);
-
-		// keyboard
 		bool onKeyPressed(KeyPressedEvent& e);
-		bool onKeyReleased(KeyReleasedEvent& e);
-		bool onKeyRepeat(KeyRepeatEvent& e);
 
-		// mouse
-		bool onMouseMoved(MouseMovedEvent& e);
-		bool onMouseWheelScrolled(MouseWheelScrolledEvent& e);
-		bool onMouseButtonPressed(MouseButtonPressedEvent& e);
-		bool onMouseButtonReleased(MouseButtonReleasedEvent& e);
-		// End Event Methods
+		static void LogCompileInfo();
 	private:
 		static Application* s_Instance;
 		std::unique_ptr<Window> m_Window;
@@ -111,8 +95,6 @@ namespace Hart {
 		// initializes engine's shader library with some defaul shaders
 		// must be called before Renderer3D::Init() and Renderer2D::Init()
 		void initializeShaderLibrary();
-		// based on https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
-		friend void OpenGLDebugMessageCallback(uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int32_t length, const char* message, const void* userParameter);
 	};
 
 	// User must define this function
