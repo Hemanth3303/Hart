@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core/Layer.hpp"
+#include "Graphics/Camera/OrthographicCamera.hpp"
+#include "Maths/Vec3.hpp"
 
 class Layer2D : public Hart::Layer {
 public:
@@ -13,4 +15,6 @@ public:
 	virtual void update(const float deltaTime) override;
 	virtual void render() override;
 private:
+	Hart::OrthographicCamera m_Camera;
+	Hart::Vec2 m_MousePosition;
 };

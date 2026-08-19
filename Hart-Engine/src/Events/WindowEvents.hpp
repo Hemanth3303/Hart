@@ -48,11 +48,11 @@ namespace Hart {
 	class WindowMovedEvent : public Event {
 	public:
 		WindowMovedEvent(float xpos, float ypos)
-			: m_Xpos(xpos), m_Ypos(ypos) {
+			: m_XPosition(xpos), m_YPosition(ypos) {
 		}
 
-		inline float getXpos() const { return m_Xpos; }
-		inline float getYpos() const { return m_Ypos; }
+		inline float getXPosition() const { return m_XPosition; }
+		inline float getYPosition() const { return m_YPosition; }
 
 		static EventType GetStaticType() { return EventType::WindowMovedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
@@ -61,14 +61,14 @@ namespace Hart {
 
 		std::string toString() const override {
 			return ("WindowMovedEvent: { xPos: " +
-					std::to_string(m_Xpos) +
+					std::to_string(m_XPosition) +
 					", yPos: " +
-					std::to_string(m_Ypos)) +
+					std::to_string(m_YPosition)) +
 				   " }";
 		}
 
 	private:
-		float m_Xpos, m_Ypos;
+		float m_XPosition, m_YPosition;
 	};
 
 	class WindowFocusGainedEvent : public Event {

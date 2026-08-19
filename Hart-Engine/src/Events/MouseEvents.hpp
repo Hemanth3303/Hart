@@ -11,11 +11,11 @@ namespace Hart {
 	class MouseMovedEvent : public Event {
 	public:
 		MouseMovedEvent(const float x, const float y)
-			: m_MouseXPos(x), m_MouseYPos(y) {
+			: m_MouseXPosition(x), m_MouseYPosition(y) {
 		}
 
-		float getXPos() const { return m_MouseXPos; }
-		float getYPos() const { return m_MouseYPos; }
+		float getXPosition() const { return m_MouseXPosition; }
+		float getYPosition() const { return m_MouseYPosition; }
 
 		static EventType GetStaticType() { return EventType::MouseMovedEvent; }
 		virtual EventType getEventType() const override { return GetStaticType(); }
@@ -23,14 +23,14 @@ namespace Hart {
 		virtual int32_t getEventCategoryFlags() const override { return (EventCategory::MouseEvent | EventCategory::InputEvent); }
 		std::string toString() const override {
 			return "MouseMovedEvent: { xPos: " +
-				   std::to_string(m_MouseXPos) +
+				   std::to_string(m_MouseXPosition) +
 				   ", yPos: " +
-				   std::to_string(m_MouseYPos) +
+				   std::to_string(m_MouseYPosition) +
 				   " }";
 		}
 
 	private:
-		float m_MouseXPos, m_MouseYPos;
+		float m_MouseXPosition, m_MouseYPosition;
 	};
 
 	class MouseWheelScrolledEvent : public Event {

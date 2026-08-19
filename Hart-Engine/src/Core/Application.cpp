@@ -216,7 +216,7 @@ namespace Hart {
 	}
 
 	bool Application::onWindowMoved(WindowMovedEvent& e) {
-		m_Window->setWindowPosition(e.getXpos(), e.getYpos());
+		m_Window->setWindowPosition(e.getXPosition(), e.getYPosition());
 		return true;
 	}
 
