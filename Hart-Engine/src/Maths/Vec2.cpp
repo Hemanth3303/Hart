@@ -5,7 +5,7 @@
 #include "Utils/Logger.hpp"
 
 namespace Hart {
-	Vec2::Vec2() : x(0), y(0) {}
+	Vec2::Vec2() : x(0.0f), y(0.0f) {}
 	Vec2::Vec2(float value) : x(value), y(value) {}
 	Vec2::Vec2(float px, float py) : x(px), y(py) {}
 
@@ -33,7 +33,7 @@ namespace Hart {
 	Vec2 Vec2::Lerp(const Vec2& lhs, const Vec2& rhs, float t) {
 		return {
 			static_cast<float>(Hart::lerp(lhs.x, rhs.x, t)),
-			static_cast<float>(Hart::lerp(lhs.y, rhs.y, t)),
+			static_cast<float>(Hart::lerp(lhs.y, rhs.y, t))
 		};
 	}
 
