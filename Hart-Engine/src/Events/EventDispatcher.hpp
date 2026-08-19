@@ -16,7 +16,7 @@ namespace Hart {
 
 		// if the event type of the template and m_Event are same, then 'func' gets called
 		template <typename T>
-		bool dispatch(EventFunction<T&> func) {
+		bool dispatch(EventFunction<T> func) {
 			if (m_Event.getEventType() == T::GetStaticType()) {
 				// get address of m_Event
 				// convert pointer of derived(from event class) to base class pointer(event class)

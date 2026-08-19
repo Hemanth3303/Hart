@@ -16,6 +16,7 @@ void Layer2D::onDetach() {
 }
 
 void Layer2D::onEvent(Hart::Event& e) {
+	HART_CLIENT_INFO(e);
 }
 
 void Layer2D::update(const float deltaTime) {

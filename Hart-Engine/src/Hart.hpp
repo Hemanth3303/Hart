@@ -14,8 +14,6 @@
 #include "Graphics/Renderer3D/Renderer3D.hpp"
 #include "Graphics/Renderer2D/Renderer2D.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"
-#include "Graphics/Camera/OrthographicCameraController.hpp"
-#include "Graphics/Camera/DefaultOrthographicCameraController.hpp"
 #include "Graphics/Camera/PerspectiveCamera.hpp"
 
 #include "Maths/MathConstants.hpp"
@@ -29,7 +27,6 @@
 
 #include "Inputs/KeyCodes.hpp"
 #include "Inputs/MouseCodes.hpp"
-#include "Inputs/InputManager.hpp"
 
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"
