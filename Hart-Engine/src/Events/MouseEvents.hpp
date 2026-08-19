@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Event.hpp"
-#include "Inputs/MouseCodes.hpp"
+#include "InputCodes/MouseCodes.hpp"
 
 namespace Hart {
 	class MouseMovedEvent : public Event {

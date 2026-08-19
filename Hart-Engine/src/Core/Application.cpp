@@ -231,7 +231,7 @@ namespace Hart {
 
 	bool Application::onKeyPressed(KeyPressedEvent& e) {
 		if (e.getKeyCode() == m_ExitKey) {
-			HART_ENGINE_INFO("Exit request received (Keycode =", static_cast<int>(m_ExitKey), ")");
+			HART_ENGINE_INFO("Exit request received (Keycode = ", static_cast<int>(m_ExitKey), ")");
 			m_IsRunning = false;
 			return true;
 		}

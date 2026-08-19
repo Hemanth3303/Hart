@@ -25,8 +25,8 @@
 
 #include "Events/Event.hpp"
 
-#include "Inputs/KeyCodes.hpp"
-#include "Inputs/MouseCodes.hpp"
+#include "InputCodes/KeyCodes.hpp"
+#include "InputCodes/MouseCodes.hpp"
 
 #include "Utils/FileManager.hpp"
 #include "Utils/Logger.hpp"

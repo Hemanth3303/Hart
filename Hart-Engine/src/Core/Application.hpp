@@ -10,7 +10,7 @@
 #include "Events/MouseEvents.hpp"
 #include "Events/EventDispatcher.hpp"
 #include "Events/EventCategory.hpp"
-#include "Inputs/KeyCodes.hpp"
+#include "InputCodes/KeyCodes.hpp"
 
 namespace Hart {
 	// Base class representing an application/game made using Hart.

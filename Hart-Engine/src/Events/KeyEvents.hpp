@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Event.hpp"
-#include "Inputs/KeyCodes.hpp"
+#include "InputCodes/KeyCodes.hpp"
 
 namespace Hart {
 	// Base class for key events
