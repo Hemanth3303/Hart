@@ -152,9 +152,9 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		OpenGLRendererDebug::DeInit();
 		Renderer3D::DeInit();
 		Renderer2D::DeInit();
+		OpenGLRendererDebug::DeInit();
 		OpenGLRenderer::DeInit();
 		InputManager::DeInit();
 		m_ShaderLibrary.clear();
