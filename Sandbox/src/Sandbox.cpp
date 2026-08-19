@@ -4,8 +4,13 @@
 
 //#define HART_REQUEST_DGPU_WINDOWS
 #include "Core/EntryPoint.hpp"
-#include "Hart.hpp"
+#include "Core/Application.hpp"
+#include "Utils/Logger.hpp"
+#include "Graphics/Colors.hpp"
+#include "InputCodes/KeyCodes.hpp"
 #include "Layer2D.hpp"
+
+#include <memory.h>
 
 class Sandbox : public Hart::Application {
 private:

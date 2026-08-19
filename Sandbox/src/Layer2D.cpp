@@ -1,4 +1,5 @@
 #include "Layer2D.hpp"
+#include "Utils/Logger.hpp"
 
 Layer2D::Layer2D(const std::string& name)
 	: Layer(name) {
