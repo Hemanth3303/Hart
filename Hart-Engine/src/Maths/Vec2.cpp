@@ -1,6 +1,8 @@
 #include "HartPch.hpp"
 #include "Vec2.hpp"
 #include "MathFunctions.hpp"
+#include "Core/Assert.hpp"
+#include "Utils/Logger.hpp"
 
 namespace Hart {
 	Vec2::Vec2() : x(0), y(0) {}
@@ -48,6 +50,17 @@ namespace Hart {
 
 	Vec2 Vec2::GetNormal(const Vec2& vec) {
 		float magnitude = GetMagnitude(vec);
+		HART_DEBUG_ASSERT(magnitude != 0.0f,
+						  "Reason: Can not normalize vector: ",
+						  vec,
+						  ". Magnitude is 0.");
+		if (magnitude == 0.0f) {
+			HART_ENGINE_ERROR("Reason: Can not normalize vector: ",
+							  vec,
+							  ". Magnitude is 0.",
+							  ". Returning {0, 0}");
+			return { 0.0f, 0.0f };
+		}
 		return {
 			vec.x / magnitude,
 			vec.y / magnitude
@@ -59,9 +72,21 @@ namespace Hart {
 		float dotProduct = DotProduct(lhs, rhs);
 		float lhsMagnitude = GetMagnitude(lhs);
 		float rhsMagnitude = GetMagnitude(rhs);
+		float denominator = lhsMagnitude * rhsMagnitude;
 
-		return static_cast<float>(
-			Hart::arcCosR(dotProduct / (lhsMagnitude * rhsMagnitude)));
+		HART_DEBUG_ASSERT(denominator != 0.0f,
+						  "Reason: Can not normalize vector(s): ",
+						  "\tlhs: ", lhs, "\trhs: ", rhs);
+		if (denominator == 0.0f) {
+			HART_ENGINE_ERROR("Reason: Can not normalize vector(s): ",
+							  "\tlhs: ", lhs, "\trhs: ", rhs, "\n\tReturning 0");
+			return 0.0f;
+		}
+
+		float cosine = dotProduct / denominator;
+		// to prevent floating point fuckery (acos domain is [-1.0, 1.0])
+		cosine = Hart::clamp(cosine, -1.0f, 1.0f);
+		return static_cast<float>(Hart::arcCosR(cosine));
 	}
 
 	float Vec2::GetAngleDBetween(const Vec2& lhs, const Vec2& rhs) {
