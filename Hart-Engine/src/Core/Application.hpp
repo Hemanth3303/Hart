@@ -70,7 +70,7 @@ namespace Hart {
 		// deinitializes application
 		void deinit();
 
-		void eventHandler(Event& e);
+		void eventCallback(Event& e);
 
 		// Event managers
 		bool onWindowResized(WindowResizedEvent& e);

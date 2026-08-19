@@ -136,7 +136,7 @@ namespace Hart {
 		Renderer3D::Init();
 
 		m_Window->setEventCallback([this](Event& e) {
-			this->eventHandler(e);
+			this->eventCallback(e);
 		});
 
 		// Setting clear color as black
@@ -170,7 +170,7 @@ namespace Hart {
 			"\n\t\t\t=====================================================");
 	}
 
-	void Application::eventHandler(Event& e) {
+	void Application::eventCallback(Event& e) {
 
 		EventDispatcher eventDispatcher(e);
 
