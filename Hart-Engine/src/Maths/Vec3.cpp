@@ -6,17 +6,17 @@
 #include "Utils/Logger.hpp"
 
 namespace Hart {
-	Vec3::Vec3() : x(0.0f), y(0.0f) {}
-	Vec3::Vec3(float value) : x(value), y(value) {}
+	Vec3::Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
+	Vec3::Vec3(float value) : x(value), y(value), z(value) {}
 	Vec3::Vec3(float px, float py, float pz) : x(px), y(py), z(pz) {}
-	Vec3::Vec3(const Vec2& vec2) : x(vec2.x), y(vec2.y), z(0) {}
+	Vec3::Vec3(const Vec2& vec2) : x(vec2.x), y(vec2.y), z(0.0f) {}
 	Vec3::Vec3(const Vec2& vec2, float pz) : x(vec2.x), y(vec2.y), z(pz) {}
 
 	Vec3 Vec3::Add(const Vec3& lhs, const Vec3& rhs) {
 		return {
 			lhs.x + rhs.x,
 			lhs.y + rhs.y,
-			lhs.z + rhs.z,
+			lhs.z + rhs.z
 		};
 	}
 
@@ -40,12 +40,15 @@ namespace Hart {
 		return {
 			static_cast<float>(Hart::lerp(lhs.x, rhs.x, t)),
 			static_cast<float>(Hart::lerp(lhs.y, rhs.y, t)),
-			static_cast<float>(Hart::lerp(lhs.z, rhs.z, t)),
+			static_cast<float>(Hart::lerp(lhs.z, rhs.z, t))
 		};
 	}
 
 	float Vec3::DotProduct(const Vec3& lhs, const Vec3& rhs) {
-		return ((lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z));
+		return (
+			(lhs.x * rhs.x) +
+			(lhs.y * rhs.y) +
+			(lhs.z * rhs.z));
 	}
 
 	Vec3 Vec3::CrossProduct(const Vec3& lhs, const Vec3& rhs) {
