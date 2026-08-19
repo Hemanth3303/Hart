@@ -54,7 +54,7 @@
 	#elif defined(HART_ENGINE_ARCHITECTURE_RISCV64)
 		#define HART_ARCHITECTURE_STR "riscv64"
 	#else
-		#define HART_ARCHITECTURE_STR "Unkown"
+		#define HART_ARCHITECTURE_STR "Unknown"
 	#endif
 
 	#if defined(HART_COMPILER_MSVC)
