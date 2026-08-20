@@ -6,7 +6,7 @@
 #include "Events/MouseEvents.hpp"
 
 Layer2D::Layer2D(const std::string& name)
-	: Layer(name), m_Camera(0.0f, 960.0f, 540.0f, 0.0f), m_MousePosition(0.0f, 0.0f) {
+	: Layer(name) {
 }
 
 Layer2D::~Layer2D() {
@@ -34,9 +34,4 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-	Hart::Renderer2D::BeginScene(m_Camera);
-
-	Hart::Renderer2D::DrawQuad(m_MousePosition, { 30.0f, 30.0f }, Hart::Blue);
-
-	Hart::Renderer2D::EndScene();
 }

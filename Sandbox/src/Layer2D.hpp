@@ -15,6 +15,5 @@ public:
 	virtual void update(const float deltaTime) override;
 	virtual void render() override;
 private:
-	Hart::OrthographicCamera m_Camera;
 	Hart::Vec2 m_MousePosition;
 };
