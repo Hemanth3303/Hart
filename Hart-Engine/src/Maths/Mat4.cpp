@@ -123,6 +123,49 @@ namespace Hart {
 		return result;
 	}
 
+	Vec4 Mat4::Multiply(const Mat4& mat4, const Vec4& vec4) {
+		return Vec4{
+			mat4.columns[0].x * vec4.x +
+				mat4.columns[1].x * vec4.y +
+				mat4.columns[2].x * vec4.z +
+				mat4.columns[3].x * vec4.w,
+
+			mat4.columns[0].y * vec4.x +
+				mat4.columns[1].y * vec4.y +
+				mat4.columns[2].y * vec4.z +
+				mat4.columns[3].y * vec4.w,
+
+			mat4.columns[0].z * vec4.x +
+				mat4.columns[1].z * vec4.y +
+				mat4.columns[2].z * vec4.z +
+				mat4.columns[3].z * vec4.w,
+
+			mat4.columns[0].w * vec4.x +
+				mat4.columns[1].w * vec4.y +
+				mat4.columns[2].w * vec4.z +
+				mat4.columns[3].w * vec4.w
+		};
+	}
+
+	Vec3 Mat4::Multiply(const Mat4& mat4, const Vec3& vec3) {
+		return Vec3{
+			mat4.columns[0].x * vec3.x +
+				mat4.columns[1].x * vec3.y +
+				mat4.columns[2].x * vec3.z +
+				mat4.columns[3].x,
+
+			mat4.columns[0].y * vec3.x +
+				mat4.columns[1].y * vec3.y +
+				mat4.columns[2].y * vec3.z +
+				mat4.columns[3].y,
+
+			mat4.columns[0].z * vec3.x +
+				mat4.columns[1].z * vec3.y +
+				mat4.columns[2].z * vec3.z +
+				mat4.columns[3].z
+		};
+	}
+
 	std::ostream& operator<<(std::ostream& os, const Mat4& mat4) {
 		os << mat4.toString();
 		return os;
