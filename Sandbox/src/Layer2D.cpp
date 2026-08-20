@@ -4,7 +4,7 @@
 #include "Graphics/Colors.hpp"
 #include "Events/EventDispatcher.hpp"
 #include "Events/MouseEvents.hpp"
-
+#include "Core/Application.hpp"
 #include "Maths/Mat4.hpp"
 
 Layer2D::Layer2D(const std::string& name)
@@ -36,9 +36,13 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-	// Hart::Renderer2D::BeginScene(m_Camera);
+	Hart::Renderer2D::BeginScene(m_Camera);
 
-	// Hart::Renderer2D::DrawQuad(m_MousePosition, { 30.0f, 30.0f }, Hart::Blue);
+	Hart::Renderer2D::DrawQuad(
+		Hart::Vec2::ScalarMultiply(Hart::Application::Get()->getWindowDimensions(), 0.5f),
+		{ 100.0f, 100.0f },
+		Hart::Red);
+	Hart::Renderer2D::DrawQuad(m_MousePosition, { 30.0f, 30.0f }, Hart::Blue);
 
-	// Hart::Renderer2D::EndScene();
+	Hart::Renderer2D::EndScene();
 }
