@@ -40,10 +40,6 @@ namespace Hart {
 		// returns a column as a Hart::Vec4
 		Vec4 getColumn(size_t index) const;
 
-
-		// this will print as column major ordering
-		std::string toString() const;
-
 		// returns a new 4x4 identity matrix
 		static Mat4 Identity();
 
@@ -85,6 +81,9 @@ namespace Hart {
 
 		static Mat4 LookAt(const Vec3& cameraPosition, const Vec3& targetPosition, const Vec3& worldUpDirection);
 
+		// this will print as column major ordering
+		std::string toString() const;
+		
 		friend std::ostream& operator<<(std::ostream& os, const Mat4& mat4);
 	};
 }

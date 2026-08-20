@@ -16,4 +16,5 @@ public:
 	virtual void render() override;
 private:
 	Hart::Vec2 m_MousePosition;
+	Hart::OrthographicCamera m_Camera;
 };

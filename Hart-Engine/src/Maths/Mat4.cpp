@@ -8,6 +8,11 @@
 #include <cstring>
 
 namespace Hart {
+	float determinant3x3(
+		float a00, float a01, float a02,
+		float a10, float a11, float a12,
+		float a20, float a21, float a22);
+
 	Mat4::Mat4() {
 		std::fill(std::begin(elements), std::end(elements), 0.0f);
 	}
@@ -55,20 +60,6 @@ namespace Hart {
 		};
 	}
 
-	std::string Mat4::toString() const {
-		std::string out = "Mat4(\n";
-
-		for (size_t column = 0; column < MAT4_WIDTH; column++) {
-			out += "[ ";
-			for (size_t row = 0; row < MAT4_HEIGHT; row++) {
-				out += std::to_string(elements[column * MAT4_HEIGHT + row]) + ", ";
-			}
-			out += "]\n";
-		}
-		out += ")";
-
-		return out;
-	}
 	Mat4 Mat4::Identity() {
 		return Mat4(1.0f);
 	}
@@ -166,8 +157,282 @@ namespace Hart {
 		};
 	}
 
+	Mat4 Mat4::Transpose(const Mat4& mat4) {
+		Mat4 result;
+
+		for (size_t column = 0; column < MAT4_WIDTH; column++) {
+			for (size_t row = 0; row < MAT4_HEIGHT; row++) {
+				result.elements[row * MAT4_HEIGHT + column] =
+					mat4.elements[column * MAT4_HEIGHT + row];
+			}
+		}
+
+		return result;
+	}
+
+	float Mat4::Determinant(const Mat4& mat4) {
+		const float a00 = mat4.getElementAt(0, 0);
+		const float a01 = mat4.getElementAt(0, 1);
+		const float a02 = mat4.getElementAt(0, 2);
+		const float a03 = mat4.getElementAt(0, 3);
+
+		const float a10 = mat4.getElementAt(1, 0);
+		const float a11 = mat4.getElementAt(1, 1);
+		const float a12 = mat4.getElementAt(1, 2);
+		const float a13 = mat4.getElementAt(1, 3);
+
+		const float a20 = mat4.getElementAt(2, 0);
+		const float a21 = mat4.getElementAt(2, 1);
+		const float a22 = mat4.getElementAt(2, 2);
+		const float a23 = mat4.getElementAt(2, 3);
+
+		const float a30 = mat4.getElementAt(3, 0);
+		const float a31 = mat4.getElementAt(3, 1);
+		const float a32 = mat4.getElementAt(3, 2);
+		const float a33 = mat4.getElementAt(3, 3);
+
+		const float d0 = determinant3x3(
+			a11, a12, a13,
+			a21, a22, a23,
+			a31, a32, a33);
+
+		const float d1 = determinant3x3(
+			a10, a12, a13,
+			a20, a22, a23,
+			a30, a32, a33);
+
+		const float d2 = determinant3x3(
+			a10, a11, a13,
+			a20, a21, a23,
+			a30, a31, a33);
+
+		const float d3 = determinant3x3(
+			a10, a11, a12,
+			a20, a21, a22,
+			a30, a31, a32);
+
+		return ((a00 * d0) -
+				(a01 * d1) +
+				(a02 * d2) -
+				(a03 * d3));
+	}
+
+	Mat4 Mat4::Cofactor(const Mat4& mat4) {
+		/**
+		 * cofactor pattern for mat4x4
+		 *  +  -  +  -
+		 *  -  +  -  +
+		 *  +  -  +  -
+		 *  -  +  -  +
+		 */
+
+		Mat4 result;
+
+		const float a00 = mat4.getElementAt(0, 0);
+		const float a01 = mat4.getElementAt(0, 1);
+		const float a02 = mat4.getElementAt(0, 2);
+		const float a03 = mat4.getElementAt(0, 3);
+
+		const float a10 = mat4.getElementAt(1, 0);
+		const float a11 = mat4.getElementAt(1, 1);
+		const float a12 = mat4.getElementAt(1, 2);
+		const float a13 = mat4.getElementAt(1, 3);
+
+		const float a20 = mat4.getElementAt(2, 0);
+		const float a21 = mat4.getElementAt(2, 1);
+		const float a22 = mat4.getElementAt(2, 2);
+		const float a23 = mat4.getElementAt(2, 3);
+
+		const float a30 = mat4.getElementAt(3, 0);
+		const float a31 = mat4.getElementAt(3, 1);
+		const float a32 = mat4.getElementAt(3, 2);
+		const float a33 = mat4.getElementAt(3, 3);
+
+		// C00
+		result.elements[0 * MAT4_HEIGHT + 0] =
+			determinant3x3(
+				a11, a12, a13,
+				a21, a22, a23,
+				a31, a32, a33);
+
+		// C01
+		result.elements[1 * MAT4_HEIGHT + 0] =
+			-determinant3x3(
+				a10, a12, a13,
+				a20, a22, a23,
+				a30, a32, a33);
+
+		// C02
+		result.elements[2 * MAT4_HEIGHT + 0] =
+			determinant3x3(
+				a10, a11, a13,
+				a20, a21, a23,
+				a30, a31, a33);
+
+		// C03
+		result.elements[3 * MAT4_HEIGHT + 0] =
+			-determinant3x3(
+				a10, a11, a12,
+				a20, a21, a22,
+				a30, a31, a32);
+
+		// C10
+		result.elements[0 * MAT4_HEIGHT + 1] =
+			-determinant3x3(
+				a01, a02, a03,
+				a21, a22, a23,
+				a31, a32, a33);
+
+		// C11
+		result.elements[1 * MAT4_HEIGHT + 1] =
+			determinant3x3(
+				a00, a02, a03,
+				a20, a22, a23,
+				a30, a32, a33);
+
+		// C12
+		result.elements[2 * MAT4_HEIGHT + 1] =
+			-determinant3x3(
+				a00, a01, a03,
+				a20, a21, a23,
+				a30, a31, a33);
+
+		// C13
+		result.elements[3 * MAT4_HEIGHT + 1] =
+			determinant3x3(
+				a00, a01, a02,
+				a20, a21, a22,
+				a30, a31, a32);
+
+		// C20
+		result.elements[0 * MAT4_HEIGHT + 2] =
+			determinant3x3(
+				a01, a02, a03,
+				a11, a12, a13,
+				a31, a32, a33);
+
+		// C21
+		result.elements[1 * MAT4_HEIGHT + 2] =
+			-determinant3x3(
+				a00, a02, a03,
+				a10, a12, a13,
+				a30, a32, a33);
+
+		// C22
+		result.elements[2 * MAT4_HEIGHT + 2] =
+			determinant3x3(
+				a00, a01, a03,
+				a10, a11, a13,
+				a30, a31, a33);
+
+		// C23
+		result.elements[3 * MAT4_HEIGHT + 2] =
+			-determinant3x3(
+				a00, a01, a02,
+				a10, a11, a12,
+				a30, a31, a32);
+
+		// C30
+		result.elements[0 * MAT4_HEIGHT + 3] =
+			-determinant3x3(
+				a01, a02, a03,
+				a11, a12, a13,
+				a21, a22, a23);
+
+		// C31
+		result.elements[1 * MAT4_HEIGHT + 3] =
+			determinant3x3(
+				a00, a02, a03,
+				a10, a12, a13,
+				a20, a22, a23);
+
+		// C32
+		result.elements[2 * MAT4_HEIGHT + 3] =
+			-determinant3x3(
+				a00, a01, a03,
+				a10, a11, a13,
+				a20, a21, a23);
+
+		// C33
+		result.elements[3 * MAT4_HEIGHT + 3] =
+			determinant3x3(
+				a00, a01, a02,
+				a10, a11, a12,
+				a20, a21, a22);
+
+		return result;
+	}
+
+	Mat4 Mat4::Adjoint(const Mat4& mat4) {
+		return Transpose(Cofactor(mat4));
+	}
+
+	Mat4 Mat4::Inverse(const Mat4& mat4) {
+		float determinant = Determinant(mat4);
+		HART_DEBUG_ASSERT((determinant != 0.0f),
+						  "Reason: The given matrix is not invertible, ",
+						  "as determinant==0");
+		if (determinant == 0.0f) {
+			HART_ENGINE_ERROR("determinant = ", determinant,
+							  ". The given matrix is not invertible.",
+							  "\n\treturning back input matrix");
+			return mat4;
+		}
+
+		return ScalarMultiply(Adjoint(mat4), (1.0f / determinant));
+	}
+
+	Mat4 Mat4::Orthographic(float left, float right, float bottom, float top, float nearPlane, float farPlane) {
+		return Mat4();
+	}
+
+	Mat4 Mat4::Perspective(float fieldOfViewD, float aspectRatio, float nearPlane, float farPlane) {
+		return Mat4();
+	}
+
+	Mat4 Mat4::Translate(const Vec3& translationVector) {
+		return Mat4();
+	}
+
+	Mat4 Mat4::Rotate(float angleD, const Vec3& axisVector) {
+		return Mat4();
+	}
+
+	Mat4 Mat4::Scale(const Vec3& scaleVector) {
+		return Mat4();
+	}
+
+	Mat4 Mat4::LookAt(const Vec3& cameraPosition, const Vec3& targetPosition, const Vec3& worldUpDirection) {
+		return Mat4();
+	}
+
+	float determinant3x3(
+		float a00, float a01, float a02,
+		float a10, float a11, float a12,
+		float a20, float a21, float a22) {
+		return a00 * (a11 * a22 - a12 * a21) -
+			   a01 * (a10 * a22 - a12 * a20) +
+			   a02 * (a10 * a21 - a11 * a20);
+	}
+
+	std::string Mat4::toString() const {
+		std::string out = "Mat4(\n";
+
+		for (size_t column = 0; column < MAT4_WIDTH; column++) {
+			out += "[ ";
+			for (size_t row = 0; row < MAT4_HEIGHT; row++) {
+				out += std::to_string(elements[column * MAT4_HEIGHT + row]) + ", ";
+			}
+			out += "]\n";
+		}
+		out += ")";
+
+		return out;
+	}
+
 	std::ostream& operator<<(std::ostream& os, const Mat4& mat4) {
 		os << mat4.toString();
 		return os;
 	}
+
 }
