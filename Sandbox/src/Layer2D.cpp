@@ -42,7 +42,9 @@ void Layer2D::render() {
 		Hart::Vec2::ScalarMultiply(Hart::Application::Get()->getWindowDimensions(), 0.5f),
 		{ 100.0f, 100.0f },
 		Hart::Red);
-	Hart::Renderer2D::DrawQuad(m_MousePosition, { 30.0f, 30.0f }, Hart::Blue);
+	Hart::Renderer2D::DrawQuad(
+		{ m_MousePosition, 1.0f }, { 30.0f, 30.0f },
+		Hart::Vec4::ComponentWiseMultiplication(Hart::Blue, { 1.0f, 1.0f, 1.0f, 0.5f }));
 
 	Hart::Renderer2D::EndScene();
 }

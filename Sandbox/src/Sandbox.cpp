@@ -10,7 +10,7 @@
 #include "InputCodes/KeyCodes.hpp"
 #include "Layer2D.hpp"
 
-#include <memory.h>
+#include <memory>
 
 class Sandbox : public Hart::Application {
 private:
