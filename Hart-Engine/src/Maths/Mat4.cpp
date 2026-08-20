@@ -65,12 +65,62 @@ namespace Hart {
 			}
 			out += "]\n";
 		}
-		out += ")\n";
+		out += ")";
 
 		return out;
 	}
 	Mat4 Mat4::Identity() {
-		return Mat4{ 1.0f };
+		return Mat4(1.0f);
+	}
+
+	Mat4 Mat4::Add(const Mat4& lhs, const Mat4& rhs) {
+		Mat4 result;
+		for (size_t column = 0; column < MAT4_WIDTH; column++) {
+			for (size_t row = 0; row < MAT4_HEIGHT; row++) {
+				result.elements[column * MAT4_HEIGHT + row] =
+					lhs.elements[column * MAT4_HEIGHT + row] +
+					rhs.elements[column * MAT4_HEIGHT + row];
+			}
+		}
+		return result;
+	}
+
+	Mat4 Mat4::Subtract(const Mat4& lhs, const Mat4& rhs) {
+		Mat4 result;
+		for (size_t column = 0; column < MAT4_WIDTH; column++) {
+			for (size_t row = 0; row < MAT4_HEIGHT; row++) {
+				result.elements[column * MAT4_HEIGHT + row] =
+					lhs.elements[column * MAT4_HEIGHT + row] -
+					rhs.elements[column * MAT4_HEIGHT + row];
+			}
+		}
+		return result;
+	}
+
+	Mat4 Mat4::ScalarMultiply(const Mat4& mat4, float scalar) {
+		Mat4 result;
+		for (size_t i = 0; i < (MAT4_WIDTH * MAT4_HEIGHT); i++) {
+			result.elements[i] = mat4.elements[i] * scalar;
+		}
+		return result;
+	}
+
+	Mat4 Mat4::Multiply(const Mat4& lhs, const Mat4& rhs) {
+		Mat4 result;
+
+		for (size_t column = 0; column < MAT4_WIDTH; column++) {
+			for (size_t row = 0; row < MAT4_HEIGHT; row++) {
+				float sum = 0.0f;
+
+				for (size_t k = 0; k < MAT4_WIDTH; k++) {
+					sum += lhs.elements[k * MAT4_HEIGHT + row] *
+						   rhs.elements[column * MAT4_WIDTH + k];
+				}
+				result.elements[column * MAT4_HEIGHT + row] = sum;
+			}
+		}
+
+		return result;
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Mat4& mat4) {

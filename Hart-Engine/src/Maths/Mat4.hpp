@@ -47,6 +47,44 @@ namespace Hart {
 		// returns a new 4x4 identity matrix
 		static Mat4 Identity();
 
+		// basic matrix maths
+
+		static Mat4 Add(const Mat4& lhs, const Mat4& rhs);
+		static Mat4 Subtract(const Mat4& lhs, const Mat4& rhs);
+		static Mat4 ScalarMultiply(const Mat4& mat4, float scalar);
+		static Mat4 Multiply(const Mat4& lhs, const Mat4& rhs);
+
+		// matrix vector simple operations
+
+		static Vec4 Multiply(const Mat4& mat4, const Vec4& vec4);
+		static Vec3 Multiply(const Mat4& mat4, const Vec3& vec3);
+
+		// matrix inverse related operations
+
+		static Mat4 Transpose(const Mat4& mat4);
+		static float Determinant(const Mat4& mat4);
+		static Mat4 Cofactor(const Mat4& mat4);
+		static Mat4 Adjoint(const Mat4& mat4);
+		static Mat4 Inverse(const Mat4& mat4);
+
+		// matrix camera operations
+
+		// returns orthographic projection matrix
+		static Mat4 Orthographic(float left, float right, float bottom, float top, float nearPlane, float farPlane);
+		// returns perspective projection matrix (provide field of view angle in degrees)
+		static Mat4 Perspective(float fieldOfViewD, float aspectRatio, float nearPlane, float farPlane);
+
+		// matrix vector transformation operations
+
+		static Mat4 Translate(const Vec3& translationVector);
+		// provide angle in degrees
+		static Mat4 Rotate(float angleD, const Vec3& axisVector);
+		static Mat4 Scale(const Vec3& scaleVector);
+
+		// camera utilities
+
+		static Mat4 LookAt(const Vec3& cameraPosition, const Vec3& targetPosition, const Vec3& worldUpDirection);
+
 		friend std::ostream& operator<<(std::ostream& os, const Mat4& mat4);
 	};
 }
