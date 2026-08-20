@@ -4,7 +4,8 @@
 
 namespace Hart {
 	PerspectiveCamera::PerspectiveCamera(float fovD, float aspectRatio, float near, float far)
-		: m_ProjectionMatrix(Mat4::Perspective(fovD, aspectRatio, near, far)), m_ViewMatrix(1.0f) {
+		: m_ProjectionMatrix(Mat4::PerspectiveProjectionMatrix(fovD, aspectRatio, near, far)),
+		  m_ViewMatrix(1.0f) {
 
 		m_ViewMatrix = Mat4::LookAt(m_Position, Vec3::Add(m_Position, m_Front), m_WorldUp);
 		m_ViewProjectionMatrix = Mat4::Multiply(m_ProjectionMatrix, m_ViewMatrix);
@@ -14,7 +15,7 @@ namespace Hart {
 	}
 
 	void PerspectiveCamera::setProjection(float fovD, float aspectRatio, float near, float far) {
-		m_ProjectionMatrix = Mat4::Perspective(fovD, aspectRatio, near, far);
+		m_ProjectionMatrix = Mat4::PerspectiveProjectionMatrix(fovD, aspectRatio, near, far);
 		m_ViewProjectionMatrix = Mat4::Multiply(m_ProjectionMatrix, m_ViewMatrix);
 	}
 

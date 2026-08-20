@@ -52,8 +52,8 @@ namespace Hart {
 
 		// matrix vector simple operations
 
-		static Vec4 Multiply(const Mat4& mat4, const Vec4& vec4);
-		static Vec3 Multiply(const Mat4& mat4, const Vec3& vec3);
+		static Vec4 MultiplyVec4(const Mat4& mat4, const Vec4& vec4);
+		static Vec3 MultiplyVec3(const Mat4& mat4, const Vec3& vec3);
 
 		// matrix inverse related operations
 
@@ -66,9 +66,9 @@ namespace Hart {
 		// matrix camera operations
 
 		// returns orthographic projection matrix
-		static Mat4 Orthographic(float left, float right, float bottom, float top, float nearPlane, float farPlane);
+		static Mat4 OrthographicProjectionMatrix(float left, float right, float bottom, float top, float nearPlane, float farPlane);
 		// returns perspective projection matrix (provide field of view angle in degrees)
-		static Mat4 Perspective(float fieldOfViewD, float aspectRatio, float nearPlane, float farPlane);
+		static Mat4 PerspectiveProjectionMatrix(float fieldOfViewD, float aspectRatio, float nearPlane, float farPlane);
 
 		// matrix vector transformation operations
 
@@ -83,7 +83,7 @@ namespace Hart {
 
 		// this will print as column major ordering
 		std::string toString() const;
-		
+
 		friend std::ostream& operator<<(std::ostream& os, const Mat4& mat4);
 	};
 }

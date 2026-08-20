@@ -16,31 +16,6 @@ Layer2D::~Layer2D() {
 
 void Layer2D::onAttach() {
 	HART_CLIENT_INFO("Attached layer: ", getName());
-
-	Hart::Mat4 A{
-		6, 4, 3, 2,
-		3, 5, 6, 2,
-		1, 2, 3, 9,
-		3, 7, 8, 0
-	};
-
-	Hart::Mat4 I = Hart::Mat4::Identity();
-
-	HART_CLIENT_TRACE("Matrix A: ", A);
-	HART_CLIENT_TRACE("Matrix I: ", I);
-	HART_CLIENT_TRACE("Matrix A^T: ", Hart::Mat4::Transpose(A));
-	HART_CLIENT_TRACE("Matrix I^T: ", Hart::Mat4::Transpose(I));
-	HART_CLIENT_TRACE("Matrix Det(A): ", Hart::Mat4::Determinant(A));
-	HART_CLIENT_TRACE("Matrix Det(I): ", Hart::Mat4::Determinant(I));
-	HART_CLIENT_TRACE("Cofactor(A): ", Hart::Mat4::Cofactor(A));
-	HART_CLIENT_TRACE("Cofactor(I): ", Hart::Mat4::Cofactor(I));
-	HART_CLIENT_TRACE("Adjoint(A): ", Hart::Mat4::Adjoint(A));
-	HART_CLIENT_TRACE("Adjoint(I): ", Hart::Mat4::Adjoint(I));
-	HART_CLIENT_TRACE("Inverse(A): ", Hart::Mat4::Inverse(A));
-	HART_CLIENT_TRACE("Det(Inverse(A)): ", Hart::Mat4::Determinant(Hart::Mat4::Inverse(A)));
-	HART_CLIENT_TRACE("Inverse(I): ", Hart::Mat4::Inverse(I));
-	HART_CLIENT_TRACE("A x Inverse(A): ", Hart::Mat4::Multiply(A, Hart::Mat4::Inverse(A)));
-	HART_CLIENT_TRACE("Inverse(A) x A): ", Hart::Mat4::Multiply(Hart::Mat4::Inverse(A), A));
 }
 
 void Layer2D::onDetach() {

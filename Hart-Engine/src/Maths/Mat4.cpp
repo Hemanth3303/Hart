@@ -1,11 +1,11 @@
 #include "HartPch.hpp"
 #include "Mat4.hpp"
+#include "MathFunctions.hpp"
 #include "Core/Assert.hpp"
 #include "Utils/Logger.hpp"
 
 #include <algorithm>
 #include <iterator>
-#include <cstring>
 
 namespace Hart {
 	float determinant3x3(
@@ -114,7 +114,7 @@ namespace Hart {
 		return result;
 	}
 
-	Vec4 Mat4::Multiply(const Mat4& mat4, const Vec4& vec4) {
+	Vec4 Mat4::MultiplyVec4(const Mat4& mat4, const Vec4& vec4) {
 		return Vec4{
 			mat4.columns[0].x * vec4.x +
 				mat4.columns[1].x * vec4.y +
@@ -138,7 +138,7 @@ namespace Hart {
 		};
 	}
 
-	Vec3 Mat4::Multiply(const Mat4& mat4, const Vec3& vec3) {
+	Vec3 Mat4::MultiplyVec3(const Mat4& mat4, const Vec3& vec3) {
 		return Vec3{
 			mat4.columns[0].x * vec3.x +
 				mat4.columns[1].x * vec3.y +
@@ -382,28 +382,108 @@ namespace Hart {
 		return ScalarMultiply(Adjoint(mat4), (1.0f / determinant));
 	}
 
-	Mat4 Mat4::Orthographic(float left, float right, float bottom, float top, float nearPlane, float farPlane) {
-		return Mat4();
+	Mat4 Mat4::OrthographicProjectionMatrix(float left, float right, float bottom, float top, float nearPlane, float farPlane) {
+		Mat4 result(1.0f);
+
+		result.elements[0 * MAT4_HEIGHT + 0] = 2.0f / (right - left);
+		result.elements[1 * MAT4_HEIGHT + 1] = 2.0f / (top - bottom);
+		result.elements[2 * MAT4_HEIGHT + 2] = 2.0f / (nearPlane - farPlane);
+
+		result.elements[3 * MAT4_HEIGHT + 0] = (left + right) / (left - right);
+		result.elements[3 * MAT4_HEIGHT + 1] = (bottom + top) / (bottom - top);
+		result.elements[3 * MAT4_HEIGHT + 2] = (farPlane + nearPlane) / (farPlane - nearPlane);
+
+		return result;
 	}
 
-	Mat4 Mat4::Perspective(float fieldOfViewD, float aspectRatio, float nearPlane, float farPlane) {
-		return Mat4();
+	Mat4 Mat4::PerspectiveProjectionMatrix(float fieldOfViewD, float aspectRatio, float nearPlane, float farPlane) {
+		Mat4 result(1.0f);
+
+		float q = 1.0f / static_cast<float>(Hart::tanD(0.5 * fieldOfViewD));
+		float a = q / aspectRatio;
+		float b = (nearPlane + farPlane) / (nearPlane - farPlane);
+		float c = (2.0f * nearPlane * farPlane) / (nearPlane - farPlane);
+
+		result.elements[0 * MAT4_HEIGHT + 0] = a;
+		result.elements[1 * MAT4_HEIGHT + 1] = q;
+		result.elements[2 * MAT4_HEIGHT + 2] = b;
+		result.elements[2 * MAT4_HEIGHT + 3] = -1.0f;
+		result.elements[3 * MAT4_HEIGHT + 2] = c;
+
+		return result;
 	}
 
 	Mat4 Mat4::Translate(const Vec3& translationVector) {
-		return Mat4();
+		Mat4 result(1.0f);
+
+		result.elements[3 * MAT4_HEIGHT + 0] = translationVector.x;
+		result.elements[3 * MAT4_HEIGHT + 1] = translationVector.y;
+		result.elements[3 * MAT4_HEIGHT + 2] = translationVector.z;
+
+		return result;
 	}
 
 	Mat4 Mat4::Rotate(float angleD, const Vec3& axisVector) {
-		return Mat4();
+		Mat4 result(1.0f);
+
+		float cosAngleD = static_cast<float>(Hart::cosD(angleD));
+		float sinAngleD = static_cast<float>(Hart::sinD(angleD));
+		float oneMinusCosAngleD = 1.0f - cosAngleD;
+
+		float x = axisVector.x;
+		float y = axisVector.y;
+		float z = axisVector.z;
+
+		result.elements[0 * MAT4_HEIGHT + 0] = x * x * oneMinusCosAngleD + cosAngleD;
+		result.elements[1 * MAT4_HEIGHT + 0] = y * x * oneMinusCosAngleD + z * sinAngleD;
+		result.elements[2 * MAT4_HEIGHT + 0] = z * x * oneMinusCosAngleD - y * sinAngleD;
+
+		result.elements[0 * MAT4_HEIGHT + 1] = x * y * oneMinusCosAngleD - z * sinAngleD;
+		result.elements[1 * MAT4_HEIGHT + 1] = y * y * oneMinusCosAngleD + cosAngleD;
+		result.elements[2 * MAT4_HEIGHT + 1] = z * y * oneMinusCosAngleD + x * sinAngleD;
+
+		result.elements[0 * MAT4_HEIGHT + 2] = x * z * oneMinusCosAngleD + y * sinAngleD;
+		result.elements[1 * MAT4_HEIGHT + 2] = y * z * oneMinusCosAngleD - x * sinAngleD;
+		result.elements[2 * MAT4_HEIGHT + 2] = z * z * oneMinusCosAngleD + cosAngleD;
+
+		return result;
 	}
 
 	Mat4 Mat4::Scale(const Vec3& scaleVector) {
-		return Mat4();
+		Mat4 result(1.0f);
+
+		result.elements[0 * MAT4_HEIGHT + 0] = scaleVector.x;
+		result.elements[1 * MAT4_HEIGHT + 1] = scaleVector.y;
+		result.elements[2 * MAT4_HEIGHT + 2] = scaleVector.z;
+
+		return result;
 	}
 
 	Mat4 Mat4::LookAt(const Vec3& cameraPosition, const Vec3& targetPosition, const Vec3& worldUpDirection) {
-		return Mat4();
+		// calculate cameraDirection
+		Vec3 zAxis = Vec3::GetNormal(Vec3::Subtract(cameraPosition, targetPosition));
+		// get position of right axiz vector
+		Vec3 xAxis = Vec3::GetNormal(Vec3::CrossProduct(Vec3::GetNormal(worldUpDirection), zAxis));
+		// calculate camera up vector
+		Vec3 yAxis = Vec3::CrossProduct(zAxis, xAxis);
+
+		// Create translation and rotation matrix
+		Mat4 translation = Mat4::Translate(Vec3::ScalarMultiply(cameraPosition, -1.0f));
+
+		Mat4 rotation = Mat4::Identity();
+		rotation.elements[0 * MAT4_HEIGHT + 0] = xAxis.x;
+		rotation.elements[1 * MAT4_HEIGHT + 0] = xAxis.y;
+		rotation.elements[2 * MAT4_HEIGHT + 0] = xAxis.z;
+
+		rotation.elements[0 * MAT4_HEIGHT + 1] = yAxis.x;
+		rotation.elements[1 * MAT4_HEIGHT + 1] = yAxis.y;
+		rotation.elements[2 * MAT4_HEIGHT + 1] = yAxis.z;
+
+		rotation.elements[0 * MAT4_HEIGHT + 2] = -zAxis.x;
+		rotation.elements[1 * MAT4_HEIGHT + 2] = -zAxis.y;
+		rotation.elements[2 * MAT4_HEIGHT + 2] = -zAxis.z;
+
+		return Mat4::Multiply(rotation, translation);
 	}
 
 	float determinant3x3(
