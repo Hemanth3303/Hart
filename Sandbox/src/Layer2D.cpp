@@ -30,22 +30,9 @@ void Layer2D::onEvent(Hart::Event& e) {
 
 		return true;
 	});
-
-	eventDispatcher.dispatch<Hart::WindowMaximizedEvent>([](Hart::WindowMaximizedEvent& e) {
-		Hart::Application::Get()->setBackgroundColor(Hart::Green);
-		return true;
-	});
-
-	eventDispatcher.dispatch<Hart::WindowRestoredFromMaximizedEvent>([](Hart::WindowRestoredFromMaximizedEvent& e) {
-		Hart::Application::Get()->setBackgroundColor(Hart::DarkGreenishBlue);
-		return true;
-	});
 }
 
 void Layer2D::update(const float deltaTime) {
-	if (Hart::Application::Get()->isWindowMinimized()) {
-		HART_CLIENT_INFO("cry");
-	}
 }
 
 void Layer2D::render() {

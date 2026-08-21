@@ -49,7 +49,6 @@ namespace Hart {
 		inline const Vec2 getWindowDimensions() const { return m_Window->getDimensions(); }
 		inline const double getCurrentFPS() { return m_CurrentFPS; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
-		inline bool isWindowMinimized() const { return m_IsWindowMinimized; }
 		inline std::shared_ptr<Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
 		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
 
