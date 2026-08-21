@@ -63,9 +63,10 @@ namespace Hart {
 		m_Layers.clear();
 		m_LayerMap.clear();
 		m_OverlayMap.clear();
+		m_LayerInsertIndex = 0;
 	}
 
-	std::shared_ptr<Layer> LayerStack::getLayer(const std::string& layerName) {
+	std::shared_ptr<Layer> LayerStack::getLayer(std::string_view layerName) {
 		if (!layerExists(layerName)) {
 			HART_ENGINE_ERROR("Layer named ", layerName, " doesn't exist. Returning nullptr");
 			return nullptr;
@@ -73,7 +74,7 @@ namespace Hart {
 		return m_LayerMap[layerName];
 	}
 
-	std::shared_ptr<Layer> LayerStack::getOverlay(const std::string& overlayName) {
+	std::shared_ptr<Layer> LayerStack::getOverlay(std::string_view overlayName) {
 		if (!overlayExists(overlayName)) {
 			HART_ENGINE_ERROR("Overlay named ", overlayName, " doesn't exist. Returning nullptr");
 			return nullptr;

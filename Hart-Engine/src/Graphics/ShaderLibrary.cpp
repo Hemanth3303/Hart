@@ -34,7 +34,7 @@ namespace Hart {
 	}
 
 	std::shared_ptr<Shader> ShaderLibrary::getShader(const std::string& name) {
-		HART_DEBUG_ASSERT(exists(name), true, "Reason: Shader named " + name + " doesn't exist");
+		HART_DEBUG_ASSERT(exists(name), true, "Reason: Shader named ", name, " doesn't exist");
 		return m_Shaders[name];
 	}
 

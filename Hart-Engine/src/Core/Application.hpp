@@ -12,6 +12,10 @@
 #include "Events/EventCategory.hpp"
 #include "InputCodes/KeyCodes.hpp"
 
+#include <string>
+#include <string_view>
+#include <cstdint>
+
 namespace Hart {
 	// Base class representing an application/game made using Hart.
 	// The user must extend from this class and override some methods to make an app/game
@@ -23,7 +27,7 @@ namespace Hart {
 	public:
 		Application();
 		// takes window configurations as arguments
-		Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable = false);
+		Application(int32_t windowWidth, int32_t windowHeight, std::string_view windowTitle, bool isWindowResizable = false);
 		virtual ~Application();
 
 		// enables or disables vsync
@@ -59,10 +63,10 @@ namespace Hart {
 		void pushOverlay(const std::shared_ptr<Layer>& overlay);
 		void popOverlay(const std::shared_ptr<Layer>& overlay);
 
-		inline bool layerExists(const std::string& layerName) { return m_LayerStack.layerExists(layerName); }
-		inline bool overlayExists(const std::string& overlayName) { return m_LayerStack.overlayExists(overlayName); }
-		inline const std::shared_ptr<Layer> getLayer(const std::string& layerName) { return m_LayerStack.getLayer(layerName); }
-		inline const std::shared_ptr<Layer> getOverlay(const std::string& overlayName) { return m_LayerStack.getOverlay(overlayName); }
+		inline bool layerExists(std::string_view layerName) { return m_LayerStack.layerExists(layerName); }
+		inline bool overlayExists(std::string_view overlayName) { return m_LayerStack.overlayExists(overlayName); }
+		inline std::shared_ptr<Layer> getLayer(std::string_view layerName) { return m_LayerStack.getLayer(layerName); }
+		inline std::shared_ptr<Layer> getOverlay(std::string_view overlayName) { return m_LayerStack.getOverlay(overlayName); }
 
 	private:
 		// initializes application

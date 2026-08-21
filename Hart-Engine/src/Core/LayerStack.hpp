@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include <string>
+#include <string_view>
 
 namespace Hart {
 	// LayerStack
@@ -22,11 +22,11 @@ namespace Hart {
 		// Deletes all layers and overlays
 		void popAll();
 
-		std::shared_ptr<Layer> getLayer(const std::string& layerName);
-		std::shared_ptr<Layer> getOverlay(const std::string& overlayName);
+		std::shared_ptr<Layer> getLayer(std::string_view layerName);
+		std::shared_ptr<Layer> getOverlay(std::string_view overlayName);
 
-		inline bool layerExists(const std::string& layerName) { return m_LayerMap.contains(layerName); }
-		inline bool overlayExists(const std::string& overlayName) { return m_OverlayMap.contains(overlayName); }
+		inline bool layerExists(std::string_view layerName) { return m_LayerMap.contains(layerName); }
+		inline bool overlayExists(std::string_view overlayName) { return m_OverlayMap.contains(overlayName); }
 
 		std::vector<std::shared_ptr<Layer>>::iterator begin() { return m_Layers.begin(); }
 		std::vector<std::shared_ptr<Layer>>::iterator end() { return m_Layers.end(); }
@@ -40,8 +40,8 @@ namespace Hart {
 
 	private:
 		std::vector<std::shared_ptr<Layer>> m_Layers;
-		std::unordered_map<std::string, std::shared_ptr<Layer>> m_LayerMap;
-		std::unordered_map<std::string, std::shared_ptr<Layer>> m_OverlayMap;
+		std::unordered_map<std::string_view, std::shared_ptr<Layer>> m_LayerMap;
+		std::unordered_map<std::string_view, std::shared_ptr<Layer>> m_OverlayMap;
 		uint32_t m_LayerInsertIndex = 0;
 	};
 }

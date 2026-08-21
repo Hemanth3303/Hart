@@ -19,7 +19,7 @@ void Layer2D::onAttach() {
 }
 
 void Layer2D::onDetach() {
-	HART_CLIENT_INFO(std::string("Detached layer: ") + getName());
+	HART_CLIENT_INFO("Detached layer: ", getName());
 }
 void Layer2D::onEvent(Hart::Event& e) {
 	Hart::EventDispatcher eventDispatcher(e);

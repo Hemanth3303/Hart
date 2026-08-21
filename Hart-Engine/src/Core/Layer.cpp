@@ -2,16 +2,13 @@
 #include "Layer.hpp"
 
 namespace Hart {
-
-	uint64_t Layer::s_LayerID = 0;
-
 	Layer::Layer()
-		: m_Name(std::string("Layer") + std::to_string(s_LayerID++)) {
+		: m_Name(std::string("Layer") + std::to_string(s_LayerCount++)) {
 	}
 
-	Layer::Layer(const std::string& name)
+	Layer::Layer(std::string_view name)
 		: m_Name(name) {
-		s_LayerID++;
+		s_LayerCount++;
 	}
 
 	Layer::~Layer() {

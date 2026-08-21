@@ -22,7 +22,7 @@ namespace Hart {
 		init(windowProps);
 	}
 
-	Application::Application(int32_t windowWidth, int32_t windowHeight, const std::string& windowTitle, bool isWindowResizable) {
+	Application::Application(int32_t windowWidth, int32_t windowHeight, std::string_view windowTitle, bool isWindowResizable) {
 		WindowProps windowProps;
 		windowProps.width = windowWidth;
 		windowProps.height = windowHeight;
