@@ -4,9 +4,11 @@
 #include "Graphics/Camera/OrthographicCamera.hpp"
 #include "Maths/Vec3.hpp"
 
+#include <string_view>
+
 class Layer2D : public Hart::Layer {
 public:
-	Layer2D(const std::string& name);
+	Layer2D(std::string_view name);
 	~Layer2D();
 
 	virtual void onAttach() override;

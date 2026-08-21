@@ -44,10 +44,13 @@ namespace Hart {
 		inline static Application* const& Get() { return s_Instance; }
 		// returns a non ownning pointer to the Hart::Window object
 		inline const Window* getWindow() const { return m_Window.get(); }
-		inline const int32_t getWindowWidth() const { return m_Window->getWidth(); }
-		inline const int32_t getWindowHeight() const { return m_Window->getHeight(); }
-		inline const Vec2 getWindowDimensions() const { return m_Window->getDimensions(); }
-		inline const double getCurrentFPS() { return m_CurrentFPS; }
+		inline int32_t getWindowWidth() const { return m_Window->getWidth(); }
+		inline int32_t getWindowHeight() const { return m_Window->getHeight(); }
+		inline Vec2 getWindowDimensions() const { return m_Window->getDimensions(); }
+		inline float getAspectRatio() const {
+			return static_cast<float>(m_Window->getWidth()) / static_cast<float>(m_Window->getHeight());
+		}
+		inline double getCurrentFPS() { return m_CurrentFPS; }
 		inline bool isVsyncEnabled() const { return m_IsVsyncEnabled; }
 		inline std::shared_ptr<Shader> getShader(const std::string& name) { return m_ShaderLibrary.getShader(name); }
 		inline std::vector<std::string_view> getAllShaderNames() { return m_ShaderLibrary.getAllShaderNames(); }
@@ -84,6 +87,7 @@ namespace Hart {
 		bool onKeyPressed(KeyPressedEvent& e);
 
 		static void LogCompileInfo();
+
 	private:
 		static Application* s_Instance;
 		std::unique_ptr<Window> m_Window;

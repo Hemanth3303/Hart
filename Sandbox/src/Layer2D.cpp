@@ -7,7 +7,7 @@
 #include "Core/Application.hpp"
 #include "Maths/Mat4.hpp"
 
-Layer2D::Layer2D(const std::string& name)
+Layer2D::Layer2D(std::string_view name)
 	: Layer(name), m_Camera(0.0f, 960.0f, 540.0f, 0.0f), m_MousePosition(0.0f, 0.0f) {
 }
 
