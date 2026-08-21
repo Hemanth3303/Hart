@@ -10,6 +10,8 @@ namespace Hart {
 	void windowCloseCallback(GLFWwindow* glfwWindow);
 	void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos);
 	void windowFocusCallback(GLFWwindow* glfwWindow, int32_t focused);
+	void windowIconifyCallback(GLFWwindow* glfwWindow, int iconified);
+	void windowMaximizedCallback(GLFWwindow* glfwWindow, int maximized);
 	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
 	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods);
 	void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
@@ -37,20 +39,7 @@ namespace Hart {
 		HART_DEBUG_ASSERT((m_GLFWwindow != nullptr), "Reason: Failed to create GLFWwindow");
 		HART_ENGINE_INFO("Window initialized successfully");
 		glfwMakeContextCurrent(m_GLFWwindow);
-		glfwSetWindowUserPointer(m_GLFWwindow, static_cast<void*>(this));
-
-		glfwSetWindowSizeCallback(m_GLFWwindow, windowSizeCallback);
-		glfwSetWindowCloseCallback(m_GLFWwindow, windowCloseCallback);
-		glfwSetWindowPosCallback(m_GLFWwindow, windowPositionCallback);
-		glfwSetWindowFocusCallback(m_GLFWwindow, windowFocusCallback);
-
-		glfwSetFramebufferSizeCallback(m_GLFWwindow, framebufferSizeCallback);
-
-		glfwSetKeyCallback(m_GLFWwindow, keyCallback);
-
-		glfwSetCursorPosCallback(m_GLFWwindow, cursorPositionCallback);
-		glfwSetScrollCallback(m_GLFWwindow, mouseScrollCallback);
-		glfwSetMouseButtonCallback(m_GLFWwindow, mouseButtonCallback);
+		registerGLFWcallbacks();
 
 		int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HART_DEBUG_ASSERT((success != 0), "Failed to Initialize GLAD");
@@ -66,6 +55,25 @@ namespace Hart {
 
 	void Window::deinit() {
 		glfwDestroyWindow(m_GLFWwindow);
+	}
+
+	void Window::registerGLFWcallbacks() {
+		glfwSetWindowUserPointer(m_GLFWwindow, static_cast<void*>(this));
+
+		glfwSetWindowSizeCallback(m_GLFWwindow, windowSizeCallback);
+		glfwSetWindowCloseCallback(m_GLFWwindow, windowCloseCallback);
+		glfwSetWindowPosCallback(m_GLFWwindow, windowPositionCallback);
+		glfwSetWindowFocusCallback(m_GLFWwindow, windowFocusCallback);
+		glfwSetWindowIconifyCallback(m_GLFWwindow, windowIconifyCallback);
+		glfwSetWindowMaximizeCallback(m_GLFWwindow, windowMaximizedCallback);
+
+		glfwSetFramebufferSizeCallback(m_GLFWwindow, framebufferSizeCallback);
+
+		glfwSetKeyCallback(m_GLFWwindow, keyCallback);
+
+		glfwSetCursorPosCallback(m_GLFWwindow, cursorPositionCallback);
+		glfwSetScrollCallback(m_GLFWwindow, mouseScrollCallback);
+		glfwSetMouseButtonCallback(m_GLFWwindow, mouseButtonCallback);
 	}
 
 	void Window::setEventCallback(const EventCallBackFunction callbackFn) {
@@ -105,6 +113,32 @@ namespace Hart {
 		}
 		else {
 			WindowFocusLostEvent e;
+			engineWindow->m_EventCallbackFn(e);
+		}
+	}
+
+	void windowIconifyCallback(GLFWwindow* glfwWindow, int iconified) {
+		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+
+		if (iconified == GLFW_TRUE) {
+			WindowMinimizedEvent e;
+			engineWindow->m_EventCallbackFn(e);
+		}
+		else {
+			WindowRestoredFromMinimizedEvent e;
+			engineWindow->m_EventCallbackFn(e);
+		}
+	}
+
+	void windowMaximizedCallback(GLFWwindow* glfwWindow, int maximized) {
+		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+
+		if (maximized == GLFW_TRUE) {
+			WindowMaximizedEvent e;
+			engineWindow->m_EventCallbackFn(e);
+		}
+		else {
+			WindowRestoredFromMaximizedEvent e;
 			engineWindow->m_EventCallbackFn(e);
 		}
 	}

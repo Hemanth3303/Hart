@@ -185,6 +185,13 @@ namespace Hart {
 		eventDispatcher.dispatch<WindowMovedEvent>([this](WindowMovedEvent& e) {
 			return this->onWindowMoved(e);
 		});
+		eventDispatcher.dispatch<WindowMinimizedEvent>([this](WindowMinimizedEvent& e) {
+			return this->onWindowMinimized(e);
+		});
+		eventDispatcher.dispatch<WindowRestoredFromMinimizedEvent>([this](WindowRestoredFromMinimizedEvent& e) {
+			return this->onWindowRestoredFromMinimized(e);
+		});
+
 		// key events
 		eventDispatcher.dispatch<KeyPressedEvent>([this](KeyPressedEvent& e) {
 			return this->onKeyPressed(e);
@@ -200,13 +207,6 @@ namespace Hart {
 	}
 
 	bool Application::onWindowResized(WindowResizedEvent& e) {
-		if (e.getWidth() == 0 && e.getHeight() == 0) {
-			m_IsWindowMinimized = true;
-		}
-		else {
-			m_IsWindowMinimized = false;
-		}
-
 		m_Window->setWindowSize(e.getWidth(), e.getHeight());
 		return false;
 	}
@@ -219,6 +219,16 @@ namespace Hart {
 	bool Application::onWindowMoved(WindowMovedEvent& e) {
 		m_Window->setWindowPosition(e.getXPosition(), e.getYPosition());
 		return true;
+	}
+
+	bool Application::onWindowMinimized(WindowMinimizedEvent& e) {
+		m_IsWindowMinimized = true;
+		return false;
+	}
+
+	bool Application::onWindowRestoredFromMinimized(WindowRestoredFromMinimizedEvent& e) {
+		m_IsWindowMinimized = false;
+		return false;
 	}
 
 	bool Application::onKeyPressed(KeyPressedEvent& e) {

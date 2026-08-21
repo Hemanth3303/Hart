@@ -9,6 +9,10 @@ namespace Hart {
 		WindowMovedEvent,
 		WindowFocusGainedEvent,
 		WindowFocusLostEvent,
+		WindowMinimizedEvent,
+		WindowRestoredFromMinimizedEvent,
+		WindowMaximizedEvent,
+		WindowRestoredFromMaximizedEvent,
 
 		KeyPressedEvent,
 		KeyRepeatEvent,

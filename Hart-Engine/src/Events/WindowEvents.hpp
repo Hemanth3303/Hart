@@ -90,4 +90,44 @@ namespace Hart {
 		virtual std::string_view getName() const override { return "WindowFocusLost"; }
 		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
 	};
+
+	class WindowMinimizedEvent : public Event {
+	public:
+		WindowMinimizedEvent() = default;
+
+		static EventType GetStaticType() { return EventType::WindowMinimizedEvent; }
+		virtual EventType getEventType() const override { return GetStaticType(); }
+		virtual std::string_view getName() const override { return "WindowMinimizedEvent"; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+	};
+
+	class WindowRestoredFromMinimizedEvent : public Event {
+	public:
+		WindowRestoredFromMinimizedEvent() = default;
+
+		static EventType GetStaticType() { return EventType::WindowRestoredFromMinimizedEvent; }
+		virtual EventType getEventType() const override { return GetStaticType(); }
+		virtual std::string_view getName() const override { return "WindowRestoredFromMinimizedEvent"; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+	};
+
+	class WindowMaximizedEvent : public Event {
+	public:
+		WindowMaximizedEvent() = default;
+
+		static EventType GetStaticType() { return EventType::WindowMaximizedEvent; }
+		virtual EventType getEventType() const override { return GetStaticType(); }
+		virtual std::string_view getName() const override { return "WindowMaximizedEvent"; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+	};
+
+	class WindowRestoredFromMaximizedEvent : public Event {
+	public:
+		WindowRestoredFromMaximizedEvent() = default;
+
+		static EventType GetStaticType() { return EventType::WindowRestoredFromMaximizedEvent; }
+		virtual EventType getEventType() const override { return GetStaticType(); }
+		virtual std::string_view getName() const override { return "WindowRestoredFromMaximizedEvent"; }
+		virtual int32_t getEventCategoryFlags() const override { return EventCategory::WindowEvent; }
+	};
 }

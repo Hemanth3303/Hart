@@ -80,6 +80,8 @@ namespace Hart {
 		bool onWindowResized(WindowResizedEvent& e);
 		bool onWindowClosed(WindowClosedEvent& e);
 		bool onWindowMoved(WindowMovedEvent& e);
+		bool onWindowMinimized(WindowMinimizedEvent& e);
+		bool onWindowRestoredFromMinimized(WindowRestoredFromMinimizedEvent& e);
 		bool onKeyPressed(KeyPressedEvent& e);
 
 		static void LogCompileInfo();

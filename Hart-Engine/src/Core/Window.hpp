@@ -47,6 +47,8 @@ namespace Hart {
 		friend void windowCloseCallback(GLFWwindow* glfwWindow);
 		friend void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos);
 		friend void windowFocusCallback(GLFWwindow* glfwWindow, int32_t focused);
+		friend void windowIconifyCallback(GLFWwindow* glfwWindow, int iconified);
+		friend void windowMaximizedCallback(GLFWwindow* glfwWindow, int maximized);
 		friend void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
 		friend void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods);
 		friend void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
@@ -58,6 +60,7 @@ namespace Hart {
 		void deinit();
 		inline void setWindowSize(int32_t width, int32_t height) { m_WindowProps.width = width, m_WindowProps.height = height; }
 		inline void setWindowPosition(float xpos, float ypos) { m_WindowProps.position.x = xpos, m_WindowProps.position.y = ypos; }
+		void registerGLFWcallbacks();
 		void setEventCallback(const EventCallBackFunction callbackFn);
 
 	private:

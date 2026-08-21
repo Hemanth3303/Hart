@@ -15,7 +15,7 @@
 #endif
 
 // helper macros
-#define BIT(x) (1 << (x))
+#define BIT(x) (1u << (x))
 #define HART_TO_STR_HELPER(x) #x
 #define HART_TO_STR(x) HART_TO_STR_HELPER(x)
 
