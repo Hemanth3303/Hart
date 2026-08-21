@@ -5,7 +5,6 @@
 #include "Maths/Vec4.hpp"
 
 #include <random>
-#include <memory>
 #include <cstdint>
 
 namespace Hart {
@@ -13,19 +12,19 @@ namespace Hart {
 	class Random {
 	public:
 		Random();
-		~Random();
+		~Random() = default;
 
-		int32_t getRandomInt32(int32_t begin, int32_t end) const;
-		int64_t getRandomInt64(int64_t begin, int64_t end) const;
+		int32_t getRandomInt32(int32_t begin, int32_t end);
+		int64_t getRandomInt64(int64_t begin, int64_t end);
 
-		float getRandomFloat(float begin, float end) const;
-		double getRandomDouble(double begin, double end) const;
+		float getRandomFloat(float begin, float end);
+		double getRandomDouble(double begin, double end);
 
-		Vec2 getRandomVec2(float begin, float end) const;
-		Vec3 getRandomVec3(float begin, float end) const;
-		Vec4 getRandomVec4(float begin, float end) const;
+		Vec2 getRandomVec2(float begin, float end);
+		Vec3 getRandomVec3(float begin, float end);
+		Vec4 getRandomVec4(float begin, float end);
 
 	private:
-		std::unique_ptr<std::mt19937> m_MT19937;
+		std::mt19937 m_MT19937;
 	};
 }
