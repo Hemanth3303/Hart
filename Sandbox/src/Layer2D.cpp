@@ -5,7 +5,6 @@
 #include "Events/EventDispatcher.hpp"
 #include "Events/MouseEvents.hpp"
 #include "Core/Application.hpp"
-#include "Utils/Random.hpp"
 
 Layer2D::Layer2D(std::string_view name)
 	: Layer(name), m_Camera(0.0f, 960.0f, 540.0f, 0.0f), m_MousePosition(0.0f, 0.0f) {
@@ -33,8 +32,6 @@ void Layer2D::onEvent(Hart::Event& e) {
 }
 
 void Layer2D::update(const float deltaTime) {
-	Hart::Random rd;
-	HART_CLIENT_ERROR(rd.getRandomVec4(0, 100));
 }
 
 void Layer2D::render() {
