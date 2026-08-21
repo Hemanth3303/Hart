@@ -99,7 +99,7 @@ namespace Hart {
 		return fileSize;
 	}
 
-	std::string FileManager::GetFileName(const std::string& filePath) {
+	std::string FileManager::GetFileNameWithoutExtension(const std::string& filePath) {
 		size_t lastSlash = filePath.find_last_of("/\\");
 		if (lastSlash == std::string::npos) {
 			lastSlash = 0;

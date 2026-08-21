@@ -14,7 +14,7 @@ namespace Hart {
 		std::string vertexShaderString = FileManager::ReadStringFromFile(vertexShaderPath);
 		std::string fragmentShaderString = FileManager::ReadStringFromFile(fragmentShaderPath);
 
-		m_Name = FileManager::GetFileName(vertexShaderPath);
+		m_Name = FileManager::GetFileNameWithoutExtension(vertexShaderPath);
 		init(vertexShaderString.c_str(), fragmentShaderString.c_str());
 	}
 

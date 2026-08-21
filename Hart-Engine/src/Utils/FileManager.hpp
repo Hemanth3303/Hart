@@ -25,7 +25,7 @@ namespace Hart {
 
 		// Returns file name without the filepath or extension
 		// example: assets/images/grass.png will return grass
-		static std::string GetFileName(const std::string& filePath);
+		static std::string GetFileNameWithoutExtension(const std::string& filePath);
 		// Returns file name without the filepath but extension is retained
 		// example: assets/images/grass.png will return grass.png
 		static std::string GetFileNameWithExtension(const std::string& filePath);
