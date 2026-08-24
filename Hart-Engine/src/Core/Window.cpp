@@ -42,7 +42,11 @@ namespace Hart {
 		registerGLFWcallbacks();
 
 		int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HART_DEBUG_ASSERT((success != 0), "Failed to Initialize GLAD");
+		HART_DEBUG_ASSERT((success != 0), "Failed to initialize GLAD");
+		if (success == 0) {
+			HART_ENGINE_FATAL("Failed to initialize GLAD, aborting");
+			HART_ENGINE_ABORT();
+		}
 		HART_ENGINE_INFO("GLAD loaded successfully");
 
 		OpenGLRenderer::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);

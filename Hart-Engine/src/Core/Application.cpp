@@ -14,6 +14,8 @@
 #include "Graphics/EngineShaders/TextShader2D.hpp"
 #include "Graphics/EngineShaders/CubeShader3D.hpp"
 
+#include "GLFW/glfw3.h"
+
 namespace Hart {
 	Application* Application::s_Instance = nullptr;
 
@@ -113,6 +115,10 @@ namespace Hart {
 		HART_ENGINE_INFO("Initializing GLFW");
 		int32_t success = glfwInit();
 		HART_DEBUG_ASSERT((success == GLFW_TRUE), "Reason: Failed to initialize GLFW");
+		if (success != GLFW_TRUE) {
+			HART_ENGINE_FATAL("Failed to initialize GLFW, aborting");
+			HART_ENGINE_ABORT();
+		}
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
