@@ -1,7 +1,7 @@
 #include "HartPch.hpp"
 #include "Window.hpp"
 #include "Assert.hpp"
-#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
+#include "Graphics/OpenGL/OpenGLRenderer.hpp"
 #include "Utils/Logger.hpp"
 
 namespace Hart {

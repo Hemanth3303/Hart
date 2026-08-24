@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Texture2D.hpp"
+#include "OpenGL/Texture2D.hpp"
 
 #include "stb_truetype.h"
 

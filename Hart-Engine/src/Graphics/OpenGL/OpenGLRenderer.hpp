@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics/VertexArray.hpp"
+#include "VertexArray.hpp"
 #include "OpenGLRendererData.hpp"
 
 namespace Hart {
