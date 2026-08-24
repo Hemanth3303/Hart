@@ -47,6 +47,8 @@ namespace Hart {
 		inline int32_t getWindowWidth() const { return m_Window->getWidth(); }
 		inline int32_t getWindowHeight() const { return m_Window->getHeight(); }
 		inline Vec2 getWindowDimensions() const { return m_Window->getDimensions(); }
+		inline int32_t getFrameBufferWidth() const { return m_Window->getFrameBufferWidth(); }
+		inline int32_t getFrameBufferHeight() const { return m_Window->getFrameBufferHeight(); }
 		inline float getAspectRatio() const {
 			return static_cast<float>(m_Window->getWidth()) / static_cast<float>(m_Window->getHeight());
 		}

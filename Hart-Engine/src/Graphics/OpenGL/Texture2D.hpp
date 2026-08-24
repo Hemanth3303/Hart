@@ -52,6 +52,10 @@ namespace Hart {
 		DepthStencil = GL_DEPTH_STENCIL,
 	};
 
+	/**
+	 * If generateMipMaps is set to false, only use TextureMinFilter::Linear or TextureMinFilter::Nearest.
+	 * Don't set numberOfChannels manually for textures loaded from disk using stbi
+	 */
 	struct Texture2DSpecification {
 		uint32_t width = 0;
 		uint32_t height = 0;

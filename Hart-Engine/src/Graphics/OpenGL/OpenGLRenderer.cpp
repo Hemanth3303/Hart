@@ -88,8 +88,8 @@ namespace Hart {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, s_Data.pixelUnpackAlignment);
 	}
 
-	const OpenGLRendererData& OpenGLRenderer::GetOpenGLRendererData() {
-		return s_Data;
+	void OpenGLRenderer::BindDefaultFrameBuffer() {
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	void OpenGLRenderer::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
@@ -115,6 +115,10 @@ namespace Hart {
 		uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
 
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+	}
+
+	const OpenGLRendererData& OpenGLRenderer::GetOpenGLRendererData() {
+		return s_Data;
 	}
 
 	void OpenGLRenderer::LogInfo() {

@@ -7,8 +7,6 @@
 
 #include "stb_image.h"
 
-#include <algorithm>
-
 namespace Hart {
 	uint32_t calculateMipMapLevels(uint32_t width, uint32_t height);
 

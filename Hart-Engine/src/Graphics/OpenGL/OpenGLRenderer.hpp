@@ -35,7 +35,8 @@ namespace Hart {
 		static void SetPixelPackAlignment(int32_t alignmentNumber);
 		static void SetPixelUnpackAlignment(int32_t alignmentNumber);
 
-		static const OpenGLRendererData& GetOpenGLRendererData();
+		// binds the default opengl framebuffer owned by the window itself, aka FBO(0)
+		static void BindDefaultFrameBuffer();
 
 		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount);
 
@@ -45,6 +46,8 @@ namespace Hart {
 		// by default uses index count of index buffer in vertex array
 		// if provided with an indexCount greater than 0, it uses that indexCount instead
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0);
+
+		static const OpenGLRendererData& GetOpenGLRendererData();
 
 	private:
 		static void LogInfo();

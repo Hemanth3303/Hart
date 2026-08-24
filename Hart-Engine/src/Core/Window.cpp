@@ -12,7 +12,7 @@ namespace Hart {
 	void windowFocusCallback(GLFWwindow* glfwWindow, int32_t focused);
 	void windowIconifyCallback(GLFWwindow* glfwWindow, int iconified);
 	void windowMaximizedCallback(GLFWwindow* glfwWindow, int maximized);
-	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
+	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t frameBufferWidth, int32_t frameBufferHeight);
 	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods);
 	void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
 	void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
@@ -49,12 +49,16 @@ namespace Hart {
 		}
 		HART_ENGINE_INFO("GLAD loaded successfully");
 
-		OpenGLRenderer::SetViewPort(0, 0, m_WindowProps.width, m_WindowProps.height);
+		glfwGetWindowSize(m_GLFWwindow, &m_WindowProps.width, &m_WindowProps.height);
+		glfwGetFramebufferSize(m_GLFWwindow, &m_WindowProps.frameBufferWidth, &m_WindowProps.frameBufferHeight);
 
 		int32_t x, y;
 		glfwGetWindowPos(m_GLFWwindow, &x, &y);
 		m_WindowProps.position.x = static_cast<float>(x);
 		m_WindowProps.position.y = static_cast<float>(y);
+
+		OpenGLRenderer::BindDefaultFrameBuffer();
+		OpenGLRenderer::SetViewPort(0, 0, m_WindowProps.frameBufferWidth, m_WindowProps.frameBufferHeight);
 	}
 
 	void Window::deinit() {
@@ -147,13 +151,11 @@ namespace Hart {
 		}
 	}
 
-	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height) {
+	void framebufferSizeCallback(GLFWwindow* glfwWindow, int32_t frameBufferWidth, int32_t frameBufferHeight) {
 		Window* engineWindow = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
 
-		engineWindow->m_WindowProps.width = width;
-		engineWindow->m_WindowProps.height = height;
-
-		OpenGLRenderer::SetViewPort(0, 0, engineWindow->m_WindowProps.width, engineWindow->m_WindowProps.height);
+		engineWindow->m_WindowProps.frameBufferWidth = frameBufferWidth;
+		engineWindow->m_WindowProps.frameBufferHeight = frameBufferHeight;
 	}
 
 	void keyCallback(GLFWwindow* glfwWindow, int32_t key, int32_t scancode, int32_t action, int32_t mods) {
