@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 
 namespace Hart {
-	// Class representing an OpenGL VertexBuffer
+	// Class representing an OpenGL IndexBuffer
 	class IndexBuffer {
 	public:
 		IndexBuffer(uint32_t* indices, uint32_t indexCount);

@@ -24,6 +24,10 @@ namespace Hart {
 		glBindVertexArray(m_ID);
 
 		HART_DEBUG_ASSERT(!(vertexBuffer->getLayout().isEmpty()), "Attempting to add a VertexBuffer with an empty layout to VertexArray");
+		if (vertexBuffer->getLayout().isEmpty()) {
+			HART_ENGINE_INFO("Attempting to add a VertexBuffer with an empty layout to VertexArray, skipping.");
+			return;
+		}
 		vertexBuffer->bind();
 		uint32_t index = 0;
 		for (const auto& element : vertexBuffer->getLayout()) {
