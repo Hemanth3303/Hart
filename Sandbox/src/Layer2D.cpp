@@ -1,6 +1,7 @@
 #include "Layer2D.hpp"
 #include "Utils/Logger.hpp"
 #include "Graphics/Colors.hpp"
+#include "Graphics/Renderer2D/Renderer2D.hpp"
 #include "Events/EventDispatcher.hpp"
 #include "Events/MouseEvents.hpp"
 #include "Core/Application.hpp"
@@ -34,5 +35,16 @@ void Layer2D::update(const float deltaTime) {
 }
 
 void Layer2D::render() {
-	
+	std::shared_ptr<Hart::Texture2D> tex = std::make_shared<Hart::Texture2D>("./res/images/awesomeface.png");
+	Hart::Renderer2D::BeginScene(m_Camera);
+
+	Hart::Renderer2D::DrawQuad(
+		Hart::Vec2::ScalarMultiply(Hart::Application::Get()->getWindowDimensions(), 0.5f),
+		{ 100.0f, 100.0f },
+		tex, Hart::Red);
+	Hart::Renderer2D::DrawQuad(
+		{ m_MousePosition, 1.0f }, { 30.0f, 30.0f },
+		Hart::Vec4::ComponentWiseMultiplication(Hart::Blue, { 1.0f, 1.0f, 1.0f, 0.5f }));
+
+	Hart::Renderer2D::EndScene();
 }
