@@ -5,10 +5,12 @@
 #include "Maths/Vec4.hpp"
 #include "Graphics/Colors.hpp"
 
+#include <memory>
+
 namespace Hart {
-	struct RenderPass2D {
-		const FrameBuffer& fbo;
-		const OrthographicCamera& camera;
-		const Vec4& clearColor = Hart::Black;
+	struct RenderPass2DData {
+		std::shared_ptr<FrameBuffer> fbo = nullptr;
+		std::shared_ptr<OrthographicCamera> camera = nullptr;
+		const Vec4& clearColor;
 	};
 }

@@ -11,6 +11,8 @@
 
 #include "stb_truetype.h"
 
+#include <memory>
+
 namespace Hart {
 	struct Renderer2DData {
 	public:
@@ -24,6 +26,8 @@ namespace Hart {
 		const uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
+		std::shared_ptr<FrameBuffer> fbo;
+		Vec2 viewPortDimensions{ 0.0f, 0.0f };
 
 		// Quads
 		std::shared_ptr<Shader> quadShader;
@@ -71,6 +75,7 @@ namespace Hart {
 		std::array<Vec4, VERTICES_PER_QUAD> textVertexPositions;
 		std::array<Vec2, VERTICES_PER_QUAD> textTextureCoords;
 
-		float textPixelScale;
+		float textYAxisSign = 1.0f;
+		float textPixelScale = 0.0f;
 	};
 }

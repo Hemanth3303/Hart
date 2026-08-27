@@ -66,7 +66,7 @@ namespace Hart {
 	}
 
 	Texture2D::Texture2D(std::byte* buffer, const Texture2DSpecification& textureSpec)
-		:m_Buffer(buffer), m_TextureSpec(textureSpec) {
+		: m_Buffer(buffer), m_TextureSpec(textureSpec) {
 		init();
 	}
 

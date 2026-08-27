@@ -5,6 +5,7 @@
 namespace Hart {
 	FrameBuffer::FrameBuffer(const FrameBufferSpecification& frameBufferSpec)
 		: m_FrameBufferSpec(frameBufferSpec) {
+
 		glCreateFramebuffers(1, &m_ID);
 
 		Texture2DSpecification fboColorAttachmentSpec = {
@@ -65,9 +66,10 @@ namespace Hart {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
 	}
 
-	FrameBuffer FrameBuffer::GetDefaultFrameBuffer() {
-		FrameBuffer fbo;
-		fbo.m_ID = 0;
+	std::shared_ptr<FrameBuffer> FrameBuffer::GetDefaultFrameBuffer() {
+		// std::make_shared cannot access private constructor, so have to resort to this.
+		std::shared_ptr<FrameBuffer> fbo = std::shared_ptr<FrameBuffer>(new FrameBuffer());
+		fbo->m_ID = 0;
 
 		return fbo;
 	}

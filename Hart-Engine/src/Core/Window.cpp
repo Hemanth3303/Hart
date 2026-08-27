@@ -58,7 +58,7 @@ namespace Hart {
 		m_WindowProps.position.x = static_cast<float>(x);
 		m_WindowProps.position.y = static_cast<float>(y);
 
-		FrameBuffer::GetDefaultFrameBuffer().bind();
+		FrameBuffer::GetDefaultFrameBuffer()->bind();
 		OpenGLRenderer::SetViewPort(0, 0, m_WindowProps.frameBufferWidth, m_WindowProps.frameBufferHeight);
 	}
 

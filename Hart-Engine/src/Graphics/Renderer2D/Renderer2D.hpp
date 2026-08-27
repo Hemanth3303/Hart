@@ -1,6 +1,7 @@
 #pragma once
 
-#include "RenderPass2D.hpp"
+#include "RenderPass2DData.hpp"
+#include "Renderer2DData.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
 #include "Graphics/OpenGL/Texture2D.hpp"
@@ -9,13 +10,15 @@
 #include "Graphics/Font.hpp"
 #include "Graphics/Colors.hpp"
 
+#include <memory>
+
 namespace Hart {
 	class Renderer2D {
 	public:
 		static void Init();
 		static void DeInit();
 
-		static void BeginRenderPass(const RenderPass2D& renderPass2D);
+		static void BeginRenderPass(const RenderPass2DData& renderPass2DData);
 		static void EndRenderPass();
 
 		// Quads
@@ -68,7 +71,7 @@ namespace Hart {
 
 		// Text
 
-		// one font per scene
+		// one font per batch
 		static void SetFont(const std::shared_ptr<Font>& font);
 		static void DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color = White);
 
@@ -80,5 +83,10 @@ namespace Hart {
 
 		static void AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor);
 		static void AddNewTextVertex(const Mat4& transform, const Vec4& color);
+
+		static float CalculateTextPixelScaler(float cameraHeight, float viewPortHeight);
+
+	private:
+		inline static std::unique_ptr<Renderer2DData> s_Data = nullptr;
 	};
 }

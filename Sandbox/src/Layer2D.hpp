@@ -2,10 +2,14 @@
 
 #include "Core/Layer.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"
+#include "Graphics/OpenGL/Texture2D.hpp"
+#include "Graphics/SpriteSheet.hpp"
 #include "Maths/Vec3.hpp"
 #include "Graphics/OpenGL/FrameBuffer.hpp"
+#include "Graphics/Font.hpp"
 
 #include <string_view>
+#include <memory>
 
 class Layer2D : public Hart::Layer {
 public:
@@ -19,6 +23,9 @@ public:
 	virtual void render() override;
 private:
 	Hart::Vec2 m_MousePosition;
-	Hart::OrthographicCamera m_Camera;
-	Hart::FrameBuffer m_FBO;
+	std::shared_ptr<Hart::OrthographicCamera> m_FBOCam, m_ScreenCam;
+	std::shared_ptr<Hart::FrameBuffer> m_FBO;
+	std::shared_ptr<Hart::Font> m_Font;
+	std::shared_ptr<Hart::Texture2D> m_GrassBlock, m_AwesomeFace;
+	std::shared_ptr<Hart::SpriteSheet> m_RPGpack;
 };

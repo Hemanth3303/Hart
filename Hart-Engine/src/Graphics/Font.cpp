@@ -20,8 +20,11 @@ namespace Hart {
 		m_FontTextureSpecification.width = 1024;
 		m_FontTextureSpecification.height = 1024;
 		m_FontTextureSpecification.numberOfChannels = 1;
+		m_FontTextureSpecification.internalFormat = TextureInternalFormat::R8;
+		m_FontTextureSpecification.incomingFormat = TextureIncomingFormat::Red;
 		m_FontTextureSpecification.magFilter = TextureMagFilter::Linear;
 		m_FontTextureSpecification.minFilter = TextureMinFilter::LinearLinear;
+		m_FontTextureSpecification.generateMipMaps = true;
 
 		m_FontAtlasBitmap.resize(m_FontTextureSpecification.width * m_FontTextureSpecification.height);
 
@@ -44,20 +47,6 @@ namespace Hart {
 			m_PackedChars.data());
 
 		stbtt_PackEnd(&m_PackContext);
-
-		for (int i = 0; i < m_NumberOfCharsToInclude; i++) {
-			float unusedX, unusedY;
-
-			stbtt_GetPackedQuad(
-				m_PackedChars.data(),
-				m_FontTextureSpecification.width,
-				m_FontTextureSpecification.height,
-				i,
-				&unusedX,
-				&unusedY,
-				&m_AlignedQuads[i],
-				0);
-		}
 	}
 
 	Font::~Font() {
