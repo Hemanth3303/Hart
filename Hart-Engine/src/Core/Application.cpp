@@ -60,7 +60,7 @@ namespace Hart {
 			}
 
 			// render
-			OpenGLRenderer::Clear(
+			OpenGLRenderer::ClearFrameBuffer(
 				RenderClearFlags::ColorBuffer |
 				RenderClearFlags::DepthBuffer |
 				RenderClearFlags::StencilBuffer);

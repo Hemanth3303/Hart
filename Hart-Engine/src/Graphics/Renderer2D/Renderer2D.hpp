@@ -79,7 +79,7 @@ namespace Hart {
 		static void BeginBatch();
 		static void Flush();
 
-		static const float CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture);
+		static float CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture);
 
 		static void AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor);
 		static void AddNewTextVertex(const Mat4& transform, const Vec4& color);

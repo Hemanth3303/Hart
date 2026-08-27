@@ -10,6 +10,17 @@ namespace Hart {
 		StencilBuffer = GL_STENCIL_BUFFER_BIT,
 	};
 
+	enum class RenderCullFace : GLenum {
+		Front = GL_FRONT,
+		Back = GL_BACK,
+		FrontAndBack = GL_FRONT_AND_BACK,
+	};
+
+	enum class RenderWindingOrder : GLenum {
+		Clockwise = GL_CW,
+		CounterClockwise = GL_CCW,
+	};
+
 	RenderClearFlags operator|(RenderClearFlags lhs, RenderClearFlags rhs);
 
 	class OpenGLRenderer {
@@ -17,11 +28,7 @@ namespace Hart {
 		static void Init();
 		static void DeInit();
 
-		// rgba values in range 0 to 1
-		static void SetClearColor(const Vec4& color);
-		// Bitwise OR the target values. eg: RenderClearFlags::ColorBuffer | RenderClearFlags::DepthBuffer
-		static void Clear(RenderClearFlags clearFlag);
-		static void SetViewPort(int32_t x, int32_t y, int32_t width, int32_t height);
+		// =====================enable/disable features===================== //
 
 		static void EnableDepthTest();
 		static void DisableDepthTest();
@@ -29,11 +36,29 @@ namespace Hart {
 		static void DisableBlending();
 		static void EnableWireFrameMode();
 		static void DisableWireFrameMode();
+		static void EnableFaceCulling();
+		static void DisableFaceCulling();
+
+		// =====================getters===================== //
 
 		static int64_t GetMaxTextureSlotsPerShader();
 		static int64_t GetMaxTextureSlotsTotal();
+		static const OpenGLRendererData& GetOpenGLRendererData();
+
+		// =====================setters===================== //
+
+		// rgba values in range 0 to 1
+		static void SetClearColor(const Vec4& color);
+		static void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
 		static void SetPixelPackAlignment(int32_t alignmentNumber);
 		static void SetPixelUnpackAlignment(int32_t alignmentNumber);
+		static void SetCullFace(RenderCullFace cullFace);
+		static void SetWindingOrder(RenderWindingOrder windingOrder);
+
+		// =====================drawing related===================== //
+
+		// Bitwise OR the target values. eg: RenderClearFlags::ColorBuffer | RenderClearFlags::DepthBuffer
+		static void ClearFrameBuffer(RenderClearFlags clearFlag);
 
 		// by default uses vertex count of vertex array
 		// if provided with a vertexCount greater than 0, it uses that vertexCount instead
@@ -41,8 +66,6 @@ namespace Hart {
 		// by default uses index count of index buffer in vertex array
 		// if provided with an indexCount greater than 0, it uses that indexCount instead
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0);
-
-		static const OpenGLRendererData& GetOpenGLRendererData();
 
 	private:
 		static void LogInfo();

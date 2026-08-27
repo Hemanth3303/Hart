@@ -23,6 +23,9 @@ namespace Hart {
 		// setup stuff
 		EnableDepthTest();
 		EnableBlending();
+		EnableFaceCulling();
+		SetCullFace(RenderCullFace::Back);
+		SetWindingOrder(RenderWindingOrder::Clockwise);
 		SetPixelPackAlignment(s_Data.pixelPackAlignment);
 		SetPixelUnpackAlignment(s_Data.pixelUnpackAlignment);
 
@@ -30,19 +33,9 @@ namespace Hart {
 
 		LogInfo();
 	}
+
 	void OpenGLRenderer::DeInit() {
 		HART_ENGINE_INFO("DeInitializing OpenGL Renderer");
-	}
-	void OpenGLRenderer::SetClearColor(const Vec4& color) {
-		glClearColor(color.x, color.y, color.z, color.w);
-	}
-
-	void OpenGLRenderer::Clear(RenderClearFlags clearFlag) {
-		glClear(static_cast<GLbitfield>(clearFlag));
-	}
-
-	void OpenGLRenderer::SetViewPort(int32_t x, int32_t y, int32_t width, int32_t height) {
-		glViewport(x, y, width, height);
 	}
 
 	int64_t OpenGLRenderer::GetMaxTextureSlotsPerShader() {
@@ -51,6 +44,10 @@ namespace Hart {
 
 	int64_t OpenGLRenderer::GetMaxTextureSlotsTotal() {
 		return s_Data.maxTextureSlotsCombined;
+	}
+
+	const OpenGLRendererData& OpenGLRenderer::GetOpenGLRendererData() {
+		return s_Data;
 	}
 
 	void OpenGLRenderer::EnableDepthTest() {
@@ -78,6 +75,22 @@ namespace Hart {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
+	void OpenGLRenderer::EnableFaceCulling() {
+		glEnable(GL_CULL_FACE);
+	}
+
+	void OpenGLRenderer::DisableFaceCulling() {
+		glDisable(GL_CULL_FACE);
+	}
+
+	void OpenGLRenderer::SetClearColor(const Vec4& color) {
+		glClearColor(color.x, color.y, color.z, color.w);
+	}
+
+	void OpenGLRenderer::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height) {
+		glViewport(x, y, width, height);
+	}
+
 	void OpenGLRenderer::SetPixelPackAlignment(int32_t alignmentNumber) {
 		s_Data.pixelPackAlignment = alignmentNumber;
 		glPixelStorei(GL_PACK_ALIGNMENT, s_Data.pixelPackAlignment);
@@ -86,6 +99,18 @@ namespace Hart {
 	void OpenGLRenderer::SetPixelUnpackAlignment(int32_t alignmentNumber) {
 		s_Data.pixelUnpackAlignment = alignmentNumber;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, s_Data.pixelUnpackAlignment);
+	}
+
+	void OpenGLRenderer::SetCullFace(RenderCullFace cullFace) {
+		glCullFace(static_cast<GLenum>(cullFace));
+	}
+
+	void OpenGLRenderer::SetWindingOrder(RenderWindingOrder windingOrder) {
+		glFrontFace(static_cast<GLenum>(windingOrder));
+	}
+
+	void OpenGLRenderer::ClearFrameBuffer(RenderClearFlags clearFlag) {
+		glClear(static_cast<GLbitfield>(clearFlag));
 	}
 
 	void OpenGLRenderer::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
@@ -105,10 +130,6 @@ namespace Hart {
 		uint32_t count = (indexCount == 0 ? vertexArray->getIndexBuffer()->getIndexCount() : indexCount);
 
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
-	}
-
-	const OpenGLRendererData& OpenGLRenderer::GetOpenGLRendererData() {
-		return s_Data;
 	}
 
 	void OpenGLRenderer::LogInfo() {

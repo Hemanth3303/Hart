@@ -145,21 +145,21 @@ namespace Hart {
 				static_cast<float>(width),
 				static_cast<float>(height)
 			};
-			OpenGLRenderer::SetViewPort(0, 0, width, height);
+			OpenGLRenderer::SetViewport(0, 0, width, height);
 		}
 		else {
 			s_Data->viewPortDimensions = {
 				static_cast<float>(s_Data->fbo->getSpec().width),
 				static_cast<float>(s_Data->fbo->getSpec().height),
 			};
-			OpenGLRenderer::SetViewPort(0, 0, s_Data->fbo->getSpec().width, s_Data->fbo->getSpec().height);
+			OpenGLRenderer::SetViewport(0, 0, s_Data->fbo->getSpec().width, s_Data->fbo->getSpec().height);
 		}
 
 		s_Data->textYAxisSign = renderPass2DData.camera->getScreenYAxisUpSign();
 		s_Data->textPixelScale = CalculateTextPixelScaler(renderPass2DData.camera->getHeight(), s_Data->viewPortDimensions.y);
 
 		OpenGLRenderer::SetClearColor(renderPass2DData.clearColor);
-		OpenGLRenderer::Clear(
+		OpenGLRenderer::ClearFrameBuffer(
 			RenderClearFlags::ColorBuffer |
 			RenderClearFlags::DepthBuffer |
 			RenderClearFlags::StencilBuffer);
@@ -411,7 +411,7 @@ namespace Hart {
 		}
 	}
 
-	const float Renderer2D::CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture) {
+	float Renderer2D::CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture) {
 		if ((s_Data->textureSlotIndex >= s_Data->MAX_COMMON_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
