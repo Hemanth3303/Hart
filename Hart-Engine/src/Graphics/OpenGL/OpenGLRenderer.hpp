@@ -38,8 +38,6 @@ namespace Hart {
 		// binds the default opengl framebuffer owned by the window itself, aka FBO(0)
 		static void BindDefaultFrameBuffer();
 
-		static void DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount);
-
 		// by default uses vertex count of vertex array
 		// if provided with a vertexCount greater than 0, it uses that vertexCount instead
 		static void DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount = 0);

@@ -25,7 +25,7 @@ namespace Hart {
 	private:
 		uint32_t m_ID = 0;
 		FrameBufferSpecification m_FrameBufferSpec;
-		std::shared_ptr<Texture2D> m_ColorBufferAttachment;
-		std::shared_ptr<Texture2D> m_DepthStencilBufferAttachment;
+		std::shared_ptr<Texture2D> m_ColorBufferAttachment = nullptr;
+		std::shared_ptr<Texture2D> m_DepthStencilBufferAttachment = nullptr;
 	};
 }

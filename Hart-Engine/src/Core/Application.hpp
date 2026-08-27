@@ -34,9 +34,6 @@ namespace Hart {
 		void enableVsync(bool enable = true);
 		// main engine loop
 		void run();
-		// sets OpenGL clear color
-		// rgba values in range 0 to 1
-		void setBackgroundColor(const Vec4& color);
 
 		// getters
 

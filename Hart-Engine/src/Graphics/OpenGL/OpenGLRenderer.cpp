@@ -92,12 +92,6 @@ namespace Hart {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void OpenGLRenderer::DrawLines(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
-		HART_DEBUG_ASSERT((vertexArray != nullptr), "Reason: VertexArray is null");
-		vertexArray->bind();
-		glDrawArrays(GL_LINES, 0, vertexCount);
-	}
-
 	void OpenGLRenderer::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
 		HART_DEBUG_ASSERT((vertexArray != nullptr), "Reason: VertexArray is null");
 

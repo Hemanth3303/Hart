@@ -73,10 +73,6 @@ namespace Hart {
 		HART_ENGINE_INFO("Exiting main engine loop");
 	}
 
-	void Application::setBackgroundColor(const Vec4& color) {
-		OpenGLRenderer::SetClearColor(color);
-	}
-
 	void Application::enableVsync(bool enable) {
 		if (!enable) {
 			m_IsVsyncEnabled = false;
