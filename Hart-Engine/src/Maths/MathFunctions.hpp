@@ -169,4 +169,24 @@ namespace Hart {
 		return std::clamp(value, min, max);
 	}
 
+	inline auto floor(auto value) {
+		return std::floor(value);
+	}
+
+	inline auto ceil(auto value) {
+		return std::ceil(value);
+	}
+
+	inline auto round(auto value) {
+		return std::round(value);
+	}
+
+	inline auto min(auto a, auto b) {
+		return std::min(a, b);
+	}
+
+	inline auto max(auto a, auto b) {
+		return std::max(a, b);
+	}
+
 }

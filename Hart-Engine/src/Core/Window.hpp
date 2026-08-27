@@ -15,7 +15,10 @@
 namespace Hart {
 	struct WindowProps {
 	public:
-		int32_t width = 640, height = 480;
+		int32_t width = 640;
+		int32_t height = 480;
+		int32_t frameBufferWidth = 0;
+		int32_t frameBufferHeight = 0;
 		std::string title = "Hart Application";
 		bool resizable = false;
 
@@ -35,6 +38,8 @@ namespace Hart {
 
 		inline int32_t getWidth() const { return m_WindowProps.width; }
 		inline int32_t getHeight() const { return m_WindowProps.height; }
+		inline int32_t getFrameBufferWidth() const { return m_WindowProps.frameBufferWidth; }
+		inline int32_t getFrameBufferHeight() const { return m_WindowProps.frameBufferHeight; }
 
 		inline Vec2 getDimensions() const {
 			return Vec2{

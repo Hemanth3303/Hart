@@ -1,17 +1,12 @@
 #include "HartPch.hpp"
 #include "Renderer2D.hpp"
-#include "Renderer2DData.hpp"
-#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
+#include "Graphics/OpenGL/OpenGLRenderer.hpp"
 #include "Maths/MathFunctions.hpp"
 #include "Core/Application.hpp"
 #include "Core/Assert.hpp"
 #include "Utils/Logger.hpp"
 
 namespace Hart {
-	void recalculateTextPixelScaler();
-
-	static std::unique_ptr<Renderer2DData> s_Data;
-
 	void Renderer2D::Init() {
 		HART_ENGINE_INFO("Initializing Renderer2D");
 
@@ -99,8 +94,6 @@ namespace Hart {
 		std::shared_ptr<IndexBuffer> textIndexBuffer = std::make_shared<IndexBuffer>(textIndices.data(), s_Data->MAX_INDICES);
 		s_Data->textVertexArray->setIndexBuffer(textIndexBuffer);
 
-		recalculateTextPixelScaler();
-
 		// use coordinates with (0, 0) at center
 		s_Data->textVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data->textVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
@@ -136,8 +129,40 @@ namespace Hart {
 		s_Data.reset();
 	}
 
-	void Renderer2D::BeginScene(OrthographicCamera& camera) {
-		s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
+	void Renderer2D::BeginRenderPass(const RenderPass2DData& renderPass2DData) {
+		HART_DEBUG_ASSERT((renderPass2DData.fbo != nullptr), "FBO for renderpass is null");
+		HART_DEBUG_ASSERT((renderPass2DData.camera != nullptr), "Camera for renderpass is null");
+
+		s_Data->fbo = renderPass2DData.fbo;
+		s_Data->viewProjectionMatrix = renderPass2DData.camera->getViewProjectionMatrix();
+
+		s_Data->fbo->bind();
+		// default framebuffer
+		if (s_Data->fbo->getID() == 0) {
+			int32_t width = Hart::Application::Get()->getFrameBufferWidth();
+			int32_t height = Hart::Application::Get()->getFrameBufferHeight();
+			s_Data->viewPortDimensions = {
+				static_cast<float>(width),
+				static_cast<float>(height)
+			};
+			OpenGLRenderer::SetViewport(0, 0, width, height);
+		}
+		else {
+			s_Data->viewPortDimensions = {
+				static_cast<float>(s_Data->fbo->getSpec().width),
+				static_cast<float>(s_Data->fbo->getSpec().height),
+			};
+			OpenGLRenderer::SetViewport(0, 0, s_Data->fbo->getSpec().width, s_Data->fbo->getSpec().height);
+		}
+
+		s_Data->textYAxisSign = renderPass2DData.camera->getScreenYAxisUpSign();
+		s_Data->textPixelScale = CalculateTextPixelScaler(renderPass2DData.camera->getHeight(), s_Data->viewPortDimensions.y);
+
+		OpenGLRenderer::SetClearColor(renderPass2DData.clearColor);
+		OpenGLRenderer::ClearFrameBuffer(
+			RenderClearFlags::ColorBuffer |
+			RenderClearFlags::DepthBuffer |
+			RenderClearFlags::StencilBuffer);
 
 		HART_DEBUG_ASSERT((s_Data->quadShader != nullptr), "Reason: quadShader is not initialized");
 		HART_DEBUG_ASSERT((s_Data->quadVertexArray != nullptr), "Reason: quadVertexArray is not initialized");
@@ -154,7 +179,7 @@ namespace Hart {
 		BeginBatch();
 	}
 
-	void Renderer2D::EndScene() {
+	void Renderer2D::EndRenderPass() {
 		Flush();
 	}
 
@@ -203,10 +228,10 @@ namespace Hart {
 			BeginBatch();
 		}
 
-		s_Data->quadTextureCoords[0] = { 0.0f, 0.0f };
-		s_Data->quadTextureCoords[1] = { 1.0f, 0.0f };
-		s_Data->quadTextureCoords[2] = { 1.0f, 1.0f };
-		s_Data->quadTextureCoords[3] = { 0.0f, 1.0f };
+		s_Data->quadTextureCoords[0] = { 0.0f, 1.0f };
+		s_Data->quadTextureCoords[1] = { 1.0f, 1.0f };
+		s_Data->quadTextureCoords[2] = { 1.0f, 0.0f };
+		s_Data->quadTextureCoords[3] = { 0.0f, 0.0f };
 
 		AddNewQuadVertex(transform, color, 0.0f, 1.0f);
 	}
@@ -219,10 +244,10 @@ namespace Hart {
 
 		float textureIndex = CalculateTextureIndex(texture);
 
-		s_Data->quadTextureCoords[0] = { 0.0f, 0.0f };
-		s_Data->quadTextureCoords[1] = { 1.0f, 0.0f };
-		s_Data->quadTextureCoords[2] = { 1.0f, 1.0f };
-		s_Data->quadTextureCoords[3] = { 0.0f, 1.0f };
+		s_Data->quadTextureCoords[0] = { 0.0f, 1.0f };
+		s_Data->quadTextureCoords[1] = { 1.0f, 1.0f };
+		s_Data->quadTextureCoords[2] = { 1.0f, 0.0f };
+		s_Data->quadTextureCoords[3] = { 0.0f, 0.0f };
 
 		AddNewQuadVertex(transform, textureTint, textureIndex, tilingFactor);
 	}
@@ -242,10 +267,10 @@ namespace Hart {
 		float x = subTextureIndex.x;
 		float y = numberOfRows - subTextureIndex.y - 1.0f;
 
-		s_Data->quadTextureCoords[0] = { (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
-		s_Data->quadTextureCoords[1] = { (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
-		s_Data->quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
-		s_Data->quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+		s_Data->quadTextureCoords[0] = { (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+		s_Data->quadTextureCoords[1] = { (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight };
+		s_Data->quadTextureCoords[2] = { (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
+		s_Data->quadTextureCoords[3] = { (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight };
 
 		AddNewQuadVertex(transform, textureTint, textureIndex, 1.0f);
 	}
@@ -262,6 +287,7 @@ namespace Hart {
 
 	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
 		HART_DEBUG_ASSERT((font != nullptr));
+
 		s_Data->textFont = font;
 
 		s_Data->textTexture = std::make_shared<Texture2D>(
@@ -276,89 +302,63 @@ namespace Hart {
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {
-		HART_DEBUG_ASSERT((s_Data->textFont != nullptr), "Font not set, did you forget to call Hart::Renderer2D::SetFont()");
-
-		recalculateTextPixelScaler();
+		HART_DEBUG_ASSERT((s_Data->textFont != nullptr), "Font not set, did you forget to call Hart::Renderer2D::SetFont(font)");
 
 		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();
-		stbtt_aligned_quad* alignedQuads = s_Data->textFont->getSTBTTAlignedQuads();
 		uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
 		uint32_t numberOfCharsToInclude = s_Data->textFont->getNumberOfCharsToInclude();
+		const float atlasWidth = static_cast<float>(s_Data->textFont->getTextureSpecification().width);
+		const float atlasHeight = static_cast<float>(s_Data->textFont->getTextureSpecification().height);
+		float pixelScaling = s_Data->textPixelScale * scaling;
 
 		Vec3 charPos = position;
 		for (const char ch : text) {
 			if (ch == '\n') {
-				charPos.y -= s_Data->textFont->getFontSize() * s_Data->textPixelScale * scaling;
+				charPos.y -= s_Data->textYAxisSign *
+							 s_Data->textFont->getFontSize() *
+							 pixelScaling;
 				charPos.x = position.x;
 			}
-			else if (ch < codePointFirstChar || ch > (codePointFirstChar + numberOfCharsToInclude)) {
+			else if (ch < codePointFirstChar || ch >= (codePointFirstChar + numberOfCharsToInclude)) {
 				continue;
 			}
 			else {
+				const stbtt_packedchar& packedChar = packedChars[ch - codePointFirstChar];
+				const float glyphWidth = static_cast<float>(packedChar.x1 - packedChar.x0) * pixelScaling;
+				const float glyphHeight = static_cast<float>(packedChar.y1 - packedChar.y0) * pixelScaling;
 
-				stbtt_packedchar* packedChar = &packedChars[ch - codePointFirstChar];
-				stbtt_aligned_quad* alignedQuad = &alignedQuads[ch - codePointFirstChar];
+				const float s0 = static_cast<float>(packedChar.x0) / atlasWidth;
+				const float s1 = static_cast<float>(packedChar.x1) / atlasWidth;
+				const float t0 = static_cast<float>(packedChar.y0) / atlasHeight;
+				const float t1 = static_cast<float>(packedChar.y1) / atlasHeight;
 
-				Vec3 glyphSize = {
-					(packedChar->x1 - packedChar->x0) * s_Data->textPixelScale * scaling,
-					(packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling,
-					1.0f
-				};
+				const float glyphX = charPos.x +
+									 packedChar.xoff * pixelScaling +
+									 (glyphWidth / 2.0f);
+				const float glyphY = charPos.y -
+									 s_Data->textYAxisSign * (packedChar.yoff + static_cast<float>(packedChar.y1 - packedChar.y0)) * pixelScaling +
+									 s_Data->textYAxisSign * (glyphHeight / 2.0f);
 
-				Vec3 glyphBoundingBoxBottomLeft = {
-					charPos.x + (packedChar->xoff * s_Data->textPixelScale * scaling) + (glyphSize.x / 2.0f),
-					charPos.y - (packedChar->yoff + packedChar->y1 - packedChar->y0) * s_Data->textPixelScale * scaling + (glyphSize.y / 2.0f),
+				const Vec3 glyphPosition = {
+					glyphX,
+					glyphY,
 					charPos.z
 				};
 
-				s_Data->textTextureCoords[0] = { alignedQuad->s0, alignedQuad->t1 }; // Top-left
-				s_Data->textTextureCoords[1] = { alignedQuad->s1, alignedQuad->t1 }; // Top-right
-				s_Data->textTextureCoords[2] = { alignedQuad->s1, alignedQuad->t0 }; // Bottom-right
-				s_Data->textTextureCoords[3] = { alignedQuad->s0, alignedQuad->t0 }; // Bottom-left
+				s_Data->textTextureCoords[0] = { s0, t0 };
+				s_Data->textTextureCoords[1] = { s1, t0 };
+				s_Data->textTextureCoords[2] = { s1, t1 };
+				s_Data->textTextureCoords[3] = { s0, t1 };
 
-				Mat4 translation = Mat4::Translate(glyphBoundingBoxBottomLeft);
-				Mat4 rotation = Mat4::Scale(glyphSize);
-				Mat4 transform = Mat4::Multiply(translation, rotation);
+				Mat4 translation = Mat4::Translate(glyphPosition);
+				Mat4 scale = Mat4::Scale({ glyphWidth, glyphHeight, 1.0f });
+				Mat4 transform = Mat4::Multiply(translation, scale);
 
 				AddNewTextVertex(transform, color);
 
-				charPos.x += packedChar->xadvance * s_Data->textPixelScale * scaling;
+				charPos.x += packedChar.xadvance * pixelScaling;
 			}
 		}
-	}
-
-	void Renderer2D::ResetStats() {
-		s_Data->stats.numberOfDrawCalls = 0;
-		s_Data->stats.numberOfQuads = 0;
-		s_Data->stats.numberOfTextQuads = 0;
-	}
-
-	uint32_t Renderer2D::GetNumberOfDrawCalls() {
-		return s_Data->stats.numberOfDrawCalls;
-	}
-
-	uint32_t Renderer2D::GetNumberOfQuads() {
-		return s_Data->stats.numberOfQuads;
-	}
-
-	uint32_t Renderer2D::GetNumberOfQuadVertices() {
-		return s_Data->stats.getQuadVertexCount();
-	}
-
-	uint32_t Renderer2D::GetNumberOfQuadIndices() {
-		return s_Data->stats.getQuadIndexCount();
-	}
-
-	uint32_t Renderer2D::GetNumberOfTextQuads() {
-		return s_Data->stats.numberOfTextQuads;
-	}
-
-	uint32_t Renderer2D::GetNumberOfTextQuadVertices() {
-		return s_Data->stats.getTextVertexCount();
-	}
-
-	uint32_t Renderer2D::GetNumberOfTextQuadIndices() {
-		return s_Data->stats.getTextIndexCount();
 	}
 
 	void Renderer2D::BeginBatch() {
@@ -396,8 +396,6 @@ namespace Hart {
 
 			s_Data->quadShader->bind();
 			OpenGLRenderer::DrawIndexed(s_Data->quadVertexArray, s_Data->quadIndexCount);
-
-			s_Data->stats.numberOfDrawCalls++;
 		}
 
 		// Text
@@ -410,12 +408,10 @@ namespace Hart {
 
 			s_Data->textShader->bind();
 			OpenGLRenderer::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
-
-			s_Data->stats.numberOfDrawCalls++;
 		}
 	}
 
-	const float Renderer2D::CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture) {
+	float Renderer2D::CalculateTextureIndex(const std::shared_ptr<Texture2D>& texture) {
 		if ((s_Data->textureSlotIndex >= s_Data->MAX_COMMON_TEXTURE_SLOTS) || (s_Data->quadIndexCount >= s_Data->MAX_INDICES)) {
 			Flush();
 			BeginBatch();
@@ -424,7 +420,7 @@ namespace Hart {
 		float textureIndex = 0.0f;
 
 		for (size_t i = s_Data->COMMON_TEXTURE_SLOT_START; i < s_Data->textureSlotIndex; i++) {
-			if (s_Data->textureSlots[i] == texture) {
+			if (Texture2D::Equals(s_Data->textureSlots[i], texture)) {
 				textureIndex = static_cast<float>(i);
 				break;
 			}
@@ -451,8 +447,6 @@ namespace Hart {
 		}
 
 		s_Data->quadIndexCount += 6;
-
-		s_Data->stats.numberOfQuads++;
 	}
 
 	void Renderer2D::AddNewTextVertex(const Mat4& transform, const Vec4& color) {
@@ -463,12 +457,10 @@ namespace Hart {
 			s_Data->textVertexBufferPtr++;
 		}
 		s_Data->textIndexCount += 6;
-
-		s_Data->stats.numberOfTextQuads++;
 	}
 
-	void recalculateTextPixelScaler() {
-		float aspectRatio = static_cast<float>(Application::Get()->getWindowHeight()) / static_cast<float>(Application::Get()->getWindowWidth());
-		s_Data->textPixelScale = 0.001f / aspectRatio; // TODO: FIX
+	float Renderer2D::CalculateTextPixelScaler(float cameraHeight, float viewPortHeight) {
+		HART_DEBUG_ASSERT((viewPortHeight != 0), "Reason: viewport height is zero, will cauase division by zero");
+		return cameraHeight / viewPortHeight;
 	}
 }

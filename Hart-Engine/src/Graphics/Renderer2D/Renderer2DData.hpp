@@ -2,14 +2,16 @@
 
 #include "Maths/Mat4.hpp"
 #include "Vertices.hpp"
-#include "Graphics/VertexBuffer.hpp"
-#include "Graphics/IndexBuffer.hpp"
-#include "Graphics/VertexArray.hpp"
-#include "Graphics/Shader.hpp"
-#include "Graphics/Texture2D.hpp"
+#include "Graphics/OpenGL/VertexBuffer.hpp"
+#include "Graphics/OpenGL/IndexBuffer.hpp"
+#include "Graphics/OpenGL/VertexArray.hpp"
+#include "Graphics/OpenGL/Shader.hpp"
+#include "Graphics/OpenGL/Texture2D.hpp"
 #include "Graphics/Font.hpp"
 
 #include "stb_truetype.h"
+
+#include <memory>
 
 namespace Hart {
 	struct Renderer2DData {
@@ -24,6 +26,8 @@ namespace Hart {
 		const uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
+		std::shared_ptr<FrameBuffer> fbo;
+		Vec2 viewPortDimensions{ 0.0f, 0.0f };
 
 		// Quads
 		std::shared_ptr<Shader> quadShader;
@@ -71,20 +75,7 @@ namespace Hart {
 		std::array<Vec4, VERTICES_PER_QUAD> textVertexPositions;
 		std::array<Vec2, VERTICES_PER_QUAD> textTextureCoords;
 
-		float textPixelScale;
-
-		struct Stats {
-		public:
-			uint32_t numberOfDrawCalls = 0;
-			uint32_t numberOfQuads = 0;
-			uint32_t numberOfTextQuads = 0;
-
-		public:
-			uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
-			uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
-			uint32_t getTextVertexCount() const { return numberOfTextQuads * 4; }
-			uint32_t getTextIndexCount() const { return numberOfTextQuads * 6; }
-		};
-		Stats stats;
+		float textYAxisSign = 1.0f;
+		float textPixelScale = 0.0f;
 	};
 }

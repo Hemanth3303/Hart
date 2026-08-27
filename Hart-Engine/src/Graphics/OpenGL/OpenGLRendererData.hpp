@@ -10,7 +10,7 @@ namespace Hart {
 		std::string version;
 	};
 
-	struct OpenGLRendererData{
+	struct OpenGLRendererData {
 		int32_t pixelPackAlignment = 4;
 		int32_t pixelUnpackAlignment = 4;
 		int64_t maxTextureSlotsPerShader = 0;

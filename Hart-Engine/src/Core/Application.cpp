@@ -6,9 +6,8 @@
 #include "Utils/Timer.hpp"
 #include "Utils/Logger.hpp"
 #include "Graphics/Colors.hpp"
-#include "Graphics/OpenGLRenderer/OpenGLRenderer.hpp"
-#include "Graphics/OpenGLRenderer/OpenGLRendererDebug.hpp"
-#include "Graphics/Renderer3D/Renderer3D.hpp"
+#include "Graphics/OpenGL/OpenGLRenderer.hpp"
+#include "Graphics/OpenGL/OpenGLRendererDebug.hpp"
 #include "Graphics/Renderer2D/Renderer2D.hpp"
 #include "Graphics/EngineShaders/QuadShader2D.hpp"
 #include "Graphics/EngineShaders/TextShader2D.hpp"
@@ -61,7 +60,7 @@ namespace Hart {
 			}
 
 			// render
-			OpenGLRenderer::Clear(
+			OpenGLRenderer::ClearFrameBuffer(
 				RenderClearFlags::ColorBuffer |
 				RenderClearFlags::DepthBuffer |
 				RenderClearFlags::StencilBuffer);
@@ -72,10 +71,6 @@ namespace Hart {
 			m_Window->swapBuffers();
 		}
 		HART_ENGINE_INFO("Exiting main engine loop");
-	}
-
-	void Application::setBackgroundColor(const Vec4& color) {
-		OpenGLRenderer::SetClearColor(color);
 	}
 
 	void Application::enableVsync(bool enable) {
@@ -140,7 +135,6 @@ namespace Hart {
 
 		initializeShaderLibrary();
 		Renderer2D::Init();
-		Renderer3D::Init();
 
 		m_Window->setEventCallback([this](Event& e) {
 			this->eventCallback(e);
@@ -152,7 +146,6 @@ namespace Hart {
 
 	void Application::deinit() {
 		m_LayerStack.popAll();
-		Renderer3D::DeInit();
 		Renderer2D::DeInit();
 		OpenGLRendererDebug::DeInit();
 		OpenGLRenderer::DeInit();
