@@ -2,6 +2,7 @@
 #include "Window.hpp"
 #include "Assert.hpp"
 #include "Graphics/OpenGL/OpenGLRenderer.hpp"
+#include "Graphics/OpenGL/FrameBuffer.hpp"
 #include "Utils/Logger.hpp"
 
 namespace Hart {
@@ -57,7 +58,7 @@ namespace Hart {
 		m_WindowProps.position.x = static_cast<float>(x);
 		m_WindowProps.position.y = static_cast<float>(y);
 
-		OpenGLRenderer::BindDefaultFrameBuffer();
+		FrameBuffer::GetDefaultFrameBuffer().bind();
 		OpenGLRenderer::SetViewPort(0, 0, m_WindowProps.frameBufferWidth, m_WindowProps.frameBufferHeight);
 	}
 

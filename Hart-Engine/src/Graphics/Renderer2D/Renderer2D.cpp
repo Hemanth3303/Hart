@@ -136,8 +136,24 @@ namespace Hart {
 		s_Data.reset();
 	}
 
-	void Renderer2D::BeginScene(OrthographicCamera& camera) {
+	void Renderer2D::BeginRenderPass(const RenderPass2D& renderPass2D) {
+		const auto& [fbo, camera, clearColor] = renderPass2D;
+
+		fbo.bind();
+		if (fbo.getID() == 0) {
+			int32_t width = Hart::Application::Get()->getFrameBufferWidth();
+			int32_t height = Hart::Application::Get()->getFrameBufferHeight();
+			OpenGLRenderer::SetViewPort(0, 0, width, height);
+		}
+		else {
+			OpenGLRenderer::SetViewPort(0, 0, fbo.getSpec().width, fbo.getSpec().height);
+		}
 		s_Data->viewProjectionMatrix = camera.getViewProjectionMatrix();
+		OpenGLRenderer::SetClearColor(clearColor);
+		OpenGLRenderer::Clear(
+			RenderClearFlags::ColorBuffer |
+			RenderClearFlags::DepthBuffer |
+			RenderClearFlags::StencilBuffer);
 
 		HART_DEBUG_ASSERT((s_Data->quadShader != nullptr), "Reason: quadShader is not initialized");
 		HART_DEBUG_ASSERT((s_Data->quadVertexArray != nullptr), "Reason: quadVertexArray is not initialized");
@@ -154,7 +170,7 @@ namespace Hart {
 		BeginBatch();
 	}
 
-	void Renderer2D::EndScene() {
+	void Renderer2D::EndRenderPass() {
 		Flush();
 	}
 
@@ -262,6 +278,11 @@ namespace Hart {
 
 	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
 		HART_DEBUG_ASSERT((font != nullptr));
+
+		if (s_Data->textFont != nullptr) {
+			Flush();
+			BeginBatch();
+		}
 		s_Data->textFont = font;
 
 		s_Data->textTexture = std::make_shared<Texture2D>(
@@ -327,40 +348,6 @@ namespace Hart {
 		}
 	}
 
-	void Renderer2D::ResetStats() {
-		s_Data->stats.numberOfDrawCalls = 0;
-		s_Data->stats.numberOfQuads = 0;
-		s_Data->stats.numberOfTextQuads = 0;
-	}
-
-	uint32_t Renderer2D::GetNumberOfDrawCalls() {
-		return s_Data->stats.numberOfDrawCalls;
-	}
-
-	uint32_t Renderer2D::GetNumberOfQuads() {
-		return s_Data->stats.numberOfQuads;
-	}
-
-	uint32_t Renderer2D::GetNumberOfQuadVertices() {
-		return s_Data->stats.getQuadVertexCount();
-	}
-
-	uint32_t Renderer2D::GetNumberOfQuadIndices() {
-		return s_Data->stats.getQuadIndexCount();
-	}
-
-	uint32_t Renderer2D::GetNumberOfTextQuads() {
-		return s_Data->stats.numberOfTextQuads;
-	}
-
-	uint32_t Renderer2D::GetNumberOfTextQuadVertices() {
-		return s_Data->stats.getTextVertexCount();
-	}
-
-	uint32_t Renderer2D::GetNumberOfTextQuadIndices() {
-		return s_Data->stats.getTextIndexCount();
-	}
-
 	void Renderer2D::BeginBatch() {
 		// Quads
 		s_Data->quadVertexBufferPtr = s_Data->quadVertexBufferBase;
@@ -396,8 +383,6 @@ namespace Hart {
 
 			s_Data->quadShader->bind();
 			OpenGLRenderer::DrawIndexed(s_Data->quadVertexArray, s_Data->quadIndexCount);
-
-			s_Data->stats.numberOfDrawCalls++;
 		}
 
 		// Text
@@ -410,8 +395,6 @@ namespace Hart {
 
 			s_Data->textShader->bind();
 			OpenGLRenderer::DrawIndexed(s_Data->textVertexArray, s_Data->textIndexCount);
-
-			s_Data->stats.numberOfDrawCalls++;
 		}
 	}
 
@@ -451,8 +434,6 @@ namespace Hart {
 		}
 
 		s_Data->quadIndexCount += 6;
-
-		s_Data->stats.numberOfQuads++;
 	}
 
 	void Renderer2D::AddNewTextVertex(const Mat4& transform, const Vec4& color) {
@@ -463,8 +444,6 @@ namespace Hart {
 			s_Data->textVertexBufferPtr++;
 		}
 		s_Data->textIndexCount += 6;
-
-		s_Data->stats.numberOfTextQuads++;
 	}
 
 	void recalculateTextPixelScaler() {

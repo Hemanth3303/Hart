@@ -72,19 +72,5 @@ namespace Hart {
 		std::array<Vec2, VERTICES_PER_QUAD> textTextureCoords;
 
 		float textPixelScale;
-
-		struct Stats {
-		public:
-			uint32_t numberOfDrawCalls = 0;
-			uint32_t numberOfQuads = 0;
-			uint32_t numberOfTextQuads = 0;
-
-		public:
-			uint32_t getQuadVertexCount() const { return numberOfQuads * 4; }
-			uint32_t getQuadIndexCount() const { return numberOfQuads * 6; }
-			uint32_t getTextVertexCount() const { return numberOfTextQuads * 4; }
-			uint32_t getTextIndexCount() const { return numberOfTextQuads * 6; }
-		};
-		Stats stats;
 	};
 }

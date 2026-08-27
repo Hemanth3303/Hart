@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RenderPass2D.hpp"
 #include "Maths/Vec3.hpp"
 #include "Maths/Vec4.hpp"
 #include "Graphics/OpenGL/Texture2D.hpp"
@@ -14,8 +15,8 @@ namespace Hart {
 		static void Init();
 		static void DeInit();
 
-		static void BeginScene(OrthographicCamera& camera);
-		static void EndScene();
+		static void BeginRenderPass(const RenderPass2D& renderPass2D);
+		static void EndRenderPass();
 
 		// Quads
 
@@ -70,15 +71,6 @@ namespace Hart {
 		// one font per scene
 		static void SetFont(const std::shared_ptr<Font>& font);
 		static void DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color = White);
-
-		static void ResetStats();
-		static uint32_t GetNumberOfDrawCalls();
-		static uint32_t GetNumberOfQuads();
-		static uint32_t GetNumberOfQuadVertices();
-		static uint32_t GetNumberOfQuadIndices();
-		static uint32_t GetNumberOfTextQuads();
-		static uint32_t GetNumberOfTextQuadVertices();
-		static uint32_t GetNumberOfTextQuadIndices();
 
 	private:
 		static void BeginBatch();

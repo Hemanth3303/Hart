@@ -7,8 +7,8 @@
 
 namespace Hart {
 	struct FrameBufferSpecification {
-		uint32_t width;
-		uint32_t height;
+		int32_t width = 0;
+		int32_t height = 0;
 	};
 
 	class FrameBuffer {
@@ -18,9 +18,15 @@ namespace Hart {
 
 		void bind() const;
 
+		inline uint32_t getID() const { return m_ID; }
 		inline const FrameBufferSpecification& getSpec() const { return m_FrameBufferSpec; }
 		inline const std::shared_ptr<Texture2D>& getColorAttachment() const { return m_ColorBufferAttachment; }
 		inline const std::shared_ptr<Texture2D>& getDepthStencilAttachment() const { return m_DepthStencilBufferAttachment; }
+
+		static FrameBuffer GetDefaultFrameBuffer();
+
+	private:
+		FrameBuffer() = default;
 
 	private:
 		uint32_t m_ID = 0;

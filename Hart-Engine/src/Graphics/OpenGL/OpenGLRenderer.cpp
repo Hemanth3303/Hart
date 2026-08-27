@@ -88,10 +88,6 @@ namespace Hart {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, s_Data.pixelUnpackAlignment);
 	}
 
-	void OpenGLRenderer::BindDefaultFrameBuffer() {
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
 	void OpenGLRenderer::DrawArrays(const std::shared_ptr<VertexArray>& vertexArray, uint32_t vertexCount) {
 		HART_DEBUG_ASSERT((vertexArray != nullptr), "Reason: VertexArray is null");
 

@@ -3,6 +3,7 @@
 #include "Core/Layer.hpp"
 #include "Graphics/Camera/OrthographicCamera.hpp"
 #include "Maths/Vec3.hpp"
+#include "Graphics/OpenGL/FrameBuffer.hpp"
 
 #include <string_view>
 
@@ -19,4 +20,5 @@ public:
 private:
 	Hart::Vec2 m_MousePosition;
 	Hart::OrthographicCamera m_Camera;
+	Hart::FrameBuffer m_FBO;
 };

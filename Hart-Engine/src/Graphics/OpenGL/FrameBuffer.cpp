@@ -1,5 +1,6 @@
 #include "HartPch.hpp"
 #include "FrameBuffer.hpp"
+#include "Core/Application.hpp"
 
 namespace Hart {
 	FrameBuffer::FrameBuffer(const FrameBufferSpecification& frameBufferSpec)
@@ -7,8 +8,8 @@ namespace Hart {
 		glCreateFramebuffers(1, &m_ID);
 
 		Texture2DSpecification fboColorAttachmentSpec = {
-			.width = m_FrameBufferSpec.width,
-			.height = m_FrameBufferSpec.height,
+			.width = static_cast<uint32_t>(m_FrameBufferSpec.width),
+			.height = static_cast<uint32_t>(m_FrameBufferSpec.height),
 
 			.internalFormat = TextureInternalFormat::RGBA8,
 			.incomingFormat = TextureIncomingFormat::RGBA,
@@ -24,8 +25,8 @@ namespace Hart {
 		m_ColorBufferAttachment = std::make_shared<Texture2D>(fboColorAttachmentSpec);
 
 		Texture2DSpecification fboDepthStencilAttachmentSpec = {
-			.width = m_FrameBufferSpec.width,
-			.height = m_FrameBufferSpec.height,
+			.width = static_cast<uint32_t>(m_FrameBufferSpec.width),
+			.height = static_cast<uint32_t>(m_FrameBufferSpec.height),
 
 			.internalFormat = TextureInternalFormat::Depth24Stencil8,
 			.incomingFormat = TextureIncomingFormat::DepthStencil,
@@ -62,5 +63,12 @@ namespace Hart {
 
 	void FrameBuffer::bind() const {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
+	}
+
+	FrameBuffer FrameBuffer::GetDefaultFrameBuffer() {
+		FrameBuffer fbo;
+		fbo.m_ID = 0;
+
+		return fbo;
 	}
 }
