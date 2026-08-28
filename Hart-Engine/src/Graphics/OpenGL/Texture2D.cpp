@@ -103,6 +103,21 @@ namespace Hart {
 		init();
 	}
 
+	void Texture2D::resize(uint32_t width, uint32_t height) {
+		HART_DEBUG_ASSERT(
+			width > 0 && height > 0,
+			"Reason: Texture width and height must be greater than zero");
+
+		if (m_TextureSpec.width == width && m_TextureSpec.height == height) {
+			return;
+		}
+
+		deinit();
+		m_TextureSpec.width = width;
+		m_TextureSpec.height = height;
+		init();
+	}
+
 	bool Texture2D::Equals(const Texture2D& lhs, const Texture2D& rhs) {
 		return (lhs.getID() == rhs.getID());
 	}
@@ -147,7 +162,12 @@ namespace Hart {
 	}
 
 	void Texture2D::deinit() {
+		if (m_TextureID == 0) {
+			return;
+		}
+
 		glDeleteTextures(1, &m_TextureID);
+		m_TextureID = 0;
 		m_Buffer = nullptr;
 	}
 

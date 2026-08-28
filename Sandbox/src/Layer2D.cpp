@@ -11,8 +11,8 @@ Layer2D::Layer2D(std::string_view name)
 	: Layer(name), m_MousePosition(0.0f, 0.0f) {
 
 	m_FBO = std::make_shared<Hart::FrameBuffer>(Hart::FrameBufferSpecification{ 500, 300 });
-	m_FBOCam = std::make_shared<Hart::OrthographicCamera>(0.0, 500.0f, 300.0f, 0.0f);
-	m_ScreenCam = std::make_shared<Hart::OrthographicCamera>(0.0, 960.0f, 540.0f, 0.0f);
+	m_FBOCam = std::make_shared<Hart::OrthographicCamera>(0.0f, 500.0f, 300.0f, 0.0f);
+	m_ScreenCam = std::make_shared<Hart::OrthographicCamera>(0.0f, m_VirtualScreenWidth, m_VirtualScreenHeight, 0.0f);
 
 	Hart::Texture2DSpecification pixelArtTextureSpec = {
 		.magFilter = Hart::TextureMagFilter::Nearest,
@@ -50,8 +50,11 @@ void Layer2D::onEvent(Hart::Event& e) {
 	Hart::EventDispatcher eventDispatcher(e);
 
 	eventDispatcher.dispatch<Hart::MouseMovedEvent>([this](Hart::MouseMovedEvent& e) {
-		m_MousePosition.x = e.getXPosition();
-		m_MousePosition.y = e.getYPosition();
+		const float windowWidth = (float)Hart::Application::Get()->getFrameBufferWidth();
+		const float windowHeight = (float)Hart::Application::Get()->getFrameBufferHeight();
+
+		m_MousePosition.x = e.getXPosition() * (m_VirtualScreenWidth / windowWidth);
+		m_MousePosition.y = e.getYPosition() * (m_VirtualScreenHeight / windowHeight);
 
 		return true;
 	});

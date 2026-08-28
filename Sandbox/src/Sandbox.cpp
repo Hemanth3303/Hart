@@ -18,7 +18,7 @@ private:
 
 public:
 	Sandbox()
-		: Application(960, 540, "Hart Engine: Sandbox", false) {
+		: Application(960, 540, "Hart Engine: Sandbox", true) {
 		HART_CLIENT_INFO("Initialising SandboxApp");
 		enableVsync(false);
 		setExitKey(Hart::KeyCode::Escape);
