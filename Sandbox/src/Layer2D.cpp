@@ -5,6 +5,7 @@
 #include "Events/EventDispatcher.hpp"
 #include "Events/MouseEvents.hpp"
 #include "Core/Application.hpp"
+#include "Core/Assert.hpp"
 
 Layer2D::Layer2D(std::string_view name)
 	: Layer(name), m_MousePosition(0.0f, 0.0f) {
@@ -37,8 +38,8 @@ Layer2D::~Layer2D() {
 
 void Layer2D::onAttach() {
 	HART_CLIENT_INFO("Attached layer: ", getName());
-	Hart::Renderer2D::SetFont(m_Font);
 
+	Hart::Renderer2D::SetFont(m_Font);
 }
 
 void Layer2D::onDetach() {

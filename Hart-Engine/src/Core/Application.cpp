@@ -101,6 +101,7 @@ namespace Hart {
 	}
 
 	void Application::init(const WindowProps& windowProps) {
+		Logger::Init();
 		LogCompileInfo();
 		HART_ENGINE_INFO(LogSource::EngineCore, "Initializing Hart Engine");
 
@@ -155,6 +156,7 @@ namespace Hart {
 
 		HART_ENGINE_INFO(LogSource::EngineCore, "DeInitializing GLFW");
 		glfwTerminate();
+		Logger::DeInit();
 
 		s_Instance = nullptr;
 	}

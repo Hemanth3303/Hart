@@ -6,6 +6,8 @@
 #pragma once
 
 #include "Timer.hpp"
+#include "Platform/Terminal.hpp"
+#include "Platform/AnsiEscapeCodes.hpp"
 
 #include <concepts>
 #include <iostream>
@@ -45,18 +47,48 @@ namespace Hart {
 	// logs to std::cerr
 	class Logger {
 	public:
+		// application calls once
+		static void Init() {
+			s_CanUseColoredLogging = Terminal::CanStderrUseTerminalColors();
+		}
+
+		// application calls once
+		static void DeInit() {
+			std::lock_guard<std::mutex> lock(s_LoggerMutex);
+			s_OStream.flush();
+		}
+
 		template <OStreamWritable... T>
 		static void LogMessage(const LogSource& logSource, const LogSeverity& severity, const T&... args) {
 			std::lock_guard<std::mutex> lock(s_LoggerMutex);
-			std::cerr
+			if (s_CanUseColoredLogging) {
+				auto [formatting, foregroundColor, backgroundColor] = LogSeverityToColorData(severity);
+				s_OStream << ANSI_RESET << formatting << foregroundColor << backgroundColor;
+			}
+			s_OStream
 				<< Timer::GetTimeStampUTC()
 				<< " ["
 				<< LogSourceToString(logSource)
 				<< LogSeverityToString(severity)
 				<< "]: ";
-			(std::cerr << ... << args);
-			std::cerr << '\n';
+			(s_OStream << ... << args);
+			if (s_CanUseColoredLogging) {
+				s_OStream << ANSI_RESET;
+			}
+
+#if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_CLIENT_DEBUG_BUILD)
+			s_OStream << std::endl;
+#else
+			s_OStream << '\n';
+#endif
 		}
+
+	private:
+		struct LogColorData {
+			std::string_view formatting;
+			std::string_view foregroundColor;
+			std::string_view backgroundColor;
+		};
 
 	private:
 		static constexpr std::string_view LogSeverityToString(LogSeverity severity) {
@@ -74,6 +106,48 @@ namespace Hart {
 				case LogSeverity::Undefined:
 				default:
 					return "::UNDEFINED_SEVERITY";
+			}
+		}
+
+		static constexpr LogColorData LogSeverityToColorData(LogSeverity severity) {
+			switch (severity) {
+				case LogSeverity::Trace:
+					return {
+						.formatting = ANSI_ITALIC,
+						.foregroundColor = ALIAS_FOREGROUND_GRAY,
+						.backgroundColor = ANSI_BACKGROUND_RESET,
+					};
+				case LogSeverity::Info:
+					return {
+						.formatting = ANSI_RESET,
+						.foregroundColor = ANSI_FOREGROUND_GREEN,
+						.backgroundColor = ANSI_BACKGROUND_RESET,
+					};
+				case LogSeverity::Warning:
+					return {
+						.formatting = ANSI_BOLD,
+						.foregroundColor = ANSI_FOREGROUND_YELLOW,
+						.backgroundColor = ANSI_BACKGROUND_RESET,
+					};
+				case LogSeverity::Error:
+					return {
+						.formatting = ANSI_BOLD,
+						.foregroundColor = ANSI_FOREGROUND_RED,
+						.backgroundColor = ANSI_BACKGROUND_RESET,
+					};
+				case LogSeverity::Fatal:
+					return {
+						.formatting = ANSI_BOLD,
+						.foregroundColor = ANSI_FOREGROUND_WHITE,
+						.backgroundColor = ANSI_BACKGROUND_RED,
+					};
+				case LogSeverity::Undefined:
+				default:
+					return {
+						.formatting = ANSI_RESET,
+						.foregroundColor = ANSI_FOREGROUND_RESET,
+						.backgroundColor = ANSI_BACKGROUND_RESET,
+					};
 			}
 		}
 
@@ -101,6 +175,8 @@ namespace Hart {
 		}
 
 	private:
+		inline static std::ostream s_OStream{ std::cerr.rdbuf() };
+		inline static bool s_CanUseColoredLogging = false;
 		inline static std::mutex s_LoggerMutex;
 	};
 }
@@ -135,23 +211,23 @@ namespace Hart {
 #endif
 
 #if defined(HART_CLIENT_DEBUG_BUILD) || defined(HART_CLIENT_PROFILE_BUILD)
-	#define HART_CLIENT_TRACE(message, ...)                                             \
+	#define HART_CLIENT_TRACE(message, ...)                                         \
 		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Trace, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_CLIENT_INFO(message, ...)                                             \
+	#define HART_CLIENT_INFO(message, ...)                                         \
 		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Info, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_CLIENT_WARNING(message, ...)                                             \
+	#define HART_CLIENT_WARNING(message, ...)                                         \
 		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Warning, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_CLIENT_ERROR(message, ...)                                             \
+	#define HART_CLIENT_ERROR(message, ...)                                         \
 		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Error, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_CLIENT_FATAL(message, ...)                                             \
+	#define HART_CLIENT_FATAL(message, ...)                                         \
 		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Fatal, \
 								 message __VA_OPT__(, __VA_ARGS__))
 #else
