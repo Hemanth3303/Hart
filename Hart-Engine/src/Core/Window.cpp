@@ -26,7 +26,7 @@ namespace Hart {
 
 	Window::~Window() {
 		deinit();
-		HART_ENGINE_INFO("DeInitializing Window");
+		HART_ENGINE_INFO(LogSource::EngineCore, "DeInitializing Window");
 	}
 
 	void Window::swapBuffers() {
@@ -35,20 +35,20 @@ namespace Hart {
 
 	void Window::init() {
 		glfwWindowHint(GLFW_RESIZABLE, m_WindowProps.resizable);
-		HART_ENGINE_INFO("Initializing Window");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Initializing Window");
 		m_GLFWwindow = glfwCreateWindow(m_WindowProps.width, m_WindowProps.height, m_WindowProps.title.c_str(), nullptr, nullptr);
 		HART_DEBUG_ASSERT((m_GLFWwindow != nullptr), "Reason: Failed to create GLFWwindow");
-		HART_ENGINE_INFO("Window initialized successfully");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Window initialized successfully");
 		glfwMakeContextCurrent(m_GLFWwindow);
 		registerGLFWcallbacks();
 
 		int32_t success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HART_DEBUG_ASSERT((success != 0), "Failed to initialize GLAD");
 		if (success == 0) {
-			HART_ENGINE_FATAL("Failed to initialize GLAD, aborting");
+			HART_ENGINE_FATAL(LogSource::EngineCore, "Failed to initialize GLAD, aborting");
 			HART_ENGINE_ABORT();
 		}
-		HART_ENGINE_INFO("GLAD loaded successfully");
+		HART_ENGINE_INFO(LogSource::EngineCore, "GLAD loaded successfully");
 
 		glfwGetWindowSize(m_GLFWwindow, &m_WindowProps.width, &m_WindowProps.height);
 		glfwGetFramebufferSize(m_GLFWwindow, &m_WindowProps.frameBufferWidth, &m_WindowProps.frameBufferHeight);

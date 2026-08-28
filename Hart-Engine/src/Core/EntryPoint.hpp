@@ -6,6 +6,7 @@
 #include "Base.hpp"
 #include "Application.hpp"
 
+#include <memory>
 #include <cstdlib>
 
 #if defined(HART_COMPILER_MSVC)

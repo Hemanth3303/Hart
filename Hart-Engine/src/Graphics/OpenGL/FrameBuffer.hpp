@@ -18,6 +18,8 @@ namespace Hart {
 
 		void bind() const;
 
+		void resize(int32_t width, int32_t height);
+
 		inline uint32_t getID() const { return m_ID; }
 		inline const FrameBufferSpecification& getSpec() const { return m_FrameBufferSpec; }
 		inline const std::shared_ptr<Texture2D>& getColorAttachment() const { return m_ColorBufferAttachment; }
@@ -27,6 +29,10 @@ namespace Hart {
 
 	private:
 		FrameBuffer() = default;
+
+		void init();
+		void createAttachments();
+		void deinit();
 
 	private:
 		uint32_t m_ID = 0;

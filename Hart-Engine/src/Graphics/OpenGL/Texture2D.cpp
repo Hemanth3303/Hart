@@ -12,8 +12,10 @@ namespace Hart {
 
 	Texture2D::Texture2D(const std::string& filePath, const Texture2DSpecification& textureSpec)
 		: m_TextureSpec(textureSpec) {
-		if (!FileManager::FileExists(filePath)) {
-			HART_ENGINE_ERROR("File ", filePath, " does not exist. ", "Is the name and/or path correct?");
+		bool fileExists = FileManager::FileExists(filePath);
+		HART_DEBUG_ASSERT(fileExists, "Reason: The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
+		if (!fileExists) {
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
 			return;
 		}
 
@@ -24,7 +26,7 @@ namespace Hart {
 		stbi_set_flip_vertically_on_load(false);
 
 		if (m_Buffer == nullptr) {
-			HART_ENGINE_ERROR("Failed to load texture ", filePath);
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "Failed to load texture ", filePath);
 			return;
 		}
 
@@ -54,7 +56,7 @@ namespace Hart {
 				break;
 
 			default:
-				HART_ENGINE_ERROR("Texture ", filePath, " has an invalid number of channels: ", channels);
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Texture ", filePath, " has an invalid number of channels: ", channels);
 				stbi_image_free(m_Buffer);
 				m_Buffer = nullptr;
 				return;
@@ -98,6 +100,21 @@ namespace Hart {
 		deinit();
 		m_Buffer = buffer;
 		m_TextureSpec = textureSpec;
+		init();
+	}
+
+	void Texture2D::resize(uint32_t width, uint32_t height) {
+		HART_DEBUG_ASSERT(
+			width > 0 && height > 0,
+			"Reason: Texture width and height must be greater than zero");
+
+		if (m_TextureSpec.width == width && m_TextureSpec.height == height) {
+			return;
+		}
+
+		deinit();
+		m_TextureSpec.width = width;
+		m_TextureSpec.height = height;
 		init();
 	}
 
@@ -145,7 +162,12 @@ namespace Hart {
 	}
 
 	void Texture2D::deinit() {
+		if (m_TextureID == 0) {
+			return;
+		}
+
 		glDeleteTextures(1, &m_TextureID);
+		m_TextureID = 0;
 		m_Buffer = nullptr;
 	}
 

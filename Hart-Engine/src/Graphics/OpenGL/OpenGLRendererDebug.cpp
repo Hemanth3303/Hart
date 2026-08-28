@@ -4,7 +4,7 @@
 
 namespace Hart {
 	void OpenGLRendererDebug::Init() {
-		HART_ENGINE_INFO("Initializing OpenGL Renderer Debug Context");
+		HART_ENGINE_INFO(LogSource::EngineGraphics, "Initializing OpenGL Renderer Debug Context");
 
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -12,7 +12,7 @@ namespace Hart {
 	}
 
 	void OpenGLRendererDebug::DeInit() {
-		HART_ENGINE_INFO("DeInitializing OpenGL Renderer Debug Context");
+		HART_ENGINE_INFO(LogSource::EngineGraphics, "DeInitializing OpenGL Renderer Debug Context");
 		glDebugMessageCallback(nullptr, nullptr);
 		glDisable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDisable(GL_DEBUG_OUTPUT);
@@ -25,6 +25,7 @@ namespace Hart {
 		switch (severity) {
 			case GL_DEBUG_SEVERITY_HIGH:
 				HART_ENGINE_FATAL(
+					LogSource::EngineGraphics,
 					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
@@ -36,6 +37,7 @@ namespace Hart {
 
 			case GL_DEBUG_SEVERITY_MEDIUM:
 				HART_ENGINE_ERROR(
+					LogSource::EngineGraphics,
 					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
@@ -46,6 +48,7 @@ namespace Hart {
 
 			case GL_DEBUG_SEVERITY_LOW:
 				HART_ENGINE_WARNING(
+					LogSource::EngineGraphics,
 					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
@@ -56,6 +59,7 @@ namespace Hart {
 
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
 				HART_ENGINE_INFO(
+					LogSource::EngineGraphics,
 					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),
@@ -66,6 +70,7 @@ namespace Hart {
 
 			default:
 				HART_ENGINE_ERROR(
+					LogSource::EngineGraphics,
 					"\n\t\t\t\t\t=========OpenGL Debug Message=========",
 					"\n\t\t\t\t\t  From: ", DebugSourceToString(source),
 					"\n\t\t\t\t\t  Type: ", DebugTypeToString(type),

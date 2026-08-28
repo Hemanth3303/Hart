@@ -28,4 +28,7 @@ private:
 	std::shared_ptr<Hart::Font> m_Font;
 	std::shared_ptr<Hart::Texture2D> m_GrassBlock, m_AwesomeFace;
 	std::shared_ptr<Hart::SpriteSheet> m_RPGpack;
+
+	const float m_VirtualScreenWidth = 960.0f;
+	const float m_VirtualScreenHeight = 540.0f;
 };

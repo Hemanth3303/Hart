@@ -1,13 +1,52 @@
 #include "HartPch.hpp"
 #include "FrameBuffer.hpp"
-#include "Core/Application.hpp"
 
 namespace Hart {
+
+	static std::shared_ptr<FrameBuffer> s_DefaultFrameBuffer = nullptr;
+
 	FrameBuffer::FrameBuffer(const FrameBufferSpecification& frameBufferSpec)
 		: m_FrameBufferSpec(frameBufferSpec) {
+		init();
+	}
 
+	FrameBuffer::~FrameBuffer() {
+		deinit();
+	}
+
+	void FrameBuffer::bind() const {
+		glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
+	}
+
+	void FrameBuffer::resize(int32_t width, int32_t height) {
+		deinit();
+		m_FrameBufferSpec.width = width;
+		m_FrameBufferSpec.height = height;
+		init();
+	}
+
+	void FrameBuffer::init() {
 		glCreateFramebuffers(1, &m_ID);
 
+		createAttachments();
+
+		glNamedFramebufferTexture(m_ID, GL_COLOR_ATTACHMENT0, m_ColorBufferAttachment->getID(), 0);
+		glNamedFramebufferTexture(m_ID, GL_DEPTH_STENCIL_ATTACHMENT, m_DepthStencilBufferAttachment->getID(), 0);
+		GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+		glNamedFramebufferDrawBuffers(m_ID, 1, drawBuffers);
+
+		GLenum status = glCheckNamedFramebufferStatus(m_ID, GL_FRAMEBUFFER);
+		HART_DEBUG_ASSERT(
+			status == GL_FRAMEBUFFER_COMPLETE,
+			"Reason: Incomplete framebuffer");
+		if (status != GL_FRAMEBUFFER_COMPLETE) {
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "Incomplete framebuffer");
+		}
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void FrameBuffer::createAttachments() {
 		Texture2DSpecification fboColorAttachmentSpec = {
 			.width = static_cast<uint32_t>(m_FrameBufferSpec.width),
 			.height = static_cast<uint32_t>(m_FrameBufferSpec.height),
@@ -41,36 +80,26 @@ namespace Hart {
 			.generateMipMaps = false,
 		};
 		m_DepthStencilBufferAttachment = std::make_shared<Texture2D>(fboDepthStencilAttachmentSpec);
+	}
 
-		glNamedFramebufferTexture(m_ID, GL_COLOR_ATTACHMENT0, m_ColorBufferAttachment->getID(), 0);
-		glNamedFramebufferTexture(m_ID, GL_DEPTH_STENCIL_ATTACHMENT, m_DepthStencilBufferAttachment->getID(), 0);
-		GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
-		glNamedFramebufferDrawBuffers(m_ID, 1, drawBuffers);
-
-		GLenum status = glCheckNamedFramebufferStatus(m_ID, GL_FRAMEBUFFER);
-		HART_DEBUG_ASSERT(
-			status == GL_FRAMEBUFFER_COMPLETE,
-			"Reason: Incomplete framebuffer");
-		if (status != GL_FRAMEBUFFER_COMPLETE) {
-			HART_ENGINE_ERROR("incomplete framebuffer");
+	void FrameBuffer::deinit() {
+		if (m_ID == 0) {
+			return;
 		}
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
-	FrameBuffer::~FrameBuffer() {
 		glDeleteFramebuffers(1, &m_ID);
-	}
-
-	void FrameBuffer::bind() const {
-		glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
+		m_ID = 0;
+		m_ColorBufferAttachment.reset();
+		m_DepthStencilBufferAttachment.reset();
 	}
 
 	std::shared_ptr<FrameBuffer> FrameBuffer::GetDefaultFrameBuffer() {
-		// std::make_shared cannot access private constructor, so have to resort to this.
-		std::shared_ptr<FrameBuffer> fbo = std::shared_ptr<FrameBuffer>(new FrameBuffer());
-		fbo->m_ID = 0;
+		if (s_DefaultFrameBuffer == nullptr) {
+			// std::make_shared cannot access private constructor, so have to resort to this.
+			s_DefaultFrameBuffer = std::shared_ptr<FrameBuffer>(new FrameBuffer());
+			s_DefaultFrameBuffer->m_ID = 0;
+		}
 
-		return fbo;
+		return s_DefaultFrameBuffer;
 	}
 }

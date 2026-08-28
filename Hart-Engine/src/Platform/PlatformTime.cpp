@@ -5,7 +5,7 @@
 namespace Hart {
 	namespace Platform {
 		bool GmTime(const std::time_t& epochSeconds, std::tm& calendarTime) {
-			#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+#if defined(HART_ENGINE_PLATFORM_WINDOWS)
 			auto status = gmtime_s(&calendarTime, &epochSeconds);
 			HART_DEBUG_ASSERT(status == 0, "Failed to get gm time");
 			return (status == 0);

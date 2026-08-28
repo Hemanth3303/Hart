@@ -7,8 +7,10 @@
 namespace Hart {
 	Font::Font(const std::string& filePath, const float fontSize)
 		: m_FontSize(fontSize) {
-		if (!FileManager::FileExists(filePath)) {
-			HART_ENGINE_ERROR("Font ", filePath, " not found");
+		bool fileExists = FileManager::FileExists(filePath);
+		HART_DEBUG_ASSERT(fileExists, "Reason: The font file \"", filePath, "\" not found. ", "Is the name and/or path correct?");
+		if (!fileExists) {
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "The font file \"", filePath, "\" not found. ", "Is the name and/or path correct?");
 			return;
 		}
 

@@ -79,7 +79,7 @@ namespace Hart {
 	uint32_t Shader::GetShaderDataTypeSize(ShaderDataType type) {
 		switch (type) {
 			case Hart::ShaderDataType::None:
-				HART_ENGINE_ERROR("Can't have ShaderDataType==None");
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Can't have ShaderDataType==None");
 				return 0;
 			case Hart::ShaderDataType::Float:
 				return 4;
@@ -102,7 +102,7 @@ namespace Hart {
 			case Hart::ShaderDataType::Bool:
 				return 1;
 			default:
-				HART_ENGINE_ERROR("Unknown ShaderDataType");
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Unknown ShaderDataType");
 				return 0;
 		}
 	}
@@ -110,7 +110,7 @@ namespace Hart {
 	GLenum Shader::ShaderDataTypeToOpenGLType(ShaderDataType type) {
 		switch (type) {
 			case Hart::ShaderDataType::None:
-				HART_ENGINE_ERROR("ShaderDataType can't be null");
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "ShaderDataType can't be null");
 				return GL_INVALID_ENUM;
 			case Hart::ShaderDataType::Float:
 				return GL_FLOAT;
@@ -133,7 +133,7 @@ namespace Hart {
 			case Hart::ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				HART_ENGINE_ERROR("Unknown ShaderDataType");
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Unknown ShaderDataType");
 				return GL_INVALID_ENUM;
 		}
 	}
@@ -171,7 +171,7 @@ namespace Hart {
 
 		int32_t uniformLocation = glGetUniformLocation(m_ShaderID, uniformName.c_str());
 		if (uniformLocation == -1) {
-			HART_ENGINE_ERROR("Uniform not found: ", uniformName);
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "Uniform not found: ", uniformName);
 			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
@@ -190,10 +190,10 @@ namespace Hart {
 			if (!success) {
 				glGetShaderInfoLog(shader, INFOLOG_SIZE, nullptr, infoLog);
 				if (type == ShaderType::VertexShader) {
-					HART_ENGINE_ERROR("Vertex Shader Compile Error\n", infoLog);
+					HART_ENGINE_ERROR(LogSource::EngineGraphics, "Vertex Shader Compile Error\n", infoLog);
 				}
 				else {
-					HART_ENGINE_ERROR("Fragment Shader Compile Error\n", infoLog);
+					HART_ENGINE_ERROR(LogSource::EngineGraphics, "Fragment Shader Compile Error\n", infoLog);
 				}
 			}
 		}
@@ -201,7 +201,7 @@ namespace Hart {
 			glGetProgramiv(shader, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetProgramInfoLog(shader, INFOLOG_SIZE, nullptr, infoLog);
-				HART_ENGINE_ERROR("Shader Program Link Error\n", infoLog);
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Shader Program Link Error\n", infoLog);
 			}
 		}
 	}

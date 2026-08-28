@@ -12,6 +12,7 @@ namespace Hart {
 	}
 
 	void OpenGLRenderer::Init() {
+		HART_ENGINE_INFO(LogSource::EngineGraphics, "Initializing OpenGL Renderer");
 		// collect data
 		glGetInteger64v(GL_MAX_TEXTURE_IMAGE_UNITS, &s_Data.maxTextureSlotsPerShader);
 		glGetInteger64v(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &s_Data.maxTextureSlotsCombined);
@@ -29,13 +30,11 @@ namespace Hart {
 		SetPixelPackAlignment(s_Data.pixelPackAlignment);
 		SetPixelUnpackAlignment(s_Data.pixelUnpackAlignment);
 
-		HART_ENGINE_INFO("Initializing OpenGL Renderer");
-
 		LogInfo();
 	}
 
 	void OpenGLRenderer::DeInit() {
-		HART_ENGINE_INFO("DeInitializing OpenGL Renderer");
+		HART_ENGINE_INFO(LogSource::EngineGraphics, "DeInitializing OpenGL Renderer");
 	}
 
 	int64_t OpenGLRenderer::GetMaxTextureSlotsPerShader() {
@@ -51,35 +50,46 @@ namespace Hart {
 	}
 
 	void OpenGLRenderer::EnableDepthTest() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Enabled depth testing");
 		glEnable(GL_DEPTH_TEST);
 	}
 
 	void OpenGLRenderer::DisableDepthTest() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Disabled depth testing");
 		glDisable(GL_DEPTH_TEST);
 	}
 
 	void OpenGLRenderer::EnableBlending() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics,
+			"Enabled blending with ",
+			"source_factor={GL_SRC_ALPHA} ",
+			"and destination_factor={GL_ONE_MINUS_SRC_ALPHA}");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	void OpenGLRenderer::DisableBlending() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Disabled blending");
 		glDisable(GL_BLEND);
 	}
 
 	void OpenGLRenderer::EnableWireFrameMode() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Enabled wireframe mode");
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
 	void OpenGLRenderer::DisableWireFrameMode() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Disabled wireframe mode");
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
 	void OpenGLRenderer::EnableFaceCulling() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Enabled face culling");
 		glEnable(GL_CULL_FACE);
 	}
 
 	void OpenGLRenderer::DisableFaceCulling() {
+		HART_ENGINE_TRACE(LogSource::EngineGraphics, "Disabled face culling");
 		glDisable(GL_CULL_FACE);
 	}
 
@@ -134,6 +144,7 @@ namespace Hart {
 
 	void OpenGLRenderer::LogInfo() {
 		HART_ENGINE_INFO(
+			LogSource::EngineGraphics,
 			"\n\t\t\t==========================OpenGL Renderer Info==========================",
 			"\n\t\t\t\tOpenGL Vendor: ", s_Data.openglInfo.vendor,
 			"\n\t\t\t\tOpenGL Renderer: ", s_Data.openglInfo.renderer,

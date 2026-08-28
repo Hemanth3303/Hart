@@ -73,7 +73,8 @@ namespace Hart {
 						  vec,
 						  ". Magnitude is 0.");
 		if (magnitude == 0.0f) {
-			HART_ENGINE_ERROR("Reason: Can not normalize vector: ",
+			HART_ENGINE_ERROR(LogSource::EngineMaths,
+							  "Reason: Can not normalize vector: ",
 							  vec,
 							  ". Magnitude is 0.",
 							  ". Returning {0, 0, 0}");
@@ -97,7 +98,8 @@ namespace Hart {
 						  "Reason: Can not normalize vector(s): ",
 						  "\tlhs: ", lhs, "\trhs: ", rhs);
 		if (denominator == 0.0f) {
-			HART_ENGINE_ERROR("Reason: Can not normalize vector(s): ",
+			HART_ENGINE_ERROR(LogSource::EngineMaths,
+							  "Reason: Can not normalize vector(s): ",
 							  "\tlhs: ", lhs, "\trhs: ", rhs, "\n\tReturning 0");
 			return 0.0f;
 		}

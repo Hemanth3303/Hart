@@ -88,6 +88,8 @@ namespace Hart {
 		void uploadNewBuffer(std::byte* buffer);
 		void uploadNewBuffer(std::byte* buffer, const Texture2DSpecification& textureSpec);
 
+		void resize(uint32_t width, uint32_t height);
+
 		inline uint32_t getID() const { return m_TextureID; }
 		// For some reason, opengl wants to bind the texture slot with glBindTextureUnit as unsigned int,
 		// but to set the uniform as a signed int, idk why

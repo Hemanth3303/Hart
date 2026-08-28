@@ -8,7 +8,7 @@
 
 namespace Hart {
 	void Renderer2D::Init() {
-		HART_ENGINE_INFO("Initializing Renderer2D");
+		HART_ENGINE_INFO(LogSource::EngineGraphics, "Initializing Renderer2D");
 
 		s_Data = std::make_unique<Renderer2DData>();
 		HART_DEBUG_ASSERT((s_Data != nullptr), "Reason: Failed to initialize Renderer2D");
@@ -113,7 +113,7 @@ namespace Hart {
 	}
 
 	void Renderer2D::DeInit() {
-		HART_ENGINE_INFO("DeInitializing Renderer2D");
+		HART_ENGINE_INFO(LogSource::EngineGraphics, "DeInitializing Renderer2D");
 
 		delete[] s_Data->quadVertexBufferBase;
 		delete[] s_Data->textVertexBufferBase;
