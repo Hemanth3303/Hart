@@ -1,8 +1,10 @@
 #include "HartPch.hpp"
 #include "FrameBuffer.hpp"
-#include "Core/Application.hpp"
 
 namespace Hart {
+
+	static std::shared_ptr<FrameBuffer> s_DefaultFrameBuffer = nullptr;
+
 	FrameBuffer::FrameBuffer(const FrameBufferSpecification& frameBufferSpec)
 		: m_FrameBufferSpec(frameBufferSpec) {
 
@@ -59,6 +61,10 @@ namespace Hart {
 	}
 
 	FrameBuffer::~FrameBuffer() {
+		if (m_ID == 0) {
+			return;
+		}
+
 		glDeleteFramebuffers(1, &m_ID);
 	}
 
@@ -67,10 +73,12 @@ namespace Hart {
 	}
 
 	std::shared_ptr<FrameBuffer> FrameBuffer::GetDefaultFrameBuffer() {
-		// std::make_shared cannot access private constructor, so have to resort to this.
-		std::shared_ptr<FrameBuffer> fbo = std::shared_ptr<FrameBuffer>(new FrameBuffer());
-		fbo->m_ID = 0;
+		if (s_DefaultFrameBuffer == nullptr) {
+			// std::make_shared cannot access private constructor, so have to resort to this.
+			s_DefaultFrameBuffer = std::shared_ptr<FrameBuffer>(new FrameBuffer());
+			s_DefaultFrameBuffer->m_ID = 0;
+		}
 
-		return fbo;
+		return s_DefaultFrameBuffer;
 	}
 }
