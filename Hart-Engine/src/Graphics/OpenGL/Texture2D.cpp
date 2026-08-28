@@ -12,8 +12,10 @@ namespace Hart {
 
 	Texture2D::Texture2D(const std::string& filePath, const Texture2DSpecification& textureSpec)
 		: m_TextureSpec(textureSpec) {
-		if (!FileManager::FileExists(filePath)) {
-			HART_ENGINE_ERROR("File ", filePath, " does not exist. ", "Is the name and/or path correct?");
+		bool fileExists = FileManager::FileExists(filePath);
+		HART_DEBUG_ASSERT(fileExists, "Reason: The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
+		if (!fileExists) {
+			HART_ENGINE_ERROR("The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
 			return;
 		}
 
