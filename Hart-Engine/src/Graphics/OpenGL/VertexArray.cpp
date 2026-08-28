@@ -25,7 +25,7 @@ namespace Hart {
 
 		HART_DEBUG_ASSERT(!(vertexBuffer->getLayout().isEmpty()), "Attempting to add a VertexBuffer with an empty layout to VertexArray");
 		if (vertexBuffer->getLayout().isEmpty()) {
-			HART_ENGINE_INFO("Attempting to add a VertexBuffer with an empty layout to VertexArray, skipping.");
+			HART_ENGINE_INFO(LogSource::EngineGraphics, "Attempting to add a VertexBuffer with an empty layout to VertexArray, skipping.");
 			return;
 		}
 		vertexBuffer->bind();

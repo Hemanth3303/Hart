@@ -10,7 +10,7 @@ namespace Hart {
 	uint32_t BufferElement::getComponentCount() const {
 		switch (type) {
 			case Hart::ShaderDataType::None:
-				HART_ENGINE_ERROR("ShaderDataType can't be null");
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "ShaderDataType can't be null");
 				return 0;
 			case Hart::ShaderDataType::Float:
 				return 1;
@@ -33,7 +33,7 @@ namespace Hart {
 			case Hart::ShaderDataType::Bool:
 				return 1;
 			default:
-				HART_ENGINE_ERROR("Unknown ShaderDataType");
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Unknown ShaderDataType");
 				return 0;
 		}
 	}
@@ -95,7 +95,7 @@ namespace Hart {
 		glBufferSubData(GL_ARRAY_BUFFER, offset, m_Size, data);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-	
+
 	void VertexBuffer::setLayout(const BufferLayout& layout) {
 		uint32_t itemsPerVertex = 0;
 		for (const auto& element : layout.getElements()) {

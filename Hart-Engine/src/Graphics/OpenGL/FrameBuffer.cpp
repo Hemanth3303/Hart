@@ -52,7 +52,7 @@ namespace Hart {
 			status == GL_FRAMEBUFFER_COMPLETE,
 			"Reason: Incomplete framebuffer");
 		if (status != GL_FRAMEBUFFER_COMPLETE) {
-			HART_ENGINE_ERROR("incomplete framebuffer");
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "Incomplete framebuffer");
 		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

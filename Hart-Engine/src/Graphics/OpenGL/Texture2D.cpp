@@ -15,7 +15,7 @@ namespace Hart {
 		bool fileExists = FileManager::FileExists(filePath);
 		HART_DEBUG_ASSERT(fileExists, "Reason: The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
 		if (!fileExists) {
-			HART_ENGINE_ERROR("The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "The texture file \"", filePath, "\" was not found. ", "Is the name and/or path correct?");
 			return;
 		}
 
@@ -26,7 +26,7 @@ namespace Hart {
 		stbi_set_flip_vertically_on_load(false);
 
 		if (m_Buffer == nullptr) {
-			HART_ENGINE_ERROR("Failed to load texture ", filePath);
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "Failed to load texture ", filePath);
 			return;
 		}
 
@@ -56,7 +56,7 @@ namespace Hart {
 				break;
 
 			default:
-				HART_ENGINE_ERROR("Texture ", filePath, " has an invalid number of channels: ", channels);
+				HART_ENGINE_ERROR(LogSource::EngineGraphics, "Texture ", filePath, " has an invalid number of channels: ", channels);
 				stbi_image_free(m_Buffer);
 				m_Buffer = nullptr;
 				return;

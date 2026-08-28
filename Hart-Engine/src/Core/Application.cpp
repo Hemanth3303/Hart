@@ -35,11 +35,11 @@ namespace Hart {
 
 	Application::~Application() {
 		deinit();
-		HART_ENGINE_INFO("Shutting down Hart Engine");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Shutting down Hart Engine");
 	}
 
 	void Application::run() {
-		HART_ENGINE_INFO("Entering main engine loop");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Entering main engine loop");
 
 		m_LastFrameTime = Timer::GetTimepointNanoseconds();
 		uint64_t currentFrameTime = Timer::GetTimepointNanoseconds();
@@ -70,7 +70,7 @@ namespace Hart {
 			}
 			m_Window->swapBuffers();
 		}
-		HART_ENGINE_INFO("Exiting main engine loop");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Exiting main engine loop");
 	}
 
 	void Application::enableVsync(bool enable) {
@@ -102,16 +102,16 @@ namespace Hart {
 
 	void Application::init(const WindowProps& windowProps) {
 		LogCompileInfo();
-		HART_ENGINE_INFO("Initializing Hart Engine");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Initializing Hart Engine");
 
 		s_Instance = this;
 		HART_DEBUG_ASSERT((s_Instance != nullptr), "Reason: Failed to initialize Hart Engine");
 
-		HART_ENGINE_INFO("Initializing GLFW");
+		HART_ENGINE_INFO(LogSource::EngineCore, "Initializing GLFW");
 		int32_t success = glfwInit();
 		HART_DEBUG_ASSERT((success == GLFW_TRUE), "Reason: Failed to initialize GLFW");
 		if (success != GLFW_TRUE) {
-			HART_ENGINE_FATAL("Failed to initialize GLFW, aborting");
+			HART_ENGINE_FATAL(LogSource::EngineCore, "Failed to initialize GLFW, aborting");
 			HART_ENGINE_ABORT();
 		}
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -122,7 +122,7 @@ namespace Hart {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 #endif
 
-		HART_ENGINE_INFO("GLFW initialized successfully");
+		HART_ENGINE_INFO(LogSource::EngineCore, "GLFW initialized successfully");
 
 		m_Window = std::make_unique<Window>(windowProps);
 		glfwSwapInterval(0);
@@ -153,14 +153,14 @@ namespace Hart {
 		// i just want to see the "shutting down hart engine" message at last o_o
 		m_Window.reset();
 
-		HART_ENGINE_INFO("DeInitializing GLFW");
+		HART_ENGINE_INFO(LogSource::EngineCore, "DeInitializing GLFW");
 		glfwTerminate();
 
 		s_Instance = nullptr;
 	}
 
 	void Application::LogCompileInfo() {
-		HART_ENGINE_INFO(
+		HART_ENGINE_INFO(LogSource::EngineCore,
 			"\n\t\t\t===============Compilation Information===============",
 			"\n\t\t\t\tHart Engine Version: ", HART_ENGINE_VERSION,
 			"\n\t\t\t\tCompiled using: ", HART_COMPILER_STR, " v", HART_COMPILER_VERSION_STR,
@@ -232,7 +232,7 @@ namespace Hart {
 
 	bool Application::onKeyPressed(KeyPressedEvent& e) {
 		if (e.getKeyCode() == m_ExitKey) {
-			HART_ENGINE_INFO("Exit request received (Keycode = ", static_cast<int>(m_ExitKey), ")");
+			HART_ENGINE_INFO(LogSource::EngineCore, "Exit request received (Keycode = ", static_cast<int>(m_ExitKey), ")");
 			m_IsRunning = false;
 			return true;
 		}

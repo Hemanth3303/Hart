@@ -1,5 +1,5 @@
 /*
- * Logging functions with different severity levels and colored output
+ * Logging functions with different severity levels
  * Prefer to use the macros over the class functions
  */
 
@@ -27,10 +27,19 @@ namespace Hart {
 		Fatal
 	};
 
+	// if a new engine subsystem is added, add it here and extend LogSourceToString() to return correct string
 	enum class LogSource {
 		Unknown = -1,
-		HartEngine = 0,
-		HartClient
+
+		EngineCore = 0,
+		EngineGraphics,
+		EngineMaths,
+		EnginePlatform,
+		EngineUtils,
+		EngineAssertion,
+
+		Client,
+		ClientAssertion,
 	};
 
 	// logs to std::cerr
@@ -70,10 +79,22 @@ namespace Hart {
 
 		static constexpr std::string_view LogSourceToString(LogSource logSource) {
 			switch (logSource) {
-				case LogSource::HartEngine:
-					return "HART_ENGINE";
-				case LogSource::HartClient:
-					return "HART_CLIENT";
+				case LogSource::EngineCore:
+					return "HART::ENGINE::CORE";
+				case LogSource::EngineGraphics:
+					return "HART::ENGINE::GRAPHICS";
+				case LogSource::EngineMaths:
+					return "HART::ENGINE::MATHS";
+				case LogSource::EnginePlatform:
+					return "HART::ENGINE::PLATFORM";
+				case LogSource::EngineUtils:
+					return "HART::ENGINE::UTILS";
+				case LogSource::EngineAssertion:
+					return "HART::ENGINE::ASSERTION";
+				case LogSource::Client:
+					return "HART::CLIENT";
+				case LogSource::ClientAssertion:
+					return "HART::CLIENT::ASSERTION";
 				default:
 					return "UNKNOWN_LOG_SOURCE";
 			}
@@ -85,53 +106,53 @@ namespace Hart {
 }
 
 #if defined(HART_ENGINE_DEBUG_BUILD) || defined(HART_ENGINE_PROFILE_BUILD)
-	#define HART_ENGINE_TRACE(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Trace, \
+	#define HART_ENGINE_TRACE(source, message, ...)                \
+		Hart::Logger::LogMessage(source, Hart::LogSeverity::Trace, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_ENGINE_INFO(message, ...)                                              \
-		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Info, \
+	#define HART_ENGINE_INFO(source, message, ...)                \
+		Hart::Logger::LogMessage(source, Hart::LogSeverity::Info, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_ENGINE_WARNING(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Warning, \
+	#define HART_ENGINE_WARNING(source, message, ...)                \
+		Hart::Logger::LogMessage(source, Hart::LogSeverity::Warning, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_ENGINE_ERROR(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Error, \
+	#define HART_ENGINE_ERROR(source, message, ...)                \
+		Hart::Logger::LogMessage(source, Hart::LogSeverity::Error, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_ENGINE_FATAL(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartEngine, Hart::LogSeverity::Fatal, \
+	#define HART_ENGINE_FATAL(source, message, ...)                \
+		Hart::Logger::LogMessage(source, Hart::LogSeverity::Fatal, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
 #else
-	#define HART_ENGINE_TRACE(message, ...)
-	#define HART_ENGINE_INFO(message, ...)
-	#define HART_ENGINE_WARNING(message, ...)
-	#define HART_ENGINE_ERROR(message, ...)
-	#define HART_ENGINE_FATAL(message, ...)
+	#define HART_ENGINE_TRACE(source, message, ...)
+	#define HART_ENGINE_INFO(source, message, ...)
+	#define HART_ENGINE_WARNING(source, message, ...)
+	#define HART_ENGINE_ERROR(source, message, ...)
+	#define HART_ENGINE_FATAL(source, message, ...)
 #endif
 
 #if defined(HART_CLIENT_DEBUG_BUILD) || defined(HART_CLIENT_PROFILE_BUILD)
 	#define HART_CLIENT_TRACE(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Trace, \
+		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Trace, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
-	#define HART_CLIENT_INFO(message, ...)                                              \
-		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Info, \
+	#define HART_CLIENT_INFO(message, ...)                                             \
+		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Info, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
 	#define HART_CLIENT_WARNING(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Warning, \
+		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Warning, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
 	#define HART_CLIENT_ERROR(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Error, \
+		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Error, \
 								 message __VA_OPT__(, __VA_ARGS__))
 
 	#define HART_CLIENT_FATAL(message, ...)                                             \
-		Hart::Logger::LogMessage(Hart::LogSource::HartClient, Hart::LogSeverity::Fatal, \
+		Hart::Logger::LogMessage(Hart::LogSource::Client, Hart::LogSeverity::Fatal, \
 								 message __VA_OPT__(, __VA_ARGS__))
 #else
 	#define HART_CLIENT_TRACE(message, ...)

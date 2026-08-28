@@ -15,7 +15,7 @@ namespace Hart {
 
 	void LayerStack::pushLayer(const std::shared_ptr<Layer>& layer) {
 		if (m_LayerMap.contains(layer->getName()) || m_OverlayMap.contains(layer->getName())) {
-			HART_ENGINE_ERROR("A Layer or an Overlay with that name already exists, aborting push");
+			HART_ENGINE_ERROR(LogSource::EngineCore, "A Layer or an Overlay with that name already exists, aborting push");
 			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
@@ -38,7 +38,7 @@ namespace Hart {
 
 	void LayerStack::pushOverlay(const std::shared_ptr<Layer>& overlay) {
 		if (m_LayerMap.contains(overlay->getName()) || m_OverlayMap.contains(overlay->getName())) {
-			HART_ENGINE_ERROR("A Layer or an Overlay with that name already exists, aborting push");
+			HART_ENGINE_ERROR(LogSource::EngineCore, "A Layer or an Overlay with that name already exists, aborting push");
 			HART_ENGINE_DEBUG_BREAK();
 		}
 		else {
@@ -68,7 +68,7 @@ namespace Hart {
 
 	std::shared_ptr<Layer> LayerStack::getLayer(std::string_view layerName) {
 		if (!layerExists(layerName)) {
-			HART_ENGINE_ERROR("Layer named ", layerName, " doesn't exist. Returning nullptr");
+			HART_ENGINE_ERROR(LogSource::EngineCore, "Layer named ", layerName, " doesn't exist. Returning nullptr");
 			return nullptr;
 		}
 		return m_LayerMap[layerName];
@@ -76,7 +76,7 @@ namespace Hart {
 
 	std::shared_ptr<Layer> LayerStack::getOverlay(std::string_view overlayName) {
 		if (!overlayExists(overlayName)) {
-			HART_ENGINE_ERROR("Overlay named ", overlayName, " doesn't exist. Returning nullptr");
+			HART_ENGINE_ERROR(LogSource::EngineCore, "Overlay named ", overlayName, " doesn't exist. Returning nullptr");
 			return nullptr;
 		}
 		return m_OverlayMap[overlayName];

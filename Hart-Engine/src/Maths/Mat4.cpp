@@ -34,6 +34,7 @@ namespace Hart {
 						  "Reason: Must provide exactly 16 elements. No more, no less.");
 		if (gotSize != expectedSize) {
 			HART_ENGINE_ERROR(
+				LogSource::EngineMaths,
 				"Expected ", expectedSize, " elements.",
 				"\n\tGot ", gotSize, " instead.",
 				"\n\tZero intializing matrix instead");
@@ -373,7 +374,8 @@ namespace Hart {
 						  "Reason: The given matrix is not invertible, ",
 						  "as determinant==0");
 		if (determinant == 0.0f) {
-			HART_ENGINE_ERROR("determinant = ", determinant,
+			HART_ENGINE_ERROR(LogSource::EngineMaths,
+							  "determinant = ", determinant,
 							  ". The given matrix is not invertible.",
 							  "\n\treturning back input matrix");
 			return mat4;

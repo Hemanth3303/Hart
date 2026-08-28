@@ -8,7 +8,7 @@ namespace Hart {
 		bool fileExists = FileManager::FileExists(filePath);
 		HART_DEBUG_ASSERT(fileExists, "Reason: The spritesheet file \"", filePath, "\" not found. ", "Is the name and/or path correct?");
 		if (!fileExists) {
-			HART_ENGINE_ERROR("The spritesheet file \"", filePath, "\" not found. ", "Is the name and/or path correct?");
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "The spritesheet file \"", filePath, "\" not found. ", "Is the name and/or path correct?");
 			return;
 		}
 
