@@ -51,6 +51,14 @@ namespace Hart {
 		inline GLFWwindow* const& getGLFWwindow() const { return m_GLFWwindow; }
 		inline const Vec2& getPosition() const { return m_WindowProps.position; }
 
+	private:
+		void init();
+		void deinit();
+		inline void setWindowSize(int32_t width, int32_t height) { m_WindowProps.width = width, m_WindowProps.height = height; }
+		inline void setWindowPosition(float xpos, float ypos) { m_WindowProps.position.x = xpos, m_WindowProps.position.y = ypos; }
+		void registerGLFWcallbacks();
+		void setEventCallback(const EventCallBackFunction callbackFn);
+
 		friend void windowSizeCallback(GLFWwindow* glfwWindow, int32_t width, int32_t height);
 		friend void windowCloseCallback(GLFWwindow* glfwWindow);
 		friend void windowPositionCallback(GLFWwindow* glfwWindow, int32_t xpos, int32_t ypos);
@@ -62,14 +70,6 @@ namespace Hart {
 		friend void mouseButtonCallback(GLFWwindow* glfwWindow, int32_t button, int32_t action, int32_t mods);
 		friend void mouseScrollCallback(GLFWwindow* glfwWindow, double xoffset, double yoffset);
 		friend void cursorPositionCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
-
-	private:
-		void init();
-		void deinit();
-		inline void setWindowSize(int32_t width, int32_t height) { m_WindowProps.width = width, m_WindowProps.height = height; }
-		inline void setWindowPosition(float xpos, float ypos) { m_WindowProps.position.x = xpos, m_WindowProps.position.y = ypos; }
-		void registerGLFWcallbacks();
-		void setEventCallback(const EventCallBackFunction callbackFn);
 
 	private:
 		WindowProps m_WindowProps;
