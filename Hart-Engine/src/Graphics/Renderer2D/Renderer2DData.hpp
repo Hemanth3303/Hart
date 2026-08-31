@@ -26,7 +26,7 @@ namespace Hart {
 		const uint32_t TEXT_TEXTURE_SLOT = 15;
 
 		Mat4 viewProjectionMatrix;
-		std::shared_ptr<FrameBuffer> fbo;
+		std::shared_ptr<FrameBuffer> currentFBO = nullptr;
 		Vec2 viewPortDimensions{ 0.0f, 0.0f };
 
 		// Quads
@@ -47,7 +47,6 @@ namespace Hart {
 
 		// Textures
 		std::shared_ptr<Texture2D> whiteTexture;
-		std::shared_ptr<Texture2D> textTexture;
 		std::array<std::byte, 4> whiteTextureData = {
 			std::byte{ 0xff },
 			std::byte{ 0xff },
@@ -63,10 +62,10 @@ namespace Hart {
 		uint32_t textureSlotIndex = COMMON_TEXTURE_SLOT_START;
 
 		// Text
-		std::shared_ptr<Font> textFont;
-		std::shared_ptr<Shader> textShader;
-		std::shared_ptr<VertexArray> textVertexArray;
-		std::shared_ptr<VertexBuffer> textVertexBuffer;
+		std::shared_ptr<Font> textFont = nullptr;
+		std::shared_ptr<Shader> textShader = nullptr;
+		std::shared_ptr<VertexArray> textVertexArray = nullptr;
+		std::shared_ptr<VertexBuffer> textVertexBuffer = nullptr;
 
 		uint32_t textIndexCount = 0;
 		TextVertex* textVertexBufferBase = nullptr;
@@ -76,6 +75,5 @@ namespace Hart {
 		std::array<Vec2, VERTICES_PER_QUAD> textTextureCoords;
 
 		float textYAxisSign = 1.0f;
-		float textPixelScale = 0.0f;
 	};
 }

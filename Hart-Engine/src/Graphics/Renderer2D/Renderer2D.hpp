@@ -72,6 +72,7 @@ namespace Hart {
 		// Text
 
 		// one font per batch
+		// will trigger a new batch when used
 		static void SetFont(const std::shared_ptr<Font>& font);
 		static void DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color = White);
 
@@ -83,8 +84,6 @@ namespace Hart {
 
 		static void AddNewQuadVertex(const Mat4& transform, const Vec4& color, float textureIndex, float tiliingFactor);
 		static void AddNewTextVertex(const Mat4& transform, const Vec4& color);
-
-		static float CalculateTextPixelScaler(float cameraHeight, float viewPortHeight);
 
 	private:
 		inline static std::unique_ptr<Renderer2DData> s_Data = nullptr;
