@@ -25,7 +25,7 @@ private:
 	Hart::Vec2 m_MousePosition;
 	std::shared_ptr<Hart::OrthographicCamera> m_FBOCam, m_ScreenCam;
 	std::shared_ptr<Hart::FrameBuffer> m_FBO;
-	std::shared_ptr<Hart::Font> m_Font;
+	std::shared_ptr<Hart::Font> m_FontRobotoRegular, m_FontCascadiaMono;
 	std::shared_ptr<Hart::Texture2D> m_GrassBlock, m_AwesomeFace;
 	std::shared_ptr<Hart::SpriteSheet> m_RPGpack;
 

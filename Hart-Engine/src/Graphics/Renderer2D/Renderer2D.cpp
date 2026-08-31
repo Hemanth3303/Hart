@@ -133,12 +133,12 @@ namespace Hart {
 		HART_DEBUG_ASSERT((renderPass2DData.fbo != nullptr), "FBO for renderpass is null");
 		HART_DEBUG_ASSERT((renderPass2DData.camera != nullptr), "Camera for renderpass is null");
 
-		s_Data->fbo = renderPass2DData.fbo;
+		s_Data->currentFBO = renderPass2DData.fbo;
 		s_Data->viewProjectionMatrix = renderPass2DData.camera->getViewProjectionMatrix();
 
-		s_Data->fbo->bind();
+		s_Data->currentFBO->bind();
 		// default framebuffer
-		if (s_Data->fbo->getID() == 0) {
+		if (s_Data->currentFBO->getID() == 0) {
 			int32_t width = Hart::Application::Get()->getFrameBufferWidth();
 			int32_t height = Hart::Application::Get()->getFrameBufferHeight();
 			s_Data->viewPortDimensions = {
@@ -149,14 +149,13 @@ namespace Hart {
 		}
 		else {
 			s_Data->viewPortDimensions = {
-				static_cast<float>(s_Data->fbo->getSpec().width),
-				static_cast<float>(s_Data->fbo->getSpec().height),
+				static_cast<float>(s_Data->currentFBO->getSpec().width),
+				static_cast<float>(s_Data->currentFBO->getSpec().height),
 			};
-			OpenGLRenderer::SetViewport(0, 0, s_Data->fbo->getSpec().width, s_Data->fbo->getSpec().height);
+			OpenGLRenderer::SetViewport(0, 0, s_Data->currentFBO->getSpec().width, s_Data->currentFBO->getSpec().height);
 		}
 
 		s_Data->textYAxisSign = renderPass2DData.camera->getScreenYAxisUpSign();
-		s_Data->textPixelScale = CalculateTextPixelScaler(renderPass2DData.camera->getHeight(), s_Data->viewPortDimensions.y);
 
 		OpenGLRenderer::SetClearColor(renderPass2DData.clearColor);
 		OpenGLRenderer::ClearFrameBuffer(
@@ -287,18 +286,25 @@ namespace Hart {
 
 	void Renderer2D::SetFont(const std::shared_ptr<Font>& font) {
 		HART_DEBUG_ASSERT((font != nullptr));
+		if (font == nullptr) {
+			HART_ENGINE_ERROR(LogSource::EngineGraphics, "Tried to set font to nullptr, skipping");
+			return;
+		}
+
+		if (s_Data->textFont != nullptr) {
+			if (Font::Equals(s_Data->textFont, font)) {
+				return;
+			}
+			Flush();
+			BeginBatch();
+		}
 
 		s_Data->textFont = font;
-
-		s_Data->textTexture = std::make_shared<Texture2D>(
-			s_Data->textFont->getFontAtlasBitmap().data(),
-			s_Data->textFont->getTextureSpecification());
-
 		s_Data->textShader->bind();
-		s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
+		s_Data->textFont->getTexture()->bind(s_Data->TEXT_TEXTURE_SLOT);
 		s_Data->textShader->setUniform(
 			"uTexture15",
-			s_Data->textTexture->getSlot());
+			s_Data->textFont->getTexture()->getSlot());
 	}
 
 	void Renderer2D::DrawText(const std::string& text, const Vec3& position, float scaling, const Vec4& color) {
@@ -307,16 +313,15 @@ namespace Hart {
 		stbtt_packedchar* packedChars = s_Data->textFont->getSTBTTPackedChar();
 		uint32_t codePointFirstChar = s_Data->textFont->getCodePointFirstChar();
 		uint32_t numberOfCharsToInclude = s_Data->textFont->getNumberOfCharsToInclude();
-		const float atlasWidth = static_cast<float>(s_Data->textFont->getTextureSpecification().width);
-		const float atlasHeight = static_cast<float>(s_Data->textFont->getTextureSpecification().height);
-		float pixelScaling = s_Data->textPixelScale * scaling;
+		const float atlasWidth = static_cast<float>(s_Data->textFont->getTexture()->getWidth());
+		const float atlasHeight = static_cast<float>(s_Data->textFont->getTexture()->getHeight());
 
 		Vec3 charPos = position;
 		for (const char ch : text) {
 			if (ch == '\n') {
 				charPos.y -= s_Data->textYAxisSign *
 							 s_Data->textFont->getFontSize() *
-							 pixelScaling;
+							 scaling;
 				charPos.x = position.x;
 			}
 			else if (ch < codePointFirstChar || ch >= (codePointFirstChar + numberOfCharsToInclude)) {
@@ -324,8 +329,8 @@ namespace Hart {
 			}
 			else {
 				const stbtt_packedchar& packedChar = packedChars[ch - codePointFirstChar];
-				const float glyphWidth = static_cast<float>(packedChar.x1 - packedChar.x0) * pixelScaling;
-				const float glyphHeight = static_cast<float>(packedChar.y1 - packedChar.y0) * pixelScaling;
+				const float glyphWidth = static_cast<float>(packedChar.x1 - packedChar.x0) * scaling;
+				const float glyphHeight = static_cast<float>(packedChar.y1 - packedChar.y0) * scaling;
 
 				const float s0 = static_cast<float>(packedChar.x0) / atlasWidth;
 				const float s1 = static_cast<float>(packedChar.x1) / atlasWidth;
@@ -333,10 +338,10 @@ namespace Hart {
 				const float t1 = static_cast<float>(packedChar.y1) / atlasHeight;
 
 				const float glyphX = charPos.x +
-									 packedChar.xoff * pixelScaling +
+									 packedChar.xoff * scaling +
 									 (glyphWidth / 2.0f);
 				const float glyphY = charPos.y -
-									 s_Data->textYAxisSign * (packedChar.yoff + static_cast<float>(packedChar.y1 - packedChar.y0)) * pixelScaling +
+									 s_Data->textYAxisSign * (packedChar.yoff + static_cast<float>(packedChar.y1 - packedChar.y0)) * scaling +
 									 s_Data->textYAxisSign * (glyphHeight / 2.0f);
 
 				const Vec3 glyphPosition = {
@@ -356,7 +361,7 @@ namespace Hart {
 
 				AddNewTextVertex(transform, color);
 
-				charPos.x += packedChar.xadvance * pixelScaling;
+				charPos.x += packedChar.xadvance * scaling;
 			}
 		}
 	}
@@ -384,7 +389,7 @@ namespace Hart {
 		}
 		if (s_Data->textFont) {
 			s_Data->textShader->bind();
-			s_Data->textTexture->bind(s_Data->TEXT_TEXTURE_SLOT);
+			s_Data->textFont->getTexture()->bind(s_Data->TEXT_TEXTURE_SLOT);
 		}
 		// Quads
 		if (s_Data->quadIndexCount != 0) {
@@ -457,10 +462,5 @@ namespace Hart {
 			s_Data->textVertexBufferPtr++;
 		}
 		s_Data->textIndexCount += 6;
-	}
-
-	float Renderer2D::CalculateTextPixelScaler(float cameraHeight, float viewPortHeight) {
-		HART_DEBUG_ASSERT((viewPortHeight != 0), "Reason: viewport height is zero, will cauase division by zero");
-		return cameraHeight / viewPortHeight;
 	}
 }

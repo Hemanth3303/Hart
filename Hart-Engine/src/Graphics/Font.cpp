@@ -49,8 +49,26 @@ namespace Hart {
 			m_PackedChars.data());
 
 		stbtt_PackEnd(&m_PackContext);
+
+		m_FontTexture = std::make_shared<Texture2D>(m_FontAtlasBitmap.data(), m_FontTextureSpecification);
 	}
 
 	Font::~Font() {
+	}
+
+	// temp hacks till i make a proper asset manager
+	// for now, if it's the same opengl texture, it's the same font
+	bool Font::Equals(const Font& lhs, const Font& rhs) {
+		if (!Texture2D::Equals(lhs.getTexture(), rhs.getTexture())) {
+			return false;
+		}
+		return true;
+	}
+
+	bool Font::Equals(const std::shared_ptr<Font>& lhs, const std::shared_ptr<Font>& rhs) {
+		if (!lhs || !rhs) {
+			return false;
+		}
+		return Equals(*lhs, *rhs);
 	}
 }

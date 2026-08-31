@@ -123,7 +123,11 @@ namespace Hart {
 	}
 
 	bool Texture2D::Equals(const std::shared_ptr<Texture2D>& lhs, const std::shared_ptr<Texture2D>& rhs) {
-		return Texture2D::Equals(*lhs.get(), *rhs.get());
+		if (!lhs || !rhs) {
+			return false;
+		}
+
+		return Texture2D::Equals(*lhs, *rhs);
 	}
 
 	void Texture2D::init() {

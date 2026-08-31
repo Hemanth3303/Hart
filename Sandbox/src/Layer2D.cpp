@@ -30,7 +30,8 @@ Layer2D::Layer2D(std::string_view name)
 	m_GrassBlock = std::make_shared<Hart::Texture2D>("./res/images/grass_block.png", pixelArtTextureSpec);
 	m_RPGpack = std::make_shared<Hart::SpriteSheet>("./res/images/RPGpack_sheet_2X.png", Hart::Vec2{ 128.0f, 128.0f }, pixelArtTextureSpec);
 
-	m_Font = std::make_shared<Hart::Font>("./res/fonts/Roboto-Regular.ttf");
+	m_FontRobotoRegular = std::make_shared<Hart::Font>("./res/fonts/Roboto-Regular.ttf", 38.0f);
+	m_FontCascadiaMono = std::make_shared<Hart::Font>("./res/fonts/CascadiaMono.ttf", 24.0f);
 }
 
 Layer2D::~Layer2D() {
@@ -38,8 +39,6 @@ Layer2D::~Layer2D() {
 
 void Layer2D::onAttach() {
 	HART_CLIENT_INFO("Attached layer: ", getName());
-
-	Hart::Renderer2D::SetFont(m_Font);
 }
 
 void Layer2D::onDetach() {
@@ -79,10 +78,12 @@ void Layer2D::render() {
 			{ 50.0f, 50.0f },
 			Hart::Red);
 
+		Hart::Renderer2D::SetFont(m_FontRobotoRegular);
+
 		Hart::Renderer2D::DrawText(
 			"Hello, World\nOmg!",
 			{ 150.0f, 80.0f, 1.0f },
-			0.7f, Hart::Magenta);
+			1.0f, Hart::Magenta);
 
 		Hart::Renderer2D::DrawQuad(
 			{ 300.0f, 250.0f, 1.0f },
@@ -120,10 +121,12 @@ void Layer2D::render() {
 			{ (float)m_FBO->getSpec().width / 2.0f, (float)m_FBO->getSpec().height / 2.0f }, 0.0f,
 			m_FBO->getDepthStencilAttachment());
 
+		Hart::Renderer2D::SetFont(m_FontCascadiaMono);
+
 		Hart::Renderer2D::DrawText(
 			"Test Text\nAnd A New Line",
 			{ 20.0f, 350.0f, 0.0f },
-			0.5f, Hart::Blue);
+			1.0f, Hart::Blue);
 
 		Hart::Renderer2D::DrawQuad(
 			{ 200.0f, 450.0f, 0.0f },
