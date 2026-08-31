@@ -16,8 +16,6 @@
 #include "GLFW/glfw3.h"
 
 namespace Hart {
-	Application* Application::s_Instance = nullptr;
-
 	Application::Application() {
 		WindowProps windowProps;
 		init(windowProps);
