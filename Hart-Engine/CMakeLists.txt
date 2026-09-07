@@ -46,7 +46,9 @@ target_precompile_headers(Hart-Engine
 
 target_compile_definitions(Hart-Engine
 	PUBLIC
-
+		# this allows to use include glad and glfw in any order.
+		# without this, glad must always be included before glfw
+		GLFW_INCLUDE_NONE
 	PRIVATE
 		HART_ENGINE
 )

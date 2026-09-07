@@ -61,14 +61,14 @@ namespace Hart {
 
 		inline const BufferLayout& getLayout() const { return m_Layout; }
 		// returns size in bytes of buffer passed in
-		inline const uint32_t getSize() const { return m_Size; }
-		inline const uint32_t getVertexCount() const { return m_Size; }
+		inline uint32_t getSize() const { return m_Size; }
+		inline uint32_t getVertexCount() const { return m_Size; }
 		// returns how many bytes one item in buffer is
 		// note: since this class only accepts float* as buffers, this function returns the size of one float
-		inline const uint32_t getSizeOfOneItemInBuffer() const { return static_cast<uint32_t>(sizeof(float)); }
+		inline uint32_t getSizeOfOneItemInBuffer() const { return static_cast<uint32_t>(sizeof(float)); }
 		// returns how many items in the buffer, as in how many array values, not how many vertexAttributes
 		// this function basically returns getSize() / getSizeOfOneItemInBuffer()
-		inline const uint32_t getNumberOfItems() const { return getSize() / getSizeOfOneItemInBuffer(); }
+		inline uint32_t getNumberOfItems() const { return getSize() / getSizeOfOneItemInBuffer(); }
 		void setLayout(const BufferLayout& layout);
 
 	private:

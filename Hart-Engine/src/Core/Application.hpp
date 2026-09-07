@@ -18,11 +18,6 @@
 
 namespace Hart {
 	// Base class representing an application/game made using Hart.
-	// The user must extend from this class and override some methods to make an app/game
-	// Methods available to override:
-	//		void onEvent(const Event& e): optional
-	//		void update(const double deltaTime): compulsory
-	//		void render(): compulsory
 	class Application {
 	public:
 		Application();
@@ -88,14 +83,14 @@ namespace Hart {
 		static void LogCompileInfo();
 
 	private:
-		static Application* s_Instance;
+		inline static Application* s_Instance = nullptr;
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 		ShaderLibrary m_ShaderLibrary;
 		bool m_IsRunning = false;
 		KeyCode m_ExitKey = KeyCode::Unknown;
 		double m_CurrentFPS = 0.0;
-		uint64_t m_LastFrameTime = 0.0;
+		uint64_t m_LastFrameTime = 0;
 		bool m_IsVsyncEnabled = false;
 		bool m_IsWindowMinimized = false;
 
