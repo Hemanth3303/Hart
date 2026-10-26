@@ -18,114 +18,20 @@ set_target_properties(miniaudio PROPERTIES
 target_include_directories(miniaudio
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/include
-	PRIVATE
-
 )
 
-target_compile_definitions(miniaudio
-	PUBLIC
+cmake_base_configure_target(miniaudio)
+cmake_base_apply_target_definitions(miniaudio MINIAUDIO)
+cmake_base_apply_os_definitions_to_target(miniaudio MINIAUDIO)
+cmake_base_apply_architecture_definitions_to_target(miniaudio MINIAUDIO)
+cmake_base_apply_compiler_definitions_to_target(miniaudio MINIAUDIO)
 
-	PRIVATE
-		MINIAUDIO
-)
-
-cmake_base_target_platform_definitions(miniaudio MINIAUDIO)
-cmake_base_target_architecture_definitions(miniaudio MINIAUDIO)
-
-# PLATFORM AND COMPILER SPECIFIC
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-
-	target_compile_definitions(miniaudio
-		PUBLIC
-
-		PRIVATE
-			NOMINMAX
-			_CRT_SECURE_NO_WARNINGS
-			WIN32_LEAN_AND_MEAN
-	)
-
-	if(MSVC)
-		target_compile_options(miniaudio
-			PUBLIC
-
-			PRIVATE
-				/Zc:__cplusplus
-				/Zc:preprocessor
-		)
-	elseif(MINGW)
-		target_link_libraries(miniaudio
-			PUBLIC
-				m
-			PRIVATE
-
-		)
-		target_link_options(miniaudio
-			PUBLIC
-
-			PRIVATE
-				-static-libgcc
-				-static-libstdc++
-		)
-	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(miniaudio
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(miniaudio
-			PUBLIC
-
-			PRIVATE
-		)
-	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(miniaudio
-			PUBLIC
-				dl
-				m
-				pthread
-			PRIVATE
-
-		)
-		target_link_options(miniaudio
-			PUBLIC
-
-			PRIVATE
-
-		)
-	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(miniaudio
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(miniaudio
-			PUBLIC
-
-			PRIVATE
-		)
-	endif()
-
-endif()
-
-# CONFIGURATION SPECIFIC
-
-target_compile_definitions(miniaudio
-	PUBLIC
-
-	PRIVATE
-		$<$<CONFIG:Debug>:MINIAUDIO_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:DEBUG>
-
-		$<$<CONFIG:Profile>:MINIAUDIO_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:NDEBUG>
-
-		$<$<CONFIG:Release>:MINIAUDIO_RELEASE_BUILD>
-		$<$<CONFIG:Release>:NDEBUG>
+# Note to future self:
+# include/ means copy contents of include/ to include/
+# if just include, then it will copy to include/include
+install(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+	FILES_MATCHING
+		PATTERN "*.h"
 )

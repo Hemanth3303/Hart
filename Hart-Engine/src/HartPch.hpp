@@ -32,11 +32,11 @@
 #include <cmath>
 #include <cassert>
 
-// platform specific
-#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+// os specific
+#if defined(HART_ENGINE_OS_WINDOWS)
 	#include <windows.h>
 	#include <intrin.h>
-#elif defined(HART_ENGINE_PLATFORM_LINUX)
+#elif defined(HART_ENGINE_OS_LINUX)
 	#include <unistd.h>
 	#include <signal.h>
 #endif

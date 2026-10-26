@@ -163,9 +163,9 @@ namespace Hart {
 		HART_ENGINE_INFO(LogSource::EngineCore,
 			"\n\t\t\t===============Compilation Information===============",
 			"\n\t\t\t\tHart Engine Version: ", HART_ENGINE_VERSION,
-			"\n\t\t\t\tCompiled using: ", HART_COMPILER_STR, " v", HART_COMPILER_VERSION_STR,
+			"\n\t\t\t\tCompiled using: ", HART_ENGINE_COMPILER_STR, " v", HART_ENGINE_COMPILER_VERSION_STR,
 			"\n\t\t\t\tCompiled On: ", HART_COMPILATION_TIMESTAMP,
-			"\n\t\t\t\tPlatform: ", HART_PLATFORM_STR,
+			"\n\t\t\t\tOS: ", HART_OS_STR,
 			"\n\t\t\t\tArchitecture: ", HART_ARCHITECTURE_STR,
 			"\n\t\t\t=====================================================");
 	}

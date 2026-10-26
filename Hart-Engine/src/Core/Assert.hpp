@@ -25,10 +25,10 @@
 // mainly for other systems to call an unconditional abort on unrecoverable critical invariant failure
 #define HART_ENGINE_ABORT() std::abort()
 
-#if defined(HART_ENGINE_PLATFORM_WINDOWS) || defined(HART_CLIENT_PLATFORM_WINDOWS)
+#if defined(HART_ENGINE_OS_WINDOWS) || defined(HART_CLIENT_OS_WINDOWS)
 	#include <intrin.h>
 	#define HART_ENGINE_DEBUG_BREAK() __debugbreak()
-#elif defined(HART_ENGINE_PLATFORM_LINUX) || defined(HART_CLIENT_PLATFORM_LINUX)
+#elif defined(HART_ENGINE_OS_LINUX) || defined(HART_CLIENT_OS_LINUX)
 	#include <signal.h>
 	#define HART_ENGINE_DEBUG_BREAK() raise(SIGTRAP)
 #else

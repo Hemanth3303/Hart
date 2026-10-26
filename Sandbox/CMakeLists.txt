@@ -33,98 +33,16 @@ target_link_libraries(Sandbox
 		Hart-Engine
 )
 
-target_compile_definitions(Sandbox
-	PUBLIC
-
-	PRIVATE
-		SANDBOX
-		HART_CLIENT
-)
-
-cmake_base_target_platform_definitions(Sandbox SANDBOX)
-cmake_base_target_architecture_definitions(Sandbox SANDBOX)
-cmake_base_target_platform_definitions(Sandbox HART_CLIENT)
-cmake_base_target_architecture_definitions(Sandbox HART_CLIENT)
+cmake_base_configure_target(Sandbox)
+cmake_base_apply_target_definitions(Sandbox SANDBOX)
+cmake_base_apply_target_definitions(Sandbox HART_CLIENT)
+cmake_base_apply_os_definitions_to_target(Sandbox SANDBOX)
+cmake_base_apply_architecture_definitions_to_target(Sandbox SANDBOX)
+cmake_base_apply_compiler_definitions_to_target(Sandbox SANDBOX)
 cmake_base_apply_sanitizers(Sandbox SANITIZERS ASAN UBSAN CONFIGS Debug)
 
+
 # PLATFORM AND COMPILER SPECIFIC
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-
-	target_compile_definitions(Sandbox
-		PUBLIC
-
-		PRIVATE
-			NOMINMAX
-			_CRT_SECURE_NO_WARNINGS
-			WIN32_LEAN_AND_MEAN
-	)
-
-	if(MSVC)
-		target_compile_options(Sandbox
-			PUBLIC
-
-			PRIVATE
-				/Zc:__cplusplus
-				/Zc:preprocessor
-		)
-	elseif(MINGW)
-		target_link_libraries(Sandbox
-			PUBLIC
-				m
-			PRIVATE
-		)
-		target_link_options(Sandbox
-			PUBLIC
-
-			PRIVATE
-				-static
-				-static-libgcc
-				-static-libstdc++
-		)
-	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Sandbox
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(Sandbox
-			PUBLIC
-
-			PRIVATE
-				-static
-		)
-	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(Sandbox
-			PUBLIC
-				dl
-				m
-				pthread
-			PRIVATE
-
-		)
-	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Sandbox
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(Sandbox
-			PUBLIC
-
-			PRIVATE
-
-		)
-	endif()
-
-endif()
-
 if(MSVC)
 	target_link_options(Sandbox PRIVATE
 		"$<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>"
@@ -132,31 +50,21 @@ if(MSVC)
 	)
 endif()
 
-# CONFIGURATION SPECIFIC
-
-target_compile_definitions(Sandbox
-	PUBLIC
-
-	PRIVATE
-		$<$<CONFIG:Debug>:SANDBOX_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:HART_CLIENT_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:DEBUG>
-
-		$<$<CONFIG:Profile>:SANDBOX_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:HART_CLIENT_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:NDEBUG>
-
-		$<$<CONFIG:Release>:SANDBOX_RELEASE_BUILD>
-		$<$<CONFIG:Release>:HART_CLIENT_RELEASE_BUILD>
-		$<$<CONFIG:Release>:NDEBUG>
-)
-
 # POST-BUILD RESOURCE COPY
-
 add_custom_command(
 	TARGET Sandbox POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_CURRENT_SOURCE_DIR}/res"
 		"$<TARGET_FILE_DIR:Sandbox>/res"
 	COMMENT "Copying resource folder to binary directory"
+)
+
+# adding res to install
+# cmake-base already handles bin, lib and include
+# Note to future self:
+# res/ means copy contents of res to bin/res
+# if just res, then it will copy to bin/res/res
+install(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/res/"
+    DESTINATION bin/res
 )

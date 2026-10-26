@@ -31,14 +31,26 @@
 
 	#define HART_COMPILATION_TIMESTAMP __DATE__ " at " __TIME__ " (compiled host's localtime)"
 
-	#if defined(HART_ENGINE_PLATFORM_WINDOWS)
-		#define HART_PLATFORM_STR "Windows"
-	#elif defined(HART_ENGINE_PLATFORM_LINUX)
-		#define HART_PLATFORM_STR "Linux"
-	#elif defined(HART_ENGINE_PLATFORM_DARWIN)
-		#define HART_PLATFORM_STR "MacOS"
+	#if defined(HART_ENGINE_OS_WINDOWS)
+		#define HART_OS_STR "Windows"
+	#elif defined(HART_ENGINE_OS_LINUX)
+		#define HART_OS_STR "Linux"
+	#elif defined(HART_ENGINE_OS_DARWIN)
+		#define HART_OS_STR "MacOS"
+	#elif defined(HART_ENGINE_OS_FREEBSD)
+		#define HART_OS_STR "FreeBSD"
+	#elif defined(HART_ENGINE_OS_OPENBSD)
+		#define HART_OS_STR "OpenBSD"
+	#elif defined(HART_ENGINE_OS_NETBSD)
+		#define HART_OS_STR "NetBSD"
+	#elif defined(HART_ENGINE_OS_ANDROID)
+		#define HART_OS_STR "Android"
+	#elif defined(HART_ENGINE_OS_IOS)
+		#define HART_OS_STR "iOS"
+	#elif defined(HART_ENGINE_OS_EMSCRIPTEN)
+		#define HART_OS_STR "Emscripten"
 	#else
-		#define HART_PLATFORM_STR "Unknown"
+		#define HART_OS_STR "Unknown"
 	#endif
 
 	#if defined(HART_ENGINE_ARCHITECTURE_X86_32)
@@ -57,36 +69,42 @@
 		#define HART_ARCHITECTURE_STR "Unknown"
 	#endif
 
-	#if defined(HART_COMPILER_MSVC)
-		#define HART_COMPILER_STR "Microsoft Visual C++ Compiler(MSVC)"
-		#define HART_COMPILER_VERSION_STR HART_TO_STR(_MSC_FULL_VER)
-	#elif defined(HART_COMPILER_MINGW_W64)
-		#define HART_COMPILER_STR "MinGW-w64 GCC"
-		#define HART_COMPILER_VERSION_STR        \
+	#if defined(HART_ENGINE_COMPILER_MSVC)
+		#define HART_ENGINE_COMPILER_STR "Microsoft Visual C++ Compiler(MSVC)"
+		#define HART_ENGINE_COMPILER_VERSION_STR HART_TO_STR(_MSC_FULL_VER)
+	#elif defined(HART_ENGINE_COMPILER_MINGW_W64_GCC)
+		#define HART_ENGINE_COMPILER_STR "MinGW-w64 GCC"
+		#define HART_ENGINE_COMPILER_VERSION_STR        \
 			HART_TO_STR(__MINGW64_VERSION_MAJOR) \
 			"." HART_TO_STR(__MINGW64_VERSION_MINOR)
-	#elif defined(HART_COMPILER_MINGW32)
-		#define HART_COMPILER_STR "MinGW GCC"
-		#define HART_COMPILER_VERSION_STR        \
+	#elif defined(HART_ENGINE_COMPILER_MINGW32_GCC)
+		#define HART_ENGINE_COMPILER_STR "MinGW GCC"
+		#define HART_ENGINE_COMPILER_VERSION_STR        \
 			HART_TO_STR(__MINGW32_VERSION_MAJOR) \
 			"." HART_TO_STR(__MINGW32_VERSION_MINOR)
-	#elif defined(HART_COMPILER_GNU_GCC)
-		#define HART_COMPILER_STR "GNU GCC"
+	#elif defined(HART_ENGINE_COMPILER_GNU_GCC)
+		#define HART_ENGINE_COMPILER_STR "GNU GCC"
 		#if defined(__GNUC_PATCHLEVEL__)
-			#define HART_COMPILER_VERSION_STR \
+			#define HART_ENGINE_COMPILER_VERSION_STR \
 				HART_TO_STR(__GNUC__)         \
 				"." HART_TO_STR(__GNUC_MINOR__) "." HART_TO_STR(__GNUC_PATCHLEVEL__)
 		#else
-			#define HART_COMPILER_VERSION_STR \
+			#define HART_ENGINE_COMPILER_VERSION_STR \
 				HART_TO_STR(__GNUC__)         \
 				"." HART_TO_STR(__GNUC_MINOR__)
 		#endif
-	#elif defined(HART_COMPILER_LLVM_CLANG)
-		#define HART_COMPILER_STR "LLVM Clang"
-		#define HART_COMPILER_VERSION_STR __clang_version__
-	#elif defined(HART_COMPILER_UNKNOWN)
-		#define HART_COMPILER_STR "Unknown"
-		#define HART_COMPILER_VERSION_STR "Unknown"
+	#elif defined(HART_ENGINE_COMPILER_LLVM_CLANG)
+		#define HART_ENGINE_COMPILER_STR "LLVM Clang"
+		#define HART_ENGINE_COMPILER_VERSION_STR __clang_version__
+	#elif defined(HART_ENGINE_COMPILER_CLANG_CL)
+		#define HART_ENGINE_COMPILER_STR "Clang-CL"
+		#define HART_ENGINE_COMPILER_VERSION_STR __clang_version__
+	#elif defined(HART_ENGINE_COMPILER_APPLE_CLANG)
+		#define HART_ENGINE_COMPILER_STR "Apple Clang"
+		#define HART_ENGINE_COMPILER_VERSION_STR __clang_version__
+	#elif defined(HART_ENGINE_COMPILER_UNKNOWN)
+		#define HART_ENGINE_COMPILER_STR "Unknown"
+		#define HART_ENGINE_COMPILER_VERSION_STR "Unknown"
 	#endif
 
 #endif

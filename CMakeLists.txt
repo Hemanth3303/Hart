@@ -10,8 +10,8 @@ endif()
 
 # Only include when Hart is standalone, else use the root project cmake-base
 if(NOT HART_IS_SUBMODULE)
-	include(cmake/base/config.cmake)
-	include(cmake/base/utils.cmake)
+	include(cmake/base/core/core.cmake)
+	include(cmake/base/utils/print_vars.cmake)
 endif()
 
 find_package(OpenGL REQUIRED)
@@ -20,11 +20,12 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
-print(CMAKE_BUILD_TYPE)
-print(HART_IS_SUBMODULE)
-print(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-print(CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-print(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+print_var(CMAKE_BUILD_TYPE)
+print_var(HART_IS_SUBMODULE)
+print_var(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+print_var(CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+print_var(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+print_var(CMAKE_INSTALL_PREFIX)
 
 add_subdirectory("vendor/glad")
 add_subdirectory("vendor/glfw")

@@ -9,7 +9,7 @@
 #include <memory>
 #include <cstdlib>
 
-#if defined(HART_COMPILER_MSVC)
+#if defined(HART_ENGINE_COMPILER_MSVC)
 // refer https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5105
 	#pragma warning(disable : 5105)
 
@@ -20,15 +20,15 @@
 	#pragma comment(lib, "shell32")
 	#pragma comment(lib, "user32")
 
-#endif // HART_COMPILER_MSVC
+#endif // HART_ENGINE_COMPILER_MSVC
 
 /**
  * Define HART_REQUEST_DGPU_WINDOWS before including this file
  * to request the dedicated gpu on windows, especially in laptops with
  * igpu and dgpu.
- * CMake config for defining HART_CLIENT_PLATFORM_WINDOWS must be setup for this to work.
+ * CMake config for defining HART_CLIENT_OS_WINDOWS must be setup for this to work.
  */
-#if defined(HART_REQUEST_DGPU_WINDOWS) && defined(HART_CLIENT_PLATFORM_WINDOWS)
+#if defined(HART_REQUEST_DGPU_WINDOWS) && defined(HART_CLIENT_OS_WINDOWS)
 	#include <windows.h>
 extern "C" {
 __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;

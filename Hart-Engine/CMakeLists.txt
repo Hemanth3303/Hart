@@ -49,124 +49,41 @@ target_compile_definitions(Hart-Engine
 		# this allows to use include glad and glfw in any order.
 		# without this, glad must always be included before glfw
 		GLFW_INCLUDE_NONE
-	PRIVATE
-		HART_ENGINE
 )
 
-cmake_base_target_platform_definitions(Hart-Engine HART_ENGINE)
-cmake_base_target_architecture_definitions(Hart-Engine HART_ENGINE)
+cmake_base_configure_target(Hart-Engine)
+cmake_base_apply_target_definitions(Hart-Engine HART_ENGINE)
+cmake_base_apply_os_definitions_to_target(Hart-Engine HART_ENGINE)
+cmake_base_apply_architecture_definitions_to_target(Hart-Engine HART_ENGINE)
+cmake_base_apply_compiler_definitions_to_target(Hart-Engine HART_ENGINE)
 cmake_base_apply_sanitizers(Hart-Engine SANITIZERS ASAN UBSAN CONFIGS Debug)
 
 # PLATFORM AND COMPILER SPECIFIC
-
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-
-	target_compile_definitions(Hart-Engine
-		PUBLIC
-
-		PRIVATE
-			NOMINMAX
-			_CRT_SECURE_NO_WARNINGS
-			WIN32_LEAN_AND_MEAN
-	)
-
-	if(MSVC)
-		target_compile_options(Hart-Engine
-			PUBLIC
-
-			PRIVATE
-				/Zc:__cplusplus
-				/Zc:preprocessor
-		)
-	elseif(MINGW)
+	if(MINGW)
 		target_link_libraries(Hart-Engine
 			PUBLIC
-				m
 				OpenGL::GL
-			PRIVATE
-
-		)
-		target_link_options(Hart-Engine
-			PUBLIC
-
-			PRIVATE
-				-static-libgcc
-				-static-libstdc++
 		)
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(Hart-Engine
 			PUBLIC
 				OpenGL::GL
-			PRIVATE
-		)
-		target_link_options(Hart-Engine
-			PUBLIC
-
-			PRIVATE
 		)
 	endif()
 
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-
 	if (TARGET OpenGL::OpenGL)
         target_link_libraries(Hart-Engine
 			PUBLIC
 				OpenGL::OpenGL
-			PRIVATE
 		)
     else()
         target_link_libraries(Hart-Engine
 			PUBLIC
 				OpenGL::GL
-			PRIVATE
-
 		)
     endif()
-
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(Hart-Engine
-			PUBLIC
-				dl
-				m
-				pthread
-			PRIVATE
-
-		)
-		target_link_options(Hart-Engine
-			PUBLIC
-
-			PRIVATE
-
-		)
-	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(Hart-Engine
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(Hart-Engine
-			PUBLIC
-
-			PRIVATE
-		)
-	endif()
-
 endif()
-
-# CONFIGURATION SPECIFIC
-
-target_compile_definitions(Hart-Engine
-	PUBLIC
-
-	PRIVATE
-		$<$<CONFIG:Debug>:HART_ENGINE_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:DEBUG>
-
-		$<$<CONFIG:Profile>:HART_ENGINE_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:NDEBUG>
-
-		$<$<CONFIG:Release>:HART_ENGINE_RELEASE_BUILD>
-		$<$<CONFIG:Release>:NDEBUG>
-)

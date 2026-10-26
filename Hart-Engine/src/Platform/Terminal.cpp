@@ -1,7 +1,7 @@
 #include "HartPch.hpp"
 #include "Terminal.hpp"
 
-#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+#if defined(HART_ENGINE_OS_WINDOWS)
 	#include <windows.h>
 #else
 	#include <unistd.h>
@@ -19,7 +19,7 @@ namespace Hart {
 			return false;
 		}
 
-#if defined(HART_ENGINE_PLATFORM_WINDOWS)
+#if defined(HART_ENGINE_OS_WINDOWS)
 		HANDLE stderrHandle = GetStdHandle(STD_ERROR_HANDLE);
 		if (stderrHandle == INVALID_HANDLE_VALUE || stderrHandle == nullptr) {
 			return false;

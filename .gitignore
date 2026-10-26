@@ -1,60 +1,130 @@
-bin
-bin-int
-build
-out
+# Build directories
+bin/
+bin-int/
+int/
+build/
+out/
+x64/
+x86/
+Win32/
+Debug/
+Profile/
+Release/
+MinSizeRel/
+RelWithDebInfo/
+Dist/
+Distribution/
+install/
+
+# vcpkg
+vcpkg_installed/
+installed/
+
+# Executables
 *.exe
-*.dll
-*.lib
+*.out
+*.app
+*.hex
+
+# Object & Library Files
+*.o
+*.obj
 *.so
 *.a
-*.o
+*.dll
+*.lib
+*.dylib
+*.lai
+*.la
+*.slo
 
-*.html
-*.js
-*.mjs
-*.wasm
-*.css
+# Precompiled Headers
+*.gch
+*.pch
 
-Makefile
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake
+cmake_install.cmake
+cmake_uninstall.cmake
 
-.vscode/
-
-# Visual Studio clutter
-_ReSharper*
-*.sdf
-*.suo
-*.dir
-*.vcxproj*
-*.sln
-.vs
-.out
-CMakeSettings.json
-Win32
-x64
-Debug
-Release
-MinSizeRel
-RelWithDebInfo
-*.opensdf
-
-# Xcode clutter
-GLFW.build
-GLFW.xcodeproj
-
-# macOS clutter
-.DS_Store
-
-# Ninja generator clutter
+# Ninja
 build.ninja
 rules.ninja
 .ninja_deps
 .ninja_log
 
-# CMake clutter
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-CMakeDoxyfile.in
-CMakeDoxygenDefaults.cmake
-cmake_install.cmake
-cmake_uninstall.cmake
+# Prerequisites
+*.d
+
+# Fortran module files
+*.mod
+*.smod
+
+# Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+*.sdf
+*.suo
+*.ncb
+*.opensdf
+*.cachefile
+*.user
+*.ipch
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+*.xcuserstate
+*.xcuserdata/
+*.xcconfig
+*.pbxuser
+*.mode1v3
+*.mode2v3
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# Code::Blocks
+*.cbp
+*.layout
+*.depend
+*.objs/
+
+# Eclipse CDT
+.project
+.cproject
+.settings/
+.metadata/
+
+# Qt Creator
+*.pro.user
+*.pri.user
+*.qbs.user
+*.qbs.user.*
+*.creator.user
+*.creator.user.*
+
+# Dev-C++
+*.dev
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# OS / editor miscellany
+.DS_Store
+Thumbs.db
+
+# Makefiles
+Makefile
+makefile
